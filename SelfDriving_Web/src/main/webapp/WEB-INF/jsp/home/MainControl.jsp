@@ -95,7 +95,7 @@
 	        </div>
 	        <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
 	        <ul class="list-unstyled">
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/central.do"> <i class="icon-home"></i>Home </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/MainControl.do"> <i class="icon-home"></i>Home </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>History </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/chart.do"> <i class="fa fa-bar-chart"></i>Charts </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>Status </a></li>
@@ -206,10 +206,7 @@
 					//console.log(obj.Class)
 					
 					obj["witness"]= message.destinationName;
-					
-					
-					
-					
+
 					if (obj.Class.length != 0){
 						console.log(obj.Class.length);
 						var jsonData = JSON.stringify(obj);
@@ -245,6 +242,9 @@
 			<div class="col"  id="show4"><img id=cameraView4 style="width: 320px;height:240px"/></div>
 		</div>
 		
+		<div style="margin-left: 300px">
+			<input id="Battery" value="">
+		</div>
 		
 <!-- 
   		<div id="content">

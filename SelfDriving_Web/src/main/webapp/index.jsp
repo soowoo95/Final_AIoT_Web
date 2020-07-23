@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<c:redirect url="/home/main.do"/>
+<c:redirect url="/home/MainControl.do"/>
 <%--  how2
 <%response.sendRedirect("project/home/main.do");%> --%>

@@ -15,15 +15,15 @@ public class HomeController
 		LOGGER.info("실행");
 		return "home/main";
 	}*/
-	@RequestMapping("/MainControl.do")
+/*	@RequestMapping("/MainControl.do")
 	public String manual(){
 		LOGGER.info("실행");
 		return "home/MainControl";
-	}
-	@RequestMapping("/main.do")
+	}*/
+	@RequestMapping("/MainControl.do")
 	public String central(){
 		LOGGER.info("실행");
-		return "home/central";
+		return "home/MainControl";
 	}
 	@RequestMapping("/chart.do")
 	public String chart(){

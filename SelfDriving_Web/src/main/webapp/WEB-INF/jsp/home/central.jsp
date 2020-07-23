@@ -132,7 +132,7 @@
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
         <ul class="list-unstyled">
-          <li class="active"><a href="${pageContext.request.contextPath}/home/central.do"> <i class="icon-home"></i>Home </a></li>
+          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>Home </a></li>
           <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>Detect History </a></li>
           <li><a href="${pageContext.request.contextPath}/home/chart.do"> <i class="fa fa-bar-chart"></i>Charts </a></li>
           <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>Jetbot Status </a></li>
