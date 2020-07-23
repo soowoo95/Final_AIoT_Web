@@ -38,12 +38,11 @@ public class AnimalController{
 	@PostMapping("/saveImage.do")
 	public void saveImage(@RequestBody Map<String, Object>jsonData) throws Exception {
 		
-		LOGGER.info("들어왔니");
+		//LOGGER.info("들어왔니");
 
 		Object video = jsonData.get("Cam");
 		Object clss = jsonData.get("Class");
 		Object dfinder = jsonData.get("witness");
-		LOGGER.info(dfinder.toString());
 		
 		Date date = new Date();
 		String StringDate = new SimpleDateFormat("YYYY-MM-dd a hh-mm-ss-S").format(date);
@@ -69,12 +68,13 @@ public class AnimalController{
 		animal.setDlocation(filepath);
 		animal.setDname(dname);
 		animal.setDnum(dnum);
-		animal.setDfinder(dfinder.toString());
-
-		animalService.SaveImage(animal);
-		LOGGER.info("service로 넘긴다");
-	}
 		
+		try {
+		animal.setDfinder(dfinder.toString());
+		animalService.SaveImage(animal);
+		} catch (Exception ignore) {}
+		//LOGGER.info("service로 넘긴다");
+	}
 		public static boolean decoder(String data, String target){
 			byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
 			try {

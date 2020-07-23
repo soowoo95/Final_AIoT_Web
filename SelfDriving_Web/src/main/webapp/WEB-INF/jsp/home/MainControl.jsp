@@ -208,7 +208,7 @@
 					obj["witness"]= message.destinationName;
 
 					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
+						console.log("탐지된 객체 수:" + obj.Class.length);
 						var jsonData = JSON.stringify(obj);
 						$.ajax({
 							type:"POST",
@@ -242,7 +242,7 @@
 			<div class="col"  id="show4"><img id=cameraView4 style="width: 320px;height:240px"/></div>
 		</div>
 		
-		<div style="margin-left: 300px">
+		<div style="margin-left: 30px">
 			<input id="Battery" value="">
 		</div>
 		

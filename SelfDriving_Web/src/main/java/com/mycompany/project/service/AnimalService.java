@@ -16,7 +16,7 @@ public class AnimalService {
 	private AnimalDao animalDao;
 
 	public void SaveImage(Animal animal) {
-		LOGGER.info("service에서 dao로 넘길거다");
+		//LOGGER.info("service에서 dao로 넘길거다");
 		animalDao.insert(animal);
 	}
 }

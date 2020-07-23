@@ -13,7 +13,7 @@ public class AnimalDao extends EgovAbstractMapper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnimalDao.class);
 
 	public void insert(Animal animal) {
-		LOGGER.info("db에 insert할거다");
+		//LOGGER.info("db에 insert할거다");
 		insert("insert", animal);
 	}
 }
