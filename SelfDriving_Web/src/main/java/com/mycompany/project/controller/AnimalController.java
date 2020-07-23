@@ -36,20 +36,14 @@ public class AnimalController{
 	
 	@ResponseBody
 	@PostMapping("/saveImage.do")
-	public void saveImage(	@RequestBody Map<String, Object>jsonData) throws Exception {
+	public void saveImage(@RequestBody Map<String, Object>jsonData) throws Exception {
 		
 		LOGGER.info("들어왔니");
-		
-/*		Object jsonData = data.get("data");
-		LOGGER.info(jsonData.toString());
-		String topic = data.get("topic").toString();*/
-		
-/*		ObjectMapper objectMapper = new ObjectMapper();
-		Map jsonDataMap = objectMapper.convertValue(jsonData ,Map.class);
-		LOGGER.info(jsonDataMap.toString());*/
-		
+
 		Object video = jsonData.get("Cam");
 		Object clss = jsonData.get("Class");
+		Object dfinder = jsonData.get("witness");
+		LOGGER.info(dfinder.toString());
 		
 		Date date = new Date();
 		String StringDate = new SimpleDateFormat("YYYY-MM-dd a hh-mm-ss-S").format(date);
@@ -75,7 +69,7 @@ public class AnimalController{
 		animal.setDlocation(filepath);
 		animal.setDname(dname);
 		animal.setDnum(dnum);
-		//animal.setDfinder(topic);
+		animal.setDfinder(dfinder.toString());
 
 		animalService.SaveImage(animal);
 		LOGGER.info("service로 넘긴다");

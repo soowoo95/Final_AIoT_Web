@@ -63,16 +63,14 @@
 				$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 			}
 			if(message.destinationName =="/4cctv") {
-				const topic = message.destinationName;
-				//console.log(typeof(topic));
-				
 				const json = message.payloadString;
 				const obj = JSON.parse(json);
 	
 				$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				//console.log(obj.Class)
+				console.log(obj.Class)
 				
-				var jsonTopic = JSON.stringify(topic);
+				obj["witness"]= message.destinationName;
+				console.log(obj);
 				var jsonData = JSON.stringify(obj);
 				//console.log(typeof(jsonData));
 				

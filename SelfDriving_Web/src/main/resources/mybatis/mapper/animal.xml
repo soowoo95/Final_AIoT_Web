@@ -3,8 +3,8 @@
 
 	<mapper namespace="animal">
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-					insert into animal (dname, dimagesname, dlocation, dtime, dnum) 
-					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum});
+					insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder) 
+					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder});
 			</insert>
 	
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">

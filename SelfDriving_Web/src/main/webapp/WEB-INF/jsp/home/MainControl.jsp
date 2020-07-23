@@ -197,8 +197,6 @@
 					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
 				if(message.destinationName =="/4cctv") {
-					const topic = message.destinationName;
-					//console.log(typeof(topic));
 					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -207,11 +205,14 @@
 					//이미지에 탐지된 클래스에 대한 정보
 					//console.log(obj.Class)
 					
-					var jsonTopic = JSON.stringify(topic);
-					var jsonData = JSON.stringify(obj);
-					//console.log(typeof(jsonData));
+					obj["witness"]= message.destinationName;
 					
-					if ( obj.Class.length != 0){
+					
+					
+					
+					if (obj.Class.length != 0){
+						console.log(obj.Class.length);
+						var jsonData = JSON.stringify(obj);
 						$.ajax({
 							type:"POST",
 							url:"${pageContext.request.contextPath}/animal/saveImage.do",
