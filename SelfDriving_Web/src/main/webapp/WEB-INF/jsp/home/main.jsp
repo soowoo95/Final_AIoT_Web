@@ -59,6 +59,64 @@
 	</head>
 	
 	<body>
+		<script>
+			$(function(){
+				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+				client.onMessageArrived = onMessageArrived;
+				client.connect({onSuccess:onConnect});
+			});
+	
+			function onConnect() {
+				//console.log("mqtt broker connected")
+				client.subscribe("/1cctv");
+				client.subscribe("/2cctv");
+				client.subscribe("/3cctv");
+				client.subscribe("/4cctv");
+				client.subscribe("/sensor");
+			}
+			
+			function onMessageArrived(message) {
+				if(message.destinationName =="/1cctv") {
+					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+				}
+				if(message.destinationName =="/2cctv") {
+					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+				}
+				if(message.destinationName =="/3cctv") {
+					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+				}
+				if(message.destinationName =="/4cctv") {
+					
+					const json = message.payloadString;
+					const obj = JSON.parse(json);
+
+					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					//이미지에 탐지된 클래스에 대한 정보
+					//console.log(obj.Class)
+					
+					obj["witness"]= message.destinationName;
+
+					if (obj.Class.length != 0){
+						console.log("탐지된 객체 수:" + obj.Class.length);
+						var jsonData = JSON.stringify(obj);
+						$.ajax({
+							type:"POST",
+							url:"${pageContext.request.contextPath}/animal/saveImage.do",
+							contentType: "application/json;charset=UTF-8",
+							dataType: "json",
+							data: jsonData
+						});
+					}
+				}
+				if(message.destinationName =="/sensor") {
+					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					$("#Battery").attr("value", obj.Battery);
+				}
+			}
+		</script>
+	
+	
 		<header class="header"> 
 	      <nav class="navbar navbar-expand-lg">
 	        <div class="search-panel">
@@ -75,8 +133,8 @@
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <!-- Navbar Header--><a href="index.html" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">Master</strong><strong>Admin</strong></div>
-	              <div class="brand-text brand-sm"><strong class="text-primary">M</strong><strong>A</strong></div></a>
+	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
 	          </div>
 	        </div>
 	      </nav>
@@ -95,11 +153,11 @@
 	        </div>
 	        <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
 	        <ul class="list-unstyled">
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/MainControl.do"> <i class="icon-home"></i>Home </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>History </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/chart.do"> <i class="fa fa-bar-chart"></i>Charts </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>Status </a></li>
-			<li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
+			  <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
 	      </nav>
 	      
 	  <!-- <div class="page-content">
@@ -167,66 +225,6 @@
           </div>
         </section>
         </div> -->
-
-		
-		<script>
-
-			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
-				client.onMessageArrived = onMessageArrived;
-				client.connect({onSuccess:onConnect});
-			});
-	
-			function onConnect() {
-				//console.log("mqtt broker connected")
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
-				client.subscribe("/4cctv");
-				client.subscribe("/sensor");
-			}
-			
-			function onMessageArrived(message) {
-				if(message.destinationName =="/1cctv") {
-					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/2cctv") {
-					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/3cctv") {
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/4cctv") {
-					
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-
-					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					//이미지에 탐지된 클래스에 대한 정보
-					//console.log(obj.Class)
-					
-					obj["witness"]= message.destinationName;
-
-					if (obj.Class.length != 0){
-						console.log("탐지된 객체 수:" + obj.Class.length);
-						var jsonData = JSON.stringify(obj);
-						$.ajax({
-							type:"POST",
-							url:"${pageContext.request.contextPath}/animal/saveImage.do",
-							contentType: "application/json;charset=UTF-8",
-							dataType: "json",
-							data: jsonData
-						});
-					}
-				}
-				if(message.destinationName =="/sensor") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#Battery").attr("value", obj.Battery);
-				}
-			}
-		</script>
-
 <!-- 
 		<div class="btn-group mr-2" role="group" aria-label="First group" style="margin-left: 320px; width: 320px">
 		    <button type="button" class="btn btn-secondary" onclick="view('1')">CCTV 1</button>

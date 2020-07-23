@@ -60,8 +60,8 @@
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <!-- Navbar Header--><a href="index.html" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">Master</strong><strong>Admin</strong></div>
-	              <div class="brand-text brand-sm"><strong class="text-primary">M</strong><strong>A</strong></div></a>
+	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
 	          </div>
 	        </div>
 	      </nav>
@@ -80,11 +80,11 @@
 	        </div>
 	        <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
 	        <ul class="list-unstyled">
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/MainControl.do"> <i class="icon-home"></i>Home </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>History </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/chart.do"> <i class="fa fa-bar-chart"></i>Charts </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>Status </a></li>
-			<li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
+			  <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
 	      </nav>
 
 		

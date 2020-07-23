@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -16,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +38,7 @@ public class AnimalController{
 	@ResponseBody
 	@PostMapping("/saveImage.do")
 	public void saveImage(@RequestBody Map<String, Object>jsonData) throws Exception {
-		
 		//LOGGER.info("들어왔니");
-
 		Object video = jsonData.get("Cam");
 		Object clss = jsonData.get("Class");
 		Object dfinder = jsonData.get("witness");
@@ -50,7 +49,7 @@ public class AnimalController{
 		String savedFileName = "savedAt_" + StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;
 		decoder(video.toString(), filepath);
-
+	
 		Animal animal = new Animal();
 		savedFileName = savedFileName.replaceAll(":", "-");
 		savedFileName = savedFileName.replaceAll(" ", "-");
@@ -58,7 +57,7 @@ public class AnimalController{
 		String dname = clss.toString();
 		dname = dname.replace("[", "");
 		dname = dname.replace("]", "");
-		LOGGER.info(dname);
+		//LOGGER.info(dname);
 		
 		int countSemi = StringUtils.countMatches(dname, ",");
 		int dnum = countSemi + 1;
@@ -75,15 +74,24 @@ public class AnimalController{
 		} catch (Exception ignore) {}
 		//LOGGER.info("service로 넘긴다");
 	}
-		public static boolean decoder(String data, String target){
-			byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
-			try {
-				BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
-				ImageIO.write(bufImg, "jpg", new File(target));
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
-			return true;
+	
+	public static boolean decoder(String data, String target){
+		byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
+		try {
+			BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			ImageIO.write(bufImg, "jpg", new File(target));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

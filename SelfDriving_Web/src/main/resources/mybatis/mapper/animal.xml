@@ -6,6 +6,14 @@
 					insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder) 
 					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder});
 			</insert>
+			
+			<select id="selectByDno" parameterType="int" resultType ="animal">
+					select dno, dname, dnum, dfinder, dtime, dimagesname, dlocation
+					from animal
+					where dno = #{dno}
+			</select>
+			
+			
 	
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
 					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)

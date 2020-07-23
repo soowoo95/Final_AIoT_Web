@@ -16,4 +16,10 @@ public class AnimalDao extends EgovAbstractMapper {
 		//LOGGER.info("db에 insert할거다");
 		insert("insert", animal);
 	}
+
+	public Animal selectByDno(int dno) {
+		LOGGER.info("db에 insert할거다");
+		Animal animal = selectOne("animal.selectByDno",dno);
+		return animal;
+	}
 }

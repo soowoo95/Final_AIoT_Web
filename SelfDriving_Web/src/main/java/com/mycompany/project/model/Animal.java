@@ -11,7 +11,7 @@ public class Animal {
 	private int dlevel;
 	private int dnum;	
 	private String dfinder;	
-	private String dlocation;	
+	private String dlocation;
 	private Date dtime;
 	
 	private String dimagesname;			
