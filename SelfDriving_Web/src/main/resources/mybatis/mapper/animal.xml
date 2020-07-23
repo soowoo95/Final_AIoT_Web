@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="animal">
+			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
+					insert into animal (dname, dimagesname, dlocation, dtime, dnum) 
+					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum});
+			</insert>
+	
+<!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
+					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)
+					values (#{ttitle}, #{tcontent}, #{ttype}, #{twriter}, 0, now(6), 0,0,0,0, #{tattachoname}, #{tattachsname}, #{tattachtype})
+			</insert>
+			
+			<select id="selectByType" resultType ="tipBoard">
+					select tno, ttitle, twriter, ttype, tdate, thitcount, tratingavg
+					from tipBoard
+					where ttype = #{ttype}
+					order by tdate desc
+			</select>
+			
+			<select id="selectByTno" parameterType="int" resultType ="tipBoard">
+					select tno, ttitle, twriter, ttype, tcontent, thitcount, tdate, tratingavg, tattachoname, tattachsname, tattachtype
+					from tipBoard
+					where tno = #{tno}
+			</select>
+			
+			<select id="selectByTtitle" parameterType="int" resultType ="tipBoard">
+					select tno, ttitle, twriter, ttype, tcontent, thitcount, tdate, tratingavg, tattachoname, tattachsname, tattachtype
+					from tipBoard
+					where ttitle = #{ttitle}
+			</select>
+			
+			<select id="selectByPage" resultType="tipBoard">
+				select tno, ttitle, twriter, ttype, thitcount, tdate, tratingavg
+				from tipBoard
+				order by tdate desc
+				limit #{startIndex}, #{rowsPerPage}
+		</select>
+		
+			<select id="count" resultType="int">
+				select count(*) from tipBoard
+			</select>
+			
+			<update id="updateByTno">
+					update tipBoard set ttitle=#{ttitle}, tcontent=#{tcontent}, ttype=#{ttype}
+					where tno=#{tno}
+			</update>
+			
+			<update id="updateThitcountByTno">
+					update tipBoard set thitcount= thitcount+1
+					where tno = #{tno}
+			</update>
+			
+			<update id="updateTratingByTno">
+					update tipBoard set 
+						trating = #{trating}
+					where tno = #{tno}
+			</update>
+			
+ 			<update id="updateTratingCountByTno">
+					update tipBoard set tratingcount = tratingcount+1
+					where tno = #{tno}
+			</update>
+			
+			<update id="updateTratingSumByTno">
+					update tipBoard set tratingsum = tratingsum + #{trating}
+					where tno = #{tno}
+			</update>
+			
+			<update id="updateTratingAvgByTno">
+					update tipBoard set tratingavg = tratingsum/tratingcount
+					where tno = #{tno}
+			</update> 
+			
+			<delete id="deleteByTno">
+					delete from tipBoard where tno=#{tno}
+			</delete> -->
+	</mapper>
