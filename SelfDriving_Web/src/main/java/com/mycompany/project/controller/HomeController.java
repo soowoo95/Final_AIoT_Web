@@ -25,7 +25,7 @@ public class HomeController {
 	private AnimalService animalService;
 	
 	@RequestMapping("/main.do")
-	public String central(){
+	public String main(){
 		LOGGER.info("실행");
 		return "home/main";
 	}
@@ -77,6 +77,9 @@ public class HomeController {
 		LOGGER.info("애니멀리스트");
 		List<Animal> animallist= new ArrayList<Animal>();
 		animallist = animalService.listupdate();
+		for (Animal animal : animallist) {
+			animal.setDfinder(animal.getDfinder().replace("/", ""));
+		}
 		return animallist;
 	}
 }
