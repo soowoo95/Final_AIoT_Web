@@ -100,6 +100,33 @@
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px">Tables        </li>
 	          </ul>
 	        </div>
+	        <script>
+				$(document).ready(function() {
+				    setInterval(ajaxd, 5000);
+				});
+				function ajaxd() { 
+				  $.ajax({
+				   type: "POST",
+				   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
+				   success: function(animallist){
+					   $('#dataframe').empty();
+					   
+			   			animallist.forEach(function (item, index, array) {
+			    	    var rowItem = "<tr>"
+			    	    rowItem += "<td>"+item['dno']+"</td>"
+			    	    rowItem += "<td>"+item['dname']+"</td>"
+			    	    rowItem += "<td>"+item['dnum']+"</td>"
+			    	    rowItem += "<td>"+item['dfinder']+"</td>"
+			    	    rowItem += "<td>"+item['dfinder']+"</td>"
+			    	    rowItem += "<td>"+item['dtime']+"</td>"
+						rowItem += "</tr>"
+			    	    $('#append_table').append(rowItem);
+				    	    
+				    	});
+				   }
+				 });
+				}
+			</script>
 	        
 	        <section class="no-padding-top">
 	          <div class="container-fluid">
@@ -109,7 +136,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" style="color: white;">
+	                    <table class="table table-striped table-sm" id= "append_table" style="color: white;">
 	                      <thead>
 	                        <tr>
 	                          <th>#</th>
@@ -120,7 +147,7 @@
 	                          <th>Timestamp</th>
 	                        </tr>
 	                      </thead>
-	                      <tbody>
+	                      <tbody id="dataframe">
 	                      	<c:forEach var="animal" items="${animal}">
 		                      	<tr style="align-self: center;">
 		                          <td scope="row" style="width: 15px">${animal.dno}</td>
@@ -128,7 +155,7 @@
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dtimeconv}</td>
+		                          <td>${animal.dtime}</td>
 		                        </tr>
 	                      	</c:forEach>
 	                      </tbody>

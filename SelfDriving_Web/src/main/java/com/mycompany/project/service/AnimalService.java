@@ -1,5 +1,8 @@
 package com.mycompany.project.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +27,11 @@ public class AnimalService {
 		LOGGER.info("service에서 dao로 넘길거다");
 		Animal animal = animalDao.selectByDno(dno);
 		return animal;
+	}
+
+	public List<Animal> listupdate() {
+		List list = new ArrayList<>();
+		list = animalDao.listupdate();
+		return list;
 	}
 }

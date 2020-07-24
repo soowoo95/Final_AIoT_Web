@@ -12,8 +12,11 @@
 					from animal
 					where dno = #{dno}
 			</select>
-			
-			
+			<select id="selectList" resultType="animal">
+					select dno, dname, dnum, dfinder, dtime, dimagesname, dlocation 
+					from animal 
+					ORDER BY dno DESC LIMIT 10;
+			</select>
 	
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
 					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)

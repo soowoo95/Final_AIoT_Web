@@ -1,5 +1,7 @@
 package com.mycompany.project.dao;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -18,8 +20,13 @@ public class AnimalDao extends EgovAbstractMapper {
 	}
 
 	public Animal selectByDno(int dno) {
-		LOGGER.info("db에 insert할거다");
+		LOGGER.info("db에서 select할거다");
 		Animal animal = selectOne("animal.selectByDno",dno);
 		return animal;
+	}
+
+	public List listupdate() {
+		List list = selectList("animal.selectList");
+		return list;
 	}
 }
