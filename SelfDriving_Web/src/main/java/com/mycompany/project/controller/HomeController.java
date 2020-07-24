@@ -1,4 +1,5 @@
 package com.mycompany.project.controller;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -34,13 +35,18 @@ public class HomeController {
 	@RequestMapping("/history.do")
 	public String history(Model model) {
 		LOGGER.info("실행");
-		//1부터 10000 사이의 랜덤한 숫자 하나 가져와서 getAnimal 10번 실행해보자
+		
 		ArrayList<Animal> animalList = new ArrayList<Animal>();
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH시 mm분 ss초");
+		
+		//1부터 1000 사이의 랜덤한 숫자 하나 가져와서 getAnimal 10번 실행해보자
 		for (int i = 0; i < 10; i++) {
 			int dno = (int)((Math.random()*10)*1000 +1);
 			Animal animal = new Animal();
 			animal = animalService.getAnimal(dno);
 			animal.setDfinder(animal.getDfinder().replace("/", ""));
+			String to = fm.format(animal.getDtime());
+			animal.setDtimeconv(to);
 			animalList.add(animal);
 		}
 		model.addAttribute("animal",animalList);
@@ -55,6 +61,7 @@ public class HomeController {
 		model.addAttribute("animalView", animal);
 		return "home/history";
 	}
+	
 	@RequestMapping("/status.do")
 	public String status(){
 		LOGGER.info("실행");

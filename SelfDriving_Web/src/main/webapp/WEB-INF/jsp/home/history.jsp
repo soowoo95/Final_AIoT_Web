@@ -10,8 +10,6 @@
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    
-	    <!-- Bootstrap CSS-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
 	    <!-- Font Awesome CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
 	    <!-- Custom Font Icons CSS-->
@@ -59,7 +57,7 @@
 	        </div>
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
-	            <!-- Navbar Header--><a href="index.html" class="navbar-brand">
+	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
 	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
 	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
 	          </div>
@@ -80,9 +78,9 @@
 	        </div>
 	        <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
 	        <ul class="list-unstyled">
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 			  <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
 	      </nav>
@@ -97,7 +95,8 @@
 	        <!-- Breadcrumb-->
 	        <div class="container-fluid">
 	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px">Home</a></li>
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: cornflowerblue; font-weight: 600;">Home</a></li>
+	            
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px">Tables        </li>
 	          </ul>
 	        </div>
@@ -105,8 +104,8 @@
 	        <section class="no-padding-top">
 	          <div class="container-fluid">
 	            <div class="row">
-	              </section>
-	              <div class="col-lg-6" style="width: 1200px">
+	            
+	              <div class="col-lg-6">
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive"> 
@@ -125,11 +124,11 @@
 	                      	<c:forEach var="animal" items="${animal}">
 		                      	<tr style="align-self: center;">
 		                          <td scope="row" style="width: 15px">${animal.dno}</td>
-		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}">${animal.dname}</td>
+		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightskyblue; font-weight: 500">${animal.dname}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dtime}</td>
+		                          <td>${animal.dtimeconv}</td>
 		                        </tr>
 	                      	</c:forEach>
 	                      </tbody>
@@ -137,27 +136,36 @@
 	                  </div>
 	                </div>
 	              </div>
-	             
-	              <div class="col-lg-6" style="margin-right: 500px; width:1200px">
+	              
+	              <div class="col-lg-6">
+	                <div class="block">
+	                  <div class="title"><strong>Animal Detected | Image</strong></div>
+	                  <div class="table-responsive"> 
+	                    <div style="height: 385px">${animalView.dimagesname}</div>
+	                  </div>
+	                </div>
+	              </div>
+
+	              <div class="col-lg-6">
 	                <div class="block">
 	                  <div class="title"><strong>Driving Situation | History</strong></div>
 	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" style="color: white; align-content: center;">
+	                    <table class="table table-striped table-sm" style="color: white;">
 	                      <thead>
 	                        <tr>
 	                          <th>#</th>
-	                          <th>탐지 대상</th>
-	                          <th>탐지 수</th>
-	                          <th>탐지 주체</th>
-	                          <th>탐지 구역</th>
-	                          <th>탐지 시점</th>
+	                          <th>Object</th>
+	                          <th>Num</th>
+	                          <th>Detector</th>
+	                          <th>Area</th>
+	                          <th>Timestamp</th>
 	                        </tr>
 	                      </thead>
 	                      <tbody>
 	                      	<c:forEach var="animal" items="${animal}">
-		                      	<tr>
-		                          <th scope="row">${animal.dno}</th>
-		                          <td>${animal.dname}</td>
+		                      	<tr style="align-self: center;">
+		                          <td scope="row" style="width: 15px">${animal.dno}</td>
+		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightskyblue; font-weight: 500">${animal.dname}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
@@ -169,69 +177,20 @@
 	                  </div>
 	                </div>
 	              </div>
+	              
+	              <div class="col-lg-6">
+	                <div class="block">
+	                  <div class="title"><strong>Driving Situation | Image</strong></div>
+	                  <div class="table-responsive"> 
+	                    <div style="height: 385px"></div>
+	                  </div>
+	                </div>
+	              </div>
+	              
 	             </div>
 	            </div>
-	          </div>
 	        </section>
-	        
-		      	
-		<script>
-
-			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
-				client.onMessageArrived = onMessageArrived;
-				client.connect({onSuccess:onConnect});
-			});
-	
-			function onConnect() {
-				//console.log("mqtt broker connected")
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
-				client.subscribe("/4cctv");
-				client.subscribe("/sensor");
-			}
-			
-			function onMessageArrived(message) {
-				if(message.destinationName =="/1cctv") {
-					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/2cctv") {
-					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/3cctv") {
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/4cctv") {
-					
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-
-					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					//이미지에 탐지된 클래스에 대한 정보
-					//console.log(obj.Class)
-					
-					obj["witness"]= message.destinationName;
-
-					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
-						var jsonData = JSON.stringify(obj);
-						$.ajax({
-							type:"POST",
-							url:"${pageContext.request.contextPath}/animal/saveImage.do",
-							contentType: "application/json;charset=UTF-8",
-							dataType: "json",
-							data: jsonData
-						});
-					}
-				}
-				if(message.destinationName =="/sensor") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#Battery").attr("value", obj.Battery);
-				}
-			}
-		</script>
+		
 <!-- 
  		<div class="row row-cols-2" style="width: 640px; height:480px">
 			<div class="col"  id="show1"><img id=cameraView1 style="width: 320px;height:240px"/></div>

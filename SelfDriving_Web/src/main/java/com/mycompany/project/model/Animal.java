@@ -17,6 +17,8 @@ public class Animal {
 	private String dimagesname;			
 	private String dimagetype;
 	
+	private String dtimeconv;
+	
 	public int getDno() {
 		return dno;
 	}
@@ -58,6 +60,9 @@ public class Animal {
 	}
 	public void setDtime(Date dtime) {
 		this.dtime = dtime;
+	}
+	public void setDtimeconv(String dtimeconv) {
+		this.dtimeconv = dtimeconv;
 	}
 	public String getDimagesname() {
 		return dimagesname;
