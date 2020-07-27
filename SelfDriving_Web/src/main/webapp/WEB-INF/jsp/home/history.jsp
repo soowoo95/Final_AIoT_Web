@@ -81,6 +81,7 @@
 	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
 	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
+
 	      </nav>
 	      
 	      <div class="page-content">
@@ -102,7 +103,8 @@
 				$(document).ready(function() {
 				    setInterval(ajaxd, 5000);
 				});
-				function ajaxd() { 
+				
+				function ajaxd(){
 				  $.ajax({
 				   type: "POST",
 				   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
@@ -118,11 +120,29 @@
 			    	    rowItem += "<td>"+item['dfinder']+"</td>"
 			    	    rowItem += "<td>"+item['dtime']+"</td>"
 						rowItem += "</tr>"
-			    	    $('#append_table').append(rowItem);
-				    	    
-				    	});
+			    	    $('#append_table').append(rowItem);    
+				    });
 				   }
 				 });
+				}
+
+				function viewImage(imgDno){
+					console.log("출력하고 싶은 이미지 번호:",imgDno);
+					var jsonDNO = {"dno":imgDno};
+					jsonDNO = JSON.stringify(jsonDNO);
+
+					$.ajax({
+						type: "POST",
+						url: "${pageContext.request.contextPath}/home/imageView.do",
+						contentType: "application/json;charset=UTF-8",
+						data : jsonDNO,
+						dataType: "json",
+						success:
+							function(imgLoc){
+							console.log(imgLoc);
+							$("#imgShow").attr("src", imgLoc);
+						}
+					});
 				}
 			</script>
 	        
@@ -146,16 +166,30 @@
 	                        </tr>
 	                      </thead>
 	                      <tbody id="dataframe">
-	                      	<c:forEach var="animal" items="${animal}">
+	                       
+<%-- 	                    <c:forEach var="animal" items="${animal}">
 		                      	<tr style="align-self: center;">
 		                          <td scope="row" style="width: 15px">${animal.dno}</td>
-		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightskyblue; font-weight: 500">${animal.dname}</td>
+		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightskyblue; font-weight: 500">${animal.dname}</a></td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dtime}</td>
 		                        </tr>
 	                      	</c:forEach>
+	                      	 --%>
+	                      	
+	                      	<c:forEach var="animal" items="${animal}">
+		                      	<tr style="align-self: center;">
+		                          <td scope="row" style="width: 15px">${animal.dno}</td>
+		                          <td onclick="viewImage(${animal.dno})">${animal.dname}</td>
+		                          <td>${animal.dnum}</td>
+		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dtime}</td>
+		                        </tr>
+	                      	</c:forEach>
+	                      	
 	                      </tbody>
 	                    </table>
 	                  </div>
@@ -165,8 +199,8 @@
 	              <div class="col-lg-6">
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | Image</strong></div>
-	                  <div class="table-responsive"> 
-	                    <div style="height: 385px">${animalView.dimagesname}</div>
+	                  <div class="table-responsive">
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="height: 385px"/>
 	                  </div>
 	                </div>
 	              </div>

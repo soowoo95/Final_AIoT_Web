@@ -44,7 +44,7 @@ public class AnimalController{
 		Object dfinder = jsonData.get("witness");
 		
 		Date date = new Date();
-		String StringDate = new SimpleDateFormat("YYYY-MM-dd a hh-mm-ss-S").format(date);
+		String StringDate = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss-S").format(date);
 		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
 		String savedFileName = "savedAt_" + StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;

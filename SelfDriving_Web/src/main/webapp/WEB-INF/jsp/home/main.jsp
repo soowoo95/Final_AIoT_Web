@@ -9,6 +9,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    
+	    <!--  Template 관련 설정 파일들 -->
+	    <!-- Bootstrap CSS-->
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
 	    <!-- Font Awesome CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
 	    <!-- Custom Font Icons CSS-->
@@ -21,11 +25,13 @@
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
 	    <!-- Favicon-->
 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
-		    
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css">
+		
+		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+		
+<%-- 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css"> --%>
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script>
+<%-- 		<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script> --%>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
@@ -37,6 +43,15 @@
 
 		 <style>
 			#div1 {font-size:48px;}
+			.no-gutters {
+			  margin-right: 0;
+			  margin-left: 0;
+			  > .col,
+			  > [class*="*cols-"] {
+			    padding-right: 0;
+			    padding-left: 0;
+			  }
+			}
 		 </style>
 		 
 		<script>
@@ -48,23 +63,29 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
-				//client.subscribe("/1cctv");
-				//client.subscribe("/2cctv");
-				//client.subscribe("/3cctv");
+				client.subscribe("/1cctv");
+				client.subscribe("/2cctv");
+				client.subscribe("/3cctv");
 				client.subscribe("/4cctv");
-				//client.subscribe("/sensor");
+				client.subscribe("/sensor");
 			}
 			
 			function onMessageArrived(message) {
-/* 				if(message.destinationName =="/1cctv") {
+ 				if(message.destinationName =="/1cctv") {
+ 					const json = message.payloadString;
+					const obj = JSON.parse(json);
 					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
 				if(message.destinationName =="/2cctv") {
-					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 				if(message.destinationName =="/3cctv") {
+					const json = message.payloadString;
+					const obj = JSON.parse(json);
 					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				} */
+				}
 				if(message.destinationName =="/4cctv") {
 					
 					const json = message.payloadString;
@@ -128,13 +149,41 @@
 	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	      	</ul>
 	      </nav>
-	    </div>
+	      
+	      <div class="page-content">
+	     	<div class="page-header no-margin-bottom">
+	          <div class="container-fluid">
+	            <h2 class="h5 no-margin-bottom">MAIN DASHBOARD</h2>
+	          </div>
+	        </div>
+	        <!-- Breadcrumb-->
+	        <div class="container-fluid">
+	          <ul class="breadcrumb" style="background-color:transparent;">
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: cornflowerblue; font-weight: 600;">Home</a></li>
+	            
+	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px">MAIN DASHBOARD        </li>
+	          </ul>
+	        </div>
+	      
+	     <section style="padding-right: 0px">
+          <div class="container-fluid">
+         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
+			  <div class="row row-cols-2">
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView1 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView2 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView3 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView4 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			  </div>
+			</div>
+          </div>
+        </section>
 
- 		<div class="row row-cols-2">
-			<div class="col" id="show1"><img id=cameraView1 style="width: 500px;height:480px"/></div>
-			<div class="col" id="show2"><img id=cameraView2 style="width: 500px;height:480px"/></div>
-			<div class="col" id="show3"><img id=cameraView3 style="width: 500px;height:480px"/></div>
-			<div class="col" id="show4"><img id=cameraView4 style="width: 500px;height:480pxx"/></div>
-		</div>
+<!-- 
+ 		<div style="margin-left:300px; ">
+			<div class="col"><img id=cameraView1 style="width: 300px;height:300px"/></div>
+			<div class="col"><img id=cameraView2 style="width: 300px;height:300px"/></div>
+			<div class="col"><img id=cameraView3 style="width: 300px;height:300px"/></div>
+			<div class="col"><img id=cameraView4 style="width: 320px;height:240px"/></div>
+		</div> -->
 </body>
 </html>
