@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 
@@ -31,7 +32,8 @@ import com.mycompany.project.service.AnimalService;
 @RequestMapping("/animal") 
 public class AnimalController{
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnimalController.class);
-	
+
+
 	@Autowired
 	private AnimalService animalService;
 	
