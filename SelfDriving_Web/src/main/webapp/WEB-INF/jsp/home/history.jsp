@@ -45,11 +45,6 @@
 
 		 <style>
 			#div1 {font-size:48px;}
-			
-			.text-coloring{
-			color: lightcrimson;
-			font-weight: 500;
-			}
 		 </style>
 	</head>
 	
@@ -131,7 +126,7 @@
 		   			animallist.forEach(function (item, index, array) {
 		    	    var rowItem = "<tr>"
 		    	    rowItem += "<td>"+item['dno']+"</td>"
-		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
+		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
 		    	    rowItem += "<td>"+item['dnum']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
@@ -155,7 +150,7 @@
 						
 			    	    var rowItem = "<tr>"
 			    	    rowItem += "<td>"+item['dno']+"</td>"
-			    	    rowItem += "<td onclick="+ "\"" + "viewImage2(" + item['dno'] + ")" + "\"" + "style=" + "\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
+			    	    rowItem += "<td onclick="+ "\"" + "viewImage2(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
 			    	    rowItem += "<td>"+item['dnum']+"</td>"
 			    	    rowItem += "<td>"+item['dfinder']+"</td>"
 			    	    rowItem += "<td>"+item['dfinder']+"</td>"
@@ -169,17 +164,20 @@
 				}
 
 			function viewImage(imgDno){
-/* 				console.log("출력하고 싶은 이미지 번호:",imgDno);
-				var jsonDNO = {"dno":imgDno};
-				jsonDNO = JSON.stringify(jsonDNO); */
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
  			}
 			
 			function viewImage2(imgDno){
+				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
 			}
+			
 			/*
+				console.log("출력하고 싶은 이미지 번호:",imgDno);
+				var jsonDNO = {"dno":imgDno};
+				jsonDNO = JSON.stringify(jsonDNO);
+				
 				$.ajax({
 					type: "POST",
 					url: "${pageContext.request.contextPath}/home/imageView.do",

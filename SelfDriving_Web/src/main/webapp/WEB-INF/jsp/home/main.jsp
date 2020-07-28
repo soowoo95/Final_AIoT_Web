@@ -177,13 +177,6 @@
 			</div>
           </div>
         </section>
-
-<!-- 
- 		<div style="margin-left:300px; ">
-			<div class="col"><img id=cameraView1 style="width: 300px;height:300px"/></div>
-			<div class="col"><img id=cameraView2 style="width: 300px;height:300px"/></div>
-			<div class="col"><img id=cameraView3 style="width: 300px;height:300px"/></div>
-			<div class="col"><img id=cameraView4 style="width: 320px;height:240px"/></div>
-		</div> -->
-</body>
+        
+	</body>
 </html>
