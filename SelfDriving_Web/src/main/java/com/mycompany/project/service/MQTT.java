@@ -1,8 +1,16 @@
 package com.mycompany.project.service;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
@@ -130,23 +138,44 @@ public class MQTT implements MqttCallback{
     	map = mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>(){});
     	//System.out.println(map);
     	
-    	String savedFileName = (String) map.get("Cam");
-    	String date= (String) map.get("time");
+    	//찾은 객체 이름를 저장온다 경로에 넣으려면 /는 없어져야겠지
+    	String dfinder= topic;
+    	dfinder = dfinder.replace("/", "");
+    	
+    	//비디오 BASE64형식을 가져온다
+    	String video = (String) map.get("Cam");
+    	
+    	//저장한 시각을 가져온다
+    	Date date = new Date();
+		String StringDate = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss-S").format(date);
+		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
+		String savedFileName = "savedAt_" +dfinder+StringDate + ".jpg";
+		String filepath = saveDir + savedFileName;
+		
+		//사진을 저장하자
+		decoder(video, filepath);
+		
+		//탐지된 객체 배열을 가져온다.
     	ArrayList<String> clss= (ArrayList<String>) map.get("Class");
-    	LOGGER.info(String.valueOf(clss.size()));
-    	savedFileName=savedFileName.substring(0, 10);
+    	
     	String listString= "";
+    	//배열의 개수가 0이면 저장하지 않는다.
     	if (clss.size()!= 0) {	
-    	for (String s : clss)
-    	{
-    	    listString += s;
+	    	for (String s : clss){
+	    		//객체 배열을 뽑아오기.
+	    	    listString += ","+s;
+	    	}
+	    	listString = listString.substring(1);
+	    	//객체를 생성하고 set하고 Dao로 DB에 넘겨서 저장한다.
+	    	Animal animal= new Animal();
+	    	animal.setDimagesname(savedFileName);
+	    	animal.setDtime(date);
+	    	animal.setDlocation(filepath);
+			animal.setDname(listString);
+			animal.setDnum(clss.size());
+			animal.setDfinder(dfinder);
+	    	animalDao.insert(animal);
     	}
-    	}
-    	Animal animal= new Animal();
-    	animal.setDimagesname(savedFileName);
-    	animal.setDtimeconv(date);
-		animal.setDname(listString);
-    	animalDao.insert(animal);
     }
 
 	@Override
@@ -159,5 +188,15 @@ public class MQTT implements MqttCallback{
 		System.out.println("Message with " + iMqttDeliveryToken + " delivered.");
 	}
 	
-
+	public static boolean decoder(String data, String target){
+		byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
+		try {
+			BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			ImageIO.write(bufImg, "jpg", new File(target));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

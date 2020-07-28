@@ -4,7 +4,7 @@
 	<mapper namespace="animal">
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
 					insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
-					values (#{dname}, #{dimagesname}, "내집", #{dtimeconv}, 3, "내가");
+					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder});
 			</insert>
 			
 			<select id="selectByDno" parameterType="int" resultType ="animal">
