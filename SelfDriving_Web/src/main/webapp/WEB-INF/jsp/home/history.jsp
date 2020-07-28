@@ -107,21 +107,16 @@
 	        <!-- Breadcrumb-->
 	        <div class="container-fluid">
 	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: salmon; font-weight: 600;">Home</a></li>
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size:20px ; margin-top: 10px; color: salmon; font-weight: 600;">Home</a></li>
 	            
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">HISTORY        </li>
 	          </ul>
 	        </div>
 	        
 	        <script>
-			// moment를 초기화
-			//var m = moment();
-			// format으로 출력
-			//var output = m.format("YYYY-MM-DD HH:mm:ss");
-			//console.log(output); 
-
 			$(document).ready(function() {
 			    setInterval(ajaxd, 5000);
+			    setInterval(ajaxd2, 5000);
 			});
 			
 			
@@ -129,33 +124,62 @@
 			  $.ajax({
 			   type: "POST",
 			   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
-			   success: function(animallist){
+			   success: 
+				   function(animallist){
 				   $('#dataframe').empty();
 				   
 		   			animallist.forEach(function (item, index, array) {
-					
 		    	    var rowItem = "<tr>"
 		    	    rowItem += "<td>"+item['dno']+"</td>"
-		    	    <td onclick="viewImage(item['dno'])" style="color"
 		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
 		    	    rowItem += "<td>"+item['dnum']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
-		    	    rowItem += "<td>"+moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss")+"</td>"
-		    	    //console.log(moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss"));
-		    	    
+		    	    rowItem += "<td>"+moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss")+"</td>"		    	    
 					rowItem += "</tr>"
-		    	    $('#append_table').append(rowItem);    
+					
+		    	    $('#append_table').append(rowItem);
 			    });
 			   }
 			 });
 			}
+			
+			function ajaxd2(){
+				  $.ajax({
+				   type: "POST",
+				   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
+				   success: 
+					   function(animallist){
+					   $('#dataframe2').empty();
+			   			animallist.forEach(function (item, index, array) {
+						
+			    	    var rowItem = "<tr>"
+			    	    rowItem += "<td>"+item['dno']+"</td>"
+			    	    rowItem += "<td onclick="+ "\"" + "viewImage2(" + item['dno'] + ")" + "\"" + "style=" + "\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
+			    	    rowItem += "<td>"+item['dnum']+"</td>"
+			    	    rowItem += "<td>"+item['dfinder']+"</td>"
+			    	    rowItem += "<td>"+item['dfinder']+"</td>"
+			    	    rowItem += "<td>"+moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss")+"</td>"		    	    
+						rowItem += "</tr>"
+
+			    	    $('#append_table2').append(rowItem);
+				    });
+				   }
+				 });
+				}
 
 			function viewImage(imgDno){
-				console.log("출력하고 싶은 이미지 번호:",imgDno);
+/* 				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				var jsonDNO = {"dno":imgDno};
-				jsonDNO = JSON.stringify(jsonDNO);
-
+				jsonDNO = JSON.stringify(jsonDNO); */
+				console.log("출력하고 싶은 이미지 번호:",imgDno);
+				$("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
+ 			}
+			
+			function viewImage2(imgDno){
+				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
+			}
+			/*
 				$.ajax({
 					type: "POST",
 					url: "${pageContext.request.contextPath}/home/imageView.do",
@@ -163,13 +187,13 @@
 					data : jsonDNO,
 					dataType: "json",
 					success:
-						/* function(data){
-						console.log(data); */
-						$("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+"imgDno")
-				/* 	} */
+						function(data){
+						console.log(data);
+						 $("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno) 
+				 	} 
 						
-				});
-			}
+				}); */
+			
 			</script>
 
 	        <section class="no-padding-top">
@@ -180,7 +204,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; height: 360px">
+	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; height: 380px;">
 	                      <thead>
 	                        <tr>
 	                          <th>#</th>
@@ -191,15 +215,13 @@
 	                          <th>Timestamp</th>
 	                        </tr>
 	                      </thead>
-	                      <tbody id="dataframe">
 	                      
-	                      
+	                      <tbody id="dataframe"> 
 
 	                      <c:forEach var="animal" items="${animal}">
 	                      	<tr style="align-self: center;">
 	                          <td scope="row" style="width: 15px">${animal.dno}</td>
-	                          <td onclick="viewImage(${animal.dno})" class="text-coloring">${animal.dname}</td>
-	                          <%-- <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500"><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td> --%>
+	                          <td onclick="viewImage(${animal.dno})" class="text-coloring" style="color: lightcrimson;">${animal.dname}</td>
 	                          <td>${animal.dnum}</td>
 	                          <td>${animal.dfinder}</td>
 	                          <td>${animal.dfinder}</td>
@@ -217,16 +239,16 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="width: 400px; height: 360px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="width: 720px; height: 380px"/>
 	                  </div>
 	                </div>
 	              </div>
 
 	              <div class="col-lg-6">
 	                <div class="block">
-	                  <div class="title"><strong>Driving Situation | History</strong></div>
+	                  <div class="title"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" style="color: white; height: 360px">
+	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; height: 380px;">
 	                      <thead>
 	                        <tr>
 	                          <th>#</th>
@@ -237,12 +259,13 @@
 	                          <th>Timestamp</th>
 	                        </tr>
 	                      </thead>
-	                      <tbody>
 	                      
+	                      <tbody id="dataframe2"> 
+
 	                      <c:forEach var="animal" items="${animal}">
 	                      	<tr style="align-self: center;">
 	                          <td scope="row" style="width: 15px">${animal.dno}</td>
-	                          <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td>
+	                          <td onclick="viewImage2(${animal.dno})" class="text-coloring" style="color: lightcrimson;">${animal.dname}</td>
 	                          <td>${animal.dnum}</td>
 	                          <td>${animal.dfinder}</td>
 	                          <td>${animal.dfinder}</td>
@@ -260,7 +283,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Driving Situation | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/daytime.jpg" style="height: 360px"/>
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/b2.jpg" style="height: 380px; width: 720px"/>
 	                  </div>
 	                </div>
 	              </div>
@@ -268,19 +291,6 @@
 	             </div>
 	            </div>
 	        </section>
-		
-<!-- 
- 		<div class="row row-cols-2" style="width: 640px; height:480px">
-			<div class="col"  id="show1"><img id=cameraView1 style="width: 320px;height:240px"/></div>
-			<div class="col"  id="show2"><img id=cameraView2 style="width: 320px;height:240px"/></div>
-			<div class="col"  id="show3"><img id=cameraView3 style="width: 320px;height:240px"/></div>
-			<div class="col"  id="show4"><img id=cameraView4 style="width: 320px;height:240px"/></div>
-		</div>
- -->		
-<!-- 		
-		<div style="margin-left: 300px">
-			<input id="Battery" value="">
-		</div>
- -->
+	        
 </body>
 </html>

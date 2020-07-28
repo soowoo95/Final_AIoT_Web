@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mycompany.project.service.MQTT;
@@ -58,11 +59,11 @@ public class HomeController {
 	@RequestMapping("/main.do")
 	@PostConstruct
 	public String main(){
-		String MqttServer1= "tcp://192.168.3.184:1883";
+		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";	
-		String topic = "/2cctv";
+		String topic = "/4cctv";
 		String msg = "HIYOM";
 	
 		//Receive message from Mqtt not Machine
@@ -119,16 +120,16 @@ public class HomeController {
 		return "home/history";
 	}
 
-	@PostMapping("/imageView.do")
+	@RequestMapping("/imageView.do")
 	@ResponseBody
-	public void imageView(	@RequestBody Map<String, Object>jsonDNO,
-							HttpServletResponse response) throws Exception {
+	public void imageView(@RequestParam int dno,
+						HttpServletResponse response) throws Exception {
 
-		Object DNO = jsonDNO.get("dno");
+/*		Object DNO = jsonDNO.get("dno");
 		LOGGER.info(DNO.toString());
 		
 		int dno = Integer.parseInt((DNO.toString()));
-
+*/
 		Animal animal = new Animal();
 		animal = animalService.getAnimal(dno);
 		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
@@ -136,6 +137,12 @@ public class HomeController {
 		String imgLoc = animal.getDlocation();
 		LOGGER.info(imgLoc);
 		
+		InputStream is = new FileInputStream(imgLoc);
+		OutputStream os = response.getOutputStream();
+		FileCopyUtils.copy(is, os);
+		os.close();
+		is.close();
+/*		
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 
@@ -158,7 +165,7 @@ public class HomeController {
 		PrintWriter pw = response.getWriter();
 		pw.write(newAddr);
 		pw.flush();
-		pw.close();	
+		pw.close();	*/
 	}
 
 	@GetMapping("/fileview.do")
