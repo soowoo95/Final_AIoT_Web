@@ -45,6 +45,11 @@
 
 		 <style>
 			#div1 {font-size:48px;}
+			
+			.text-coloring{
+			color: lightcrimson;
+			font-weight: 500;
+			}
 		 </style>
 	</head>
 	
@@ -131,8 +136,8 @@
 					
 		    	    var rowItem = "<tr>"
 		    	    rowItem += "<td>"+item['dno']+"</td>"
-		    	    
-		    	    rowItem += "<td>"+ "<a href=" + "\"" + "${pageContext.request.contextPath}/home/imageView.do?dno=" + item['dno'] + "\"" + "style=" +"\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</a></td>"
+		    	    <td onclick="viewImage(item['dno'])" style="color"
+		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
 		    	    rowItem += "<td>"+item['dnum']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
@@ -160,7 +165,7 @@
 					success:
 						/* function(data){
 						console.log(data); */
-						$("#imgShow").attr("src", "${pageContext.request.contextPath}/resource/img/tempImg/attack.jpg")
+						$("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+"imgDno")
 				/* 	} */
 						
 				});
@@ -187,11 +192,13 @@
 	                        </tr>
 	                      </thead>
 	                      <tbody id="dataframe">
+	                      
+	                      
 
 	                      <c:forEach var="animal" items="${animal}">
 	                      	<tr style="align-self: center;">
 	                          <td scope="row" style="width: 15px">${animal.dno}</td>
-	                          <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td>
+	                          <td onclick="viewImage(${animal.dno})" class="text-coloring">${animal.dname}</td>
 	                          <%-- <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500"><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td> --%>
 	                          <td>${animal.dnum}</td>
 	                          <td>${animal.dfinder}</td>
@@ -210,7 +217,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="width: 300px; height: 360px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="width: 400px; height: 360px"/>
 	                  </div>
 	                </div>
 	              </div>
@@ -235,7 +242,7 @@
 	                      <c:forEach var="animal" items="${animal}">
 	                      	<tr style="align-self: center;">
 	                          <td scope="row" style="width: 15px">${animal.dno}</td>
-	                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td>
+	                          <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td>
 	                          <td>${animal.dnum}</td>
 	                          <td>${animal.dfinder}</td>
 	                          <td>${animal.dfinder}</td>
