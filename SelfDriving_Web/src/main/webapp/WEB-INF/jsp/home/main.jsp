@@ -26,12 +26,12 @@
 	    <!-- Favicon-->
 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
 		
-		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script> -->
 		
-<%-- 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css"> --%>
+<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css"> --%>
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-<%-- 		<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script> --%>
+<%-- 	<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script> --%>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
@@ -159,13 +159,13 @@
 	        <!-- Breadcrumb-->
 	        <div class="container-fluid">
 	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: cornflowerblue; font-weight: 600;">Home</a></li>
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: salmon; font-weight: 600;">Home</a></li>
 	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px">MAIN DASHBOARD        </li>
+	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">MAIN DASHBOARD        </li>
 	          </ul>
 	        </div>
 	      
-	     <section style="padding-right: 0px">
+ 	     <section style="padding-right: 0px">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
 			  <div class="row row-cols-2">

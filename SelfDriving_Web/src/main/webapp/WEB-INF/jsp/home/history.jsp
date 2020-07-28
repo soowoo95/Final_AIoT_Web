@@ -9,8 +9,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    
+	    <!--  Template 관련 설정 파일들 -->
+	    <!-- Bootstrap CSS-->
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
 	    <!-- Font Awesome CSS-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
+<!-- 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css"> -->
 	    <!-- Custom Font Icons CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
 	    <!-- Google fonts - Muli-->
@@ -20,21 +24,25 @@
 	    <!-- Custom stylesheet - for your changes-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
 	    <!-- Favicon-->
-	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
-		    
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css">
+<!-- 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico"> -->
+		
+<!-- 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+		
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script>
+		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
+		
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jQueryRotate.js"></script>
 		
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
+		
+		<script src="${pageContext.request.contextPath}/resource/js/moment.min.js"></script>
+
 		 <style>
 			#div1 {font-size:48px;}
 		 </style>
@@ -79,7 +87,7 @@
 	        <ul class="list-unstyled">
 	          <li><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li class="active" style="color: lightskyblue"><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 
 	      </nav>
@@ -88,64 +96,77 @@
 	        <!-- Page Header-->
 	        <div class="page-header no-margin-bottom">
 	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom">Tables</h2>
+	            <h2 class="h5 no-margin-bottom">HISTORY</h2>
 	          </div>
 	        </div>
 	        <!-- Breadcrumb-->
 	        <div class="container-fluid">
 	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: cornflowerblue; font-weight: 600;">Home</a></li>
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: large; margin-top: 10px; color: salmon; font-weight: 600;">Home</a></li>
 	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px">Tables        </li>
+	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">HISTORY        </li>
 	          </ul>
 	        </div>
-	        <script>
-				$(document).ready(function() {
-				    setInterval(ajaxd, 5000);
-				});
-				
-				function ajaxd(){
-				  $.ajax({
-				   type: "POST",
-				   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
-				   success: function(animallist){
-					   $('#dataframe').empty();
-					   
-			   			animallist.forEach(function (item, index, array) {
-			    	    var rowItem = "<tr>"
-			    	    rowItem += "<td>"+item['dno']+"</td>"
-			    	    rowItem += "<td>"+item['dname']+"</td>"
-			    	    rowItem += "<td>"+item['dnum']+"</td>"
-			    	    rowItem += "<td>"+item['dfinder']+"</td>"
-			    	    rowItem += "<td>"+item['dfinder']+"</td>"
-			    	    rowItem += "<td>"+item['dtime']+"</td>"
-						rowItem += "</tr>"
-			    	    $('#append_table').append(rowItem);    
-				    });
-				   }
-				 });
-				}
-
-				function viewImage(imgDno){
-					console.log("출력하고 싶은 이미지 번호:",imgDno);
-					var jsonDNO = {"dno":imgDno};
-					jsonDNO = JSON.stringify(jsonDNO);
-
-					$.ajax({
-						type: "POST",
-						url: "${pageContext.request.contextPath}/home/imageView.do",
-						contentType: "application/json;charset=UTF-8",
-						data : jsonDNO,
-						dataType: "json",
-						success:
-							function(imgLoc){
-							console.log(imgLoc);
-							$("#imgShow").attr("src", imgLoc);
-						}
-					});
-				}
-			</script>
 	        
+	        <script>
+			// moment를 초기화
+			//var m = moment();
+			// format으로 출력
+			//var output = m.format("YYYY-MM-DD HH:mm:ss");
+			//console.log(output); 
+
+			$(document).ready(function() {
+			    setInterval(ajaxd, 5000);
+			});
+			
+			
+			function ajaxd(){
+			  $.ajax({
+			   type: "POST",
+			   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
+			   success: function(animallist){
+				   $('#dataframe').empty();
+				   
+		   			animallist.forEach(function (item, index, array) {
+					
+		    	    var rowItem = "<tr>"
+		    	    rowItem += "<td>"+item['dno']+"</td>"
+		    	    
+		    	    rowItem += "<td>"+ "<a href=" + "\"" + "${pageContext.request.contextPath}/home/imageView.do?dno=" + item['dno'] + "\"" + "style=" +"\"" +"color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</a></td>"
+		    	    rowItem += "<td>"+item['dnum']+"</td>"
+		    	    rowItem += "<td>"+item['dfinder']+"</td>"
+		    	    rowItem += "<td>"+item['dfinder']+"</td>"
+		    	    rowItem += "<td>"+moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss")+"</td>"
+		    	    //console.log(moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss"));
+		    	    
+					rowItem += "</tr>"
+		    	    $('#append_table').append(rowItem);    
+			    });
+			   }
+			 });
+			}
+
+			function viewImage(imgDno){
+				console.log("출력하고 싶은 이미지 번호:",imgDno);
+				var jsonDNO = {"dno":imgDno};
+				jsonDNO = JSON.stringify(jsonDNO);
+
+				$.ajax({
+					type: "POST",
+					url: "${pageContext.request.contextPath}/home/imageView.do",
+					contentType: "application/json;charset=UTF-8",
+					data : jsonDNO,
+					dataType: "json",
+					success:
+						/* function(data){
+						console.log(data); */
+						$("#imgShow").attr("src", "${pageContext.request.contextPath}/resource/img/tempImg/attack.jpg")
+				/* 	} */
+						
+				});
+			}
+			</script>
+
 	        <section class="no-padding-top">
 	          <div class="container-fluid">
 	            <div class="row">
@@ -154,7 +175,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" id= "append_table" style="color: white;">
+	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; height: 360px">
 	                      <thead>
 	                        <tr>
 	                          <th>#</th>
@@ -166,30 +187,19 @@
 	                        </tr>
 	                      </thead>
 	                      <tbody id="dataframe">
-	                       
-<%-- 	                    <c:forEach var="animal" items="${animal}">
-		                      	<tr style="align-self: center;">
-		                          <td scope="row" style="width: 15px">${animal.dno}</td>
-		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightskyblue; font-weight: 500">${animal.dname}</a></td>
-		                          <td>${animal.dnum}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dtime}</td>
-		                        </tr>
-	                      	</c:forEach>
-	                      	 --%>
-	                      	
-	                      	<c:forEach var="animal" items="${animal}">
-		                      	<tr style="align-self: center;">
-		                          <td scope="row" style="width: 15px">${animal.dno}</td>
-		                          <td onclick="viewImage(${animal.dno})">${animal.dname}</td>
-		                          <td>${animal.dnum}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dtime}</td>
-		                        </tr>
-	                      	</c:forEach>
-	                      	
+
+	                      <c:forEach var="animal" items="${animal}">
+	                      	<tr style="align-self: center;">
+	                          <td scope="row" style="width: 15px">${animal.dno}</td>
+	                          <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td>
+	                          <%-- <td onclick="viewImage(${animal.dno})" style="color: lightcrimson; font-weight: 500"><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td> --%>
+	                          <td>${animal.dnum}</td>
+	                          <td>${animal.dfinder}</td>
+	                          <td>${animal.dfinder}</td>
+	                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+	                        </tr>
+                      	  </c:forEach>
+                      	  
 	                      </tbody>
 	                    </table>
 	                  </div>
@@ -200,7 +210,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="height: 385px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="width: 300px; height: 360px"/>
 	                  </div>
 	                </div>
 	              </div>
@@ -209,7 +219,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Driving Situation | History</strong></div>
 	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" style="color: white;">
+	                    <table class="table table-striped table-sm" style="color: white; height: 360px">
 	                      <thead>
 	                        <tr>
 	                          <th>#</th>
@@ -221,16 +231,18 @@
 	                        </tr>
 	                      </thead>
 	                      <tbody>
-	                      	<c:forEach var="animal" items="${animal}">
-		                      	<tr style="align-self: center;">
-		                          <td scope="row" style="width: 15px">${animal.dno}</td>
-		                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightskyblue; font-weight: 500">${animal.dname}</td>
-		                          <td>${animal.dnum}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dtime}</td>
-		                        </tr>
-	                      	</c:forEach>
+	                      
+	                      <c:forEach var="animal" items="${animal}">
+	                      	<tr style="align-self: center;">
+	                          <td scope="row" style="width: 15px">${animal.dno}</td>
+	                          <td><a href="${pageContext.request.contextPath}/home/imageView.do?dno=${animal.dno}" style="color: lightcrimson; font-weight: 500">${animal.dname}</a></td>
+	                          <td>${animal.dnum}</td>
+	                          <td>${animal.dfinder}</td>
+	                          <td>${animal.dfinder}</td>
+	                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+	                        </tr>
+                      	  </c:forEach>
+                      	  
 	                      </tbody>
 	                    </table>
 	                  </div>
@@ -240,8 +252,8 @@
 	              <div class="col-lg-6">
 	                <div class="block">
 	                  <div class="title"><strong>Driving Situation | Image</strong></div>
-	                  <div class="table-responsive"> 
-	                    <div style="height: 385px"></div>
+	                  <div class="table-responsive">
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/daytime.jpg" style="height: 360px"/>
 	                  </div>
 	                </div>
 	              </div>
