@@ -33,67 +33,8 @@ import com.mycompany.project.service.AnimalService;
 public class AnimalController{
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnimalController.class);
 
-
 	@Autowired
 	private AnimalService animalService;
-	
-	@ResponseBody
-	@PostMapping("/saveImage.do")
-	public void saveImage(@RequestBody Map<String, Object>jsonData) throws Exception {
-		//LOGGER.info("들어왔니");
-		Object video = jsonData.get("Cam");
-		Object clss = jsonData.get("Class");
-		Object dfinder = jsonData.get("witness");
-		
-		Date date = new Date();
-		String StringDate = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss-S").format(date);
-		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
-		String savedFileName = "savedAt_" + StringDate + ".jpg";
-		String filepath = saveDir + savedFileName;
-		decoder(video.toString(), filepath);
-	
-		Animal animal = new Animal();
-		savedFileName = savedFileName.replaceAll(":", "-");
-		savedFileName = savedFileName.replaceAll(" ", "-");
-		
-		String dname = clss.toString();
-		dname = dname.replace("[", "");
-		dname = dname.replace("]", "");
-		//LOGGER.info(dname);
-		
-		int countSemi = StringUtils.countMatches(dname, ",");
-		int dnum = countSemi + 1;
-		
-		animal.setDimagesname(savedFileName);
-		animal.setDtime(date);
-		animal.setDlocation(filepath);
-		animal.setDname(dname);
-		animal.setDnum(dnum);
-		
-		try {
-		animal.setDfinder(dfinder.toString());
-		animalService.SaveImage(animal);
-		} catch (Exception ignore) {}
-		//LOGGER.info("service로 넘긴다");
-	}
-	
-	public static boolean decoder(String data, String target){
-		byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
-		try {
-			BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
-			ImageIO.write(bufImg, "jpg", new File(target));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-	
-	
-	
-	
-	
-	
 	
 	
 }

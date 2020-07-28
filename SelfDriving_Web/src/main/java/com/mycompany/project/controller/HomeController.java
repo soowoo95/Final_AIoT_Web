@@ -51,52 +51,25 @@ public class HomeController {
 	@Autowired
 	private AnimalService animalService;
 	@Autowired
-	MqttToMqtt ReadAndSend;
-	@Autowired
 	MQTT ReadFromOtherMQTT;
-	/*@Autowired
-	private MqttPublishSample mqttPublishSample;*/
-	@RequestMapping("/main.do")
 	@PostConstruct
-	public String main(){
+	public void mqttConnect() {
 		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";	
-		String topic = "/4cctv";
-		String msg = "HIYOM";
+		String topic = "/2cctv";
 	
-		//Receive message from Mqtt not Machine
-		
 		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
 		ReadFromOtherMQTT.init(topic);
-		
-		sleep(1000);
-		try {
-			ReadFromOtherMQTT.subscribe(0);	
-		}
-		finally
-		{
-			LOGGER.info("오류래");
-		}
-		//Receive message from Machine and Send to other MQTT
-		ReadAndSend.chogihwa(MqttServer1, client_id, username, passwd, ReadFromOtherMQTT);
-		/*try {
-			ReadAndSend.init();
-		}
-		finally
-		{
-			LOGGER.info("오류래");
-		}*/
-		return "home/main";
+		ReadFromOtherMQTT.subscribe(0);	
+
 	}
-	static void sleep(int time){
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	@RequestMapping("/main.do")
+	
+	public String main(){
+
+		return "home/main";
 	}
 	@RequestMapping("/jetbot.do")
 	public String jetbot(){
