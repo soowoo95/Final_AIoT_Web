@@ -1,4 +1,9 @@
 package com.mycompany.project.service;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -7,8 +12,16 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.slf4j.LoggerFactory;
+import org.springframework.asm.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.project.dao.AnimalDao;
+import com.mycompany.project.model.Animal;
+
+@Service
 
 public class MQTT implements MqttCallback{
 	private static String Broker;
@@ -20,13 +33,14 @@ public class MQTT implements MqttCallback{
 	private static MemoryPersistence persistence;
 	private static MqttConnectOptions connOpts;
 	private static String topic;
-		
-	public MQTT(String broker, String client_id,String username, String passwd){
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);		
+	@Autowired
+	private AnimalDao animalDao;
+	public void chogihwa(String broker, String client_id,String username, String passwd){
 		this.Broker = broker;
 		this.Client_ID = client_id;
 		this.UserName = username;
-		this.Passwd = passwd;
-		
+		this.Passwd = passwd;	
 	}
 	
 	public void init(String topic){
@@ -94,6 +108,9 @@ public class MQTT implements MqttCallback{
 	public void subscribe(int qos){
 		try {
 			Client.subscribe(topic,qos);
+			Client.subscribe("/1cctv",qos);
+			Client.subscribe("/3cctv",qos);
+			Client.subscribe("/4cctv",qos);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,7 +123,30 @@ public class MQTT implements MqttCallback{
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-    	System.out.println("Message arrived : " + new String(mqttMessage.getPayload(), "UTF-8"));
+    	LOGGER.info("Message arrived : " +topic);
+    	ObjectMapper mapper = new ObjectMapper();
+    	String json = new String(mqttMessage.getPayload());
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map = mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>(){});
+    	//System.out.println(map);
+    	
+    	String savedFileName = (String) map.get("Cam");
+    	String date= (String) map.get("time");
+    	ArrayList<String> clss= (ArrayList<String>) map.get("Class");
+    	LOGGER.info(String.valueOf(clss.size()));
+    	savedFileName=savedFileName.substring(0, 10);
+    	String listString= "";
+    	if (clss.size()!= 0) {	
+    	for (String s : clss)
+    	{
+    	    listString += s;
+    	}
+    	}
+    	Animal animal= new Animal();
+    	animal.setDimagesname(savedFileName);
+    	animal.setDtimeconv(date);
+		animal.setDname(listString);
+    	animalDao.insert(animal);
     }
 
 	@Override

@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mycompany.project.service.MQTT;
+import com.mycompany.project.service.MqttToMqtt;
 import com.mycompany.project.model.Animal;
 import com.mycompany.project.service.AnimalService;
 
@@ -23,14 +26,55 @@ import com.mycompany.project.service.AnimalService;
 @RequestMapping("/home") 
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-	
 	@Autowired
 	private AnimalService animalService;
-	
+	@Autowired
+	MqttToMqtt ReadAndSend;
+	@Autowired
+	MQTT ReadFromOtherMQTT;
+	/*@Autowired
+	private MqttPublishSample mqttPublishSample;*/
 	@RequestMapping("/main.do")
+	@PostConstruct
 	public String main(){
-		LOGGER.info("실행");
+		String MqttServer1= "tcp://192.168.3.184:1883";
+		String client_id = "hostname";
+		String username = "hostname";	
+		String passwd = "12345";	
+		String topic = "/2cctv";
+		String msg = "HIYOM";
+	
+		//Receive message from Mqtt not Machine
+		
+		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
+		ReadFromOtherMQTT.init(topic);
+		
+		sleep(1000);
+		try {
+			ReadFromOtherMQTT.subscribe(0);	
+		}
+		finally
+		{
+			LOGGER.info("오류래");
+		}
+		//Receive message from Machine and Send to other MQTT
+		ReadAndSend.chogihwa(MqttServer1, client_id, username, passwd, ReadFromOtherMQTT);
+		/*try {
+			ReadAndSend.init();
+		}
+		finally
+		{
+			LOGGER.info("오류래");
+		}*/
 		return "home/main";
+	}
+	static void sleep(int time){
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@RequestMapping("/jetbot.do")
 	public String jetbot(){
