@@ -1,46 +1,26 @@
 package com.mycompany.project.controller;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mycompany.project.service.MQTT;
-import com.mycompany.project.service.MqttToMqtt;
 import com.mycompany.project.model.Animal;
 import com.mycompany.project.service.AnimalService;
 
@@ -48,29 +28,31 @@ import com.mycompany.project.service.AnimalService;
 @RequestMapping("/home") 
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+	
 	@Autowired
 	private AnimalService animalService;
+	
 	@Autowired
 	MQTT ReadFromOtherMQTT;
+	
 	@PostConstruct
 	public void mqttConnect() {
 		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";	
-		String topic = "/2cctv";
+		String topic = "/*";
 	
 		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
 		ReadFromOtherMQTT.init(topic);
 		ReadFromOtherMQTT.subscribe(0);	
-
 	}
-	@RequestMapping("/main.do")
 	
+	@RequestMapping("/main.do")
 	public String main(){
-
 		return "home/main";
 	}
+	
 	@RequestMapping("/jetbot.do")
 	public String jetbot(){
 		LOGGER.info("실행");
@@ -83,10 +65,10 @@ public class HomeController {
 		
 		ArrayList<Animal> animalList = new ArrayList<Animal>();
 		for (int i = 0; i < 10; i++) {
-			int dno = (int)((Math.random()*1000) +1);
+			int dno = i + 1;
 			Animal animal = new Animal();
 			animal = animalService.getAnimal(dno);
-			animal.setDfinder(animal.getDfinder().replace("/", ""));
+			animal.setDfinder(animal.getDfinder());
 			animalList.add(animal);
 		}
 		model.addAttribute("animal",animalList);
@@ -139,32 +121,6 @@ public class HomeController {
 		pw.write(newAddr);
 		pw.flush();
 		pw.close();	*/
-	}
-
-	@GetMapping("/fileview.do")
-	@ResponseBody
-	public String fileview(	@RequestBody Map<String, Object>jsonDNO,
-							HttpServletResponse response) throws Exception {
-
-		Object DNO = jsonDNO.get("dno");
-		LOGGER.info(DNO.toString());
-		
-		int dno = Integer.parseInt((DNO.toString()));
-		
-		Animal animal = new Animal();
-		animal = animalService.getAnimal(dno);
-		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
-		
-		String imgLoc = animal.getDlocation();
-		LOGGER.info(imgLoc);
-		
-		InputStream is = new FileInputStream(imgLoc);
-		OutputStream os = response.getOutputStream();
-		FileCopyUtils.copy(is, os);
-		os.close();
-		is.close();
-		
-		return "home/fileview";
 	}
 
 	@RequestMapping("/status.do")

@@ -149,7 +149,7 @@
 	        <!-- Breadcrumb-->
 	        <div class="container-fluid">
 	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: 20px ; margin-top: 10px; color: salmon; font-weight: 600;">Home</a></li>
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: 20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
 	            
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">JETBOTS        </li>
 	          </ul>

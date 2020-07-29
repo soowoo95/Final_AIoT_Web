@@ -30,7 +30,6 @@ import com.mycompany.project.dao.AnimalDao;
 import com.mycompany.project.model.Animal;
 
 @Service
-
 public class MQTT implements MqttCallback{
 	private static String Broker;
 	private static String Client_ID;
@@ -41,7 +40,8 @@ public class MQTT implements MqttCallback{
 	private static MemoryPersistence persistence;
 	private static MqttConnectOptions connOpts;
 	private static String topic;
-	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);		
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
+	
 	@Autowired
 	private AnimalDao animalDao;
 	public void chogihwa(String broker, String client_id,String username, String passwd){
@@ -133,6 +133,7 @@ public class MQTT implements MqttCallback{
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
     	//LOGGER.info("Message arrived : " +topic);
+		
     	ObjectMapper mapper = new ObjectMapper();
     	String json = new String(mqttMessage.getPayload());
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -152,16 +153,17 @@ public class MQTT implements MqttCallback{
 		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
 		String savedFileName = "savedAt_" +dfinder+StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;
-		
-		//사진을 저장하자
-		decoder(video, filepath);
-		
+
 		//탐지된 객체 배열을 가져온다.
     	ArrayList<String> clss= (ArrayList<String>) map.get("Class");
     	
     	String listString= "";
     	//배열의 개수가 0이면 저장하지 않는다.
-    	if (clss.size()!= 0) {	
+    	if (clss.size()!= 0) {
+    		
+    		//사진을 저장하자
+    		decoder(video, filepath);
+    		
 	    	for (String s : clss){
 	    		//객체 배열을 뽑아오기.
 	    	    listString += ","+s;
