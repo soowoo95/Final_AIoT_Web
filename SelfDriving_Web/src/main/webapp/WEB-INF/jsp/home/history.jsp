@@ -46,6 +46,22 @@
 		 <style>
 			#div1 {font-size:48px;}
 		 </style>
+		 
+		 <style>
+			#div1 {font-size:48px;}
+			.no-gutters {
+			  margin-right: 0;
+			  margin-left: 0;
+			  > .col,
+			  > [class*="*cols-"] {
+			    padding-right: 0;
+			    padding-left: 0;
+			  }
+			}
+
+			
+
+		</style>
 	</head>
 	
 	<body>
@@ -102,7 +118,7 @@
 	        <!-- Breadcrumb-->
 	        <div class="container-fluid">
 	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size:20px ; margin-top: 10px; color: salmon; font-weight: 600;">Home</a></li>
+	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size:20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
 	            
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">HISTORY        </li>
 	          </ul>
@@ -126,7 +142,7 @@
 		   			animallist.forEach(function (item, index, array) {
 		    	    var rowItem = "<tr>"
 		    	    rowItem += "<td>"+item['dno']+"</td>"
-		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
+		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: #DB6574; font-weight: 500" + "\">" + item['dname']+"</td>"
 		    	    rowItem += "<td>"+item['dnum']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
 		    	    rowItem += "<td>"+item['dfinder']+"</td>"
@@ -150,7 +166,7 @@
 						
 			    	    var rowItem = "<tr>"
 			    	    rowItem += "<td>"+item['dno']+"</td>"
-			    	    rowItem += "<td onclick="+ "\"" + "viewImage2(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: lightcrimson; font-weight: 500" + "\">" + item['dname']+"</td>"
+			    	    rowItem += "<td onclick="+ "\"" + "viewImage2(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: #DB6574; font-weight: 500" + "\">" + item['dname']+"</td>"
 			    	    rowItem += "<td>"+item['dnum']+"</td>"
 			    	    rowItem += "<td>"+item['dfinder']+"</td>"
 			    	    rowItem += "<td>"+item['dfinder']+"</td>"
@@ -205,28 +221,26 @@
 	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; height: 380px;">
 	                      <thead>
 	                        <tr>
-	                          <th>#</th>
-	                          <th>Object</th>
-	                          <th>Num</th>
+	                          <th>Detect No.</th>
+	                          <th>Detected Object</th>
+	                          <th>Object Num</th>
 	                          <th>Detector</th>
 	                          <th>Area</th>
-	                          <th>Timestamp</th>
+	                          <th>Detected Time</th>
 	                        </tr>
 	                      </thead>
 	                      
-	                      <tbody id="dataframe"> 
-
-	                      <c:forEach var="animal" items="${animal}">
-	                      	<tr style="align-self: center;">
-	                          <td scope="row" style="width: 15px">${animal.dno}</td>
-	                          <td onclick="viewImage(${animal.dno})" class="text-coloring" style="color: lightcrimson;">${animal.dname}</td>
-	                          <td>${animal.dnum}</td>
-	                          <td>${animal.dfinder}</td>
-	                          <td>${animal.dfinder}</td>
-	                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
-	                        </tr>
-                      	  </c:forEach>
-                      	  
+	                      	<tbody id="dataframe">
+		                      <c:forEach var="animal" items="${animal}">
+		                      	<tr>
+		                          <td scope="row">${animal.dno}</td>
+		                          <td onclick="viewImage(${animal.dno})" style="color: #DB6574 ; ">${animal.dname}</td>
+		                          <td>${animal.dnum}</td>
+		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dfinder}</td>
+		                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+		                        </tr>
+	                      	  </c:forEach>
 	                      </tbody>
 	                    </table>
 	                  </div>
@@ -237,33 +251,33 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/cotton.jpg" style="width: 720px; height: 380px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="width: 720px; height: 380px"/>
 	                  </div>
 	                </div>
 	              </div>
 
 	              <div class="col-lg-6">
 	                <div class="block">
-	                  <div class="title"><strong>Animal Detected | History</strong></div>
+	                  <div class="title"><strong>Driving Situation | History</strong></div>
 	                  <div class="table-responsive"> 
 	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; height: 380px;">
 	                      <thead>
 	                        <tr>
-	                          <th>#</th>
-	                          <th>Object</th>
-	                          <th>Num</th>
+	                          <th>Detect No.</th>
+	                          <th>Detected Object</th>
+	                          <th>Object Num</th>
 	                          <th>Detector</th>
 	                          <th>Area</th>
-	                          <th>Timestamp</th>
+	                          <th>Detected Time</th>
 	                        </tr>
 	                      </thead>
 	                      
-	                      <tbody id="dataframe2"> 
+	                      <tbody id="dataframe2">
 
 	                      <c:forEach var="animal" items="${animal}">
-	                      	<tr style="align-self: center;">
-	                          <td scope="row" style="width: 15px">${animal.dno}</td>
-	                          <td onclick="viewImage2(${animal.dno})" class="text-coloring" style="color: lightcrimson;">${animal.dname}</td>
+	                      	<tr>
+	                          <td scope="row">${animal.dno}</td>
+	                          <td onclick="viewImage2(${animal.dno})" style="color: #DB6574;">${animal.dname}</td>
 	                          <td>${animal.dnum}</td>
 	                          <td>${animal.dfinder}</td>
 	                          <td>${animal.dfinder}</td>
@@ -281,7 +295,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Driving Situation | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/b2.jpg" style="height: 380px; width: 720px"/>
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 380px; width: 720px"/>
 	                  </div>
 	                </div>
 	              </div>
