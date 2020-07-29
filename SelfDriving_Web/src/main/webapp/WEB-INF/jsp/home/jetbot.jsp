@@ -25,11 +25,14 @@
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
 	    <!-- Favicon-->
 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
-		
+		<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
 		
 <%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css"> --%>
-		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 <%-- 	<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script> --%>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
@@ -71,15 +74,18 @@
 			}
 			
 			function onMessageArrived(message) {
+				console.log("mqtt broker connected")
  				if(message.destinationName =="/1cctv") {
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
 				if(message.destinationName =="/2cctv") {
+					console.log("mqtt broker connected")
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					$("#distance").css("width", obj.distance);
 				}
 				if(message.destinationName =="/3cctv") {
 					const json = message.payloadString;
@@ -91,27 +97,11 @@
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					//이미지에 탐지된 클래스에 대한 정보
-					//console.log(obj.Class)
-					
-					obj["witness"]= message.destinationName;
-					
-					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
-						var jsonData = JSON.stringify(obj);
-						$.ajax({
-							type:"POST",
-							url:"${pageContext.request.contextPath}/animal/saveImage.do",
-							contentType: "application/json;charset=UTF-8",
-							dataType: "json",
-							data: jsonData
-						});
-					}
 				}
 				if(message.destinationName =="/sensor") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#Battery").attr("value", obj.Battery);
+					$("#distance").css("width", obj.distance);
 				}
 			}
 		</script>		 
@@ -176,14 +166,17 @@
 			  </div>
 			</div>
           </div>
+          <div class="container-fluid">
+         	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 200px;">
+			  <div class="row row-cols-3">
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=car src= "${pageContext.request.contextPath}/resource/img/car.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id="distance" src= "${pageContext.request.contextPath}/resource/img/tempImg/arrow.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=obstacle src= "${pageContext.request.contextPath}/resource/img/obstacle.png" style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			  </div>
+			</div>
+          </div>
+           <img id="distance" src="${pageContext.request.contextPath}/resource/img/tempImg/cat.jpg" style="height:100px">
         </section>
 
-<!-- 
- 		<div style="margin-left:300px; ">
-			<div class="col"><img id=cameraView1 style="width: 300px;height:300px"/></div>
-			<div class="col"><img id=cameraView2 style="width: 300px;height:300px"/></div>
-			<div class="col"><img id=cameraView3 style="width: 300px;height:300px"/></div>
-			<div class="col"><img id=cameraView4 style="width: 320px;height:240px"/></div>
-		</div> -->
 </body>
 </html>
