@@ -11,8 +11,6 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    
 	    <!--  Template 관련 설정 파일들 -->
-	    <!-- Bootstrap CSS-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
 	    <!-- Font Awesome CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
 	    <!-- Custom Font Icons CSS-->
@@ -25,23 +23,18 @@
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
 	    <!-- Favicon-->
 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
-		<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+	    <!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous"></script>
+		<!-- Bootstrap CSS-->
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
 		
-<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css"> --%>
-		
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-<%-- 	<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script> --%>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jQueryRotate.js"></script>
-		
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
-		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 		 <style>
@@ -170,12 +163,12 @@
          	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 200px;">
 			  <div class="row row-cols-3">
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=car src= "${pageContext.request.contextPath}/resource/img/car.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id="distance" src= "${pageContext.request.contextPath}/resource/img/tempImg/arrow.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id="distance" src= "${pageContext.request.contextPath}/resource/img/arrow.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=obstacle src= "${pageContext.request.contextPath}/resource/img/obstacle.png" style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
 			  </div>
 			</div>
           </div>
-           <img id="distance" src="${pageContext.request.contextPath}/resource/img/tempImg/cat.jpg" style="height:100px">
+           <img id="distance" src="${pageContext.request.contextPath}/resource/img/cat.jpg" style="height:100px">
         </section>
 
 </body>

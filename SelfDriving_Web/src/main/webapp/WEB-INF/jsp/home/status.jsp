@@ -38,9 +38,6 @@
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		
-<!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-<!--  	  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 		 
 		<style>
 			#div1 {font-size:48px;}
@@ -86,7 +83,7 @@
 						document.getElementById('c1Obj').style.fontWeight = 'bold';
 						document.getElementById('c1Obj').style.fontSize = '20px';
 						
-						$("#c1Lev").attr("value", obj.Class);
+						$("#c1Lev").attr("value", "등급이 몰까");
 						document.getElementById('c1Lev').style.color = '#DB6574';
 						document.getElementById('c1Lev').style.fontWeight = 'bold';
 						document.getElementById('c1Lev').style.fontSize = '20px';
@@ -137,7 +134,7 @@
 						document.getElementById('c2Obj').style.fontWeight = 'bold';
 						document.getElementById('c2Obj').style.fontSize = '20px';
 						
-						$("#c2Lev").attr("value", obj.Class);
+						$("#c2Lev").attr("value", "등급이 몰까");
 						document.getElementById('c2Lev').style.color = '#DB6574';
 						document.getElementById('c2Lev').style.fontWeight = 'bold';
 						document.getElementById('c2Lev').style.fontSize = '20px';
@@ -187,7 +184,7 @@
 						document.getElementById('c3Obj').style.fontWeight = 'bold';
 						document.getElementById('c3Obj').style.fontSize = '20px';
 						
-						$("#c3Lev").attr("value", obj.Class);
+						$("#c3Lev").attr("value", "등급이 몰까");
 						document.getElementById('c3Lev').style.color = '#DB6574';
 						document.getElementById('c3Lev').style.fontWeight = 'bold';
 						document.getElementById('c3Lev').style.fontSize = '20px';
@@ -239,7 +236,7 @@
 						document.getElementById('c4Obj').style.fontWeight = 'bold';
 						document.getElementById('c4Obj').style.fontSize = '20px';
 						
-						$("#c4Lev").attr("value", obj.Class);
+						$("#c4Lev").attr("value", "등급이 몰까");
 						document.getElementById('c4Lev').style.color = '#DB6574';
 						document.getElementById('c4Lev').style.fontWeight = 'bold';
 						document.getElementById('c4Lev').style.fontSize = '20px';
