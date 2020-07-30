@@ -153,7 +153,7 @@
 	      <div class="page-content">
 	     	<div class="page-header no-margin-bottom">
 	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom">MAIN DASHBOARD</h2>
+	            <h2 class="h5 no-margin-bottom" style="color: lightgray">MAIN DASHBOARD</h2>
 	          </div>
 	        </div>
 	        <!-- Breadcrumb-->

@@ -58,9 +58,6 @@
 			    padding-left: 0;
 			  }
 			}
-
-			
-
 		</style>
 	</head>
 	
@@ -81,7 +78,7 @@
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+	              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
 	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
 	          </div>
 	        </div>
@@ -93,26 +90,26 @@
 	      <nav id="sidebar">
 	        <!-- Sidebar Header-->
 	        <div class="sidebar-header d-flex align-items-center">
-	          <div class="avatar"><img src="${pageContext.request.contextPath}/resource/img/cotton.jpg"class="img-fluid rounded-circle"></div>
+	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
-	            <h1 class="h5">AIoT Final Project</h1>
-	            <p>Team 2</p>
+	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+	            <p style="color: lightgray">Team 2</p>
 	          </div>
 	        </div>
-	        <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
+	        <!-- Sidebar Navidation Menus--><span class="heading" style="color:lightgray">MENU</span>
 	        <ul class="list-unstyled">
-	          <li><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
-	          <li class="active" style="color: lightskyblue"><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
-
+	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
 	      </nav>
 	      
 	      <div class="page-content">
 	        <!-- Page Header-->
 	        <div class="page-header no-margin-bottom">
 	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom">HISTORY</h2>
+	            <h2 class="h5 no-margin-bottom" style="color: lightgray">HISTORY</h2>
 	          </div>
 	        </div>
 	        <!-- Breadcrumb-->
@@ -188,26 +185,6 @@
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
 			}
-			
-			/*
-				console.log("출력하고 싶은 이미지 번호:",imgDno);
-				var jsonDNO = {"dno":imgDno};
-				jsonDNO = JSON.stringify(jsonDNO);
-				
-				$.ajax({
-					type: "POST",
-					url: "${pageContext.request.contextPath}/home/imageView.do",
-					contentType: "application/json;charset=UTF-8",
-					data : jsonDNO,
-					dataType: "json",
-					success:
-						function(data){
-						console.log(data);
-						 $("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno) 
-				 	} 
-						
-				}); */
-			
 			</script>
 
 	        <section class="no-padding-top">

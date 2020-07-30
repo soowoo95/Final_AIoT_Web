@@ -39,7 +39,7 @@
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
-		 <style>
+		<style>
 			#div1 {font-size:48px;}
 			
 			.no-gutters {
@@ -68,9 +68,9 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
+				client.subscribe("/1jetbot");
+				client.subscribe("/2jetbot");
+				client.subscribe("/3jetbot");
 				client.subscribe("/4cctv");
 				client.subscribe("/sensor");
 			}
@@ -236,16 +236,5 @@
   		      Battery Status: <input id="battery" value="" style="background-color: transparent; border-color: transparent; color: white"/>
   			</div>
   			
-	        
-        <section>
-   		<div class="container-fluid">
-			  <div class="row row-cols-3">
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=car src= "${pageContext.request.contextPath}/resource/img/car.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id="distance" src= "${pageContext.request.contextPath}/resource/img/arrow.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=obstacle src= "${pageContext.request.contextPath}/resource/img/obstacle.png" style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			  </div>
-          </div>
-          </div>
-          </section>
-</body>
+	</body>
 </html>
