@@ -164,7 +164,21 @@
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">MAIN DASHBOARD        </li>
 	          </ul>
 	        </div>
-	      
+	      <section class="no-padding-top">
+	          <div class="container-fluid">
+	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold">
+	            <div class="row row-cols-3">	            
+	                  <div class="col" style="padding-left: 0px; padding-right: 0px; width: 50%; height: 50%;border: 1px solid gold">
+	                  	<img id=faceimg src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
+	                  	</div>
+	                  	<div class="col" style="padding-left: 0px; padding-right: 0px; width: 50%; height: 50%;border: 1px solid gold">
+						<p>안전합니다 여러분!</p>
+						</div>
+	                  </div>
+	                   
+	             </div>
+	             </div>
+	       </section>
  	     <section style="padding-right: 0px">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 600px; height: 600px; margin-top: 20px;">
@@ -191,6 +205,7 @@
 			  <div class="row row-cols-2" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
 			  <img id=jetracer src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;"/>
 			   </div>
+			  
 			</div>
           </div>
         </section>
