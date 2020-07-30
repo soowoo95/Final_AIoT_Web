@@ -8,7 +8,7 @@
 	    <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
-	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
+	    
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    
 	    <script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 	    <!-- Custom stylesheet - for your changes-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
 	    <!-- Favicon-->
-		
+		<link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
