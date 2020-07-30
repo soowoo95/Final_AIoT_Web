@@ -26,7 +26,8 @@
 	    <!-- Favicon-->
 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
 
-		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
@@ -48,9 +49,23 @@
 			    padding-right: 0;
 			    padding-left: 0;
 			  }
-			}
-		 </style>
-		 
+			} 
+			#jetracer {
+		  width: 100px;
+		  height: 100px;
+		  position: relative;
+		  animation: myfirst 5s infinite;
+		  animation-direction: normal;
+		}
+
+			@keyframes myfirst {
+			  0%   {left: 0%; top: 0%;}
+			  25%  {left: 100%; top: 0%;}
+			  50%  {left: 100%; top: 100%;}
+			  75%  {left: 0%; top: 100%;}
+			  100% {left: 0%; top: 0%;}
+		}
+</style>
 		<script>
 			$(function(){
 				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
@@ -84,31 +99,9 @@
 					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
 				if(message.destinationName =="/4cctv") {
-					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					//이미지에 탐지된 클래스에 대한 정보
-					//console.log(obj.Class)
-					
-					obj["witness"]= message.destinationName;
-					
-					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
-						var jsonData = JSON.stringify(obj);
-						$.ajax({
-							type:"POST",
-							url:"${pageContext.request.contextPath}/animal/saveImage.do",
-							contentType: "application/json;charset=UTF-8",
-							dataType: "json",
-							data: jsonData
-						});
-					}
-				}
-				if(message.destinationName =="/sensor") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#Battery").attr("value", obj.Battery);
 				}
 			}
 		</script>		 
@@ -164,16 +157,57 @@
 	      
  	     <section style="padding-right: 0px">
           <div class="container-fluid">
-         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
-			  <div class="row row-cols-2">
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView1 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView2 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView3 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView4 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			  </div>
+         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 600px; height: 600px; margin-top: 20px;">
+			  <div class="row row-cols-3" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position1 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position2 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position3 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position8 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position9 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position4 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position7 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position6 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position5 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
+			   </div>
 			</div>
           </div>
         </section>
-        
+        <section style="padding-right: 0px">
+          <div class="container-fluid">
+         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 800px; width: 600px; height: 600px; margin-top: 20px;">
+         	 
+			  <div class="row row-cols-3" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
+			  <img id=jetracer src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;"/>
+			   </div>
+			</div>
+          </div>
+        </section>
+        <script>
+        count = 0;
+        x = 0;
+        count2 = 0;
+        x2 = 0;
+        x3 = 0;
+        $(document).ready(function() {
+		    setInterval(move,100)
+		    setInterval(move2,100)
+        });
+        function move() {
+        	$("#position"+x).hide();
+        	count++;
+        	x= count%8+1;
+			$("#position"+x).show();
+		}
+        function move2() {
+        	$("#position2"+x3).hide();
+        	count2++;
+        	x2= count2%8+1;
+        	x3= 9-x2
+			$("#position2"+x3).show();
+		}
+        </script>
+        <button onclick="move()">눌러요.</button>
 	</body>
 </html>

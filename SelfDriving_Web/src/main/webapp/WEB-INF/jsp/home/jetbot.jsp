@@ -149,6 +149,7 @@
 	        </div>
 	      
  	     <section style="padding-right: 0px">
+          <div class="col row-cols-2">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
 			  <div class="row row-cols-2">
@@ -159,17 +160,16 @@
 			  </div>
 			</div>
           </div>
-          <div class="container-fluid">
-         	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 200px;">
+        </section>
+        <section>
+   		<div class="container-fluid">
 			  <div class="row row-cols-3">
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=car src= "${pageContext.request.contextPath}/resource/img/car.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id="distance" src= "${pageContext.request.contextPath}/resource/img/arrow.png" style="position:absolute; width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=obstacle src= "${pageContext.request.contextPath}/resource/img/obstacle.png" style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
 			  </div>
-			</div>
           </div>
-           <img id="distance" src="${pageContext.request.contextPath}/resource/img/cat.jpg" style="height:100px">
-        </section>
-
+          </div>
+          </section>
 </body>
 </html>
