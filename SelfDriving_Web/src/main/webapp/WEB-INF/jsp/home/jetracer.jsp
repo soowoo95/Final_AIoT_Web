@@ -108,7 +108,7 @@
 					console.log(obj.Battery);
 					battery = obj.Battery;
 					$("#battery").attr("value", obj.Battery);
-					$("#jetRacerText1").text(obj.Battery);
+					$("#jetRacerText1").text(obj.Battery + "%");
 			      	document.getElementById('jet1Battery').style.width = obj.Battery + '%';
 				}
 			}
@@ -187,7 +187,7 @@
 	                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #1 Battery Status</strong>
 	                    </div> 
 	                    <div class="number dashtext-1" id="jetRacerText1">
-	                    	99
+	                    	99%
 	                    </div>
 	                  </div>
 	                  <div class="progress progress-template">
