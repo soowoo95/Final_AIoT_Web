@@ -26,8 +26,7 @@
 	    <!-- Favicon-->
 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico">
 
-		<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
@@ -110,10 +109,21 @@
 	<body>
 		<header class="header"> 
 	      <nav class="navbar navbar-expand-lg">
+	        <div class="search-panel">
+	          <div class="search-inner d-flex align-items-center justify-content-center">
+	            <div class="close-btn">Close <i class="fa fa-close"></i></div>
+	            <form id="searchForm" action="#">
+	              <div class="form-group">
+	                <input type="search" name="search" placeholder="What are you searching for...">
+	                <button type="submit" class="submit">Search</button>
+	              </div>
+	            </form>
+	          </div>
+	        </div>
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+	              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
 	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
 	          </div>
 	        </div>
@@ -125,19 +135,19 @@
 	      <nav id="sidebar">
 	        <!-- Sidebar Header-->
 	        <div class="sidebar-header d-flex align-items-center">
-	          <div class="avatar"><img src="${pageContext.request.contextPath}/resource/img/cotton.jpg"class="img-fluid rounded-circle"></div>
+	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
-	            <h1 class="h5">AIoT Final Project</h1>
-	            <p>Team 2</p>
+	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+	            <p style="color: lightgray">Team 2</p>
 	          </div>
 	        </div>
-	        <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
+	        <!-- Sidebar Navidation Menus--><span class="heading" style="color:lightgray ;">MENU</span>
 	        <ul class="list-unstyled">
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetbot.do"> <i class="fa fa-bar-chart"></i>JETBOTS </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/history.do"> <i class="icon-grid"></i>HISTORY </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/status.do"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
-	      	</ul>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
 	      </nav>
 	      
 	      <div class="page-content">
@@ -174,11 +184,11 @@
 			</div>
           </div>
         </section>
+        
         <section style="padding-right: 0px">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 800px; width: 600px; height: 600px; margin-top: 20px;">
-         	 
-			  <div class="row row-cols-3" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
+			  <div class="row row-cols-2" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
 			  <img id=jetracer src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;"/>
 			   </div>
 			</div>

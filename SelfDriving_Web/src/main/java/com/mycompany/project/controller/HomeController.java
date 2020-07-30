@@ -53,10 +53,10 @@ public class HomeController {
 		return "home/main";
 	}
 	
-	@RequestMapping("/jetbot.do")
+	@RequestMapping("/jetracer.do")
 	public String jetbot(){
 		LOGGER.info("실행");
-		return "home/jetbot";
+		return "home/jetracer";
 	}
 
 	@RequestMapping("/history.do")
@@ -80,11 +80,6 @@ public class HomeController {
 	public void imageView(@RequestParam int dno,
 						HttpServletResponse response) throws Exception {
 
-/*		Object DNO = jsonDNO.get("dno");
-		LOGGER.info(DNO.toString());
-		
-		int dno = Integer.parseInt((DNO.toString()));
-*/
 		Animal animal = new Animal();
 		animal = animalService.getAnimal(dno);
 		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
@@ -97,36 +92,18 @@ public class HomeController {
 		FileCopyUtils.copy(is, os);
 		os.close();
 		is.close();
-/*		
-		FileInputStream fis = null;
-		FileOutputStream fos = null;
-
-		fis = new FileInputStream(imgLoc);            	// 원본파일
-		String newAddr = "C:/MyWorkspace/git2/Final_AIoT_Web/SelfDriving_Web/src/main/webapp/resource/img/tempImg/attack.jpg";
-		fos = new FileOutputStream(newAddr);   			// 복사위치
-		   
-		byte[] buffer = new byte[1024];
-		int readcount = 0;
-		  
-		while((readcount=fis.read(buffer)) != -1) {
-			fos.write(buffer, 0, readcount);    		// 파일 복사 
-		}
-		
-		fis.close();
-		fos.close();
-		
-		newAddr = newAddr.replace("C:/MyWorkspace/git2/Final_AIoT_Web/SelfDriving_Web/src/main/webapp/resource/img/tempImg", "");
-
-		PrintWriter pw = response.getWriter();
-		pw.write(newAddr);
-		pw.flush();
-		pw.close();	*/
 	}
 
 	@RequestMapping("/status.do")
 	public String status(){
 		LOGGER.info("실행");
 		return "home/status";
+	}
+	
+	@RequestMapping("/analysis.do")
+	public String analysis(){
+		LOGGER.info("실행");
+		return "home/analysis";
 	}
 	
 	@PostMapping("/getAnimalList.do")
