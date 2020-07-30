@@ -24,7 +24,7 @@
 	    <!-- Custom stylesheet - for your changes-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
 	    <!-- Favicon-->
-<!-- 	    <link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/img/favicon.ico"> -->
+		<link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 		
 <!-- 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script> -->
 		
@@ -228,7 +228,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="width: 720px; height: 380px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; height: 380px"/>
 	                  </div>
 	                </div>
 	              </div>
@@ -272,7 +272,7 @@
 	                <div class="block">
 	                  <div class="title"><strong>Driving Situation | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 380px; width: 720px"/>
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 380px; max-width:100%"/>
 	                  </div>
 	                </div>
 	              </div>
