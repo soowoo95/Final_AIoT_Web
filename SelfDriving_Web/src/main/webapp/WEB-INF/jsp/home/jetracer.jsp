@@ -1,11 +1,12 @@
-﻿<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
   <head> 
-	    <meta charset="utf-8">
+  
+  		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,9 +38,10 @@
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-		 <style>
+		
+		<style>
 			#div1 {font-size:48px;}
+			
 			.no-gutters {
 			  margin-right: 0;
 			  margin-left: 0;
@@ -49,7 +51,13 @@
 			    padding-left: 0;
 			  }
 			}
-		 </style>
+			
+			.raphael-group-LubRMsVW{
+				opacity: 0;
+				width: 0px;
+			
+			}
+		</style>
 		 
 		<script>
 			$(function(){
@@ -60,55 +68,47 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
+				client.subscribe("/1jetbot");
+				client.subscribe("/2jetbot");
+				client.subscribe("/3jetbot");
 				client.subscribe("/4cctv");
 				client.subscribe("/sensor");
 			}
 			
+			var battery = null;
+			
 			function onMessageArrived(message) {
- 				if(message.destinationName =="/1cctv") {
+				console.log("mqtt broker connected")
+				
+ 				if(message.destinationName =="/1jetbot") {
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					$("#jetbotView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
-				if(message.destinationName =="/2cctv") {
+				if(message.destinationName =="/2jetbot") {
+					console.log("mqtt broker connected")
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					$("#jetbotView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
-				if(message.destinationName =="/3cctv") {
+				if(message.destinationName =="/3jetbot") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					$("#jetbotView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 				if(message.destinationName =="/4cctv") {
-					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					//이미지에 탐지된 클래스에 대한 정보
-					//console.log(obj.Class)
-					
-					obj["witness"]= message.destinationName;
-					
-					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
-						var jsonData = JSON.stringify(obj);
-						$.ajax({
-							type:"POST",
-							url:"${pageContext.request.contextPath}/animal/saveImage.do",
-							contentType: "application/json;charset=UTF-8",
-							dataType: "json",
-							data: jsonData
-						});
-					}
+					$("#jetbotView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 				if(message.destinationName =="/sensor") {
+					console.log(message.destinationName)
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#Battery").attr("value", obj.Battery);
+					console.log(obj.Battery);
+					battery = obj.Battery;
+					$("#battery").attr("value", obj.Battery);
+			      	document.getElementById('jet1Battery').style.width = obj.Battery + '%';
 				}
 			}
 		</script>		 
@@ -151,8 +151,8 @@
 	        </div>
 	        <!-- Sidebar Navidation Menus--><span class="heading" style="color:lightgray ;">MENU</span>
 	        <ul class="list-unstyled">
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
@@ -161,7 +161,7 @@
 	      <div class="page-content">
 	     	<div class="page-header no-margin-bottom">
 	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom" style="color: lightgray">MAIN DASHBOARD</h2>
+	            <h2 class="h5 no-margin-bottom" style="color: lightgray">JET-RACERS</h2>
 	          </div>
 	        </div>
 	        <!-- Breadcrumb-->
@@ -169,22 +169,72 @@
 	          <ul class="breadcrumb" style="background-color:transparent;">
 	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: 20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
 	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">MAIN DASHBOARD        </li>
+	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">JET-RACERS        </li>
 	          </ul>
 	        </div>
-	      
- 	     <section style="padding-right: 0px">
-          <div class="container-fluid">
-         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
-			  <div class="row row-cols-2">
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView1 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView2 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView3 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=cameraView4 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			  </div>
-			</div>
-          </div>
-        </section>
-        
+
+	      	<section class="no-padding-top no-padding-bottom">
+	          <div class="container-fluid">
+	            <div class="row">
+	              <div class="col-md-3 col-sm-6">
+	                <div class="statistic-block block">
+	                  <div class="progress-details d-flex align-items-end justify-content-between">
+	                    <div class="title">
+	                      <div class="icon"><i class="icon-user-1"></i></div><strong>Jet-Racer #1</strong>
+	                    </div>
+	                    <div class="number dashtext-1">33</div>
+	                  </div>
+	                  <div class="progress progress-template">
+	                    <div id="jet1Battery" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-md-3 col-sm-6">
+	                <div class="statistic-block block">
+	                  <div class="progress-details d-flex align-items-end justify-content-between">
+	                    <div class="title">
+	                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #2</strong>
+	                    </div>
+	                    <div class="number dashtext-2">375</div>
+	                  </div>
+	                  <div class="progress progress-template">
+	                    <div id="jet2Battery" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-md-3 col-sm-6">
+	                <div class="statistic-block block">
+	                  <div class="progress-details d-flex align-items-end justify-content-between">
+	                    <div class="title">
+	                      <div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Jet-Racer #3</strong>
+	                    </div>
+	                    <div class="number dashtext-3">140</div>
+	                  </div>
+	                  <div class="progress progress-template">
+	                    <div id="jet3Battery" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </section>
+	              
+            <section style="padding-right: 0px">
+	          <div class="container-fluid">
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
+				  <div class="row row-cols-2">
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView1 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView2 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView3 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView4 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+				  </div>
+				</div>
+	          </div>
+	        </section>
+	        
+           	<div style="margin-top: 650px; margin-left: 30px; color: white">
+  		      Battery Status: <input id="battery" value="" style="background-color: transparent; border-color: transparent; color: white"/>
+  			</div>
+  			
 	</body>
 </html>
