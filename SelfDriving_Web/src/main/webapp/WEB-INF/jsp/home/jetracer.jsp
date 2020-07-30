@@ -108,6 +108,7 @@
 					console.log(obj.Battery);
 					battery = obj.Battery;
 					$("#battery").attr("value", obj.Battery);
+					$("#jetRacerText1").text(obj.Battery);
 			      	document.getElementById('jet1Battery').style.width = obj.Battery + '%';
 				}
 			}
@@ -172,7 +173,10 @@
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">JET-RACERS        </li>
 	          </ul>
 	        </div>
-
+<!-- 	        
+			<input 	value="Jet Racer Battery Status" 
+					style="background-color: transparent; border-color: transparent; color: lightgray; font-size: x-large; margin-left: 30px; margin-top: 10px; margin-bottom:10px; font-weight: bold;"/>
+	    -->   	
 	      	<section class="no-padding-top no-padding-bottom">
 	          <div class="container-fluid">
 	            <div class="row">
@@ -180,12 +184,14 @@
 	                <div class="statistic-block block">
 	                  <div class="progress-details d-flex align-items-end justify-content-between">
 	                    <div class="title">
-	                      <div class="icon"><i class="icon-user-1"></i></div><strong>Jet-Racer #1</strong>
+	                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #1 Battery Status</strong>
+	                    </div> 
+	                    <div class="number dashtext-1" id="jetRacerText1">
+	                    	99
 	                    </div>
-	                    <div class="number dashtext-1">33</div>
 	                  </div>
 	                  <div class="progress progress-template">
-	                    <div id="jet1Battery" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+	                    <div id="jet1Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
 	                  </div>
 	                </div>
 	              </div>
@@ -193,12 +199,12 @@
 	                <div class="statistic-block block">
 	                  <div class="progress-details d-flex align-items-end justify-content-between">
 	                    <div class="title">
-	                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #2</strong>
+	                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #2 Battery Status</strong>
 	                    </div>
-	                    <div class="number dashtext-2">375</div>
+	                    <div class="number dashtext-2">75</div>
 	                  </div>
 	                  <div class="progress progress-template">
-	                    <div id="jet2Battery" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+	                    <div id="jet2Battery" role="progressbar" style="width: 75%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
 	                  </div>
 	                </div>
 	              </div>
@@ -206,18 +212,22 @@
 	                <div class="statistic-block block">
 	                  <div class="progress-details d-flex align-items-end justify-content-between">
 	                    <div class="title">
-	                      <div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Jet-Racer #3</strong>
+	                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #3 Battery Status</strong>
 	                    </div>
-	                    <div class="number dashtext-3">140</div>
+	                    <div class="number dashtext-3">30</div>
 	                  </div>
 	                  <div class="progress progress-template">
-	                    <div id="jet3Battery" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
+	                    <div id="jet3Battery" role="progressbar" style="width: 30%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
 	                  </div>
 	                </div>
 	              </div>
 	            </div>
 	          </div>
 	        </section>
+	        
+	        <div style="margin-left: 30px; color: white">
+  		      Random Battery Status : <input id="battery" value="" style="background-color: transparent; border-color: transparent; color: white"/>
+  			</div>
 	              
             <section style="padding-right: 0px">
 	          <div class="container-fluid">
@@ -232,9 +242,7 @@
 	          </div>
 	        </section>
 	        
-           	<div style="margin-top: 650px; margin-left: 30px; color: white">
-  		      Battery Status: <input id="battery" value="" style="background-color: transparent; border-color: transparent; color: white"/>
-  			</div>
+           	
   			
 	</body>
 </html>
