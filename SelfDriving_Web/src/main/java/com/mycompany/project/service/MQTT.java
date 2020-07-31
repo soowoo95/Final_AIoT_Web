@@ -21,10 +21,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.LoggerFactory;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.project.dao.AnimalDao;
 import com.mycompany.project.model.Animal;
@@ -119,7 +119,7 @@ public class MQTT implements MqttCallback{
 			Client.subscribe(topic,qos);
 //			Client.subscribe("/1cctv",qos);
 			//Client.subscribe("/2cctv",qos);
-			Client.subscribe("/3cctv",qos);
+			//Client.subscribe("/3cctv",qos);
 //			Client.subscribe("/4cctv",qos);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
@@ -135,11 +135,11 @@ public class MQTT implements MqttCallback{
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
 		this.publish("ok", 0, "/network");
     	LOGGER.info("Message arrived : " +topic);
-		/*
+		
     	ObjectMapper mapper = new ObjectMapper();
     	String json = new String(mqttMessage.getPayload());
     	Map<String, Object> map = new HashMap<String, Object>();
-    	map = mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>(){});
+    	map = mapper.readValue(json, new TypeReference<Map<String, Object>>(){});
     	//System.out.println(map);
     	
     	//찾은 객체 이름를 저장온다 경로에 넣으려면 /는 없어져야겠지
@@ -179,8 +179,8 @@ public class MQTT implements MqttCallback{
 			animal.setDname(listString);
 			animal.setDnum(clss.size());
 			animal.setDfinder(dfinder);
-	    	//animalDao.insert(animal);
-    	}*/
+	    	animalDao.insert(animal);
+    	}
     }
 
 	@Override
