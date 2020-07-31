@@ -86,6 +86,7 @@ public class MQTT implements MqttCallback{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.publish("ok", 0, "/network");
 	}
 	
 	public void disconnect(){
@@ -98,12 +99,12 @@ public class MQTT implements MqttCallback{
 		}
 	}
 	
-	public void publish(String msg, int qos){
+	public void publish(String msg, int qos,String restopic){
 		message.setQos(qos);
 		message.setPayload(msg.getBytes());
 		
 		try {
-			Client.publish(topic, message);
+			Client.publish(restopic, message);
 		} catch (MqttPersistenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,10 +117,10 @@ public class MQTT implements MqttCallback{
 	public void subscribe(int qos){
 		try {
 			Client.subscribe(topic,qos);
-			Client.subscribe("/1cctv",qos);
-			Client.subscribe("/2cctv",qos);
+//			Client.subscribe("/1cctv",qos);
+			//Client.subscribe("/2cctv",qos);
 			Client.subscribe("/3cctv",qos);
-			Client.subscribe("/4cctv",qos);
+//			Client.subscribe("/4cctv",qos);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,8 +133,9 @@ public class MQTT implements MqttCallback{
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-    	//LOGGER.info("Message arrived : " +topic);
-		
+		this.publish("ok", 0, "/network");
+    	LOGGER.info("Message arrived : " +topic);
+		/*
     	ObjectMapper mapper = new ObjectMapper();
     	String json = new String(mqttMessage.getPayload());
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -177,8 +179,8 @@ public class MQTT implements MqttCallback{
 			animal.setDname(listString);
 			animal.setDnum(clss.size());
 			animal.setDfinder(dfinder);
-	    	animalDao.insert(animal);
-    	}
+	    	//animalDao.insert(animal);
+    	}*/
     }
 
 	@Override
