@@ -10,6 +10,11 @@
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    
+	    <script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
+		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+		
 	    <!--  Template 관련 설정 파일들 -->
 	    <!-- Bootstrap CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
@@ -28,12 +33,8 @@
 		
 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
 		
-		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+		
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jQueryRotate.js"></script>
 		
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
@@ -61,17 +62,33 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
+				
 				client.subscribe("/1cctv");
 				client.subscribe("/2cctv");
 				client.subscribe("/3cctv");
 				client.subscribe("/4cctv");
+				
+				//subscriber 연결됐다고 메세지 발행해서 알리자
+ 				message = new Paho.MQTT.Message('newSub');
+				message.destinationName = "/sub/connected";
+				client.send(message);
+				console.log("연결됐다고 알림!");
 			}
 			
 			function onMessageArrived(message) {
+				//console.log(message);
+				
+				//message 연결됐다고 메세지 발행해서 알리자
+ 				message1 = new Paho.MQTT.Message('rec');
+				message1.destinationName = "/sub/received";
+				client.send(message1);
+				console.log("받았다고 알림!");
+				
  				if(message.destinationName =="/1cctv") {
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
+					
 					
 					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 					
@@ -122,8 +139,8 @@
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
-					
-					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+
+
 					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 					
 					if (obj.Class.length != 0){
@@ -223,7 +240,7 @@
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
-					
+
 					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 					//이미지에 탐지된 클래스에 대한 정보
 					//console.log(obj.Class)
