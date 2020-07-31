@@ -49,11 +49,13 @@
 			    padding-left: 0;
 			  }
 			}
-			
-			.raphael-group-LubRMsVW{
-				opacity: 0;
-				width: 0px;
-			
+			.center {
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  height: 50px;
+			  font-size: 30px;
+			  font-weight: bold; 
 			}
 		</style>
 		 
@@ -173,10 +175,11 @@
 	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">JET-RACERS        </li>
 	          </ul>
 	        </div>
-<!-- 	        
-			<input 	value="Jet Racer Battery Status" 
-					style="background-color: transparent; border-color: transparent; color: lightgray; font-size: x-large; margin-left: 30px; margin-top: 10px; margin-bottom:10px; font-weight: bold;"/>
-	    -->   	
+	        
+			<div style="margin-left: 30px; color: white">
+  		      Random Battery Status : <input id="battery" value="" style="background-color: transparent; border-color: transparent; color: white"/>
+  			</div>
+  			
 	      	<section class="no-padding-top no-padding-bottom">
 	          <div class="container-fluid">
 	            <div class="row">
@@ -224,12 +227,10 @@
 	            </div>
 	          </div>
 	        </section>
-	        
-	        <div style="margin-left: 30px; color: white">
-  		      Random Battery Status : <input id="battery" value="" style="background-color: transparent; border-color: transparent; color: white"/>
-  			</div>
+
+  			<div class="center">Line Tracing Status</div>
 	              
-            <section style="padding-right: 0px">
+            <section style="padding-right: 0px; margin-left: 400px">
 	          <div class="container-fluid">
 	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px; height: 600px; margin-top: 20px;">
 				  <div class="row row-cols-2">

@@ -32,8 +32,7 @@
 	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 		
 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-		
-		
+
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 		
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
@@ -50,6 +49,14 @@
 			    padding-right: 0;
 			    padding-left: 0;
 			  }
+			}
+			.center {
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  height: 100px;
+			  font-size: 50px;
+			  font-weight: bold; 
 			}
 		</style>
 		 
@@ -76,8 +83,8 @@
 			}
 			
 			function onMessageArrived(message) {
-				//console.log(message);
-				
+				//console.log(typeof(message));
+
 				//message 연결됐다고 메세지 발행해서 알리자
  				message1 = new Paho.MQTT.Message('rec');
 				message1.destinationName = "/sub/received";
@@ -89,11 +96,10 @@
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
 					
-					
 					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 					
 					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
+						//console.log(obj.Class.length);
 						
 						$("#c1Obj").attr("value", obj.Class);
 						document.getElementById('c1Obj').style.color = '#DB6574';
@@ -144,7 +150,7 @@
 					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 					
 					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
+						//console.log(obj.Class.length);
 						
 						$("#c2Obj").attr("value", obj.Class);
 						document.getElementById('c2Obj').style.color = '#DB6574';
@@ -194,7 +200,7 @@
 					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 					
 					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
+						//console.log(obj.Class.length);
 						
 						$("#c3Obj").attr("value", obj.Class);
 						document.getElementById('c3Obj').style.color = '#DB6574';
@@ -246,7 +252,7 @@
 					//console.log(obj.Class)
 
 					if (obj.Class.length != 0){
-						console.log(obj.Class.length);
+						//console.log(obj.Class.length);
 						
 						$("#c4Obj").attr("value", obj.Class);
 						document.getElementById('c4Obj').style.color = '#DB6574';
@@ -353,6 +359,8 @@
 	          </ul>
 	        </div>
 	      
+	     <div class="center" >ddddddd</div>
+	     
 	     <section style="padding-right: 0px">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 760px; height: 600px;">
@@ -381,7 +389,7 @@
           </div>
         </section>
        
-       <div style="border-color: transparent; margin-top: 660px; height: 300px">
+       <div style="border-color: transparent; margin-top: 660px; height: 300px;">
 	       <div class="container" style="background-color: #22252a">
 			  <h2 style="color: white; margin-left: 240px; font-size: x-large">Brief Report of Detection Situation</h2>           
 			  <table class="table hover">
@@ -422,7 +430,7 @@
 			  </table>
 			</div>
    		</div>
-   		
+
    	<!-- JavaScript files-->
     <!-- <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery/jquery.min.js"></script> -->
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
@@ -430,7 +438,7 @@
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
 	<!--     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/chart.js/Chart.min.js"></script> -->
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-<!--     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
+	<!--     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
  
     </body>
