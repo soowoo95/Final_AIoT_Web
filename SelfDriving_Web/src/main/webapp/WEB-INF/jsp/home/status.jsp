@@ -76,21 +76,40 @@
 				client.subscribe("/4cctv");
 				
 				//subscriber 연결됐다고 메세지 발행해서 알리자
- 				message = new Paho.MQTT.Message('newSub');
-				message.destinationName = "/sub/connected";
-				client.send(message);
-				console.log("연결됐다고 알림!");
+				message2 = new Paho.MQTT.Message("value:ok");
+				message2.destinationName = "/network";
+				client.send(message2);
 			}
-			
+			 $(document).ready(function() {
+			    setInterval(getinterval, 1000);
+			});  
+			    var lastSendtime=Date.now();
+			 function getinterval(){
+				interval= Date.now()-lastSendtime;
+					if(interval>3000){
+						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						response();
+					}
+			}
+			function response(){
+				console.log("답장을 보내요.")
+				  message = new Paho.MQTT.Message("value:ok");
+				  message.destinationName = "/network";
+				  client.send(message);
+			}  
 			function onMessageArrived(message) {
+				console.log("메세지가 왔어요.")
+				
+					   
 				//console.log(typeof(message));
 
 				//message 연결됐다고 메세지 발행해서 알리자
- 				message1 = new Paho.MQTT.Message('rec');
+  				message1 = new Paho.MQTT.Message('rec');
 				message1.destinationName = "/sub/received";
 				client.send(message1);
-				console.log("받았다고 알림!");
-				
+				 
+				 console.log("받았다고 알림!");
+				 
  				if(message.destinationName =="/1cctv") {
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -142,6 +161,17 @@
 				}
  				
 				if(message.destinationName =="/2cctv") {
+					// 주어진 시간동안 잠을자는 동기화된 ajax
+					$.ajax({
+						   type: "POST",
+						   url: "${pageContext.request.contextPath}/home/sleep.do",
+						   async : false,
+						   success: 
+							   function(){
+							   console.log("1초간잘잤다");
+							   response();
+						    }});
+					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -193,7 +223,20 @@
 				}
 				
 				if(message.destinationName =="/3cctv") {
-					const json = message.payloadString;
+					console.log("3cctv야");
+					lastSendtime=Date.now();
+					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					// 주어진 시간동안 잠을자는 동기화된 ajax
+					$.ajax({
+						   type: "POST",
+						   url: "${pageContext.request.contextPath}/home/sleep.do",
+						   async : false,
+						   success: 
+							   function(){
+							   console.log("초간잘잤다");
+							   response();
+						    }});
+					/* const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
 					
@@ -239,9 +282,9 @@
 						document.getElementById('c3Loc').style.fontSize = '15px';
 
 						document.getElementById('cameraView3').style.border = 'inactiveborder';
-					}
-				}
-				
+					} 
+				}*/
+			}
 				if(message.destinationName =="/4cctv") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);

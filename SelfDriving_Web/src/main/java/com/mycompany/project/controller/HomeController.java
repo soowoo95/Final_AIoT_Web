@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.tomcat.jni.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class HomeController {
 		model.addAttribute("animal",animalList);
 		return "home/history";
 	}
-
+	
 	@RequestMapping("/imageView.do")
 	@ResponseBody
 	public void imageView(@RequestParam int dno,
@@ -116,5 +117,17 @@ public class HomeController {
 			animal.setDfinder(animal.getDfinder().replace("/", ""));
 		}
 		return animallist;
+	}
+
+	@RequestMapping("/sleep.do")
+	@ResponseBody
+	public void sleep() {
+		try {
+			//주어진 time millisecond만큼 잠든다.
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// 트라이-캐치
+			e.printStackTrace();
+		}
 	}
 }
