@@ -2,6 +2,9 @@ package com.mycompany.project.controller;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import org.apache.tomcat.jni.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mycompany.project.service.MQTT;
 import com.mycompany.project.model.Animal;
 import com.mycompany.project.service.AnimalService;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/home") 
@@ -118,7 +124,7 @@ public class HomeController {
 		}
 		return animallist;
 	}
-
+	
 	@RequestMapping("/sleep.do")
 	@ResponseBody
 	public void sleep() {
@@ -130,4 +136,11 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/getipaddress.do")
+	@ResponseBody
+	public static String getClientIP(HttpServletRequest request) throws UnknownHostException {
+		InetAddress IP=InetAddress.getLocalHost();
+		return IP.getHostAddress();
+	}
+	
 }

@@ -38,7 +38,8 @@
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		 
+		
+		
 		<style>
 			#div1 {font-size:48px;}
 			.no-gutters {
@@ -59,10 +60,13 @@
 			  font-weight: bold; 
 			}
 		</style>
-		 
+		 <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
+
 		<script>
+		let ipid;
 			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+				ipid = new Date().getTime().toString()
+				client = new Paho.MQTT.Client("192.168.3.136", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -82,19 +86,19 @@
 				console.log("연결됐다고 알림!");
 			}
 			$(document).ready(function() {
-			    setInterval(getinterval, 1000);
+			    setInterval(getinterval, 750);
 			});  
 			    var lastSendtime=Date.now();
 			 function getinterval(){
 				interval= Date.now()-lastSendtime;
-					if(interval>3000){
+					if(interval>1000){
 						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 						response();
 					}
 			}
 			function response(){
 				console.log("답장을 보내요.")
-				  message = new Paho.MQTT.Message("value:ok");
+				  message = new Paho.MQTT.Message("value:ok:"+ipid);
 				  message.destinationName = "/network";
 				  client.send(message);
 			}
@@ -160,7 +164,7 @@
  				
 				if(message.destinationName =="/2cctv") {
 					// 주어진 시간동안 잠을자는 동기화된 ajax
-					$.ajax({
+					/* $.ajax({
 						   type: "POST",
 						   url: "${pageContext.request.contextPath}/home/sleep.do",
 						   async : false,
@@ -168,7 +172,8 @@
 							   function(){
 							   console.log("1초간잘잤다");
 							   response();
-						    }});
+						    }}); */
+					response();
 					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -221,12 +226,14 @@
 				}
 				
 				if(message.destinationName =="/3cctv") {
-					const json = message.payloadString;
+					/* const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
-					
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					
+					 */
+					response();
+					lastSendtime=Date.now();
+					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					/* 
 					if (obj.Class.length != 0){
 						//console.log(obj.Class.length);
 						
@@ -267,7 +274,7 @@
 						document.getElementById('c3Loc').style.fontSize = '15px';
 
 						document.getElementById('cameraView3').style.border = 'inactiveborder';
-					}
+					} */
 				}
 				
 				if(message.destinationName =="/4cctv") {
