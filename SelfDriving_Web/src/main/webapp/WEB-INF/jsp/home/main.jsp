@@ -63,6 +63,9 @@
 			  75%  {left: 0%; top: 100%;}
 			  100% {left: 0%; top: 0%;}
 		}
+		body{
+		font-size: 16px;
+		}
 </style>
 		<script>
 			$(function(){
@@ -173,7 +176,7 @@
 	                  	<img id=faceimg src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
 	                  	</div>
 	                  	<div class="col" style="padding-left: 0px; padding-right: 0px; width: 50%; height: 50%;border: 1px solid gold">
-						<p>안전합니다 여러분!</p>
+						<p style="font-size: 3rem">안전합니다 여러분!</p>
 						</div>
 	                  </div>
 	                   

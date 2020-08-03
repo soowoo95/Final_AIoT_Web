@@ -86,7 +86,6 @@ public class MQTT implements MqttCallback{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.publish("ok", 0, "/network");
 	}
 	
 	public void disconnect(){
@@ -117,10 +116,10 @@ public class MQTT implements MqttCallback{
 	public void subscribe(int qos){
 		try {
 			Client.subscribe(topic,qos);
-//			Client.subscribe("/1cctv",qos);
-			//Client.subscribe("/2cctv",qos);
-			//Client.subscribe("/3cctv",qos);
-//			Client.subscribe("/4cctv",qos);
+			Client.subscribe("/1cctv",qos);
+			Client.subscribe("/2cctv",qos);
+			Client.subscribe("/3cctv",qos);
+			Client.subscribe("/4cctv",qos);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,8 +132,7 @@ public class MQTT implements MqttCallback{
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-		this.publish("ok", 0, "/network");
-    	LOGGER.info("Message arrived : " +topic);
+		LOGGER.info("Message arrived : " +topic);
 		
     	ObjectMapper mapper = new ObjectMapper();
     	String json = new String(mqttMessage.getPayload());
