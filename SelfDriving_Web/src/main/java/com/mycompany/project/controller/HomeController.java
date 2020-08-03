@@ -43,9 +43,9 @@ public class HomeController {
 		String passwd = "12345";	
 		String topic = "/*";
 	
-		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
+/*		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
 		ReadFromOtherMQTT.init(topic);
-		ReadFromOtherMQTT.subscribe(0);
+		ReadFromOtherMQTT.subscribe(0);*/
 	}
 	
 	@RequestMapping("/main.do")
