@@ -76,40 +76,21 @@
 				client.subscribe("/4cctv");
 				
 				//subscriber 연결됐다고 메세지 발행해서 알리자
-				message2 = new Paho.MQTT.Message("value:ok");
-				message2.destinationName = "/network";
-				client.send(message2);
+ 				message = new Paho.MQTT.Message('newSub');
+				message.destinationName = "/sub/connected";
+				client.send(message);
+				console.log("연결됐다고 알림!");
 			}
-			 $(document).ready(function() {
-			    setInterval(getinterval, 1000);
-			});  
-			    var lastSendtime=Date.now();
-			 function getinterval(){
-				interval= Date.now()-lastSendtime;
-					if(interval>3000){
-						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
-						response();
-					}
-			}
-			function response(){
-				console.log("답장을 보내요.")
-				  message = new Paho.MQTT.Message("value:ok");
-				  message.destinationName = "/network";
-				  client.send(message);
-			}  
+			
 			function onMessageArrived(message) {
-				console.log("메세지가 왔어요.")
-				
-					   
 				//console.log(typeof(message));
 
 				//message 연결됐다고 메세지 발행해서 알리자
-  				message1 = new Paho.MQTT.Message('rec');
+ 				message1 = new Paho.MQTT.Message('rec');
 				message1.destinationName = "/sub/received";
 				client.send(message1);
-				 
-				 console.log("받았다고 알림!");
-				 
+				console.log("받았다고 알림!");
+				
  				if(message.destinationName =="/1cctv") {
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -161,17 +142,6 @@
 				}
  				
 				if(message.destinationName =="/2cctv") {
-					// 주어진 시간동안 잠을자는 동기화된 ajax
-					$.ajax({
-						   type: "POST",
-						   url: "${pageContext.request.contextPath}/home/sleep.do",
-						   async : false,
-						   success: 
-							   function(){
-							   console.log("1초간잘잤다");
-							   response();
-						    }});
-					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -223,20 +193,7 @@
 				}
 				
 				if(message.destinationName =="/3cctv") {
-					console.log("3cctv야");
-					lastSendtime=Date.now();
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-					// 주어진 시간동안 잠을자는 동기화된 ajax
-					$.ajax({
-						   type: "POST",
-						   url: "${pageContext.request.contextPath}/home/sleep.do",
-						   async : false,
-						   success: 
-							   function(){
-							   console.log("초간잘잤다");
-							   response();
-						    }});
-					/* const json = message.payloadString;
+					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
 					
@@ -282,9 +239,9 @@
 						document.getElementById('c3Loc').style.fontSize = '15px';
 
 						document.getElementById('cameraView3').style.border = 'inactiveborder';
-					} 
-				}*/
-			}
+					}
+				}
+				
 				if(message.destinationName =="/4cctv") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -385,6 +342,7 @@
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li class="active"><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	      	  <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
+	      	 </ul>
 	      </nav>
 	      
 	      <div class="page-content">
@@ -402,12 +360,12 @@
 	          </ul>
 	        </div>
 	      
-	     <div class="center" >ddddddd</div>
+	     <div class="center" >실시간 유해동물 탐지 현황</div>
 	     
 	     <section style="padding-right: 0px">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 760px; height: 600px;">
-         	  <input value="실시간 JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 250px ;border-color: transparent; font-weight: bold;"/>
+         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 250px ;border-color: transparent; font-weight: bold;"/>
 			  <div class="row row-cols-2">
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=jetView1 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=jetView2 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
@@ -421,7 +379,7 @@
         <section style="padding-right: 0px">
           <div class="container-fluid">
          	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 780px; width: 760px; height: 600px;">
-         	  <input value="실시간 CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 250px ;border-color: transparent; font-weight: bold;"/>
+         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 250px ;border-color: transparent; font-weight: bold;"/>
 			  <div class="row row-cols-2">
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=cameraView1 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
 			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=cameraView2 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
@@ -434,7 +392,7 @@
        
        <div style="border-color: transparent; margin-top: 660px; height: 300px;">
 	       <div class="container" style="background-color: #22252a">
-			  <h2 style="color: white; margin-left: 240px; font-size: x-large">Brief Report of Detection Situation</h2>           
+			  <h2 style="color: white; margin-left: 300px; font-size: x-large">Brief Report of Detection Situation</h2>           
 			  <table class="table hover">
 			    <thead>
 			      <tr>
