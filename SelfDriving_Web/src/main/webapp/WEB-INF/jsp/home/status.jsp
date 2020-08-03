@@ -81,7 +81,24 @@
 				client.send(message);
 				console.log("연결됐다고 알림!");
 			}
-			
+			$(document).ready(function() {
+			    setInterval(getinterval, 1000);
+			});  
+			    var lastSendtime=Date.now();
+			 function getinterval(){
+				interval= Date.now()-lastSendtime;
+					if(interval>3000){
+						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						response();
+					}
+			}
+			function response(){
+				console.log("답장을 보내요.")
+				  message = new Paho.MQTT.Message("value:ok");
+				  message.destinationName = "/network";
+				  client.send(message);
+			}
+
 			function onMessageArrived(message) {
 				//console.log(typeof(message));
 
@@ -142,6 +159,17 @@
 				}
  				
 				if(message.destinationName =="/2cctv") {
+					// 주어진 시간동안 잠을자는 동기화된 ajax
+					$.ajax({
+						   type: "POST",
+						   url: "${pageContext.request.contextPath}/home/sleep.do",
+						   async : false,
+						   success: 
+							   function(){
+							   console.log("1초간잘잤다");
+							   response();
+						    }});
+					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
