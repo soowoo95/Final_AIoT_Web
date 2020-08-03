@@ -66,7 +66,7 @@ public class HomeController {
 		return "home/jetracer";
 	}
 
-	@RequestMapping("/history.do")
+/*	@RequestMapping("/history.do")
 	public String history(Model model) {
 		LOGGER.info("실행");
 		
@@ -80,7 +80,7 @@ public class HomeController {
 		}
 		model.addAttribute("animal",animalList);
 		return "home/history";
-	}
+	}*/
 	
 	@RequestMapping("/imageView.do")
 	@ResponseBody
@@ -125,6 +125,20 @@ public class HomeController {
 		return animallist;
 	}
 	
+	@RequestMapping("/history.do")
+	public String his1(Model model, @RequestParam(defaultValue="1")int pageNo, 
+						@RequestParam(defaultValue="7") int rowsPerPage,
+						HttpSession httpSession) {
+		LOGGER.info("실행");
+		
+		Pager pager = new Pager(rowsPerPage, 5, animalService.getTotalListNo(), pageNo);
+		model.addAttribute("pager", pager);
+		httpSession.setAttribute("pager", pager);
+		
+		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
+		return "home/history";
+	}
+
 	@RequestMapping("/sleep.do")
 	@ResponseBody
 	public void sleep() {
@@ -135,12 +149,5 @@ public class HomeController {
 			// 트라이-캐치
 			e.printStackTrace();
 		}
-	}
-	@RequestMapping("/getipaddress.do")
-	@ResponseBody
-	public static String getClientIP(HttpServletRequest request) throws UnknownHostException {
-		InetAddress IP=InetAddress.getLocalHost();
-		return IP.getHostAddress();
-	}
-	
+	}	
 }
