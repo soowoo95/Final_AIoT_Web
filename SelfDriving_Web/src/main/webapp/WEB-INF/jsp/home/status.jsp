@@ -60,8 +60,10 @@
 		</style>
 		 
 		<script>
+		let ipid;
 			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+				ipid = new Date().getTime().toString()
+				client = new Paho.MQTT.Client("192.168.3.136", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -81,12 +83,12 @@
 				console.log("연결됐다고 알림!");
 			}
 			$(document).ready(function() {
-			    setInterval(getinterval, 1000);
+			    setInterval(getinterval, 750);
 			});  
 			    var lastSendtime=Date.now();
 			 function getinterval(){
 				interval= Date.now()-lastSendtime;
-					if(interval>3000){
+					if(interval>750){
 						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 						response();
 					}

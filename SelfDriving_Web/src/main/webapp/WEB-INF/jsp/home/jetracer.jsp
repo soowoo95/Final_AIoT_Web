@@ -57,6 +57,11 @@
 			  font-size: 30px;
 			  font-weight: bold; 
 			}
+			.jetToggle {
+			justify-content: center; 
+			align-content: center;
+			
+			}
 		</style>
 		 
 		<script>
@@ -96,17 +101,13 @@
 					const obj = JSON.parse(json);
 					$("#jetbotView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
-				if(message.destinationName =="/4cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#jetbotView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
 				if(message.destinationName =="/sensor") {
 					console.log(message.destinationName)
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					console.log(obj.Battery);
 					battery = obj.Battery;
+					
 					$("#battery1").attr("value", obj.Battery);
 					$("#jetRacerText1").text(obj.Battery + "%");
 			      	document.getElementById('jet1Battery').style.width = obj.Battery + '%';
@@ -124,15 +125,24 @@
 	</head>
 	
 	<body>
-		<header class="header"> 
+		<header class="header">   
 	      <nav class="navbar navbar-expand-lg">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
-	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
-	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
+	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
+		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
+		         </a>
 	            <!-- Sidebar Toggle Btn-->
-            	  <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	          </div>
+	          <div class="right-menu list-inline no-margin-bottom">    
+	            <!-- Languages dropdown    -->
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            </div>
+	            <!-- Log out               -->
+	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
 	        </div>
 	      </nav>
@@ -159,38 +169,24 @@
 	      </nav>
 	      
 	      <div class="page-content">
-	     	<div class="page-header no-margin-bottom">
-	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom" style="color: lightgray">JET-RACERS</h2>
-	          </div>
-	        </div>
-	        
-	        <!-- Breadcrumb-->
-	        <div class="container-fluid">
-	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: 20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
-	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">JET-RACERS        </li>
-	          </ul>
-	        </div>
-
-			<div>
+			<div style="margin-top: 10px">
 			  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="max-width: 100%; margin-left: 30px" >
-				  <li class="nav-item" role="presentation" style="width: 33%">
-				    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" style="font-weight: bold; font-size: large;">Jet-Racer #1</a>
+				  <li class="nav-item" role="presentation" style="width: 33%; text-align: center">
+				    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" style="font-weight: bold; font-size: large">Jet-Racer #1</a>
 				  </li>
-				  <li class="nav-item" role="presentation" style="width: 33%">
+				  <li class="nav-item" role="presentation" style="width: 33%; text-align: center">
 				    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false" style="font-weight: bold; font-size: large;">Jet-Racer #2</a>
 				  </li>
-				  <li class="nav-item" role="presentation" style="width: 33%">
+				  <li class="nav-item" role="presentation" style="width: 33%; text-align: center">
 				    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false" style="font-weight: bold; font-size: large;">Jet-Racer #3</a>
 				  </li>
 		      </ul>
 	      	</div>
 
-			<div class="tab-content" id="pills-tabContent" style="height: 800px; margin-left: 30px; margin-right: 20px">
+			<div class="tab-content" id="pills-tabContent" style="height: 750px; margin-left: 30px; margin-right: 20px;  border-color: dimgray; border-style:solid; border-width:thick">
+			  <!-- jet racer # 1 의 상태보기 -->
 			  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-			  	<div style="margin-left: 30px; color: white; margin-bottom: 10px">
+			  	<div style="color: white; margin-bottom: 10px ;margin-left:20px; font-weight: bold; font-size: large; padding-top: 30px">
 	  		      Random Battery Status : <input id="battery1" value="99" style="background-color: transparent; border-color: transparent; color: white"/>
 	  			</div>
 	  			
@@ -198,13 +194,29 @@
 		          <div class="container-fluid">
 		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block">
+		                <div class="statistic-block block" style="width: 350px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
-		                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #1</strong>
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
 		                    </div> 
 		                    <div class="number dashtext-1" id="jetRacerText1">
 		                    	99%
+		                    </div>
+		                  </div>
+		                  <div class="progress progress-template">
+		                    <div id="jet1Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		              <div class="col-md-3 col-sm-6">
+		                <div class="statistic-block block" style="width: 350px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between">
+		                    <div class="title">
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
+		                    </div> 
+		                    <div class="number dashtext-1" id="jetRacerText1">
+		                    	A구간
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
@@ -222,15 +234,16 @@
 		          <div class="container-fluid">
 		         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px">
 					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView1 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 730px; height: 450px"><img id=jetbotView1 style="width: 730px; height: 450px; padding-left: 0px; padding-right: 0px"/></div>
 					  </div>
 					</div>
 		          </div>
 		        </section>
 			  </div>
 			  
+			  <!-- jet racer # 2 의 상태보기 -->
 			  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-			  	<div style="margin-left: 30px; color: white">
+			  	<div style="color: white; margin-bottom: 10px ;margin-left:20px; font-weight: bold; font-size: large; padding-top: 30px">
 	  		      Random Battery Status : <input id="battery2" value="99" style="background-color: transparent; border-color: transparent; color: white"/>
 	  			</div>
 	  			
@@ -238,17 +251,33 @@
 		          <div class="container-fluid">
 		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block">
+		                <div class="statistic-block block" style="width: 350px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
-		                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #2</strong>
-		                    </div>
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
+		                    </div> 
 		                    <div class="number dashtext-3" id="jetRacerText2">
 		                    	99%
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
-		                    <div id="jet2Battery" role="progressbar" style="width: 99%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
+		                    <div id="jet2Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		              <div class="col-md-3 col-sm-6">
+		                <div class="statistic-block block" style="width: 350px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between">
+		                    <div class="title">
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
+		                    </div> 
+		                    <div class="number dashtext-3" id="jetRacerText2">
+		                    	B구간
+		                    </div>
+		                  </div>
+		                  <div class="progress progress-template">
+		                    <div id="jet2Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
 		                  </div>
 		                </div>
 		              </div>
@@ -256,22 +285,22 @@
 		          </div>
 		        </section>
 		        
-		        <div style="margin-left: 30px; color: white">Line Tracing Situation</div>
+		       <div style="margin-left: 30px; color: white">Line Tracing Situation</div>
 	        
 	            <section style="padding-right: 0px">
 		          <div class="container-fluid">
 		         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px">
 					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView3 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 730px; height: 450px"><img id=jetbotView2 style="width: 730px; height: 450px; padding-left: 0px; padding-right: 0px"/></div>
 					  </div>
 					</div>
 		          </div>
 		        </section>
-		        
 			  </div>
 			  
+			  <!-- jet racer # 3 의 상태보기 -->
 			  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-			  	<div style="margin-left: 30px; color: white">
+			  	<div style="color: white; margin-bottom: 10px ;margin-left:20px; font-weight: bold; font-size: large; padding-top: 30px">
 	  		      Random Battery Status : <input id="battery3" value="99" style="background-color: transparent; border-color: transparent; color: white"/>
 	  			</div>
 
@@ -279,17 +308,33 @@
 		          <div class="container-fluid">
 		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block">
+		                <div class="statistic-block block" style="width: 350px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
-		                      <div class="icon"><i class="icon-contract"></i></div><strong>Jet-Racer #3</strong>
-		                    </div>
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
+		                    </div> 
 		                    <div class="number dashtext-2" id="jetRacerText3">
 		                    	99%
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
-		                    <div id="jet3Battery" role="progressbar" style="width: 99%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+		                    <div id="jet3Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		              <div class="col-md-3 col-sm-6">
+		                <div class="statistic-block block" style="width: 350px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between">
+		                    <div class="title">
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
+		                    </div> 
+		                    <div class="number dashtext-2" id="jetRacerText3">
+		                    	C구간
+		                    </div>
+		                  </div>
+		                  <div class="progress progress-template">
+		                    <div id="jet3Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
 		                  </div>
 		                </div>
 		              </div>
@@ -303,7 +348,7 @@
 		          <div class="container-fluid">
 		         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px">
 					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 400px; height: 300px"><img id=jetbotView3 style="width: 400px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
+					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 730px; height: 450px"><img id=jetbotView3 style="width: 730px; height: 450px; padding-left: 0px; padding-right: 0px"/></div>
 					  </div>
 					</div>
 		          </div>
@@ -312,13 +357,10 @@
 			</div>
 
 		    <!-- JavaScript files-->
-		   	<!--  <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery/jquery.min.js"></script> -->
 		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
 		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
 		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
 		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-		   <!--  <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
 		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
-  			<!-- <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/chart.js/Chart.min.js"></script> -->
 	</body>
 </html>

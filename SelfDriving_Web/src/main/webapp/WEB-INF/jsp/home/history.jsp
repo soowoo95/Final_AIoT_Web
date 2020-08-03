@@ -14,8 +14,6 @@
 	    <!--  Template 관련 설정 파일들 -->
 	    <!-- Bootstrap CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
-	    <!-- Font Awesome CSS-->
-<!-- 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css"> -->
 	    <!-- Custom Font Icons CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
 	    <!-- Google fonts - Muli-->
@@ -27,15 +25,11 @@
 	    <!-- Favicon-->
 		<link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 		
-<!-- 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script> -->
-		
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-		
-		
-		
+
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
@@ -61,35 +55,31 @@
 	</head>
 	
 	<body>
-		<header class="header"> 
+		<header class="header">   
 	      <nav class="navbar navbar-expand-lg">
-	        <div class="search-panel">
-	          <div class="search-inner d-flex align-items-center justify-content-center">
-	            <div class="close-btn">Close <i class="fa fa-close"></i></div>
-	            <form id="searchForm" action="#">
-	              <div class="form-group">
-	                <input type="search" name="search" placeholder="What are you searching for...">
-	                <button type="submit" class="submit">Search</button>
-	              </div>
-	            </form>
-	          </div>
-	        </div>
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
-	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
-	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
-	          	<!-- Sidebar Toggle Btn-->
-            	  <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
+		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
+		         </a>
+	            <!-- Sidebar Toggle Btn-->
+	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	          </div>
+	          <div class="right-menu list-inline no-margin-bottom">    
+	            <!-- Languages dropdown    -->
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            </div>
+	            <!-- Log out               -->
+	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
 	        </div>
 	      </nav>
 	    </header>
-	    
+
 		<div class="d-flex align-items-stretch">
-	      <!-- Sidebar Navigation-->
 	      <nav id="sidebar">
-	        <!-- Sidebar Header-->
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -97,7 +87,7 @@
 	            <p style="color: lightgray">Team 2</p>
 	          </div>
 	        </div>
-	        <!-- Sidebar Navidation Menus--><span class="heading" style="color:lightgray">MENU</span>
+	        <span class="heading" style="color:lightgray">MENU</span>
 	        <ul class="list-unstyled">
 	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
@@ -107,30 +97,20 @@
 	      </nav>
 	      
 	      <div class="page-content">
-	        <!-- Page Header-->
-	        <div class="page-header no-margin-bottom">
-	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom" style="color: lightgray">HISTORY</h2>
-	          </div>
-	        </div>
-	        <!-- Breadcrumb-->
-	        <div class="container-fluid">
-	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size:20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
-	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">HISTORY        </li>
-	          </ul>
-	        </div>
-	        
 	        <script>
 			$(document).ready(function() {
-			    setInterval(ajaxd, 5000);
-			    setInterval(ajaxd2, 5000);
+			    //setInterval(renew1, 5000);
+			    //setInterval(renew2, 5000);
+			    setInterval(renew, 10000);
 			});
 			
-			
-			function ajaxd(){
-			  $.ajax({
+			function renew(){
+				location.reload();
+ 				 //$("#animalHistory").load(location.href + "#animalHistory");
+ 				 //$("#animalHistory").load('refresh.html').fadeIn("slow");
+ 				/*$("#drivingHistory").load(location.href + "#drivingHistory"); */
+			}
+			  /* $.ajax({
 			   type: "POST",
 			   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
 			   success: 
@@ -151,9 +131,9 @@
 			    });
 			   }
 			 });
-			}
+			} */
 			
-			function ajaxd2(){
+/* 			function ajaxd2(){
 				  $.ajax({
 				   type: "POST",
 				   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
@@ -175,7 +155,7 @@
 				    });
 				   }
 				 });
-				}
+				} */
 
 			function viewImage(imgDno){
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
@@ -186,6 +166,7 @@
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
 			}
+			
 			</script>
 
 	        <section class="no-padding-top">
@@ -193,11 +174,11 @@
 	            <div class="row">
 	            
 	              <div class="col-lg-6">
-	                <div class="block">
-	                  <div class="title"><strong>Animal Detected | History</strong></div>
-	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; height: 380px;">
-	                      <thead>
+	                <div class="block" style="width: 900px"> 
+	                  <div class="title" style="color: white" id="animalHistory"><strong>Animal Detected | History</strong></div>
+	                  <div class="table-responsive" style="height: 310px"> 
+	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; text-align: center">
+	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
 	                          <th>Detect No.</th>
 	                          <th>Detected Object</th>
@@ -207,8 +188,7 @@
 	                          <th>Detected Time</th>
 	                        </tr>
 	                      </thead>
-	                      
-	                      	<tbody id="dataframe">
+	                      <tbody>
 		                      <c:forEach var="animal" items="${animal}">
 		                      	<tr>
 		                          <td scope="row">${animal.dno}</td>
@@ -220,26 +200,47 @@
 		                        </tr>
 	                      	  </c:forEach>
 	                      </tbody>
+	                      	<tr>
+								<td colspan= "7" style="text-align:center;">
+									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=1"> 처음 </a>
+									<c:if test="${pager.groupNo > 1 }">
+										<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.startPageNo - pager.pagesPerGroup}"> 이전 </a>
+									</c:if>
+									<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
+										<c:if test="${pager.pageNo == i}">
+											<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+										</c:if>
+										
+										<c:if test="${pager.pageNo != i}">
+											<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+										</c:if>
+									</c:forEach>
+									<c:if test="${pager.groupNo < pager.totalGroupNo }">
+										<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.endPageNo + 1 }">다음</a> 
+									</c:if>
+									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.totalPageNo}"> 맨끝 </a>
+								</td>
+							</tr>
 	                    </table>
 	                  </div>
 	                </div>
 	              </div>
 	              
 	              <div class="col-lg-6">
-	                <div class="block">
-	                  <div class="title"><strong>Animal Detected | Image</strong></div>
+	                <div class="block" style="margin-left: 140px">
+	                  <div class="title" style="color: white"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; height: 380px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; width:580px ; height: 310px"/>
 	                  </div>
 	                </div>
 	              </div>
 
 	              <div class="col-lg-6">
-	                <div class="block">
-	                  <div class="title"><strong>Driving Situation | History</strong></div>
-	                  <div class="table-responsive"> 
-	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; height: 380px;">
-	                      <thead>
+	                <div class="block" style="width: 900px">
+	                  <div class="title" style="color: white"><strong>Driving Situation | History</strong></div>
+	                  <div class="table-responsive" style="height: 310px" id="drivingHistory"> 
+	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; text-align: center">
+	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
 	                          <th>Detect No.</th>
 	                          <th>Detected Object</th>
@@ -251,29 +252,48 @@
 	                      </thead>
 	                      
 	                      <tbody id="dataframe2">
-
-	                      <c:forEach var="animal" items="${animal}">
-	                      	<tr>
-	                          <td scope="row">${animal.dno}</td>
-	                          <td onclick="viewImage2(${animal.dno})" style="color: #DB6574;">${animal.dname}</td>
-	                          <td>${animal.dnum}</td>
-	                          <td>${animal.dfinder}</td>
-	                          <td>${animal.dfinder}</td>
-	                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
-	                        </tr>
-                      	  </c:forEach>
-                      	  
+		                      <c:forEach var="animal" items="${animal}">
+		                      	<tr>
+		                          <td scope="row">${animal.dno}</td>
+		                          <td onclick="viewImage2(${animal.dno})" style="color: #DB6574;">${animal.dname}</td>
+		                          <td>${animal.dnum}</td>
+		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dfinder}</td>
+		                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+		                        </tr>
+	                      	  </c:forEach>
 	                      </tbody>
+	                      <tr>
+								<td colspan= "7" style="text-align:center;">
+									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=1"> 처음 </a>
+									<c:if test="${pager.groupNo > 1 }">
+										<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.startPageNo - pager.pagesPerGroup}"> 이전 </a>
+									</c:if>
+									<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
+										<c:if test="${pager.pageNo == i}">
+											<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+										</c:if>
+										
+										<c:if test="${pager.pageNo != i}">
+											<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+										</c:if>
+									</c:forEach>
+									<c:if test="${pager.groupNo < pager.totalGroupNo }">
+										<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.endPageNo + 1 }">다음</a> 
+									</c:if>
+									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.totalPageNo}"> 맨끝 </a>
+								</td>
+							</tr>
 	                    </table>
 	                  </div>
 	                </div>
 	              </div>
 	              
 	              <div class="col-lg-6">
-	                <div class="block">
-	                  <div class="title"><strong>Driving Situation | Image</strong></div>
+	                <div class="block" style="margin-left: 140px">
+	                  <div class="title" style="color: white"><strong>Driving Situation | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 380px; max-width:100%"/>
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 310px; max-width:100%; width: 580px"/>
 	                  </div>
 	                </div>
 	              </div>
@@ -286,7 +306,6 @@
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-<!--     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
 </body>
 </html>

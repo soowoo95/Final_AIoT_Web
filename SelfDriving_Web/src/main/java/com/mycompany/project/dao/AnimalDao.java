@@ -1,6 +1,8 @@
 package com.mycompany.project.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,21 @@ public class AnimalDao extends EgovAbstractMapper {
 
 	public List listupdate() {
 		List list = selectList("animal.selectList");
+		return list;
+	}
+
+	public int count() {
+		int totalRows = selectOne("animal.count");
+		return totalRows;
+	}
+
+	public List<Animal> selectByPage(int pageNo, int rowsPerPage) {
+		LOGGER.info("실행");
+		int startIndex = (pageNo-1) * rowsPerPage;
+		Map<String, Integer> map = new HashMap<>();
+		map.put("startIndex", startIndex);
+		map.put("rowsPerPage", rowsPerPage);
+		List<Animal> list = selectList("animal.selectByPage", map);
 		return list;
 	}
 }
