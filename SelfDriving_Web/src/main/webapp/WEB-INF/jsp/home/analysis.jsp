@@ -275,18 +275,27 @@
 	
 	<body>
 	<header class="header">   
-      <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid d-flex align-items-center justify-content-between">
+	      <nav class="navbar navbar-expand-lg">
+	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
-	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
-	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
-            <!-- Sidebar Toggle Btn-->
-           	  <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
-          </div>
-      	</div>
-      </nav>
-    </header>
+	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
+		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
+		         </a>
+	            <!-- Sidebar Toggle Btn-->
+	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	          </div>
+	          <div class="right-menu list-inline no-margin-bottom">    
+	            <!-- Languages dropdown    -->
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            </div>
+	            <!-- Log out               -->
+	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
+	          </div>
+	        </div>
+	      </nav>
+	    </header>
     <div class="d-flex align-items-stretch">
       <!-- Sidebar Navigation-->
       <nav id="sidebar">
@@ -308,21 +317,9 @@
         </ul>
       </nav>
       <!-- Sidebar Navigation end-->	    
-	      
 	      <div class="page-content">
-	     	<div class="page-header no-margin-bottom">
-	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom" style="color: lightgray">ANALYSIS</h2>
-	          </div>
-	        </div>
-	        <!-- Breadcrumb-->
-	        <div class="container-fluid">
-	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: 20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
-	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">ANALYSIS        </li>
-	          </ul>
-	        </div>
+
+
 		</div>
 	</div>
 	
@@ -331,7 +328,6 @@
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-<!--<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
     
     </body>

@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mycompany.project.service.MQTT;
 import com.mycompany.project.model.Animal;
+import com.mycompany.project.model.Pager;
 import com.mycompany.project.service.AnimalService;
 
 @Controller
@@ -38,7 +40,7 @@ public class HomeController {
 	
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.184:1883";
+		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";	
@@ -60,12 +62,12 @@ public class HomeController {
 		return "home/jetracer";
 	}
 
-	@RequestMapping("/history.do")
+/*	@RequestMapping("/history.do")
 	public String history(Model model) {
 		LOGGER.info("실행");
 		
 		ArrayList<Animal> animalList = new ArrayList<Animal>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 7; i++) {
 			int dno = i + 1;
 			Animal animal = new Animal();
 			animal = animalService.getAnimal(dno);
@@ -74,7 +76,7 @@ public class HomeController {
 		}
 		model.addAttribute("animal",animalList);
 		return "home/history";
-	}
+	}*/
 	
 	@RequestMapping("/imageView.do")
 	@ResponseBody
@@ -117,6 +119,20 @@ public class HomeController {
 			animal.setDfinder(animal.getDfinder().replace("/", ""));
 		}
 		return animallist;
+	}
+	
+	@RequestMapping("/history.do")
+	public String his1(Model model, @RequestParam(defaultValue="1")int pageNo, 
+						@RequestParam(defaultValue="7") int rowsPerPage,
+						HttpSession httpSession) {
+		LOGGER.info("실행");
+		
+		Pager pager = new Pager(rowsPerPage, 5, animalService.getTotalListNo(), pageNo);
+		model.addAttribute("pager", pager);
+		httpSession.setAttribute("pager", pager);
+		
+		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
+		return "home/history";
 	}
 
 	@RequestMapping("/sleep.do")

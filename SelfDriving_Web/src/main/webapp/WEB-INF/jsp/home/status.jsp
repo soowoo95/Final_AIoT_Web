@@ -38,7 +38,7 @@
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		 
+
 		<style>
 			#div1 {font-size:48px;}
 			.no-gutters {
@@ -54,8 +54,7 @@
 			  display: flex;
 			  justify-content: center;
 			  align-items: center;
-			  height: 100px;
-			  font-size: 50px;
+			  font-size: 25px;
 			  font-weight: bold; 
 			}
 		</style>
@@ -94,7 +93,7 @@
 			}
 			function response(){
 				console.log("답장을 보내요.")
-				  message = new Paho.MQTT.Message("value:ok");
+				  message = new Paho.MQTT.Message("105");
 				  message.destinationName = "/network";
 				  client.send(message);
 			}
@@ -121,17 +120,16 @@
 						$("#c1Obj").attr("value", obj.Class);
 						document.getElementById('c1Obj').style.color = '#DB6574';
 						document.getElementById('c1Obj').style.fontWeight = 'bold';
-						document.getElementById('c1Obj').style.fontSize = '20px';
+			
 						
 						$("#c1Lev").attr("value", "등급이 몰까");
 						document.getElementById('c1Lev').style.color = '#DB6574';
 						document.getElementById('c1Lev').style.fontWeight = 'bold';
-						document.getElementById('c1Lev').style.fontSize = '20px';
-						
+			
 						$("#c1Loc").attr("value", "1번 CCTV 촬영 구간");
 						document.getElementById('c1Loc').style.color = '#DB6574';
 						document.getElementById('c1Loc').style.fontWeight = 'bold';
-						document.getElementById('c1Loc').style.fontSize = '20px';
+				
 						
 						if (obj["witness"].replace("/","") == "1cctv"){
 							document.getElementById('cameraView1').style.border = '8px solid red';
@@ -141,18 +139,15 @@
 					if (obj.Class.length == 0){
 						$("#c1Obj").attr("value","*****  탐지대상 없음  *****");
 						document.getElementById('c1Obj').style.color = 'white';
-						document.getElementById('c1Obj').style.fontSize = 'medium';
-						document.getElementById('c1Obj').style.fontSize = '15px';
+				
 						
 						$("#c1Lev").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c1Lev').style.color = 'white';
-						document.getElementById('c1Lev').style.fontSize = 'medium';
-						document.getElementById('c1Lev').style.fontSize = '15px';
+					
 						
 						$("#c1Loc").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c1Loc').style.color = 'white';
-						document.getElementById('c1Loc').style.fontSize = 'medium';
-						document.getElementById('c1Loc').style.fontSize = '15px';
+				
 						
 						document.getElementById('cameraView1').style.border = 'inactiveborder';
 					}
@@ -183,17 +178,17 @@
 						$("#c2Obj").attr("value", obj.Class);
 						document.getElementById('c2Obj').style.color = '#DB6574';
 						document.getElementById('c2Obj').style.fontWeight = 'bold';
-						document.getElementById('c2Obj').style.fontSize = '20px';
+				
 						
 						$("#c2Lev").attr("value", "등급이 몰까");
 						document.getElementById('c2Lev').style.color = '#DB6574';
 						document.getElementById('c2Lev').style.fontWeight = 'bold';
-						document.getElementById('c2Lev').style.fontSize = '20px';
+					
 						
 						$("#c2Loc").attr("value", "2번 CCTV 촬영 구간");
 						document.getElementById('c2Loc').style.color = '#DB6574';
 						document.getElementById('c2Loc').style.fontWeight = 'bold';
-						document.getElementById('c2Loc').style.fontSize = '20px';
+					
 						
 						if (obj["witness"].replace("/","") == "2cctv"){
 							document.getElementById('cameraView2').style.border = '8px solid red';
@@ -203,18 +198,15 @@
 					if (obj.Class.length == 0){
 						$("#c2Obj").attr("value","*****  탐지대상 없음  *****");
 						document.getElementById('c2Obj').style.color = 'white';
-						document.getElementById('c2Obj').style.fontSize = 'medium';
-						document.getElementById('c2Obj').style.fontSize = '15px';
+						
 						
 						$("#c2Lev").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c2Lev').style.color = 'white';
-						document.getElementById('c2Lev').style.fontSize = 'medium';
-						document.getElementById('c2Lev').style.fontSize = '15px';
+				
 						
 						$("#c2Loc").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c2Loc').style.color = 'white';
-						document.getElementById('c2Loc').style.fontSize = 'medium';
-						document.getElementById('c2Loc').style.fontSize = '15px';
+						
 
 						document.getElementById('cameraView2').style.border = 'inactiveborder';
 					}
@@ -233,17 +225,17 @@
 						$("#c3Obj").attr("value", obj.Class);
 						document.getElementById('c3Obj').style.color = '#DB6574';
 						document.getElementById('c3Obj').style.fontWeight = 'bold';
-						document.getElementById('c3Obj').style.fontSize = '20px';
+					
 						
 						$("#c3Lev").attr("value", "등급이 몰까");
 						document.getElementById('c3Lev').style.color = '#DB6574';
 						document.getElementById('c3Lev').style.fontWeight = 'bold';
-						document.getElementById('c3Lev').style.fontSize = '20px';
+					
 						
 						$("#c3Loc").attr("value", "3번 CCTV 촬영 구간");
 						document.getElementById('c3Loc').style.color = '#DB6574';
 						document.getElementById('c3Loc').style.fontWeight = 'bold';
-						document.getElementById('c3Loc').style.fontSize = '20px';
+						
 						
 						if (obj["witness"].replace("/","") == "3cctv"){
 							document.getElementById('cameraView3').style.border = '8px solid red';
@@ -253,18 +245,15 @@
 					if (obj.Class.length == 0){
 						$("#c3Obj").attr("value","*****  탐지대상 없음  *****");
 						document.getElementById('c3Obj').style.color = 'white';
-						document.getElementById('c3Obj').style.fontSize = 'medium';
-						document.getElementById('c3Obj').style.fontSize = '15px';
+						
 						
 						$("#c3Lev").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c3Lev').style.color = 'white';
-						document.getElementById('c3Lev').style.fontSize = 'medium';
-						document.getElementById('c3Lev').style.fontSize = '15px';
 						
+									
 						$("#c3Loc").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c3Loc').style.color = 'white';
-						document.getElementById('c3Loc').style.fontSize = 'medium';
-						document.getElementById('c3Loc').style.fontSize = '15px';
+
 
 						document.getElementById('cameraView3').style.border = 'inactiveborder';
 					}
@@ -285,17 +274,17 @@
 						$("#c4Obj").attr("value", obj.Class);
 						document.getElementById('c4Obj').style.color = '#DB6574';
 						document.getElementById('c4Obj').style.fontWeight = 'bold';
-						document.getElementById('c4Obj').style.fontSize = '20px';
+						
 						
 						$("#c4Lev").attr("value", "등급이 몰까");
 						document.getElementById('c4Lev').style.color = '#DB6574';
 						document.getElementById('c4Lev').style.fontWeight = 'bold';
-						document.getElementById('c4Lev').style.fontSize = '20px';
+						
 						
 						$("#c4Loc").attr("value", "4번 CCTV 촬영 구간");
 						document.getElementById('c4Loc').style.color = '#DB6574';
 						document.getElementById('c4Loc').style.fontWeight = 'bold';
-						document.getElementById('c4Loc').style.fontSize = '20px';
+						
 						
 						if (obj["witness"].replace("/","") == "4cctv"){
 							document.getElementById('cameraView4').style.border = '8px solid red';
@@ -306,56 +295,51 @@
 						$("#c4Obj").attr("value","*****  탐지대상 없음  *****");
 						document.getElementById('c4Obj').style.color = 'white';
 						document.getElementById('c4Obj').style.fontWeight = 'normal';
-						document.getElementById('c4Obj').style.fontSize = '15px';
+						
 						
 						$("#c4Lev").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c4Lev').style.color = 'white';
 						document.getElementById('c4Lev').style.fontWeight = 'normal';
-						document.getElementById('c4Lev').style.fontSize = '15px';
+						
 						
 						$("#c4Loc").attr("value","*****  해당사항 없음  *****");
 						document.getElementById('c4Loc').style.color = 'white';
 						document.getElementById('c4Loc').style.fontWeight = 'normal';
-						document.getElementById('c4Loc').style.fontSize = '15px';
+						
 						
 						document.getElementById('cameraView4').style.border = 'inactiveborder'; 
 					}
 				}
 			}
 		</script>
- 
 	</head>
 	
 	<body>
-		<header class="header"> 
+		<header class="header">   
 	      <nav class="navbar navbar-expand-lg">
-	        <div class="search-panel">
-	          <div class="search-inner d-flex align-items-center justify-content-center">
-	            <div class="close-btn">Close <i class="fa fa-close"></i></div>
-	            <form id="searchForm" action="#">
-	              <div class="form-group">
-	                <input type="search" name="search" placeholder="What are you searching for...">
-	                <button type="submit" class="submit">Search</button>
-	              </div>
-	            </form>
-	          </div>
-	        </div>
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
-	            <!-- Navbar Header--><a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-	              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
-	              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div></a>
-	          	<!-- Sidebar Toggle Btn-->
-            	  <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
+		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
+		         </a>
+	            <!-- Sidebar Toggle Btn-->
+	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	          </div>
+	          <div class="right-menu list-inline no-margin-bottom">    
+	            <!-- Languages dropdown    -->
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            </div>
+	            <!-- Log out               -->
+	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
 	        </div>
 	      </nav>
 	    </header>
 	    
-		<div class="d-flex align-items-stretch">
-	      <!-- Sidebar Navigation-->
+		<div class="d-flex align-items-stretch" style="height: 100%">
 	      <nav id="sidebar">
-	        <!-- Sidebar Header-->
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -363,7 +347,7 @@
 	            <p style="color: lightgray">Team 2</p>
 	          </div>
 	        </div>
-	        <!-- Sidebar Navidation Menus--><span class="heading" style="color:lightgray ;">MENU</span>
+	        <span class="heading" style="color:lightgray ;">MENU</span>
 	        <ul class="list-unstyled">
 	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
@@ -372,93 +356,82 @@
 	      	  <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
 	      	 </ul>
 	      </nav>
+	   
 	      
-	      <div class="page-content">
-	     	<div class="page-header no-margin-bottom">
+	     <div class="page-content" style="padding-bottom: 0px">
+	      
+	     	<div class="center" style="margin-bottom: 10px; margin-top: 10px; color: lightgray">실시간 유해동물 탐지 현황</div>
+		     <section style="padding-right: 0px">
 	          <div class="container-fluid">
-	            <h2 class="h5 no-margin-bottom" style="color: lightgray">REAL-TIME STATUS</h2>
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 210px; width: 560px; height: 400px; ">
+	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
+				  <div class="row row-cols-2">
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView1 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView2 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView3 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView4 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				  </div>
+				</div>
 	          </div>
-	        </div>
-	        <!-- Breadcrumb-->
-	        <div class="container-fluid">
-	          <ul class="breadcrumb" style="background-color:transparent;">
-	            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/home/main.do" style="font-size: 20px ; margin-top: 10px; color: #DB6574; font-weight: 600;">Home</a></li>
-	            
-	            <li class="breadcrumb-item active" style="font-size: large; margin-top: 10px; color: lightgray">REAL-TIME STATUS        </li>
-	          </ul>
-	        </div>
-	      
-	     <div class="center" >실시간 유해동물 탐지 현황</div>
-	     
-	     <section style="padding-right: 0px">
-          <div class="container-fluid">
-         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 760px; height: 600px;">
-         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 250px ;border-color: transparent; font-weight: bold;"/>
-			  <div class="row row-cols-2">
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=jetView1 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=jetView2 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=jetView3 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=jetView4 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px"/></div>
-			  </div>
-			</div>
-          </div>
-        </section>
-        
-        <section style="padding-right: 0px">
-          <div class="container-fluid">
-         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 780px; width: 760px; height: 600px;">
-         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 250px ;border-color: transparent; font-weight: bold;"/>
-			  <div class="row row-cols-2">
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=cameraView1 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=cameraView2 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=cameraView3 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 380px; height: 300px"><img id=cameraView4 style="width: 380px; height: 300px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-			  </div>
-			</div>
-          </div>
-        </section>
+	        </section>
+	        
+	        <section style="padding-right: 0px">
+	          <div class="container-fluid">
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 780px; width: 560px; height: 400px;">
+	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 190px ;border-color: transparent; font-weight: bold;"/>
+				  <div class="row row-cols-2">
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView1 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView2 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView3 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView4 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				  </div>
+				</div>
+	          </div>
+	        </section>
        
-       <div style="border-color: transparent; margin-top: 660px; height: 300px;">
-	       <div class="container" style="background-color: #22252a">
-			  <h2 style="color: white; margin-left: 300px; font-size: x-large">Brief Report of Detection Situation</h2>           
-			  <table class="table hover">
-			    <thead>
-			      <tr>
-			        <th style="color: white; font-size: large">CCTV 번호</th>
-			        <th style="color: white; font-size: large">탐지대상</th>
-			        <th style="color: white; font-size: large">탐지대상 등급</th>
-			        <th style="color: white; font-size: large">탐지 위치</th>
-			      </tr>
-			    </thead>
-			    <tbody style="color: white;">
-			      <tr>
-			        <td style="font-size: 15px">CCTV 1</td>
-			        <td><input id="c1Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c1Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c1Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			      </tr>
-			      <tr>
-			        <td style="font-size: 15px">CCTV 2</td>
-			        <td><input id="c2Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c2Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c2Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			      </tr>
-			      <tr>
-			        <td style="font-size: 15px">CCTV 3</td>
-					<td><input id="c3Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c3Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c3Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			      </tr>
-			      <tr>
-			        <td style="font-size: 15px">CCTV 4</td>
-			        <td><input id="c4Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c4Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			        <td><input id="c4Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
-			      </tr>
-			    </tbody>
-			  </table>
-			</div>
+	       <div style="border-color: transparent; margin-top: 460px;">
+		       <div class="container" style="background-color: #22252a">
+				  <h2 style="color: white; margin-left: 340px; font-size: x-large">Brief Report of Detection Situation</h2>           
+				  <table class="table hover" style="margin-bottom: 0px">
+				    <thead>
+				      <tr>
+				        <th style="color: white; font-size: medium; text-align: center;">CCTV 번호</th>
+				        <th style="color: white; font-size: medium; text-align: center;">탐지대상</th>
+				        <th style="color: white; font-size: medium; text-align: center;">탐지대상 등급</th>
+				        <th style="color: white; font-size: medium; text-align: center;">탐지 위치</th>
+				      </tr>
+				    </thead>
+				    <tbody style="color: white ; text-align: center">
+				      <tr>
+				        <td style="font-size: 15px">CCTV 1</td>
+				        <td><input id="c1Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c1Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c1Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				      </tr>
+				      <tr>
+				        <td style="font-size: 15px">CCTV 2</td>
+				        <td><input id="c2Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c2Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c2Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				      </tr>
+				      <tr>
+				        <td style="font-size: 15px">CCTV 3</td>
+						<td><input id="c3Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c3Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c3Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				      </tr>
+				      <tr>
+				        <td style="font-size: 15px">CCTV 4</td>
+				        <td><input id="c4Obj" value="*****  탐지대상 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c4Lev" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				        <td><input id="c4Loc" value="*****  해당사항 없음  *****" style="background-color: transparent; border-color: transparent; color: white"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+				</div>
+	   		</div>
    		</div>
+   	</div>
 
    	<!-- JavaScript files-->
     <!-- <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery/jquery.min.js"></script> -->

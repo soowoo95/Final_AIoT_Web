@@ -34,4 +34,13 @@ public class AnimalService {
 		list = animalDao.listupdate();
 		return list;
 	}
+
+	public int getTotalListNo() {
+		return animalDao.count();
+	}
+
+	public Object getListByPage(int pageNo, int rowsPerPage) {
+		List<Animal> list = animalDao.selectByPage(pageNo, rowsPerPage);
+		return list;
+	}
 }
