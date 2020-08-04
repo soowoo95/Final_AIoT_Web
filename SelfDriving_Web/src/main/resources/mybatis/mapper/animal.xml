@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
+<!-- 프로시저를 호출합니다.-->
 	<mapper namespace="animal">
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-					insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
-					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder});
+					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},'D');
+					<!-- insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
+					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder}); -->
 			</insert>
 			
 			<select id="selectByDno" parameterType="int" resultType ="animal">
@@ -23,9 +25,11 @@
 				select count(*) from animal
 			</select>
 
+			<!-- group by는 사건번호로 묶는 코드 입니다.-->
 			<select id="selectByPage" resultType="animal">
-				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder
+				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder, dactno
 				from animal
+                group by dactno
 				order by dno desc
 				limit #{startIndex}, #{rowsPerPage}
 			</select>
