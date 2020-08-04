@@ -12,10 +12,22 @@
 					from animal
 					where dno = #{dno}
 			</select>
+			
 			<select id="selectList" resultType="animal">
 					select dno, dname, dnum, dfinder, dtime, dimagesname, dlocation 
-					from animal 
-					ORDER BY dno DESC LIMIT 10;
+					from animal
+					ORDER BY dno DESC LIMIT 7;
+			</select>
+
+			<select id="count" resultType="int">
+				select count(*) from animal
+			</select>
+
+			<select id="selectByPage" resultType="animal">
+				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder
+				from animal
+				order by dno desc
+				limit #{startIndex}, #{rowsPerPage}
 			</select>
 	
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
