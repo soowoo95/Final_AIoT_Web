@@ -46,7 +46,7 @@ public class HomeController {
 	
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.184:1883";
+		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";	
@@ -56,6 +56,13 @@ public class HomeController {
 		ReadFromOtherMQTT.init(topic);
 		ReadFromOtherMQTT.subscribe(0);
 	}
+	
+	@RequestMapping("/landing.do")
+	public String landing(){
+		LOGGER.info("실행");
+		return "home/landing";
+	}
+	
 	
 	@RequestMapping("/main.do")
 	public String main(){
@@ -115,7 +122,7 @@ public class HomeController {
 		return "home/analysis";
 	}
 	
-	@PostMapping("/getAnimalList.do")
+/*	@PostMapping("/getAnimalList.do")
 	@ResponseBody
 	public List listupdate(){
 		//LOGGER.info("애니멀리스트");
@@ -126,17 +133,17 @@ public class HomeController {
 		}
 		return animallist;
 	}
-	
+	*/
 	@RequestMapping("/history.do")
-	public String his1(Model model, @RequestParam(defaultValue="1")int pageNo, 
+	public String history(Model model, @RequestParam(defaultValue="1")int pageNo, 
 						@RequestParam(defaultValue="7") int rowsPerPage,
 						HttpSession httpSession) {
 		LOGGER.info("실행");
-		
+
 		Pager pager = new Pager(rowsPerPage, 5, animalService.getTotalListNo(), pageNo);
 		model.addAttribute("pager", pager);
 		httpSession.setAttribute("pager", pager);
-		
+
 		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
 		return "home/history";
 	}
