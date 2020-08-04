@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mycompany.project.service.MQTT;
 import com.mycompany.project.model.Animal;
+import com.mycompany.project.model.Pager;
 import com.mycompany.project.service.AnimalService;
 import javax.servlet.http.HttpServletRequest;
 
