@@ -24,24 +24,36 @@ html {
 }
 
 @media (min-width: 576px) {
+	body{
+	font-size:8px;
+	}
   .container {
     max-width: 540px;
   }
 }
 
 @media (min-width: 768px) {
+	body{
+	font-size:12px;
+	}
   .container {
     max-width: 720px;
   }
 }
 
 @media (min-width: 992px) {
+	body{
+	font-size:14px;
+	}
   .container {
     max-width: 960px;
   }
 }
 
 @media (min-width: 1200px) {
+	body{
+	font-size:16px;
+	}
   .container {
     max-width: 1140px;
   }

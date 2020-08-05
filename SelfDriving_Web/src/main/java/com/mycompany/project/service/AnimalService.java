@@ -19,20 +19,12 @@ public class AnimalService {
 	private AnimalDao animalDao;
 
 	public void SaveImage(Animal animal) {
-		//LOGGER.info("service에서 dao로 넘길거다");
 		animalDao.insert(animal);
 	}
 
 	public Animal getAnimal(int dno) {
-		//LOGGER.info("service에서 dao로 넘길거다");
 		Animal animal = animalDao.selectByDno(dno);
 		return animal;
-	}
-
-	public List<Animal> listupdate() {
-		List list = new ArrayList<>();
-		list = animalDao.listupdate();
-		return list;
 	}
 
 	public int getTotalListNo() {
