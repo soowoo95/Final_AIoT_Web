@@ -10,35 +10,21 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-		
-	    <!--  Template 관련 설정 파일들 -->
-	    <!-- Bootstrap CSS-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
-	    <!-- Font Awesome CSS-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
-	    <!-- Custom Font Icons CSS-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
-	    <!-- Google fonts - Muli-->
-	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
-	    <!-- theme stylesheet-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
-	    <!-- Custom stylesheet - for your changes-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
-	    <!-- Favicon-->
-	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-
-		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
+		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- highchart 관련 -->
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/modules/export-data.js"></script>
+		<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+		<script src="${pageContext.request.contextPath}/resource/js/speedHighChart.js"></script>
 
 		<style>
-			#div1 {font-size:48px;}
+			#div1 {font-size:48px}
 			
 			.no-gutters {
 			  margin-right: 0;
@@ -60,7 +46,71 @@
 			.jetToggle {
 			justify-content: center; 
 			align-content: center;
-			
+			}
+			#image_steering {
+			transform: rotate(0deg);
+			}
+			#chart-container {
+			  height: 300px; 
+			  width: 380px;
+			}
+			.highcharts-figure, .highcharts-data-table table {
+			  min-width: 300px; 
+			  max-width: 300px;
+			  margin: 1em auto;
+			}
+			.highcharts-data-table table {
+			  font-family: Verdana, sans-serif;
+			  border-collapse: collapse;
+			  border: 1px solid #EBEBEB;
+			  margin: 10px auto;
+			  text-align: center;
+			  width: 100%;
+			  max-width: 500px;
+			}
+			.highcharts-data-table caption {
+			  font-size: 1.2em;
+			  color: #555;
+			}
+			.highcharts-data-table th {
+			  font-weight: 200;
+			}
+			.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+			  background: #f8f8f8;
+			}
+			.highcharts-data-table tr:hover {
+			  background: #f1f7ff;
+			}
+			.highcharts-background {
+			fill: transparent;
+			width: 380px;
+			}
+			.highcharts-title {
+			display: none;
+			}
+			.highcharts-root {
+			width: 380px;
+			}
+			#batteryMode {
+			  width: 380px;
+			  height: 30px;
+			  display: flex;
+			  flex-direction: row;
+			}
+			#batteryMode div {
+			  width: 190px;
+			  height: 30px;
+			  text-align: center;
+			}
+			#showView {
+			  width: 760px;
+			  height: 30px;
+			  display: flex;
+			  flex-direction: row;
+			}
+			#showView div {
+			  height: 30px;
+			  text-align: center;
 			}
 		</style>
 		 
@@ -73,44 +123,94 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
-				client.subscribe("/1jetbot");
-				client.subscribe("/2jetbot");
-				client.subscribe("/3jetbot");
-				client.subscribe("/4cctv");
+				client.subscribe("/1jetracer");
+				client.subscribe("/1jr");
+				client.subscribe("/2jetracer");
+				client.subscribe("/3jetracer");
 				client.subscribe("/sensor");
 			}
 			
-			var battery = null;
+			var speed = 0; 
 			
 			function onMessageArrived(message) {
-				console.log("mqtt broker connected")
+				console.log("mqtt broker connected");
 				
- 				if(message.destinationName =="/1jetbot") {
+				//line tracing 프레임 띄우기
+ 				if(message.destinationName =="/1jetracer") {
+					$("#jetView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+				}
+ 				
+ 				if(message.destinationName =="/1jr") {
  					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#jetbotView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+ 					const obj = JSON.parse(json);
+ 					
+ 					//배터리 상태 표시
+					console.log("battery:",obj.battery, "%");
+					bat1 = obj.battery;
+					$("#jetRacerText1").text(bat1 + "%");
+			      	document.getElementById('jet1Battery').style.width = bat1 + '%';
+			      	
+			      	if (bat1 >= 100){
+			      		document.getElementById('batMode').style.backgroundColor = 'dimgray';
+			      		document.getElementById('adtMode').style.backgroundColor = '#864DD9';
+			      	}
+			      	else if (20 < bat1 < 100){
+			      		document.getElementById('batMode').style.backgroundColor = '#864DD9';
+			      		document.getElementById('adtMode').style.backgroundColor = 'dimgray';
+			      	}
+			      	else if (bat1 < 20){
+			      		document.getElementById('batMode').style.backgroundColor = '#8B0000';
+			      		document.getElementById('adtMode').style.backgroundColor = 'dimgray';
+			      		$("#batt").attr("value", "Charge NOW");
+			      	}
+			      
+
+			      	//angle은 60과 120사이의 값이고 핸들은 320에서 40도 사이에서 회전
+			      	//angle = parseInt(Math.random() * 60 + 60);
+			      	
+			      	//servo 가도 조절
+			      	angle = obj.servo;
+					console.log("servo:",angle);
+					
+			      	if (angle > 90){
+	  			    	angle=540-(2*angle);
+	  			    	$("#image_steering").css({transform:'rotate(' + angle + 'deg)'});
+			      	}
+			      	 
+	  			    else if (angle == 90){
+			      		$("#image_steering").css({transform:'rotate(' + 0 + 'deg)'});
+			      	}
+			      	
+	  			    else if (angle < 90){
+			      		angle=180-(2*angle);
+			      		$("#image_steering").css({transform:'rotate(' + angle + 'deg)'});
+			      	}
+					
+			      	//dc speed 표시
+					speed = obj.speed;
+			      	console.log("speed:", speed);
 				}
-				if(message.destinationName =="/2jetbot") {
-					console.log("mqtt broker connected")
+ 				
+				if(message.destinationName =="/2jetracer") {
+					$("#jetView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+				}
+				
+				if(message.destinationName =="/2jr") {
+ 					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
+					bat2 = obj.battery;
+					$("#jetRacerText2").text(bat2 + "%");
+			      	document.getElementById('jet2Battery').style.width = bat2 + '%';
+				}
+				
+				if(message.destinationName =="/3jetracer") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					$("#jetbotView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
-				if(message.destinationName =="/3jetbot") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#jetbotView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					$("#jetView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
 				if(message.destinationName =="/sensor") {
-					console.log(message.destinationName)
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-					console.log(obj.Battery);
-					battery = obj.Battery;
-					
-					$("#battery1").attr("value", obj.Battery);
-					$("#jetRacerText1").text(obj.Battery + "%");
-			      	document.getElementById('jet1Battery').style.width = obj.Battery + '%';
 			      	
 			      	$("#battery2").attr("value", obj.Battery);
 			      	$("#jetRacerText2").text(obj.Battery + "%");
@@ -133,15 +233,12 @@
 		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
 		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
 		         </a>
-	            <!-- Sidebar Toggle Btn-->
 	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
 	          </div>
 	          <div class="right-menu list-inline no-margin-bottom">    
-	            <!-- Languages dropdown    -->
 	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
 	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
 	            </div>
-	            <!-- Log out               -->
 	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
 	        </div>
@@ -166,6 +263,7 @@
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
+	       	</ul>
 	      </nav>
 	      
 	      <div class="page-content">
@@ -184,17 +282,29 @@
 	      	</div>
 
 			<div class="tab-content" id="pills-tabContent" style="height: 750px; margin-left: 30px; margin-right: 20px;  border-color: dimgray; border-style:solid; border-width:thick">
-			  <!-- jet racer # 1 의 상태보기 -->
+			  
+			  <!-- jet racer # 1 -->
 			  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-			  	<div style="color: white; margin-bottom: 10px ;margin-left:20px; font-weight: bold; font-size: large; padding-top: 30px">
-	  		      Random Battery Status : <input id="battery1" value="99" style="background-color: transparent; border-color: transparent; color: white"/>
-	  			</div>
-	  			
-		      	<section class="no-padding-top no-padding-bottom">
-		          <div class="container-fluid">
-		            <div class="row">
+		      	<section class="no-padding-top no-padding-bottom" style="margin-top: 30px">
+		          <div class="container-fluid" style="height: 260px">
+		            
+		            <div class="row" style="height: 30px; width: 760px">
 		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block" style="width: 350px">
+		              
+		              	<div id=showView>
+			              	<div id=batteryMode>
+			              		<div id="batMode" style="background-color: dimgray">
+			              			<input id="batt" value="Battery" style="border-color: transparent; background-color:transparent; text-align: center; color: white;">
+			              		</div>
+								<div id="adtMode" style="background-color: dimgray">
+									<input value="Adapter" style="border-color: transparent; background-color:transparent; text-align: center; color: white;">
+								</div>
+			              	</div>
+			              	<div style="background-color: transparent; width: 5px"></div>
+		              		<div style="background-color: dimgray; width: 350px;  color: white">Line Tracing Situation</div>
+		              	</div>
+		              	
+		                <div class="statistic-block block" style="width: 380px; margin-bottom: 10px; padding-bottom: 0px; height: 120px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
@@ -207,16 +317,14 @@
 		                    <div id="jet1Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
 		                  </div>
 		                </div>
-		              </div>
-		              
-		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block" style="width: 350px">
+
+		                <div class="statistic-block block" style="width: 380px; height: 120px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
 		                    </div> 
 		                    <div class="number dashtext-1" id="jetRacerText1">
-		                    	A구간
+		                    	5구간
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
@@ -225,37 +333,41 @@
 		                </div>
 		              </div>
 		            </div>
+		           	<img id=jetView1 style="width: 350px; height: 250px; padding-left: 0px; padding-right: 0px; margin-left: 385px; margin-top: 0px"/>
 		          </div>
 		        </section>
 		        
-		        <div style="margin-left: 30px; color: white">Line Tracing Situation</div>
-	        
-	            <section style="padding-right: 0px">
+	            <section>
 		          <div class="container-fluid">
-		         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px">
+		         	<div class="container">
 					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 730px; height: 450px"><img id=jetbotView1 style="width: 730px; height: 450px; padding-left: 0px; padding-right: 0px"/></div>
+					  	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style="position: absolute ; margin-top: 60px; margin-left: 305px; width: 150px; height: 150px"/>
 					  </div>
 					</div>
 		          </div>
 		        </section>
+		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 350px; height: 240px; margin-left: 415px; margin-top: 30px"/>
+<!-- 				
+		        <figure class="highcharts-figure">
+				  <div id="chart-container" style="position: absolute; top: 375px; left: 50px"></div>
+				</figure>
+			 	 -->
+			 	
+			 	
+			 	
 			  </div>
 			  
-			  <!-- jet racer # 2 의 상태보기 -->
+			  <!-- jet racer # 2 -->
 			  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-			  	<div style="color: white; margin-bottom: 10px ;margin-left:20px; font-weight: bold; font-size: large; padding-top: 30px">
-	  		      Random Battery Status : <input id="battery2" value="99" style="background-color: transparent; border-color: transparent; color: white"/>
-	  			</div>
-	  			
-		      	<section class="no-padding-top no-padding-bottom">
+		      	<section class="no-padding-top no-padding-bottom" style="margin-top: 30px">
 		          <div class="container-fluid">
-		            <div class="row">
+		            <div class="row" style="height: 100px">
 		              <div class="col-md-3 col-sm-6">
 		                <div class="statistic-block block" style="width: 350px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
-		                    </div> 
+		                    </div>
 		                    <div class="number dashtext-3" id="jetRacerText2">
 		                    	99%
 		                    </div>
@@ -285,28 +397,27 @@
 		          </div>
 		        </section>
 		        
-		       <div style="margin-left: 30px; color: white">Line Tracing Situation</div>
-	        
-	            <section style="padding-right: 0px">
+		       <section>
 		          <div class="container-fluid">
-		         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px">
+		         	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 350px; margin-top:20px">
 					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 730px; height: 450px"><img id=jetbotView2 style="width: 730px; height: 450px; padding-left: 0px; padding-right: 0px"/></div>
+					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 350px; height: 380px">
+					    	<img id=jetView2 style="width: 400px; height: 250px; padding-left: 0px; padding-right: 0px"/>
+					    </div>
+					  	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style="position: absolute ; margin-top: 405px; margin-left: 90px; width: 150px; height: 150px"/>
 					  </div>
 					</div>
 		          </div>
 		        </section>
+		       <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 400px; height: 210px; margin-left: 30px"/>
+		       
 			  </div>
 			  
-			  <!-- jet racer # 3 의 상태보기 -->
+			  <!-- jet racer # 3 -->
 			  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-			  	<div style="color: white; margin-bottom: 10px ;margin-left:20px; font-weight: bold; font-size: large; padding-top: 30px">
-	  		      Random Battery Status : <input id="battery3" value="99" style="background-color: transparent; border-color: transparent; color: white"/>
-	  			</div>
-
-		        <section class="no-padding-top no-padding-bottom">
+		        <section class="no-padding-top no-padding-bottom" style="margin-top: 30px">
 		          <div class="container-fluid">
-		            <div class="row">
+		            <div class="row" style="height: 100px">
 		              <div class="col-md-3 col-sm-6">
 		                <div class="statistic-block block" style="width: 350px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
@@ -328,7 +439,7 @@
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
-		                    </div> 
+		                    </div>
 		                    <div class="number dashtext-2" id="jetRacerText3">
 		                    	C구간
 		                    </div>
@@ -342,25 +453,44 @@
 		          </div>
 		        </section>
 		        
-		    	<div style="margin-left: 30px; color: white">Line Tracing Situation</div>
-	        
-	            <section style="padding-right: 0px">
+		    	<section>
 		          <div class="container-fluid">
-		         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 800px">
+		         	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 350px; margin-top:20px">
 					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 730px; height: 450px"><img id=jetbotView3 style="width: 730px; height: 450px; padding-left: 0px; padding-right: 0px"/></div>
+					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 350px; height: 380px">
+					    	<img id=jetView3 style="width: 350px; height: 380px; padding-left: 0px; padding-right: 0px"/>
+					    </div>
+					  	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style="position: absolute ; margin-top: 405px; margin-left: 90px; width: 150px; height: 150px"/>
 					  </div>
 					</div>
 		          </div>
 		        </section>
+		        
+		       <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 353px; height: 210px; margin-left: 30px"/>
+		       
 			  </div>
 			</div>
+		  </div>
+		</div>
+		
+			
+		<!--  Template 관련 설정 파일들 -->
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
+	    
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+	    
+	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 
-		    <!-- JavaScript files-->
-		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-		    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+
+
 	</body>
 </html>

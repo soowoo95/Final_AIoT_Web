@@ -8,7 +8,7 @@ public class Animal {
 
 	private int dno;			
 	private String dname;	
-	private int dlevel;
+	private String dlevel;
 	private int dnum;	
 	private String dfinder;	
 	private String dlocation;
@@ -31,10 +31,10 @@ public class Animal {
 	public void setDname(String dname) {
 		this.dname = dname;
 	}
-	public int getDlevel() {
+	public String getDlevel() {
 		return dlevel;
 	}
-	public void setDlevel(int dlevel) {
+	public void setDlevel(String dlevel) {
 		this.dlevel = dlevel;
 	}
 	public int getDnum() {

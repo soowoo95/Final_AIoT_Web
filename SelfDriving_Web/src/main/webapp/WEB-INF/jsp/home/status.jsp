@@ -63,7 +63,7 @@
 		let ipid;
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.136", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -75,6 +75,7 @@
 				client.subscribe("/2cctv");
 				client.subscribe("/3cctv");
 				client.subscribe("/4cctv");
+				client.subscribe("/1jetracer");
 				
 				//subscriber 연결됐다고 메세지 발행해서 알리자
  				message = new Paho.MQTT.Message('newSub');
@@ -312,8 +313,13 @@
 						document.getElementById('cameraView4').style.border = 'inactiveborder'; 
 					}
 				}
+				
+				if(message.destinationName =="/1jetracer"){
+					$("#jrView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+				}
 			}
 		</script>
+		
 	</head>
 	
 	<body>
@@ -361,17 +367,16 @@
 	   
 	      
 	     <div class="page-content" style="padding-bottom: 0px">
-	      
-	     	<div class="center" style="margin-bottom: 10px; margin-top: 10px; color: lightgray">실시간 유해동물 탐지 현황</div>
+	     	<div style="margin-bottom: 10px; margin-top: 10px; color: white; font-weight: bold; margin-left: 450px; font-size: 20px; ">실시간 유해동물 탐지 현황</div>
 		     <section style="padding-right: 0px">
 	          <div class="container-fluid">
-	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 210px; width: 560px; height: 400px; ">
-	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 520px; height: 400px">
+	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:15px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView1 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView2 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView3 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=jetView4 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView2 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView3 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView4 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
 				  </div>
 				</div>
 	          </div>
@@ -379,22 +384,21 @@
 	        
 	        <section style="padding-right: 0px">
 	          <div class="container-fluid">
-	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 780px; width: 560px; height: 400px;">
-	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 190px ;border-color: transparent; font-weight: bold;"/>
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 540px; width: 520px; height: 400px;">
+	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:15px; margin-left: 190px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView1 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView2 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView3 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 280px; height: 200px"><img id=cameraView4 style="width: 280px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView2 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView3 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView4 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
 				  </div>
 				</div>
 	          </div>
 	        </section>
        
 	       <div style="border-color: transparent; margin-top: 460px;">
-		       <div class="container" style="background-color: #22252a">
-				  <h2 style="color: white; margin-left: 340px; font-size: x-large">Brief Report of Detection Situation</h2>           
-				  <table class="table hover" style="margin-bottom: 0px">
+		       <div class="container" style="background-color: #22252a;  margin-left: 0px">         
+				  <table class="table hover" style="margin-bottom: 0px; margin-left: 0px">
 				    <thead>
 				      <tr>
 				        <th style="color: white; font-size: medium; text-align: center;">CCTV 번호</th>

@@ -27,11 +27,6 @@ public class AnimalDao extends EgovAbstractMapper {
 		return animal;
 	}
 
-	public List listupdate() {
-		List list = selectList("animal.selectList");
-		return list;
-	}
-
 	public int count() {
 		int totalRows = selectOne("animal.count");
 		return totalRows;

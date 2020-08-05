@@ -74,22 +74,6 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/jetracer";
 	}
-
-/*	@RequestMapping("/history.do")
-	public String history(Model model) {
-		LOGGER.info("실행");
-		
-		ArrayList<Animal> animalList = new ArrayList<Animal>();
-		for (int i = 0; i < 10; i++) {
-			int dno = i + 1;
-			Animal animal = new Animal();
-			animal = animalService.getAnimal(dno);
-			animal.setDfinder(animal.getDfinder());
-			animalList.add(animal);
-		}
-		model.addAttribute("animal",animalList);
-		return "home/history";
-	}*/
 	
 	@RequestMapping("/imageView.do")
 	@ResponseBody
@@ -122,18 +106,6 @@ public class HomeController {
 		return "home/analysis";
 	}
 	
-/*	@PostMapping("/getAnimalList.do")
-	@ResponseBody
-	public List listupdate(){
-		//LOGGER.info("애니멀리스트");
-		List<Animal> animallist= new ArrayList<Animal>();
-		animallist = animalService.listupdate();
-		for (Animal animal : animallist) {
-			animal.setDfinder(animal.getDfinder().replace("/", ""));
-		}
-		return animallist;
-	}
-	*/
 	@RequestMapping("/history.do")
 	public String history(Model model, @RequestParam(defaultValue="1")int pageNo, 
 						@RequestParam(defaultValue="7") int rowsPerPage,
