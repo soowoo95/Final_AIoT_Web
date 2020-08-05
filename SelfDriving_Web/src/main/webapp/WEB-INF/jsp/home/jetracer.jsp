@@ -14,6 +14,8 @@
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
+		
+		<script src="${pageContext.request.contextPath}/resource/js/manual_control.js" ></script> 
 
 		<style>
 			#div1 {font-size:48px}
@@ -124,7 +126,7 @@
 			
 			var speed = 0; 
 			function onMessageArrived(message) {
-				console.log("mqtt broker connected");
+				//console.log("mqtt message received");
 				
  				if(message.destinationName =="/1jetracer") {
 					$("#jetView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
@@ -135,32 +137,44 @@
  					const obj = JSON.parse(json);
  					
 /////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
-					console.log("battery:",obj.battery, "%");
+					//console.log("battery:",obj.battery, "%");
 					bat1 = obj.battery;
-					$("#jetRacerText1").text(bat1 + "%");
-			      	document.getElementById('jet1Battery').style.width = bat1 + '%';
+					//$("#jetRacerText1").text(bat1 + "%");
 			      	bat1 = parseInt(bat1);
 			      	
 			      	if (bat1 >= 100){
+			      		bat1 == 100;
 			      		document.getElementById('batt').style.backgroundColor = 'dimgray';
-			      		document.getElementById('adtt').style.backgroundColor = '#864DD9';
+			      		document.getElementById('batt').style.opacity = '0.9';
+			      		document.getElementById('batt').style.color = 'white';
+			      		document.getElementById('adtt').style.backgroundColor = 'red';
+			      		document.getElementById('jet1Battery').style.width = bat1 + '%';
 			      		$("#batt").attr("value", "Battery");
+			      		$("#jetRacerText1").text("100%");
 			      	}
-			      	else if (60<bat1 && bat1<100){
-			      		document.getElementById('batt').style.backgroundColor = '#864DD9';
+			      	else if (40<bat1 && bat1<100){
+			      		document.getElementById('batt').style.backgroundColor = '#ADFF2F';
+			      		document.getElementById('batt').style.color = 'black';
 			      		document.getElementById('adtt').style.backgroundColor = 'dimgray';
+			      		document.getElementById('adtt').style.opacity = '0.9';
+			      		document.getElementById('jet1Battery').style.width = String(bat1) + '%';
 			      		$("#batt").attr("value", "Battery");
+			      		$("#jetRacerText1").text(String(bat1) + "%");
 			      	}
-			      	else if (bat1 <= 60){
+			      	else if (bat1 <= 40){
 			      		document.getElementById('batt').style.backgroundColor = 'red';
+			      		document.getElementById('batt').style.color = 'white';
 			      		document.getElementById('adtt').style.backgroundColor = 'dimgray';
+			      		document.getElementById('adtt').style.opacity = '0.9';
 			      		document.getElementById('vacant').style.backgroundColor ="transparent";
-			      		$("#batt").attr("value", "CHARGE NOW");
+			      		document.getElementById('jet1Battery').style.width = String(bat1) + '%';
+			      		$("#batt").attr("value", "CHARGE NOW !!!");
+			      		$("#jetRacerText1").text(String(bat1) + "%");
 			      	}
 	
 /////////////////////////////////////////////////		servo 각도 조절			//////////////////////////////////////////////////////////////
 			      	angle = obj.servo;
-					console.log("servo:",angle);
+					//console.log("servo:",angle);
 			      	if (angle > 90){
 	  			    	angle=540-(2*angle);
 	  			    	$("#image_steering").css({transform:'rotate(' + angle + 'deg)'});
@@ -177,12 +191,14 @@
 					speed1 = obj.speed;
 			      	speed1=Math.round(speed1);
 			      	if(speed1 < 40){
-			      		$("#MotorSpeed").attr("value", 0 +" km/h");
+			      		$("#MotorSpeed").text(0 +" km/h");
+			      		//$("#MotorSpeed").attr("value", 0 +" km/h");
 			      	}
 			      	else if(40 <= speed1){
-			      		$("#MotorSpeed").attr("value", speed1 +" km/h");
+			      		$("#MotorSpeed").text(speed1 +" km/h");
+			      		//$("#MotorSpeed").attr("value", speed1 +" km/h");
 			      	}
-			      	console.log("speed:", speed1);
+			      	//console.log("speed:", speed1);
 
 /////////////////////////////////////////////////		주행 구역		///////////////////////////////////////////////////////////////////////
 			      	//area1 = obj.area;
@@ -190,13 +206,14 @@
 					var possible = "ABCDEFGHIJKLMNOPQRST";
 					text = possible.charAt(Math.floor(Math.random() * possible.length));
 					//console.log(text);
-			      	$("#district1").text("Area " + text);
+			      	$("#district1").text("Zone " + text);
 			      	//document.getElementById('jet1District').style.width = (area1*5) + '%';
 
 /////////////////////////////////////////////////		외부 온도		///////////////////////////////////////////////////////////////////////
 			      	//temp1 = obj.temp;
 			      	temp1 = parseInt(((Math.random()*10+1))+20);
-			      	$("#Temperature").attr("value", temp1 +" °C");
+			      	$("#Temperature").text(temp1 +" °C");
+			      	//$("#Temperature").attr("value", temp1 +" °C");
 				}
  				
 				if(message.destinationName =="/2jetracer") {
@@ -229,6 +246,95 @@
 			      	document.getElementById('jet3Battery').style.width = obj.Battery + '%';
 				}
 			}
+		</script>
+		<script>
+		//키보드 전용 토픽 서보 만들기		키보드 이벤트를 통해 정보를 송신받아서 키보드에 해당하는 특정 작업을 수행하는걸 실시간으로 보여준다
+		$(document).keydown(function(event) {	// 동시에 누르면 가운데로 정렬
+			
+			if (event.keyCode == '37' && event.keyCode == '39') { //좌우키를 동시 누르는 중
+			    
+			    console.log("좌우 키보드 누름")
+				servo4 = 90
+								
+				message = new Paho.MQTT.Message("value:"+ servo4);
+				message.destinationName = "/servo/servo4/middle";
+				message.qos = 0;
+				client.send(message);
+			}
+			  
+			  
+			if (event.keyCode == '40' && event.keyCode == '38') { //앞이랑 뒤 키를 동시에 눌렀을때 : 일단 멈춤
+				    speed = 0
+				    console.log("상하 키보드 동시에 누름")
+				  	message = new Paho.MQTT.Message("value:"+ speed);
+					message.destinationName = "/speed/stop";
+					message.qos = 0;
+					client.send(message);
+			}
+			  
+			if (event.keyCode == '38') {
+				  	console.log("달리자")
+				  	message = new Paho.MQTT.Message("speed:"+ 40);
+					message.destinationName = "/manual/go";
+					message.qos = 0;
+					client.send(message);
+			}
+			
+			if (event.keyCode == '40') { 		
+				    console.log("멈추거라")
+				  	message = new Paho.MQTT.Message("speed:" + 0);
+					message.destinationName = "/manual/stop";
+					message.qos = 0;
+					client.send(message);
+			}
+			
+			if (event.keyCode == '32') { //스페이스바
+					buzzerOn()
+			}
+		});
+		</script>
+		<script>	// 키보드 이벤트 / 손가락 뗏을때 키보드 이벤트 발생하고 그것을 mqtt 메시지로 보드로 보내준다
+			$(document).keyup(function(event) {			  
+			  if (event.keyCode == '40' && event.keyCode == '38') { //멈춤
+				    speed = 0
+				    console.log("상하 동시 뗌")
+				  	message = new Paho.MQTT.Message("value:"+ speed);
+					message.destinationName = "/speed";
+					message.qos = 0;
+					client.send(message);
+			  }
+			  
+			  if (event.keyCode == '38') { //멈춤
+				  	speed = 0
+				  	console.log("위 버튼 뗐는데~~~")
+				  	message = new Paho.MQTT.Message("value:"+ speed);
+					message.destinationName = "/speed";
+					message.qos = 0;
+					client.send(message);
+				  }
+			  
+			  if (event.keyCode == '37' && event.keyCode == '39') { //좌우 동시 뗄때
+				  	servo4 = 90
+				  	console.log("좌우 키보드 동시 뗌")
+					message = new Paho.MQTT.Message("value:"+ servo4);
+					message.destinationName = "/servo4";
+					message.qos = 0;
+					client.send(message);
+			  }
+			  			  
+			  if (event.keyCode == '40') { //멈춤
+				    speed = 0
+				    console.log("아래 버튼 뗐는데~~~")
+				  	message = new Paho.MQTT.Message("value:"+ speed);
+					message.destinationName = "/speed/down";
+					message.qos = 0;
+					client.send(message);
+			  }
+			  		  
+			  if (event.keyCode == '32') { //스페이스바
+				  buzzerOff()
+			  }
+			});
 		</script>
 	</head>
 	
@@ -291,50 +397,67 @@
 
 			<div class="tab-content" id="pills-tabContent" style="height: 750px; margin-left: 30px; margin-right: 20px;  border-color: dimgray; border-style:solid; border-width:thick">
 			  
-			  <!-- jet racer # 1 -->
-			  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-	  			
-	  			<div id=showView style="margin-top: 10px; margin-left: 30px">
-              		<div id="title" style="background-color: dimgray; width: 490px; color: white">Line Tracing Situation</div>
-              		<div id="vacant" style="background-color: transparent; width: 5px"></div>
-              		<div id=batteryMode>
+		  	<!-- jet racer # 1 -->
+		  	<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+  				<div id=showView style="margin-top: 10px; margin-left: 30px">
+             		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Line Tracing Situation</div>
+             		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+             		<div id=batteryMode>
 	              		<div id="batMode" style="width: 190px">
-	              			<input id="batt" value="Battery" style="border-color: transparent; background-color: #864DD9; text-align: center; color: white;">
+	              			<input id="batt" value="Battery" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black; width: 190px; font-weight: bold;justify-content: center;">
 	              		</div>
 						<div id="adtMode" style="width: 190px">
-							<input id="adtt" value="Adapter" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px">
+							<input id="adtt" value="Adapter Connected" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;">
 						</div>
-	              	</div>
-              	</div>
-              	
-              	<img id=jetView1 style="width: 490px; height: 400px; padding-left: 0px; padding-right: 0px; margin-left: 30px; margin-top: 0px"/>
+              		</div>
+             	</div>
+             	
+             	<img id=jetView1 style="width: 490px; height: 370px; padding-left: 0px; padding-right: 0px; margin-left: 30px; margin-top: 0px"/>
 
 		      	<section class="no-padding-top no-padding-bottom" style="top:115px; position: absolute">
 		          <div class="container-fluid">
 		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		                
-		                <div class="statistic-block block" style="width: 380px; height: 120px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 495px">
+		                <div class="statistic-block block" style="width: 380px; height: 100px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 495px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
 		                    </div> 
 		                    <div class="number dashtext-1" id="jetRacerText1">
-		                    	99%
+		                    	100%
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
-		                    <div id="jet1Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+		                    <div id="jet1Battery" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
 		                  </div>
 		                </div>
-
-		                <div class="statistic-block block" style="width: 380px; height: 120px; margin-left: 495px; justify-content: center">
+		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
-		                    <div class="title">
-		                      <div class="icon" style="padding-top: 10px"><i class="icon-info"></i></div><strong style="color: white">Driving District</strong>
+		                    <div class="title" style="padding-bottom: 30px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Driving District</strong>
 		                    </div>
-		                    <div class="number dashtext-1" id="district1" style="padding-top: 10px">
-		                    	Area A
+		                    <div class="number dashtext-1" id="district1" style="padding-bottom: 30px">
+		                    	Zone A
+		                    </div>
+		                 </div>
+		                </div>
+ 		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Motor Speed</strong>
+		                    </div>
+		                    <div class="number dashtext-1" id="MotorSpeed" style="padding-bottom: 30px">
+		                    	60 km/h
+		                    </div>
+		                 </div>
+		                </div>
+		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px; padding-top: 0px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Current °C</strong>
+		                    </div>
+		                    <div class="number dashtext-1" id="Temperature" style="padding-bottom: 30px">
+		                    	25 °C
 		                    </div>
 		                 </div>
 		                </div>
@@ -343,6 +466,26 @@
 		          </div>
 		        </section>
 		        
+		        <div id=showView style="margin-top: 10px; margin-left: 30px">
+             		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Driving Situation</div>
+             		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+             		<div id="title" style="background-color: #864DD9; width: 380px; color: white; font-weight: bold;justify-content: center;">Manual Control</div>
+             	</div>
+
+				
+					<div id="tire_control" align="center" style="margin-top: 10px; margin-left: 70px">
+						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style="margin-bottom: 5px; border-color:#864DD9; border-width: medium; ">↑</a><br/>
+						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#864DD9; border-width: medium">←</a>
+						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#864DD9; border-width: medium">↓</a>
+						<a class="btn btn-outline-warning btn-lg" id="right" onmousedown="tire_button_down('right')" onmouseup="tire_button_up('right')" onclick="click_right()" style="border-color:#864DD9; border-width: medium">→</a>
+					</div><br/>
+					
+				</div>
+
+             	
+		        
+<!-- 		    <input id="MotorSpeed" value="60 km/h" style="background-color: #2d3035; border-color: transparent; font-size: xx-large; font-weight: bold; color: lightgray; position: absolute; top:370px; width: 380px; margin-left: 5px"></input> -->
+	            <%-- 서보 각도에 따라 핸들 돌리기 (캔버스로 대체할 것임)
 	            <section>
 		          <div class="container-fluid">
 		         	<div class="container">
@@ -350,125 +493,186 @@
 					</div>
 		          </div>
 		        </section>
-		        
-		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 490px; height: 240px; margin-left: 30px; margin-top: 0px"/>
-			  </div>
+		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 490px; height: 240px; margin-left: 30px; margin-top: 0px"/> --%>
+		 		
+		 		<!-- 
+         		<div style="opacity: 0.3">
+	                <button class="up"  style="height:50px; width:50px;">△</button><br/>
+	                <button class="left"  style="height:50px; width:50px;">◁</button>
+	                <button class="center" style="height:50px; width:50px;">□</button>
+	                <button class="right" style="height:50px; width:50px;">▷</button><br/>
+	                <button class="down" style="height:50px; width:50px;">▽</button>
+            	</div>
+			 -->	
+		 	
 			  
-			  <!-- jet racer # 2 -->
-			  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-		      	<section class="no-padding-top no-padding-bottom" style="margin-top: 30px">
+				<!-- jet racer # 2 -->
+			 	<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+		      	<div id=showView style="margin-top: 10px; margin-left: 30px">
+             		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Line Tracing Situation</div>
+             		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+             		<div id=batteryMode>
+	              		<div id="batMode" style="width: 190px">
+	              			<input id="batt2" value="Battery" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black; width: 190px; font-weight: bold;justify-content: center;">
+	              		</div>
+						<div id="adtMode" style="width: 190px">
+							<input id="adtt2" value="Adapter Connected" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;">
+						</div>
+              		</div>
+             	</div>
+             	
+             	<img id=jetView2 style="width: 490px; height: 370px; padding-left: 0px; padding-right: 0px; margin-left: 30px; margin-top: 0px"/>
+
+		      	<section class="no-padding-top no-padding-bottom" style="top:115px; position: absolute">
 		          <div class="container-fluid">
-		            <div class="row" style="height: 100px">
+		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block" style="width: 350px">
+		                <div class="statistic-block block" style="width: 380px; height: 100px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 495px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
-		                    </div>
-		                    <div class="number dashtext-3" id="jetRacerText2">
-		                    	99%
+		                    </div> 
+		                    <div class="number dashtext-1" id="jetRacerText2">
+		                    	100%
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
-		                    <div id="jet2Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
+		                    <div id="jet2Battery" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
 		                  </div>
 		                </div>
-		              </div>
-		              
-		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block" style="width: 350px">
-		                  <div class="progress-details d-flex align-items-end justify-content-between">
-		                    <div class="title">
-		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
-		                    </div> 
-		                    <div class="number dashtext-3" id="jetRacerText2">
-		                    	B구간
+		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Driving District</strong>
 		                    </div>
-		                  </div>
-		                  <div class="progress progress-template">
-		                    <div id="jet2Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
-		                  </div>
+		                    <div class="number dashtext-1" id="district2" style="padding-bottom: 30px">
+		                    	Zone A
+		                    </div>
+		                 </div>
+		                </div>
+ 		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Motor Speed</strong>
+		                    </div>
+		                    <div class="number dashtext-1" id="MotorSpeed2" style="padding-bottom: 30px">
+		                    	60 km/h
+		                    </div>
+		                 </div>
+		                </div>
+		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px; padding-top: 0px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Current °C</strong>
+		                    </div>
+		                    <div class="number dashtext-1" id="Temperature2" style="padding-bottom: 30px">
+		                    	25 °C
+		                    </div>
+		                 </div>
 		                </div>
 		              </div>
 		            </div>
 		          </div>
 		        </section>
 		        
-		       <section>
-		          <div class="container-fluid">
-		         	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 350px; margin-top:20px">
-					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 350px; height: 380px">
-					    	<img id=jetView2 style="width: 400px; height: 250px; padding-left: 0px; padding-right: 0px"/>
-					    </div>
-					  	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style="position: absolute ; margin-top: 405px; margin-left: 90px; width: 150px; height: 150px"/>
-					  </div>
-					</div>
-		          </div>
-		        </section>
-		       <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 400px; height: 210px; margin-left: 30px"/>
-		       
+		        <div id=showView style="margin-top: 10px; margin-left: 30px">
+             		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Driving Situation</div>
+             		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+             		<div id="title" style="background-color: #864DD9; width: 380px; color: white; font-weight: bold;justify-content: center;">Manual Control</div>
+             	</div>
+
+				
+					<div id="tire_control" align="center" style="margin-top: 10px; margin-left: 70px">
+						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style="margin-bottom: 5px; border-color:#864DD9; border-width: medium; ">↑</a><br/>
+						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#864DD9; border-width: medium">←</a>
+						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#864DD9; border-width: medium">↓</a>
+						<a class="btn btn-outline-warning btn-lg" id="right" onmousedown="tire_button_down('right')" onmouseup="tire_button_up('right')" onclick="click_right()" style="border-color:#864DD9; border-width: medium">→</a>
+					</div><br/>
 			  </div>
 			  
 			  <!-- jet racer # 3 -->
 			  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-		        <section class="no-padding-top no-padding-bottom" style="margin-top: 30px">
+		        <div id=showView style="margin-top: 10px; margin-left: 30px">
+             		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Line Tracing Situation</div>
+             		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+             		<div id=batteryMode>
+	              		<div id="batMode" style="width: 190px">
+	              			<input id="batt3" value="Battery" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black; width: 190px; font-weight: bold;justify-content: center;">
+	              		</div>
+						<div id="adtMode" style="width: 190px">
+							<input id="adtt3" value="Adapter Connected" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;">
+						</div>
+              		</div>
+             	</div>
+             	
+             	<img id=jetView3 style="width: 490px; height: 370px; padding-left: 0px; padding-right: 0px; margin-left: 30px; margin-top: 0px"/>
+
+		      	<section class="no-padding-top no-padding-bottom" style="top:115px; position: absolute">
 		          <div class="container-fluid">
-		            <div class="row" style="height: 100px">
+		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block" style="width: 350px">
+		                <div class="statistic-block block" style="width: 380px; height: 100px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 495px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
 		                    </div> 
-		                    <div class="number dashtext-2" id="jetRacerText3">
-		                    	99%
+		                    <div class="number dashtext-1" id="jetRacerText3">
+		                    	100%
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
-		                    <div id="jet3Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+		                    <div id="jet3Battery" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
 		                  </div>
 		                </div>
-		              </div>
-		              
-		              <div class="col-md-3 col-sm-6">
-		                <div class="statistic-block block" style="width: 350px">
-		                  <div class="progress-details d-flex align-items-end justify-content-between">
-		                    <div class="title">
-		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
+		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Driving District</strong>
 		                    </div>
-		                    <div class="number dashtext-2" id="jetRacerText3">
-		                    	C구간
+		                    <div class="number dashtext-1" id="district3" style="padding-bottom: 30px">
+		                    	Zone A
 		                    </div>
-		                  </div>
-		                  <div class="progress progress-template">
-		                    <div id="jet3Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
-		                  </div>
+		                 </div>
+		                </div>
+ 		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Motor Speed</strong>
+		                    </div>
+		                    <div class="number dashtext-1" id="MotorSpeed3" style="padding-bottom: 30px">
+		                    	60 km/h
+		                    </div>
+		                 </div>
+		                </div>
+		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
+		                    <div class="title" style="padding-bottom: 30px; padding-top: 0px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Current °C</strong>
+		                    </div>
+		                    <div class="number dashtext-1" id="Temperature3" style="padding-bottom: 30px">
+		                    	25 °C
+		                    </div>
+		                 </div>
 		                </div>
 		              </div>
 		            </div>
 		          </div>
 		        </section>
 		        
-		    	<section>
-		          <div class="container-fluid">
-		         	<div class="container" style="margin-right: 0px; margin-left: 0px; width: 350px; margin-top:20px">
-					  <div class="row row-cols-2">
-					    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 350px; height: 380px">
-					    	<img id=jetView3 style="width: 350px; height: 380px; padding-left: 0px; padding-right: 0px"/>
-					    </div>
-					  	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style="position: absolute ; margin-top: 405px; margin-left: 90px; width: 150px; height: 150px"/>
-					  </div>
-					</div>
-		          </div>
-		        </section>
-		        
-		       <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 353px; height: 210px; margin-left: 30px"/>
-		       
-			  </div>
-			</div>
+		        <div id=showView style="margin-top: 10px; margin-left: 30px">
+             		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Driving Situation</div>
+             		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+             		<div id="title" style="background-color: #864DD9; width: 380px; color: white; font-weight: bold;justify-content: center;">Manual Control</div>
+             	</div>
+
+				
+					<div id="tire_control" align="center" style="margin-top: 10px; margin-left: 70px">
+						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style="margin-bottom: 5px; border-color:#864DD9; border-width: medium; ">↑</a><br/>
+						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#864DD9; border-width: medium">←</a>
+						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#864DD9; border-width: medium">↓</a>
+						<a class="btn btn-outline-warning btn-lg" id="right" onmousedown="tire_button_down('right')" onmouseup="tire_button_up('right')" onclick="click_right()" style="border-color:#864DD9; border-width: medium">→</a>
+					</div><br/>
 		  </div>
-		</div>
 		
 			
 		<!--  Template 관련 설정 파일들 -->
