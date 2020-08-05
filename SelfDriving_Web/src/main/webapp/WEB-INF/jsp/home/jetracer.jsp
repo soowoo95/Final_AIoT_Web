@@ -14,14 +14,6 @@
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-		
-		<!-- highchart 관련 -->
-		<script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/highcharts-more.js"></script>
-		<script src="https://code.highcharts.com/modules/exporting.js"></script>
-		<script src="https://code.highcharts.com/modules/export-data.js"></script>
-		<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-		<script src="${pageContext.request.contextPath}/resource/js/speedHighChart.js"></script>
 
 		<style>
 			#div1 {font-size:48px}
@@ -41,7 +33,7 @@
 			  align-items: center;
 			  height: 50px;
 			  font-size: 30px;
-			  font-weight: bold; 
+			  font-weight: bold;
 			}
 			.jetToggle {
 			justify-content: center; 
@@ -103,7 +95,7 @@
 			  text-align: center;
 			}
 			#showView {
-			  width: 760px;
+			  width: 875px;
 			  height: 30px;
 			  display: flex;
 			  flex-direction: row;
@@ -131,11 +123,9 @@
 			}
 			
 			var speed = 0; 
-			
 			function onMessageArrived(message) {
 				console.log("mqtt broker connected");
 				
-				//line tracing 프레임 띄우기
  				if(message.destinationName =="/1jetracer") {
 					$("#jetView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
@@ -144,51 +134,69 @@
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
  					
- 					//배터리 상태 표시
+/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
 					console.log("battery:",obj.battery, "%");
 					bat1 = obj.battery;
 					$("#jetRacerText1").text(bat1 + "%");
 			      	document.getElementById('jet1Battery').style.width = bat1 + '%';
+			      	bat1 = parseInt(bat1);
 			      	
 			      	if (bat1 >= 100){
-			      		document.getElementById('batMode').style.backgroundColor = 'dimgray';
-			      		document.getElementById('adtMode').style.backgroundColor = '#864DD9';
+			      		document.getElementById('batt').style.backgroundColor = 'dimgray';
+			      		document.getElementById('adtt').style.backgroundColor = '#864DD9';
+			      		$("#batt").attr("value", "Battery");
 			      	}
-			      	else if (20 < bat1 < 100){
-			      		document.getElementById('batMode').style.backgroundColor = '#864DD9';
-			      		document.getElementById('adtMode').style.backgroundColor = 'dimgray';
+			      	else if (60<bat1 && bat1<100){
+			      		document.getElementById('batt').style.backgroundColor = '#864DD9';
+			      		document.getElementById('adtt').style.backgroundColor = 'dimgray';
+			      		$("#batt").attr("value", "Battery");
 			      	}
-			      	else if (bat1 < 20){
-			      		document.getElementById('batMode').style.backgroundColor = '#8B0000';
-			      		document.getElementById('adtMode').style.backgroundColor = 'dimgray';
-			      		$("#batt").attr("value", "Charge NOW");
+			      	else if (bat1 <= 60){
+			      		document.getElementById('batt').style.backgroundColor = 'red';
+			      		document.getElementById('adtt').style.backgroundColor = 'dimgray';
+			      		document.getElementById('vacant').style.backgroundColor ="transparent";
+			      		$("#batt").attr("value", "CHARGE NOW");
 			      	}
-			      
-
-			      	//angle은 60과 120사이의 값이고 핸들은 320에서 40도 사이에서 회전
-			      	//angle = parseInt(Math.random() * 60 + 60);
-			      	
-			      	//servo 가도 조절
+	
+/////////////////////////////////////////////////		servo 각도 조절			//////////////////////////////////////////////////////////////
 			      	angle = obj.servo;
 					console.log("servo:",angle);
-					
 			      	if (angle > 90){
 	  			    	angle=540-(2*angle);
 	  			    	$("#image_steering").css({transform:'rotate(' + angle + 'deg)'});
 			      	}
-			      	 
 	  			    else if (angle == 90){
 			      		$("#image_steering").css({transform:'rotate(' + 0 + 'deg)'});
 			      	}
-			      	
 	  			    else if (angle < 90){
 			      		angle=180-(2*angle);
 			      		$("#image_steering").css({transform:'rotate(' + angle + 'deg)'});
 			      	}
-					
-			      	//dc speed 표시
-					speed = obj.speed;
-			      	console.log("speed:", speed);
+
+/////////////////////////////////////////////////		dc speed		///////////////////////////////////////////////////////////////////
+					speed1 = obj.speed;
+			      	speed1=Math.round(speed1);
+			      	if(speed1 < 40){
+			      		$("#MotorSpeed").attr("value", 0 +" km/h");
+			      	}
+			      	else if(40 <= speed1){
+			      		$("#MotorSpeed").attr("value", speed1 +" km/h");
+			      	}
+			      	console.log("speed:", speed1);
+
+/////////////////////////////////////////////////		주행 구역		///////////////////////////////////////////////////////////////////////
+			      	//area1 = obj.area;
+			   		var text = "";
+					var possible = "ABCDEFGHIJKLMNOPQRST";
+					text = possible.charAt(Math.floor(Math.random() * possible.length));
+					//console.log(text);
+			      	$("#district1").text("Area " + text);
+			      	//document.getElementById('jet1District').style.width = (area1*5) + '%';
+
+/////////////////////////////////////////////////		외부 온도		///////////////////////////////////////////////////////////////////////
+			      	//temp1 = obj.temp;
+			      	temp1 = parseInt(((Math.random()*10+1))+20);
+			      	$("#Temperature").attr("value", temp1 +" °C");
 				}
  				
 				if(message.destinationName =="/2jetracer") {
@@ -285,26 +293,28 @@
 			  
 			  <!-- jet racer # 1 -->
 			  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-		      	<section class="no-padding-top no-padding-bottom" style="margin-top: 30px">
-		          <div class="container-fluid" style="height: 260px">
-		            
-		            <div class="row" style="height: 30px; width: 760px">
+	  			
+	  			<div id=showView style="margin-top: 10px; margin-left: 30px">
+              		<div id="title" style="background-color: dimgray; width: 490px; color: white">Line Tracing Situation</div>
+              		<div id="vacant" style="background-color: transparent; width: 5px"></div>
+              		<div id=batteryMode>
+	              		<div id="batMode" style="width: 190px">
+	              			<input id="batt" value="Battery" style="border-color: transparent; background-color: #864DD9; text-align: center; color: white;">
+	              		</div>
+						<div id="adtMode" style="width: 190px">
+							<input id="adtt" value="Adapter" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px">
+						</div>
+	              	</div>
+              	</div>
+              	
+              	<img id=jetView1 style="width: 490px; height: 400px; padding-left: 0px; padding-right: 0px; margin-left: 30px; margin-top: 0px"/>
+
+		      	<section class="no-padding-top no-padding-bottom" style="top:115px; position: absolute">
+		          <div class="container-fluid">
+		            <div class="row">
 		              <div class="col-md-3 col-sm-6">
-		              
-		              	<div id=showView>
-			              	<div id=batteryMode>
-			              		<div id="batMode" style="background-color: dimgray">
-			              			<input id="batt" value="Battery" style="border-color: transparent; background-color:transparent; text-align: center; color: white;">
-			              		</div>
-								<div id="adtMode" style="background-color: dimgray">
-									<input value="Adapter" style="border-color: transparent; background-color:transparent; text-align: center; color: white;">
-								</div>
-			              	</div>
-			              	<div style="background-color: transparent; width: 5px"></div>
-		              		<div style="background-color: dimgray; width: 350px;  color: white">Line Tracing Situation</div>
-		              	</div>
-		              	
-		                <div class="statistic-block block" style="width: 380px; margin-bottom: 10px; padding-bottom: 0px; height: 120px">
+		                
+		                <div class="statistic-block block" style="width: 380px; height: 120px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 495px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
 		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
@@ -318,43 +328,30 @@
 		                  </div>
 		                </div>
 
-		                <div class="statistic-block block" style="width: 380px; height: 120px">
-		                  <div class="progress-details d-flex align-items-end justify-content-between">
+		                <div class="statistic-block block" style="width: 380px; height: 120px; margin-left: 495px; justify-content: center">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
 		                    <div class="title">
-		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">현재 위치</strong>
-		                    </div> 
-		                    <div class="number dashtext-1" id="jetRacerText1">
-		                    	5구간
+		                      <div class="icon" style="padding-top: 10px"><i class="icon-info"></i></div><strong style="color: white">Driving District</strong>
 		                    </div>
-		                  </div>
-		                  <div class="progress progress-template">
-		                    <div id="jet1Battery" role="progressbar" style="width: 99%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
-		                  </div>
+		                    <div class="number dashtext-1" id="district1" style="padding-top: 10px">
+		                    	Area A
+		                    </div>
+		                 </div>
 		                </div>
 		              </div>
 		            </div>
-		           	<img id=jetView1 style="width: 350px; height: 250px; padding-left: 0px; padding-right: 0px; margin-left: 385px; margin-top: 0px"/>
 		          </div>
 		        </section>
 		        
 	            <section>
 		          <div class="container-fluid">
 		         	<div class="container">
-					  <div class="row row-cols-2">
-					  	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style="position: absolute ; margin-top: 60px; margin-left: 305px; width: 150px; height: 150px"/>
-					  </div>
+		         	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style=" width: 150px; height: 150px; position: absolute; left: 140px; top: 550px"/>
 					</div>
 		          </div>
 		        </section>
-		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 350px; height: 240px; margin-left: 415px; margin-top: 30px"/>
-<!-- 				
-		        <figure class="highcharts-figure">
-				  <div id="chart-container" style="position: absolute; top: 375px; left: 50px"></div>
-				</figure>
-			 	 -->
-			 	
-			 	
-			 	
+		        
+		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 490px; height: 240px; margin-left: 30px; margin-top: 0px"/>
 			  </div>
 			  
 			  <!-- jet racer # 2 -->
