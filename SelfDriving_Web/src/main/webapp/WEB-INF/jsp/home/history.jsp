@@ -11,6 +11,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+		
 	    <!--  Template 관련 설정 파일들 -->
 	    <!-- Bootstrap CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
@@ -29,11 +30,8 @@
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-
 		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
-		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
-		
 		<script src="${pageContext.request.contextPath}/resource/js/moment.min.js"></script>
 
 		 <style>
@@ -99,16 +97,11 @@
 	      <div class="page-content">
 	        <script>
 			$(document).ready(function() {
-			    //setInterval(renew1, 5000);
-			    //setInterval(renew2, 5000);
 			    setInterval(renew, 10000);
 			});
 			
 			function renew(){
 				location.reload();
- 				 //$("#animalHistory").load(location.href + "#animalHistory");
- 				 //$("#animalHistory").load('refresh.html').fadeIn("slow");
- 				/*$("#drivingHistory").load(location.href + "#drivingHistory"); */
 			}
 			  /* $.ajax({
 			   type: "POST",
@@ -132,30 +125,6 @@
 			   }
 			 });
 			} */
-			
-/* 			function ajaxd2(){
-				  $.ajax({
-				   type: "POST",
-				   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
-				   success: 
-					   function(animallist){
-					   $('#dataframe2').empty();
-			   			animallist.forEach(function (item, index, array) {
-						
-			    	    var rowItem = "<tr>"
-			    	    rowItem += "<td>"+item['dno']+"</td>"
-			    	    rowItem += "<td onclick="+ "\"" + "viewImage2(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: #DB6574; font-weight: 500" + "\">" + item['dname']+"</td>"
-			    	    rowItem += "<td>"+item['dnum']+"</td>"
-			    	    rowItem += "<td>"+item['dfinder']+"</td>"
-			    	    rowItem += "<td>"+item['dfinder']+"</td>"
-			    	    rowItem += "<td>"+moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss")+"</td>"		    	    
-						rowItem += "</tr>"
-
-			    	    $('#append_table2').append(rowItem);
-				    });
-				   }
-				 });
-				} */
 
 			function viewImage(imgDno){
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
@@ -166,7 +135,6 @@
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
 			}
-			
 			</script>
 
 	        <section class="no-padding-top">
@@ -175,13 +143,14 @@
 	            
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 900px"> 
-	                  <div class="title" style="color: white" id="animalHistory"><strong>Animal Detected | History</strong></div>
+	                  <div class="title" style="color: white"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive" style="height: 310px"> 
 	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; text-align: center">
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
 	                          <th>Detect No.</th>
 	                          <th>Detected Object</th>
+	                          <th>Detected Level</th>
 	                          <th>Object Num</th>
 	                          <th>Detector</th>
 	                          <th>Area</th>
@@ -193,6 +162,7 @@
 		                      	<tr>
 		                          <td scope="row">${animal.dno}</td>
 		                          <td onclick="viewImage(${animal.dno})" style="color: #DB6574">${animal.dname}</td>
+		                          <td>${animal.dlevel}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
@@ -210,7 +180,7 @@
 										<c:if test="${pager.pageNo == i}">
 											<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
 										</c:if>
-										
+
 										<c:if test="${pager.pageNo != i}">
 											<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
 										</c:if>
@@ -238,7 +208,7 @@
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 900px">
 	                  <div class="title" style="color: white"><strong>Driving Situation | History</strong></div>
-	                  <div class="table-responsive" style="height: 310px" id="drivingHistory"> 
+	                  <div class="table-responsive" style="height: 310px"> 
 	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; text-align: center">
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
@@ -264,27 +234,27 @@
 	                      	  </c:forEach>
 	                      </tbody>
 	                      <tr>
-								<td colspan= "7" style="text-align:center;">
-									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=1"> 처음 </a>
-									<c:if test="${pager.groupNo > 1 }">
-										<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.startPageNo - pager.pagesPerGroup}"> 이전 </a>
+							<td colspan= "7" style="text-align:center;">
+								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=1"> 처음 </a>
+								<c:if test="${pager.groupNo > 1 }">
+									<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.startPageNo - pager.pagesPerGroup}"> 이전 </a>
+								</c:if>
+								<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
+									<c:if test="${pager.pageNo == i}">
+										<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
 									</c:if>
-									<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
-										<c:if test="${pager.pageNo == i}">
-											<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
-										</c:if>
-										
-										<c:if test="${pager.pageNo != i}">
-											<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
-										</c:if>
-									</c:forEach>
-									<c:if test="${pager.groupNo < pager.totalGroupNo }">
-										<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.endPageNo + 1 }">다음</a> 
+
+									<c:if test="${pager.pageNo != i}">
+										<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
 									</c:if>
-									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.totalPageNo}"> 맨끝 </a>
-								</td>
-							</tr>
-	                    </table>
+								</c:forEach>
+								<c:if test="${pager.groupNo < pager.totalGroupNo }">
+									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.endPageNo + 1 }">다음</a> 
+								</c:if>
+								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.totalPageNo}"> 맨끝 </a>
+							</td>
+						</tr>
+	                   </table>
 	                  </div>
 	                </div>
 	              </div>
@@ -300,12 +270,5 @@
 	             </div>
 	            </div>
 			</section>
-			
-	<!-- JavaScript files-->
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
-</body>
+	</body>
 </html>
