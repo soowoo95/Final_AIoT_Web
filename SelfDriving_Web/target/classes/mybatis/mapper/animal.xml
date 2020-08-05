@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
+<!-- 프로시저를 호출합니다.-->
 	<mapper namespace="animal">
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-					insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
-					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder});
+					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},'D');
+					<!-- insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
+					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder}); -->
 			</insert>
 			
 			<select id="selectByDno" parameterType="int" resultType ="animal">
@@ -14,22 +16,36 @@
 			</select>
 			
 			<select id="selectList" resultType="animal">
-					select dno, dname, dnum, dfinder, dtime, dimagesname, dlocation 
+					select dno, dname, dnum, dfinder, dtime, dimagesname, dlocation
+					group by dactno 
 					from animal
 					ORDER BY dno DESC LIMIT 7;
 			</select>
-
+			
 			<select id="count" resultType="int">
-				select count(*) from animal
+				select max(dactno) from animal
 			</select>
 
+			<!-- group by는 사건번호로 묶는 코드 입니다.-->
 			<select id="selectByPage" resultType="animal">
-				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder
+				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder, dactno
 				from animal
+                group by dactno
 				order by dno desc
 				limit #{startIndex}, #{rowsPerPage}
 			</select>
 	
+			<select id="monthList" resultType="dactnoperTime">
+					SELECT CONCAT(MONTH(dtime),'-', DAY(dtime),' ',hour(dtime),':',minute(dtime)) dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
+			</select>
+			
+			<select id="regionList" resultType="dactnoperFinder">
+					select dfinder,count(distinct(dactno)) as dperfinder from animal group by dfinder;
+			</select>
+			
+			<select id="howdanger" resultType="String">
+				select min(dlevel) from animal WHERE dtime>DATE_SUB(now(),INTERVAL 1 hour);
+			</select>
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
 					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)
 					values (#{ttitle}, #{tcontent}, #{ttype}, #{twriter}, 0, now(6), 0,0,0,0, #{tattachoname}, #{tattachsname}, #{tattachtype})

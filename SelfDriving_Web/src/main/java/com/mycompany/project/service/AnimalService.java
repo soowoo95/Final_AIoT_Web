@@ -43,4 +43,21 @@ public class AnimalService {
 		List<Animal> list = animalDao.selectByPage(pageNo, rowsPerPage);
 		return list;
 	}
+
+	public List getanalysisMonth() {
+		List monthlist = new ArrayList<>();
+		monthlist= animalDao.getanalysisMonth();
+		return monthlist;
+	}
+
+	public List getanalysisRegion() {
+		List regionlist = new ArrayList<>();
+		regionlist= animalDao.getanalysisRegion();
+		return regionlist;
+	}
+
+	public String mainDangerLevel() {
+		String howdanger= animalDao.getmainDangerLevel();
+		return howdanger;
+	}
 }

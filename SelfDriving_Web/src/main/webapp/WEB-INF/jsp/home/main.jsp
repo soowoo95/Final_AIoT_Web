@@ -153,77 +153,127 @@
 	      </nav>
 	      
 	      <div class="page-content">
-
+			<div class="row">
+			<div class="col-md-6">
 	      <section class="no-padding-top">
 	          <div class="container-fluid">
 	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold">
-	            <div class="row row-cols-3">	            
-	                  <div class="col" style="padding-left: 0px; padding-right: 0px; width: 50%; height: 50%;border: 1px solid gold">
-	                  	<img id=faceimg src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
+	            <div class="row row-cols-2">	            
+	                  <div class="col-12" style="border: 1px solid gold">
+	                  	<img id="faceimg" src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
 	                  	</div>
-	                  	<div class="col" style="padding-left: 0px; padding-right: 0px; width: 50%; height: 50%;border: 1px solid gold">
-						<p style="font-size: 3rem">안전합니다 여러분!</p>
-						</div>
+	                  	<div class="col-12" style="border: 1px solid gold">
+	                  		<p id="notice" style="font-size: 2em;">안전합니다 여러분!</p>
+	                  		<p id="daynotice" style="font-size: 2em;"></p>
+	                  	</div>
 	                  </div>
-	                   
 	             </div>
 	             </div>
 	       </section>
+	       </div>
+	       <div class="col-md-6">
  	     <section style="padding-right: 0px">
-          <div class="container-fluid">
-         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 600px; height: 600px; margin-top: 20px;">
-			  <div class="row row-cols-3" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position1 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position2 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position3 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position8 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position9 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position4 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position7 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position6 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 200px; height: 200px"><img id=position5 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;display: none;"/></div>
-			   </div>
-			</div>
-          </div>
-        </section>
-        
-        <section style="padding-right: 0px">
-          <div class="container-fluid">
-         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 800px; width: 600px; height: 600px; margin-top: 20px;">
-			  <div class="row row-cols-2" style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
-			  <img id=jetracer src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 300px; height: 300px; padding-left: 0px; padding-right: 0px;"/>
-			   </div>
+          <div class="container"style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
+			  <div class="row row-cols-6" >
+			  	<div class="col-xs-2"><img id=position1 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position2 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position3 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position4 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position5 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			   	<div class="col-xs-2"><img id=position6 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			  </div>
+			  <div class="row row-cols-6" >
+			  	<div class="col-xs-2"><img id=position20 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position21 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position22 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position23 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position24 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			   	<div class="col-xs-2"><img id=position7 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			  </div>
+			  <div class="row row-cols-6" >
+			  	<div class="col-xs-2"><img id=position19 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position32 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position33 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position34 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position25 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			   	<div class="col-xs-2"><img id=position8 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			  </div>
+			  <div class="row row-cols-6" >
+			  	<div class="col-xs-2"><img id=position18 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position31 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position36 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position35 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position26 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			   	<div class="col-xs-2"><img id=position9 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			  </div>
+			  <div class="row row-cols-6" >
+			  	<div class="col-xs-2"><img id=position17 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position30 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position29 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position28 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position27 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			   	<div class="col-xs-2"><img id=position10 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			  </div>
+			  <div class="row row-cols-6" >
+			  	<div class="col-xs-2"><img id=position16 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position15 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position14 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position13 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			    <div class="col-xs-2"><img id=position12 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			   	<div class="col-xs-2"><img id=position11 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
+			  </div>
 			  
-			</div>
           </div>
+         
+          <button onclick="move()">눌러요.</button>
         </section>
+        </div>
+        </div>
+     	</div>
         <script>
         count = 0;
         x = 0;
-        count2 = 0;
-        x2 = 0;
-        x3 = 0;
         $(document).ready(function() {
 		    setInterval(move,100)
-		    setInterval(move2,100)
         });
         function move() {
-        	$("#position"+x).hide();
+        	$("#position"+x).css("visibility","hidden");
         	count++;
-        	x= count%8+1;
-			$("#position"+x).show();
+        	x= count%19+1;
+			$("#position"+x).css("visibility","visible");
 		}
-        function move2() {
-        	$("#position2"+x3).hide();
-        	count2++;
-        	x2= count2%8+1;
-        	x3= 9-x2
-			$("#position2"+x3).show();
-		}
+        $.ajax({
+				type: "POST",
+				async: false,
+				url: "${pageContext.request.contextPath}/home/mainDangerLevel.do",
+				success: 
+   			function(howdanger){
+					//DB에서 지금부터 1시간 내에 가장 위험한 등급을 반환한다.
+					var d =new Date()
+					if (howdanger == "" || howdanger == "D"){
+						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_good.png")
+						$("#notice").html("D등급: 안전");
+						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
+					}
+					else if (howdanger == "C"){
+						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_good.png")
+						$("#notice").html("C등급: 안전");
+						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
+					}
+					else if (howdanger == "B"){
+						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_soso.png")
+						$("#notice").html("B등급: 위험");
+						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
+					}
+					else if (howdanger == "A"){
+						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_bad.png")
+						$("#notice").html("A등급: 매우위험");
+						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
+					}
+				}
+  		});
         </script>
-        <button onclick="move()">눌러요.</button>
+        
         
         <!-- JavaScript files-->
 	   	<!--  <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery/jquery.min.js"></script> -->

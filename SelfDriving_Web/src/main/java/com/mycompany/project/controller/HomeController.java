@@ -46,7 +46,7 @@ public class HomeController {
 	
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.105:1883";
+		String MqttServer1= "tcp://192.168.3.184:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";	
@@ -158,5 +158,25 @@ public class HomeController {
 			// 트라이-캐치
 			e.printStackTrace();
 		}
-	}	
+	}
+	@RequestMapping("/analysisMonth.do")
+	@ResponseBody
+	public List analysisMonth() {
+		List monthlist = new ArrayList<>(); 
+		monthlist = animalService.getanalysisMonth();
+		return monthlist;
+	}
+	@RequestMapping("/analysisRegion.do")
+	@ResponseBody
+	public List analysisRegion() {
+		List regionlist = new ArrayList<>(); 
+		regionlist = animalService.getanalysisRegion();
+		return regionlist;
+	}
+	@RequestMapping("/mainDangerLevel.do")
+	@ResponseBody
+	public String mainDangerLevel() {
+		String howdanger = animalService.mainDangerLevel();
+		return howdanger;
+	}
 }

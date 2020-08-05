@@ -34,6 +34,7 @@ public class AnimalDao extends EgovAbstractMapper {
 
 	public int count() {
 		int totalRows = selectOne("animal.count");
+		
 		return totalRows;
 	}
 
@@ -45,5 +46,20 @@ public class AnimalDao extends EgovAbstractMapper {
 		map.put("rowsPerPage", rowsPerPage);
 		List<Animal> list = selectList("animal.selectByPage", map);
 		return list;
+	}
+
+	public List getanalysisMonth() {
+		List monthlist = selectList("animal.monthList");
+		return monthlist;
+	}
+
+	public List getanalysisRegion() {
+		List monthlist = selectList("animal.regionList");
+		return monthlist;
+	}
+
+	public String getmainDangerLevel() {
+		String howdanger = selectOne("animal.howdanger");
+		return howdanger;
 	}
 }

@@ -63,7 +63,7 @@
 		let ipid;
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.136", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -95,7 +95,7 @@
 			}
 			function response(){
 				console.log("답장을 보내요.")
-				  message = new Paho.MQTT.Message("105");
+				  message = new Paho.MQTT.Message(ipid);
 				  message.destinationName = "/network";
 				  client.send(message);
 			}
@@ -157,7 +157,7 @@
  				
 				if(message.destinationName =="/2cctv") {
 					// 주어진 시간동안 잠을자는 동기화된 ajax
-					$.ajax({
+					/* $.ajax({
 						   type: "POST",
 						   url: "${pageContext.request.contextPath}/home/sleep.do",
 						   async : false,
@@ -165,7 +165,8 @@
 							   function(){
 							   console.log("1초간잘잤다");
 							   response();
-						    }});
+						    }}); */
+					response();
 					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
