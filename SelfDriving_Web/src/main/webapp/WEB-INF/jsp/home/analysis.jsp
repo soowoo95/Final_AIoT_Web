@@ -64,7 +64,7 @@
 	
 	<body>
 	<header class="header">   
-	      <nav class="navbar navbar-expand-lg">
+	      <nav class="navbar navbar-expand-lg" style="height: 50px">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">

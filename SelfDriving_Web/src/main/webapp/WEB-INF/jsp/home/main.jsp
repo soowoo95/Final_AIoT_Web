@@ -110,7 +110,7 @@
 	
 	<body>
 		<header class="header">   
-	      <nav class="navbar navbar-expand-lg">
+	      <nav class="navbar navbar-expand-lg" style="height: 50px">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
@@ -132,10 +132,8 @@
 	      </nav>
 	    </header>
 	    
-		<div class="d-flex align-items-stretch">
-	      <!-- Sidebar Navigation-->
-	      <nav id="sidebar">
-	        <!-- Sidebar Header-->
+		<div class="d-flex align-items-stretch" style="height: 855px;">
+	      <nav id="sidebar" style="height: 868px;">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -152,12 +150,12 @@
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
 	      </nav>
 	      
-	      <div class="page-content">
+	      <div class="page-content" style="top: -70px;">
 			<div class="row">
 			<div class="col-md-6">
 	      <section class="no-padding-top">
 	          <div class="container-fluid">
-	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold">
+	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold; margin-top: 100px">
 	            <div class="row row-cols-2">	            
 	                  <div class="col-12" style="border: 1px solid gold">
 	                  	<img id="faceimg" src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
@@ -171,8 +169,8 @@
 	             </div>
 	       </section>
 	       </div>
-	       <div class="col-md-6">
- 	     <section style="padding-right: 0px">
+	       <div class="col-md-6" >
+ 	     <section style="padding-right: 0px; margin-top: 100px"">
           <div class="container"style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
 			  <div class="row row-cols-6" >
 			  	<div class="col-xs-2"><img id=position1 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
