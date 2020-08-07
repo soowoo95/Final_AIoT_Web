@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=UTF-8"%>
+﻿﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -12,61 +12,27 @@
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-	    <!--  Template 관련 설정 파일들 -->
-	    <!-- Bootstrap CSS-->
+
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
-	    <!-- Font Awesome CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
-	    <!-- Custom Font Icons CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
-	    <!-- Google fonts - Muli-->
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
-	    <!-- theme stylesheet-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
-	    <!-- Custom stylesheet - for your changes-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
-	    <!-- Favicon-->
 	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 
-		
-		
-		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
-		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		 <style>
-			#div1 {font-size:48px;}
-			.no-gutters {
-			  margin-right: 0;
-			  margin-left: 0;
-			  > .col,
-			  > [class*="*cols-"] {
-			    padding-right: 0;
-			    padding-left: 0;
-			  }
-			} 
-			#jetracer {
-		  width: 100px;
-		  height: 100px;
-		  position: relative;
-		  animation: myfirst 5s infinite;
-		  animation-direction: normal;
-		}
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
 
-			@keyframes myfirst {
-			  0%   {left: 0%; top: 0%;}
-			  25%  {left: 100%; top: 0%;}
-			  50%  {left: 100%; top: 100%;}
-			  75%  {left: 0%; top: 100%;}
-			  100% {left: 0%; top: 0%;}
-		}
-		body{
-		font-size: 16px;
-		}
-</style>
 		<script>
 			$(function(){
 				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
@@ -105,14 +71,12 @@
 					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 			}
-			
 		</script>		 
 	</head>
 	
 	<body>
-	
 		<header class="header">   
-	      <nav class="navbar navbar-expand-lg">
+	      <nav class="navbar navbar-expand-lg" style="height: 50px">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
 	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
@@ -134,10 +98,8 @@
 	      </nav>
 	    </header>
 	    
-		<div class="d-flex align-items-stretch">
-	      <!-- Sidebar Navigation-->
-	      <nav id="sidebar">
-	        <!-- Sidebar Header-->
+		<div class="d-flex align-items-stretch" style="height: 855px;">
+	      <nav id="sidebar" style="height: 868px;">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -152,14 +114,14 @@
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
-	          </ul>
 	      </nav>
-	      <div class="page-content">
+	      
+	      <div class="page-content" style="top: -70px;">
 			<div class="row">
 			<div class="col-md-6">
 	      <section class="no-padding-top">
 	          <div class="container-fluid">
-	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold">
+	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold; margin-top: 100px">
 	            <div class="row row-cols-2">	            
 	                  <div class="col-12" style="border: 1px solid gold">
 	                  	<img id="faceimg" src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
@@ -173,8 +135,8 @@
 	             </div>
 	       </section>
 	       </div>
-	       <div class="col-md-6">
- 	     <section style="padding-right: 0px">
+	       <div class="col-md-6" >
+ 	     <section style="padding-right: 0px; margin-top: 100px"">
           <div class="container"style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
 			  <div class="row row-cols-6" >
 			  	<div class="col-xs-2"><img id=position1 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
@@ -226,14 +188,12 @@
 			  </div>
 			  
           </div>
-         <canvas id="canvas" style="width:150px;height:150px"></canvas>
+         
+          <button onclick="move()">눌러요.</button>
         </section>
         </div>
+        </div>
      	</div>
-     	</div>
-     	
-	      </div>
-     	
         <script>
         count = 0;
         x = 0;
@@ -276,30 +236,7 @@
 					}
 				}
   		});
-        $(function(){
-        		  var canvas = document.getElementById('canvas');
-        		  console.log(canvas)
-        		  
-        		  if (canvas.getContext) {
-        		    var ctx = canvas.getContext('2d');
-        		    var rectangle = new Path2D();
-        		    rectangle.rect(10, 10, 50, 50);
-        		    ctx.stroke(rectangle);
-        		  }else{
-        			  console.log("canvas.getContext")  
-        		  }
-        		});
         </script>
-        
-        
-        <!-- JavaScript files-->
-	   	<!--  <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery/jquery.min.js"></script> -->
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-<!-- 	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
-<!--    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/chart.js/Chart.min.js"></script> -->
+
 </body>
 </html>
