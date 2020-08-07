@@ -369,23 +369,21 @@
 	      
 	     <div class="page-content" style="padding-bottom: 0px">
 	     	<div style="margin-bottom: 10px; margin-top: 10px; color: white; font-weight: bold; margin-left: 450px; font-size: 20px; ">실시간 유해동물 탐지 현황</div>
-		     <section style="padding-right: 0px">
-	          <div class="container-fluid">
-	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 520px; height: 400px">
+	     	<div class="container-fluid">
+	     	<div class="row">
+	     	<div class= "col-lg-6">
+	         	<div class="container">
 	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:15px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView2 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView3 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView4 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col-lg-6" ><img id=jrView1 style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col-lg-6" ><img id=jrView2 style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col-lg-6" ><img id=jrView3 style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col-lg-6" ><img id=jrView4 style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px"/></div>
 				  </div>
 				</div>
-	          </div>
-	        </section>
-	        
-	        <section style="padding-right: 0px">
-	          <div class="container-fluid">
-	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 540px; width: 520px; height: 400px;">
+	        </div>
+	        <div class= "col-lg-6">
+	         	<div class="container">
 	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:15px; margin-left: 190px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
@@ -394,10 +392,10 @@
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView4 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
 				  </div>
 				</div>
-	          </div>
-	        </section>
-       
-	       <div style="border-color: transparent; margin-top: 460px;">
+       </div>
+       </div>
+       </div>
+	       <div style="border-color: transparent;">
 		       <div class="container" style="background-color: #22252a;  margin-left: 0px">         
 				  <table class="table hover" style="margin-bottom: 0px; margin-left: 0px">
 				    <thead>

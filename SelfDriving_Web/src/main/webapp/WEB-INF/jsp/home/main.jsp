@@ -105,10 +105,12 @@
 					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 			}
+			
 		</script>		 
 	</head>
 	
 	<body>
+	
 		<header class="header">   
 	      <nav class="navbar navbar-expand-lg">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
@@ -150,8 +152,8 @@
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
+	          </ul>
 	      </nav>
-	      
 	      <div class="page-content">
 			<div class="row">
 			<div class="col-md-6">
@@ -224,12 +226,14 @@
 			  </div>
 			  
           </div>
-         
-          <button onclick="move()">눌러요.</button>
+         <canvas id="canvas" style="width:150px;height:150px"></canvas>
         </section>
         </div>
-        </div>
      	</div>
+     	</div>
+     	
+	      </div>
+     	
         <script>
         count = 0;
         x = 0;
@@ -272,6 +276,19 @@
 					}
 				}
   		});
+        $(function(){
+        		  var canvas = document.getElementById('canvas');
+        		  console.log(canvas)
+        		  
+        		  if (canvas.getContext) {
+        		    var ctx = canvas.getContext('2d');
+        		    var rectangle = new Path2D();
+        		    rectangle.rect(10, 10, 50, 50);
+        		    ctx.stroke(rectangle);
+        		  }else{
+        			  console.log("canvas.getContext")  
+        		  }
+        		});
         </script>
         
         
