@@ -1,5 +1,6 @@
 package com.mycompany.project.controller;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
@@ -49,7 +50,7 @@ public class HomeController {
 		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
-		String passwd = "12345";	
+		String passwd = "12345";
 		String topic = "/*";
 	
 		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
@@ -62,7 +63,6 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/landing";
 	}
-	
 	
 	@RequestMapping("/main.do")
 	public String main(){
@@ -119,8 +119,27 @@ public class HomeController {
 		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
 		return "home/history";
 	}
+/*	
+	@RequestMapping("/showResult.do")
+	public void history(int dno,
+						HttpServletResponse response) throws Exception {
+		
+		//나중엔 driving 관련으로 뽑아야해!
+		Animal animal = new Animal();
+		animal = animalService.getAnimal(dno);
+		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+		
+		String imgLoc = animal.getDlocation();
+		LOGGER.info(imgLoc);
+		
+		InputStream is = new FileInputStream(imgLoc);
+		OutputStream os = response.getOutputStream();
+		FileCopyUtils.copy(is, os);
+		os.close();
+		is.close();
+	}
 
-	@RequestMapping("/sleep.do")
+*/	@RequestMapping("/sleep.do")
 	@ResponseBody
 	public void sleep() {
 		try {

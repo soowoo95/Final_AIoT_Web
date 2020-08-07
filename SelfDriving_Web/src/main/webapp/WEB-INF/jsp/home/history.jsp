@@ -12,90 +12,21 @@
 	    <script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
 		
-	    <!--  Template 관련 설정 파일들 -->
-	    <!-- Bootstrap CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
-	    <!-- Custom Font Icons CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
-	    <!-- Google fonts - Muli-->
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
-	    <!-- theme stylesheet-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
-	    <!-- Custom stylesheet - for your changes-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
-	    <!-- Favicon-->
 		<link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
 		
 		<script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-		<link href="${pageContext.request.contextPath}/resource/bootstrap/css/change.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
 		<script src="${pageContext.request.contextPath}/resource/js/moment.min.js"></script>
 
-		 <style>
-			#div1 {font-size:48px;}
-		 </style>
-		 
-		 <style>
-			#div1 {font-size:48px;}
-			.no-gutters {
-			  margin-right: 0;
-			  margin-left: 0;
-			  > .col,
-			  > [class*="*cols-"] {
-			    padding-right: 0;
-			    padding-left: 0;
-			  }
-			}
-		</style>
-	</head>
-	
-	<body>
-		<header class="header">   
-	      <nav class="navbar navbar-expand-lg">
-	        <div class="container-fluid d-flex align-items-center justify-content-between">
-	          <div class="navbar-header">
-	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
-		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
-		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
-		         </a>
-	            <!-- Sidebar Toggle Btn-->
-	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
-	          </div>
-	          <div class="right-menu list-inline no-margin-bottom">    
-	            <!-- Languages dropdown    -->
-	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
-	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
-	            </div>
-	            <!-- Log out               -->
-	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
-	          </div>
-	        </div>
-	      </nav>
-	    </header>
-
-		<div class="d-flex align-items-stretch">
-	      <nav id="sidebar">
-	        <div class="sidebar-header d-flex align-items-center">
-	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
-	          <div class="title">
-	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
-	            <p style="color: lightgray">Team 2</p>
-	          </div>
-	        </div>
-	        <span class="heading" style="color:lightgray">MENU</span>
-	        <ul class="list-unstyled">
-	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
-	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
-	      </nav>
-	      
-	      <div class="page-content">
-	        <script>
+		<script>
 			$(document).ready(function() {
 			    setInterval(renew, 10000);
 			});
@@ -135,14 +66,58 @@
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
 			}
-			</script>
+		</script>
+	</head>
+	
+	<body>
+		<header class="header">   
+	      <nav class="navbar navbar-expand-lg" style="height: 50px">
+	        <div class="container-fluid d-flex align-items-center justify-content-between">
+	          <div class="navbar-header">
+	            <a href="${pageContext.request.contextPath}/home/main.do" class="navbar-brand">
+		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
+		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
+		         </a>
+	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+	          </div>
+	          <div class="right-menu list-inline no-margin-bottom">    
+	            <!-- Languages dropdown    -->
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            </div>
+	            <!-- Log out               -->
+	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
+	          </div>
+	        </div>
+	      </nav>
+	    </header>
 
-	        <section class="no-padding-top">
+		<div class="d-flex align-items-stretch"  style="height: 875px;">
+	      <nav id="sidebar" style="height: 887px;">
+	        <div class="sidebar-header d-flex align-items-center">
+	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
+	          <div class="title">
+	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+	            <p style="color: lightgray">Team 2</p>
+	          </div>
+	        </div>
+	        <span class="heading" style="color:lightgray">MENU</span>
+	        <ul class="list-unstyled">
+	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
+	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
+	      	</ul>
+	      </nav>
+	      
+	      <div class="page-content" style="top: -50px;">
+	        <section class="no-padding-top" style="padding: 0px">
 	          <div class="container-fluid">
 	            <div class="row">
 	            
-	              <div class="col-lg-6">
-	                <div class="block" style="width: 900px"> 
+	              <div class="col-lg-6" style="height: 400px; padding-left: 20px">
+	                <div class="block" style="width: 900px; margin-top: 70px; margin-bottom: 10px" > 
 	                  <div class="title" style="color: white"><strong>Animal Detected | History</strong></div>
 	                  <div class="table-responsive" style="height: 310px"> 
 	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; text-align: center">
@@ -196,17 +171,17 @@
 	                </div>
 	              </div>
 	              
-	              <div class="col-lg-6">
-	                <div class="block" style="margin-left: 140px">
+	              <div class="col-lg-6" style="padding: 0px; width: 600px">
+	                <div class="block" style="margin-left: 120px; margin-top: 70px; margin-bottom: 10px; width: 600px">
 	                  <div class="title" style="color: white"><strong>Animal Detected | Image</strong></div>
-	                  <div class="table-responsive">
+	                  <div class="table-responsive" style="justify-content: center;">
 	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; width:580px ; height: 310px"/>
 	                  </div>
 	                </div>
 	              </div>
 
-	              <div class="col-lg-6">
-	                <div class="block" style="width: 900px">
+	              <div class="col-lg-6" style="padding-left: 20px; margin-top: 10px">
+	                <div class="block" style="width: 900px; margin-bottom: 10px">
 	                  <div class="title" style="color: white"><strong>Driving Situation | History</strong></div>
 	                  <div class="table-responsive" style="height: 310px"> 
 	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; text-align: center">
@@ -225,7 +200,7 @@
 		                      <c:forEach var="animal" items="${animal}">
 		                      	<tr>
 		                          <td scope="row">${animal.dno}</td>
-		                          <td onclick="viewImage2(${animal.dno})" style="color: #DB6574;">${animal.dname}</td>
+		                          <td onclick="viewImage2(${animal.dno})" style="color: #DB6574">${animal.dname}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
@@ -259,16 +234,19 @@
 	                </div>
 	              </div>
 	              
-	              <div class="col-lg-6">
-	                <div class="block" style="margin-left: 140px">
+	              <div class="col-lg-6" style="padding: 0px; margin-top: 10px">
+	                <div class="block" style="margin-left: 120px; margin-bottom: 20px; width: 600px">
 	                  <div class="title" style="color: white"><strong>Driving Situation | Image</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 310px; max-width:100%; width: 580px"/>
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 310px; max-width:100%; width: 580px; align-self: center;"/>
 	                  </div>
 	                </div>
 	              </div>
+	              
 	             </div>
 	            </div>
 			</section>
-	</body>
+		</div>
+	</div>
+</body>
 </html>
