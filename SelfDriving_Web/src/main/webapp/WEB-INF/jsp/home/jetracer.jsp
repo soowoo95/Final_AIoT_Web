@@ -31,86 +31,8 @@
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
 		<link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
 	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
+	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
 
-		<style>
-			#div1 {font-size:48px}
-			
-			.no-gutters {
-			  margin-right: 0;
-			  margin-left: 0;
-			  > .col,
-			  > [class*="*cols-"] {
-			    padding-right: 0;
-			    padding-left: 0;
-			  }
-			}
-			.center {
-			  display: flex;
-			  justify-content: center;
-			  align-items: center;
-			  height: 50px;
-			  font-size: 30px;
-			  font-weight: bold;
-			}
-			.jetToggle {
-			justify-content: center; 
-			align-content: center;
-			}
-			#image_steering {
-			transform: rotate(0deg);
-			}
-			#batteryMode {
-			  width: 380px;
-			  height: 30px;
-			  display: flex;
-			  flex-direction: row;
-			}
-			#batteryMode div {
-			  width: 190px;
-			  height: 30px;
-			  text-align: center;
-			}
-			#showView {
-			  width: 875px;
-			  height: 30px;
-			  display: flex;
-			  flex-direction: row;
-			}
-			#showView div {
-			  height: 30px;
-			  text-align: center;
-			}
-			.page-content {
-			height: 760px;
-			}
-			.manual-button {
-			color: black;
-			width: 80px;
-			font-weight: bold;
-			border-width: medium; 
-			}
-			.manual-line {
-			border-color:white; 
-			border-width: medium; 
-			background-color: lightgray; 
-			color: black; 
-			opacity: 0.9; 
-			width: 90px; 
-			font-weight: bold; 
-			margin-top: 10px;
-			}
-			.driving-sign {
-			width: 160px;
-			position: absolute;
-			left: 393px;
-			color: lightgray;
-			font-weight: bold;
-			font-size: small;
-			opacity: 0.8; 
-			background-color: #2d3035;
-			}
-		</style>
-		 
 		<script>
 			$(function(){
 				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
@@ -131,16 +53,17 @@
 			function onMessageArrived(message) {
 				console.log("mqtt message received");
 				
-<!--*********************************************************** JET RACER 1 *******************************************	-->	
-				
  				if(message.destinationName =="/1jetracer") {
- 					const json = message.payloadString;
- 					const obj = JSON.parse(json);
-					$("#jetView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					$("#driveView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+ 					//const json = message.payloadString;
+ 					//const obj = JSON.parse(json);
+					//$("#jetView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					//$("#driveView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+ 					$("#jetView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					$("#driveView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+ 				}
 					
 /////////////////////////////////// 주행 중 객체 탐지하면 driveView1에 띄우기 ////////////////////////////////////////////////
-
+/* 
 					if (obj.Class.length != 0){
 						obj["witness"]=message.destinationName;
 						var witness = obj["witness"].replace("\/","");
@@ -172,7 +95,7 @@
 						$("#driveAction1").attr("value", "N/A");
 					}
 				}
- 				
+ 		 */		
  				if(message.destinationName =="/1jr") {
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
@@ -256,12 +179,10 @@
 			      	$("#Temperature").text(temp1 +" °C");
 			      	//$("#Temperature").attr("value", temp1 +" °C");
 				}
- 				
- 				
- 				
-<!--*********************************************************** JET RACER 2 *******************************************	-->	 	
+
 				if(message.destinationName =="/2jetracer") {
 					$("#jetView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+
 				}
 				
 				if(message.destinationName =="/2jr") {
@@ -271,21 +192,17 @@
 					//$("#jetRacerText2").text(bat2 + "%");
 			      	//document.getElementById('jet2Battery').style.width = bat2 + '%';
 				}
+
 				
-<!--*********************************************************** JET RACER 3 *******************************************	-->	 		
 				if(message.destinationName =="/3jetracer") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#jetView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
-				if(message.destinationName =="/sensor") {
+				
+				if(message.destinationName =="/3jr") {
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
-			      	
-			      	$("#battery2").attr("value", obj.Battery);
-			      	$("#jetRacerText2").text(obj.Battery + "%");
-			      	document.getElementById('jet2Battery').style.width = obj.Battery + '%';
-			      	
 			      	$("#battery3").attr("value", obj.Battery);
 			      	$("#jetRacerText3").text(obj.Battery + "%");
 			      	document.getElementById('jet3Battery').style.width = obj.Battery + '%';
@@ -300,18 +217,6 @@
 					document.getElementById('modeOn').style.color = 'black';
 					document.getElementById('modeOff').style.backgroundColor = 'dimgray';
 					document.getElementById('modeOff').style.color = 'white';
-					document.getElementById('manual_control').style.display = 'block';
-					
-					document.getElementById('modeOn2').style.backgroundColor = '#ADFF2F';
-					document.getElementById('modeOn2').style.color = 'black';
-					document.getElementById('modeOff2').style.backgroundColor = 'dimgray';
-					document.getElementById('modeOff2').style.color = 'white';
-					document.getElementById('manual_control').style.display = 'block';
-					
-					document.getElementById('modeOn2').style.backgroundColor = '#ADFF2F';
-					document.getElementById('modeOn2').style.color = 'black';
-					document.getElementById('modeOff2').style.backgroundColor = 'dimgray';
-					document.getElementById('modeOff2').style.color = 'white';
 					document.getElementById('manual_control').style.display = 'block';
 					
 					alert("Converting to Manual Driving Mode");
@@ -357,13 +262,13 @@
 					document.getElementById('modeOn2').style.color = 'black';
 					document.getElementById('modeOff2').style.backgroundColor = 'dimgray';
 					document.getElementById('modeOff2').style.color = 'white';
-					document.getElementById('manual_control').style.display = 'block';
+					document.getElementById('manual_control2').style.display = 'block';
 					
 					alert("Converting to Manual Driving Mode");
 					
 					$(document).keydown(function(event) {
 						if (event.keyCode == '38') {
-						  	console.log("달리자")
+						  	console.log("달리자2")
 		 				  	message = new Paho.MQTT.Message("speed:"+ 40);
 							message.destinationName = "/manual/go2";
 							message.qos = 0;
@@ -371,7 +276,7 @@
 						}
 					
 						if (event.keyCode == '40') { 		
-						    console.log("멈추거라")
+						    console.log("멈추거라2")
 		 				  	message = new Paho.MQTT.Message("speed:" + 0);
 							message.destinationName = "/manual/stop2";
 							message.qos = 0;
@@ -385,7 +290,7 @@
 					document.getElementById('modeOn2').style.color = 'white';
 					document.getElementById('modeOff2').style.backgroundColor = '#ADFF2F';
 					document.getElementById('modeOff2').style.color = 'black';
-					document.getElementById('manual_control').style.display = 'none';
+					document.getElementById('manual_control2').style.display = 'none';
 					alert("Converting to Auto Driving Mode");
 				}
 				
@@ -402,13 +307,13 @@
 					document.getElementById('modeOn3').style.color = 'black';
 					document.getElementById('modeOff3').style.backgroundColor = 'dimgray';
 					document.getElementById('modeOff3').style.color = 'white';
-					document.getElementById('manual_control').style.display = 'block';
+					document.getElementById('manual_control3').style.display = 'block';
 
 					alert("Converting to Manual Driving Mode");
 					
 					$(document).keydown(function(event) {
 						if (event.keyCode == '38') {
-						  	console.log("달리자")
+						  	console.log("달리자3")
 		 				  	message = new Paho.MQTT.Message("speed:"+ 40);
 							message.destinationName = "/manual/go3";
 							message.qos = 0;
@@ -416,7 +321,7 @@
 						}
 					
 						if (event.keyCode == '40') { 		
-						    console.log("멈추거라")
+						    console.log("멈추거라3")
 		 				  	message = new Paho.MQTT.Message("speed:" + 0);
 							message.destinationName = "/manual/stop3";
 							message.qos = 0;
@@ -430,7 +335,7 @@
 					document.getElementById('modeOn3').style.color = 'white';
 					document.getElementById('modeOff3').style.backgroundColor = '#ADFF2F';
 					document.getElementById('modeOff3').style.color = 'black';
-					document.getElementById('manual_control').style.display = 'none';
+					document.getElementById('manual_control3').style.display = 'none';
 					alert("Converting to Auto Driving Mode");
 				}
 				
@@ -577,16 +482,17 @@
 	      </nav>
 	      
 	      <div class="page-content" style="top: -50px; padding-bottom: ">
+	      
 			<div style="margin-top: 65px">
 			  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="max-width: 100%; margin-left: 30px" >
 				  <li class="nav-item" role="presentation" style="width: 33%; text-align: center">
-				    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" style="font-weight: bold; font-size: large">Jet-Racer #1</a>
+				    <a class="nav-link active" id="jet-racer1-tab" data-toggle="pill" href="#jet-racer1" role="tab" aria-controls="jet-racer1" aria-selected="true" style="font-weight: bold; font-size: large">Jet-Racer #1</a>
 				  </li>
 				  <li class="nav-item" role="presentation" style="width: 33%; text-align: center">
-				    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false" style="font-weight: bold; font-size: large;">Jet-Racer #2</a>
+				    <a class="nav-link" id="jet-racer2-tab" data-toggle="pill" href="#jet-racer2" role="tab" aria-controls="jet-racer2" aria-selected="false" style="font-weight: bold; font-size: large;">Jet-Racer #2</a>
 				  </li>
 				  <li class="nav-item" role="presentation" style="width: 33%; text-align: center">
-				    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false" style="font-weight: bold; font-size: large;">Jet-Racer #3</a>
+				    <a class="nav-link" id="jet-racer3-tab" data-toggle="pill" href="#jet-racer3" role="tab" aria-controls="jet-racer3" aria-selected="false" style="font-weight: bold; font-size: large;">Jet-Racer #3</a>
 				  </li>
 		      </ul>
 	      	</div>
@@ -594,7 +500,7 @@
 			<div class="tab-content" id="pills-tabContent" style="height: 805px; margin-left: 30px; margin-right: 20px;  border-color: dimgray; border-style:solid; border-width:medium; ">
 			  
 		  	<!-- jet racer # 1 -->
-		  	<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+		  	<div class="tab-pane fade show active" id="jet-racer1" role="tabpanel" aria-labelledby="jet-racer1-tab">
   				<div id=showView style="margin-top: 30px; margin-left: 30px">
              		<div id="title" style="background-color: #864DD9; width: 490px; color: white; font-weight: bold;justify-content: center;">Auto Driving Situation</div>
              		<div id="vacant" style="background-color: transparent; width: 5px"></div>
@@ -677,7 +583,6 @@
              	
              	<!-- 주행 중 탐지한 이미지 보여주기 -->
              	<img id=driveView1 style="width: 325px; height: 275px; position: absolute; top: 617px; left: 63px"/>
-             	<%-- <img id=defaultView src="${pageContext.request.contextPath}/resource/img/detecting.jpg" style="width: 330px; height: 280px; position: absolute; top: 525px; left: 65px"/> --%>
              	<img id=detectView1 src="${pageContext.request.contextPath}/resource/img/milk.jpg" style="width: 140px; height: 140px; position: absolute; top: 750px; left: 250px; opacity: 0.8; display: none;"/>
              	
              	<!-- 주행 중 탐지하는 표지판 내용 표시 -->
@@ -709,7 +614,7 @@
 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">R Line</a>
 					</div>
 					
-					<div style="margin-left: 715px; width: 190px; height:280px; position: absolute" align="center" >
+					<div style="margin-left: 715px; width: 190px; height:280px; position: absolute" align="center">
 						<!-- 센서 띄우기 -->
 						<input value="Sensor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:darkred;  color: darkred">RED</a>
@@ -722,8 +627,7 @@
 				</div>
 			</div>
 			<!-- END OF jet racer # 1 -->
-   
-		        
+			
 <!-- 		    <input id="MotorSpeed" value="60 km/h" style="background-color: #2d3035; border-color: transparent; font-size: xx-large; font-weight: bold; color: lightgray; position: absolute; top:370px; width: 380px; margin-left: 5px"></input> -->
 	            <%-- 서보 각도에 따라 핸들 돌리기 (캔버스로 대체할 것임)
 	            <section>
@@ -733,7 +637,8 @@
 					</div>
 		          </div>
 		        </section>
-		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 490px; height: 240px; margin-left: 30px; margin-top: 0px"/> --%>
+		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 490px; height: 240px; margin-left: 30px; margin-top: 0px"/>
+--%>
 		 		
 			<!-- jet racer # 2 -->
 			<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -819,7 +724,6 @@
              	
              	<!-- 주행 중 탐지한 이미지 보여주기 -->
              	<img id=driveView2 style="width: 325px; height: 275px; position: absolute; top: 617px; left: 63px"/>
-             	<%-- <img id=defaultView src="${pageContext.request.contextPath}/resource/img/detecting.jpg" style="width: 330px; height: 280px; position: absolute; top: 525px; left: 65px"/> --%>
              	<img id=detectView2 src="${pageContext.request.contextPath}/resource/img/milk.jpg" style="width: 140px; height: 140px; position: absolute; top: 750px; left: 250px; opacity: 0.8; display: none;"/>
              	
              	<!-- 주행 중 탐지하는 표지판 내용 표시 -->
@@ -838,7 +742,7 @@
 				<div class="driving-sign" style="height: 55px;top: 837px">Target Action </div>
 					<input id="driveAction2" value="N/A" readonly="readonly" style="background-color: transparent; border-color: transparent; position: absolute; color: white; left: 390px; font-weight: bold; font-size:x-large; top:852px ">
 
-				<div id="manual_control" style="display:none; width: 380px; height: 280px ">
+				<div id="manual_control2" style="display:none; width: 380px; height: 280px ">
 					<div style="margin-left: 525px; width: 190px; height:280px; position: absolute" align="center">
 						<!-- 키보드로 출발/정지 -->
 						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
@@ -949,7 +853,6 @@
              	
              	<!-- 주행 중 탐지한 이미지 보여주기 -->
              	<img id=driveView3 style="width: 325px; height: 275px; position: absolute; top: 617px; left: 63px"/>
-             	<%-- <img id=defaultView src="${pageContext.request.contextPath}/resource/img/detecting.jpg" style="width: 330px; height: 280px; position: absolute; top: 525px; left: 65px"/> --%>
              	<img id=detectView3 src="${pageContext.request.contextPath}/resource/img/milk.jpg" style="width: 140px; height: 140px; position: absolute; top: 750px; left: 250px; opacity: 0.8; display: none;"/>
              	
              	<!-- 주행 중 탐지하는 표지판 내용 표시 -->
@@ -968,7 +871,7 @@
 				<div class="driving-sign" style="height: 55px;top: 837px">Target Action </div>
 					<input id="driveAction3" value="N/A" readonly="readonly" style="background-color: transparent; border-color: transparent; position: absolute; color: white; left: 390px; font-weight: bold; font-size:x-large; top:852px ">
 
-				<div id="manual_control" style="display:none; width: 380px; height: 280px ">
+				<div id="manual_control3" style="display:none; width: 380px; height: 280px ">
 					<div style="margin-left: 525px; width: 190px; height:280px; position: absolute" align="center">
 						<!-- 키보드로 출발/정지 -->
 						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>

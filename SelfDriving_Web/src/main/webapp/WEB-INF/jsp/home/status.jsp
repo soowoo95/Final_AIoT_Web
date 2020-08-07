@@ -14,59 +14,27 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-		
-	    <!--  Template 관련 설정 파일들 -->
-	    <!-- Bootstrap CSS-->
+
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/css/bootstrap.min.css">
-	    <!-- Font Awesome CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/font-awesome/css/font-awesome.min.css">
-	    <!-- Custom Font Icons CSS-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/font.css">
-	    <!-- Google fonts - Muli-->
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
-	    <!-- theme stylesheet-->
 	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
-	    <!-- Custom stylesheet - for your changes-->
-	    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/custom.css">
-	    <!-- Favicon-->
 	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 		
 		<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 		<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
+	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+	    
+	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
 
-		<style>
-			#div1 {font-size:48px;}
-			.no-gutters {
-			  margin-right: 0;
-			  margin-left: 0;
-			  > .col,
-			  > [class*="*cols-"] {
-			    padding-right: 0;
-			    padding-left: 0;
-			  }
-			}
-			.center {
-			  display: flex;
-			  justify-content: center;
-			  align-items: center;
-			  font-size: 25px;
-			  font-weight: bold; 
-			}
-			.detectContent {
-				background-color: transparent; 
-				border-color: transparent; 
-				color: white;
-				text-align: center;
-				padding-left: 70px;
-			}
-			html,body {
-			height : 100%;
-			}
-		</style>
-		 
 		<script>
 		let ipid;
 			$(function(){
@@ -393,15 +361,12 @@
 		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
 		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
 		         </a>
-	            <!-- Sidebar Toggle Btn-->
 	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
 	          </div>
 	          <div class="right-menu list-inline no-margin-bottom">    
-	            <!-- Languages dropdown    -->
 	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
 	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
 	            </div>
-	            <!-- Log out               -->
 	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
 	        </div>
@@ -520,15 +485,6 @@
    		</div>
    	</div>
 
-   	<!-- JavaScript files-->
-    <!-- <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery/jquery.min.js"></script> -->
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-	<!--     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/chart.js/Chart.min.js"></script> -->
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-	<!--     <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/charts-home.js"></script> -->
-    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
  
     </body>
 </html>
