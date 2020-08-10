@@ -25,7 +25,7 @@ align-content: center;
 transform: rotate(0deg);
 }
 #batteryMode {
-  width: 380px;
+  width: 340px;
   height: 30px;
   display: flex;
   flex-direction: row;
@@ -68,7 +68,7 @@ margin-top: 10px;
 width: 160px;
 position: absolute;
 left: 393px;
-color: lightgray;
+/* color: lightgray; */
 font-weight: bold;
 font-size: small;
 opacity: 0.8; 

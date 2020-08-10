@@ -52,17 +52,20 @@
 				client.subscribe("/3cctv");
 				client.subscribe("/4cctv");
 				client.subscribe("/1jetracer");
+				client.subscribe("/2jetracer");
+				client.subscribe("/3jetracer");
 				
-				//subscriber 연결됐다고 메세지 발행해서 알리자
+ 				//subscriber 연결됐다고 메세지 발행해서 알리자
  				message = new Paho.MQTT.Message('newSub');
 				message.destinationName = "/sub/connected";
 				client.send(message);
-				console.log("연결됐다고 알림!");
+				console.log("연결됐다고 알림!"); 
 			}
 			$(document).ready(function() {
 			    setInterval(getinterval, 750);
 			});  
-			    var lastSendtime=Date.now();
+			 
+			 var lastSendtime=Date.now();
 			 function getinterval(){
 				interval= Date.now()-lastSendtime;
 					if(interval>750){
@@ -71,27 +74,27 @@
 					}
 			}
 			function response(){
-				console.log("답장을 보내요.")
-				  message = new Paho.MQTT.Message(ipid);
-				  message.destinationName = "/network";
-				  client.send(message);
+				console.log("답장을 보내요.");
+				message = new Paho.MQTT.Message(ipid);
+				message.destinationName = "/network";
+				client.send(message);
 			}
 
 			function onMessageArrived(message) {
 				//console.log(typeof(message));
 
 				//message 연결됐다고 메세지 발행해서 알리자
- 				message1 = new Paho.MQTT.Message('rec');
-				message1.destinationName = "/sub/received";
-				client.send(message1);
+	 			//message1 = new Paho.MQTT.Message('rec');
+				//message1.destinationName = "/sub/received";
+				//client.send(message1); 
 				//console.log("받았다고 알림!");
 				
 				if(message.destinationName =="/1jetracer") {
- 					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					obj["witness"]= message.destinationName;
+ 					//const json = message.payloadString;
+					//const obj = JSON.parse(json);
+					//obj["witness"]= message.destinationName;
 					
-					$("#jrView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					$("#jrView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 /* 					
 					if (obj.Class.length != 0){
 						$("#j1Obj").attr("value", obj.Class);
@@ -240,7 +243,6 @@
 					obj["witness"]= message.destinationName;
 
 					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					$("#cctv2").show();
 					
 					if (obj.Class.length != 0){
 						
@@ -278,7 +280,6 @@
 					obj["witness"]= message.destinationName;
 					
 					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					$("#cctv3").show();
 					
 					if (obj.Class.length != 0){
 						$("#c3Obj").attr("value", obj.Class);
@@ -309,12 +310,13 @@
 				}
 
 				if(message.destinationName =="/4cctv") {
+					response();
+					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
 
 					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					$("#cctv4").show();
 					
 					if (obj.Class.length != 0){
 						$("#c4Obj").attr("value", obj.Class);
@@ -404,7 +406,7 @@
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView2 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView3 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView4 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img src="${pageContext.request.contextPath}/resource/img/jetracer.jpg" style="width: 260px; height: 200px; opacity: 0.5; margin-left: 0px; margin-right: 0px"/></div>
 				  </div>
 				</div>
 	          </div>
@@ -438,45 +440,45 @@
 				    <tbody style="color: white; font-size:small;">
 				      <tr id="jet1">
 				        <td id="j1Col1" style="text-align: center; ">JetRacer 1</td>
-				        <td><input id="j1Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="j1Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="j1Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+				        <td><input id="j1Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j1Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j1Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr> 
 				      <tr id="jet2">
 				        <td id="j2Col1" style="text-align: center; ">JetRacer 2</td>
-				        <td><input id="j2Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="j2Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="j2Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+				        <td><input id="j2Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j2Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j2Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				      <tr id="jet3">
 				        <td id="j3Col1" style="text-align: center; ">JetRacer 3</td>
-				        <td><input id="j3Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="j3Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="j3Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+				        <td><input id="j3Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j3Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j3Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				      <tr id="cctv1">
 				        <td id="c1Col1" style="text-align: center; ">CCTV 1</td>
-				        <td><input id="c1Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="c1Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="c1Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+				        <td><input id="c1Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c1Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c1Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				      <tr id="cctv2">
 				        <td id="c2Col1" style="text-align: center; ">CCTV 2</td>
-				        <td><input id="c2Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="c2Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="c2Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+				        <td><input id="c2Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c2Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c2Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				      <tr id="cctv3">
 				        <td id="c3Col1" style="text-align: center;">CCTV 3</td>
-						<td><input id="c3Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="c3Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="c3Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+						<td><input id="c3Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c3Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c3Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				      <tr id="cctv4">
 				        <td id="c4Col1" style="text-align: center;">CCTV 4</td>
-				        <td><input id="c4Obj" value="*****  탐지대상 없음  *****" class="detectContent"></td>
-				        <td><input id="c4Lev" value="*****  해당사항 없음  *****" class="detectContent"></td>
-				        <td><input id="c4Loc" value="*****  해당사항 없음  *****" class="detectContent"></td>
+				        <td><input id="c4Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c4Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c4Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -484,7 +486,5 @@
 	   		</div>
    		</div>
    	</div>
-
- 
     </body>
 </html>
