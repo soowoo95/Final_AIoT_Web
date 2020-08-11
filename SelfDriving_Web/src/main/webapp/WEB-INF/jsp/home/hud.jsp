@@ -20,8 +20,6 @@
 
 <script>
 var ipid
-var boxx
-var boxy
 $(function(){
 	ipid =new Date().getTime().toString()
 	client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
@@ -35,6 +33,7 @@ function onConnect() {
 $(document).ready(function() {
     setInterval(getinterval, 750);
 });  
+	var bat=0;
     var lastSendtime=Date.now();
  function getinterval(){
 	interval= Date.now()-lastSendtime;
@@ -58,19 +57,28 @@ function onMessageArrived(message) {
 		const json = message.payloadString;
 		const obj = JSON.parse(json);
 		txtcanvas2=obj.Class;
-		if(obj.BoxMiddle)
+		
+		bat=obj.Battery;
+		
+		//console.log(bat);
+		if(obj.Box)
 			{
-			boxx=obj.BoxMiddle[0]*window.innerWidth/320;
-			boxy=obj.BoxMiddle[1]*window.innerHeight/240;
+			console.log(obj.Box);
+			obj.Box.forEach(function (item, index, array) {
+				  boxx=(item[0]+item[2])*window.innerWidth/640
+				  boxy=(item[1]+item[3])*window.innerHeight/480;
+				  arr_boxx.push(boxx);
+				  arr_boxy.push(boxy);
+				})
+			//console.log(obj.Box[0][0]);
+			//boxx=obj.Box[0]*window.innerWidth/320;
+			//boxy=obj.BoxMiddle[1]*window.innerHeight/240;
 			}
 		image.src="data:image/jpg;base64,"+ obj.Cam;
 	}
 }
-var canvas1stfloor;
-var ctx1stfloor;
-var canvas2ndfloor;
-var ctx2ndfloor;
-
+var arr_boxx=[];
+var arr_boxy=[];
 $(function() {
 	canvas1stfloor =document.createElement("canvas")
 	canvas1stfloor.width = window.innerWidth;
@@ -86,8 +94,8 @@ image.src = "";
 
 $(function() {
 	canvas2ndfloor =document.createElement("canvas")
-	canvas2ndfloor.width = window.innerWidth/4;
-	canvas2ndfloor.height = window.innerHeight/4;
+	canvas2ndfloor.width = window.innerWidth;
+	canvas2ndfloor.height = window.innerHeight;
 	canvas2ndfloor.style.position= "absolute";
 	
 	ctx2ndfloor = canvas2ndfloor.getContext("2d");
@@ -97,10 +105,10 @@ $(function() {
 });
 $(function() {
 	canvas3rdfloor =document.createElement("canvas")
-	canvas3rdfloor.width = window.innerWidth/4;
-	canvas3rdfloor.height = window.innerHeight/4;
+	canvas3rdfloor.width = window.innerWidth;
+	canvas3rdfloor.height = window.innerHeight;
 	canvas3rdfloor.style.position= "absolute";
-	canvas3rdfloor.style.right="25%"
+	canvas3rdfloor.style.right="0"
 	canvas3rdfloor.style.bottom="0";
 	ctx3rdfloor = canvas3rdfloor.getContext("2d");
 	ctx3rdfloor.font = "50px Arial";
@@ -109,36 +117,106 @@ $(function() {
 	ctx3rdfloor.fillText("속도km/h",canvas3rdfloor.width/2, canvas3rdfloor.height/2);
 	document.body.insertBefore(canvas3rdfloor, document.body.childNodes[0]);
 });
+
+$(function() {
+	canvasprogress =document.createElement("canvas")
+	canvasprogress.style.position= "absolute";
+	canvasprogress.style.right="0"
+  //var can = document.getElementById('canvas'),
+      spanProcent = document.createElement("span"),
+      spanProcent.style.position= "absolute";
+		 spanProcent.style.right="0"
+      ctxprogress = canvasprogress.getContext("2d");
+	  
+ 
+  var posX = canvasprogress.width / 2,
+      posY = canvasprogress.height / 2,
+      fps = 1000 / 200,
+      procent = 0,
+      oneProcent = 360 / 100;
+  result = oneProcent * bat;
+  ctxprogress.lineCap = 'round';
+  document.body.insertBefore(canvasprogress, document.body.childNodes[0]);
+  //document.body.insertBefore(spanProcent, document.body.childNodes[0]);
+  arcMove();
+  
+  function arcMove(){
+	  
+	  
+    var deegres = 0;
+    var acrInterval = setInterval (function() {
+    	result = oneProcent * bat;
+    	console.log("hi")
+      deegres += 1;
+      ctxprogress.clearRect( 0, 0, canvasprogress.width, canvasprogress.height );
+      ctxprogress.font = "30px Georgia";
+      ctxprogress.fillText(Math.round(result/360*100), canvasprogress.width/2, canvasprogress.height/2);
+      procent = deegres / oneProcent;
+
+      spanProcent.innerHTML = procent.toFixed();
+
+      ctxprogress.beginPath();
+      ctxprogress.arc( posX, posY, 70, (Math.PI/180) * 90, (Math.PI/180) * (90 + 360) );
+      ctxprogress.strokeStyle = '#b1b1b1';
+      ctxprogress.lineWidth = '10';
+      ctxprogress.stroke();
+
+      ctxprogress.beginPath();
+      ctxprogress.strokeStyle = '#3949AB';
+      ctxprogress.lineWidth = '10';
+      ctxprogress.arc( posX, posY, 70, (Math.PI/180) * 90, (Math.PI/180) * (90 + result) );
+      ctxprogress.stroke();
+    }, 20);
+    
+  }
+});
 $(function() {
 	canvascircle =document.createElement("canvas")
 	canvascircle.width = window.innerWidth;
 	canvascircle.height = window.innerHeight;
 	canvascircle.style.position= "absolute";
 	
-	;
 	ctxcirclefloor = canvascircle.getContext("2d");
 	
-	
 	//ctxcirclefloor.stroke();
-	setInterval(drawCircle,20);
+	setInterval(drawCircle,1);
 	document.body.insertBefore(canvascircle, document.body.childNodes[0]);
 });
+var count=0;
 function drawCircle(){
+	ctxcirclefloor.clearRect(0,0,window.innerWidth,window.innerHeight);
+	count++;
 	ctxcirclefloor.beginPath();
 	ctxcirclefloor.lineWidth="5"
 	ctxcirclefloor.strokeStyle = "#20d2f4"
-	ctxcirclefloor.setLineDash([2, 2])
-	if(boxx){
-		ctxcirclefloor.arc(boxx,boxy, 100, 0, 2 * Math.PI);
+	if(arr_boxx != []){
+		arr_boxx.forEach(function(element){
+			console.log("그린다")
+		boxx=element;
+		boxy=arr_boxy.pop();
+		//boxx=arr_boxx.pop()
+		//boxy=arr_boxy.pop()
+	
+	if(count%2==0){
+		ctxcirclefloor.setLineDash([4, 4])
 	}
 	else{
-		ctxcirclefloor.arc(0,0, 50, 0, 2 * Math.PI);	
+		ctxcirclefloor.setLineDash([0,4,4])
 	}
-	ctxcirclefloor.clearRect(0,0,window.innerWidth,window.innerHeight);
-	ctxcirclefloor.stroke();
-}
+		ctxcirclefloor.arc(boxx,boxy, 100, 0, 2 * Math.PI);
+		ctxcirclefloor.moveTo(boxx+125,boxy)
+		ctxcirclefloor.arc(boxx,boxy, 125, 0, 2 * Math.PI);
+		ctxcirclefloor.closePath();
+		ctxcirclefloor.stroke();
+		
+		});
+		arr_boxx.length=0;
+		arr_boxy.length=0;
+	}
+		
+	}
 function setText(){
-	ctx2ndfloor.clearRect(0,0,window.innerWidth/4,window.innerHeight/4);
+	ctx2ndfloor.clearRect(0,0,window.innerWidth,window.innerHeight);
 	ctx2ndfloor.fillText(txtcanvas2, 30, 100);
 }
 var txtcanvas2;
@@ -181,7 +259,7 @@ this.canvas.style.position = "absolute";
         this.context = this.canvas.getContext("2d"); // 캔버스에서 그리기 도구 객체 얻기
         this.context.scale(this.scale, this.scale);
         document.body.insertBefore(this.canvas, document.body.childNodes[0]); // 캔버스 태그를 body 태그 안에 넣기
-        this.interval = setInterval(updateGameArea, 10); // 20ms마다 updateGameArea 함수를 실행
+        this.interval = setInterval(updateGameArea, 20); // 20ms마다 updateGameArea 함수를 실행
     },
     stop : function() {
         clearInterval(this.interval);
@@ -508,8 +586,6 @@ function updateGameArea() {
     flagB.update2();
     //console.log(car1.x, car1.y, car1.angle * 180 / Math.PI);
 }
-
-
 
 function drawMap() {
      var ctx = myGameArea.context; // 캔버스에서 그리기 도구 객체 얻기
