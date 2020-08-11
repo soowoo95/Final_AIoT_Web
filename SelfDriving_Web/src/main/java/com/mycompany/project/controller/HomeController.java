@@ -47,7 +47,7 @@ public class HomeController {
 	
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.105:1883";
+		String MqttServer1= "tcp://192.168.3.184:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";
@@ -68,7 +68,10 @@ public class HomeController {
 	public String main(){
 		return "home/main";
 	}
-	
+	@RequestMapping("/hud.do")
+	public String hud(){
+		return "home/hud";
+	}
 	@RequestMapping("/jetracer.do")
 	public String jetbot(){
 		LOGGER.info("실행");
@@ -118,6 +121,11 @@ public class HomeController {
 
 		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
 		return "home/history";
+	}
+	@RequestMapping("/newfile.do")
+	public String newfile() {
+		LOGGER.info("실행");
+		return "home/NewFile";
 	}
 /*	
 	@RequestMapping("/showResult.do")
