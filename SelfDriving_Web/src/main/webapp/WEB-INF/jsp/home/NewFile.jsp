@@ -1,376 +1,461 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>No. 10</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css">
-<script
-	src="${pageContext.request.contextPath}/resource/jquery/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-<script
-	src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- bootswatch slate theme -->
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/bootstrap.min.css">
 <style>
 canvas {
-	border: 1px solid #d3d3d3;
-	background-color: #272b30;
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin:auto;
 }
 </style>
-<script>
-	      var p;
-      
-        var car2;
-        var car3;
-        
-		var destinationK;
-        var destinationL;
-        var destinationM;
-        var destinationN;
-        var destinationO;
-        var destinationP;
-        var destinationMiddle;
-        var destination;
-        var flagalphabet={};
-         function startMap() { //map이 초기화될 때 차 객체 생성
-             mapArea.start();             
-             destinationK = new component(p*150,p*450,"white",0," K");
-             destinationL = new component(p*200,p*450,"white",0," L");
-             destinationM = new component(p*300,p*450,"white",0," M");
-             destinationN = new component(p*400,p*450,"white",0," N");
-             destinationO = new component(p*450,p*400,"white",0," O");
-             destinationP = new component(p*450,p*300,"white",0," P");
-             destinationMiddle = new component(p*250,p*250,"white",0," MIDDLE");
-             destination=destinationMiddle;
-             car2 = new component(p*100, p*150, "yellow", p*10,"RACER2");
-         }
-         
-         var mapArea = {
-             canvas : document.createElement("canvas"),
-             start : function() {
-                 this.canvas.width = window.innerWidth/2;
-                 this.canvas.height = this.canvas.width;
-                 p=this.canvas.width/500;
-                 this.context = this.canvas.getContext("2d");
-                 document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-                 this.interval = setInterval(updateMapArea, 20); //interval which will fu nthe updateMapArea() every 20th millisecond
-             },
-             clear : function() {
-
-                 p=this.canvas.width/500;
-                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-             },
-             stop : function() {
-            	 clearInterval(this.interval);
-            }
-         }
-         function setdestination(text){
-         		console.log(text);
-                switch(text){
-                	case 'K':
-         				car2.initflag=true;
-         				flagalphabet={x:p*150+car2.radius,y:p*450};
-                        break;
-                    case 'L':
-                    	car2.initflag=true;
-                    	flagalphabet={x:p*200+car2.radius,y:p*450};
-                        break;
-                    case 'M':
-                    	car2.initflag=true;
-                    	flagalphabet={x:p*300+car2.radius,y:p*450};
-                        break;
-                    case 'N':
-                    	car2.initflag=true;
-                    	flagalphabet={x:p*400+car2.radius,y:p*450};
-                        break;
-                    case 'O':
-                    	car2.initflag=true;
-                    	flagalphabet={x:p*450,y:p*400-car2.radius};
-                        break;
-                    case 'P':
-                    	car2.initflag=true;
-                    	flagalphabet={x:p*450,y:p*300-car2.radius};
-                        break;
-                    default:
-         				destination= destinationMiddle;
-                        break;
-                 }
-         	
-         }
-         function component(x, y, color, radius,text) {
-             this.radius = radius;
-             this.x = x;
-             this.y = y;
-             this.text=text;
-    		 this.speed = 1;
-			 this.angle = 0;
-			 this.initflag = false;
-             this.update = function() {                
-                ctx = mapArea.context;
-                ctx.beginPath();
-                ctx.fillStyle = color;
-                if(this.radius!=0){
-                	ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-                }
-                else{
-                	ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
-                	ctx.fillRect(this.x, this.y, p*5, p*10);
-        			ctx.fillStyle = "rgba(0, 128, 0, 1)";
-                    ctx.fillRect(this.x, this.y-p*20, p*30, p*20);
-                }
-                ctx.fill();
-                ctx.fillStyle = "white";
-				ctx.font = p*20+"px Arial Bold";
-                if(this.text!=undefined){
-                	ctx.fillText(this.text,this.x-this.radius/2,this.y+this.radius/2);
-                }
-                else{
-                	ctx.fillText("언디파인드",this.x-this.radius/2,this.y+this.radius/2);
-                }
-             }
-             this.ysinminus = function() {
-        		this.y = this.y - p*Math.sin(this.angle);
-                this.angle+=0.01;
-                console.log(this.angle);
-   			 }
-             this.ycosminus = function() {
-        		this.y = this.y - p*Math.cos(this.angle);
-                this.angle+=0.01;
-                console.log(this.angle);
-   			 }
-             this.ycosplus = function() {
-        		this.y = this.y + p*Math.cos(this.angle);
-                this.angle+=0.01;
-                console.log(this.angle);
-   			 }
-             this.ysinplus = function() {
-        		this.y = this.y + p*Math.sin(this.angle);
-                this.angle+=0.02;
-                console.log(this.angle);
-   			 }
-             this.setposition = function(x,y){
-            	 this.x= x;
-            	 this.y =y;
-            	 this.initflag = false;
-             }
-             /*
-             this.turnright= function() {
-            	 this.x += this.speed * Math.sin(this.angle);
-                 this.y -= this.speed * Math.cos(this.angle);
-                 this.angle+=Math.PI/180;
-       		 }
-             this.turnleft= function() {
-            	 this.x += this.speed * Math.sin(this.angle);
-                 this.y -= this.speed * Math.cos(this.angle);
-                 this.angle-=Math.PI/180;
-       		 }
-             this.turnright= function() {
-            	 this.x += this.speed * Math.sin(this.angle);
-                 this.y -= this.speed * Math.cos(this.angle);
-                 this.angle-=Math.PI/180;
-       		 }
-             this.moverightstraight = function() {
-              	this.y += this.y + 1;
-             }*/
-             this.crashWith = function(otherobj) {
-            	var myx = this.x;
-            	var myy = this.y;
-                var myrad = this.radius;
-            	var otherx = otherobj.x;
-            	var othery = otherobj.y;
-                var otherrad = otherobj.radius;
-                var interx= Math.abs(myx-otherx);
-                var intery= Math.abs(myy-othery);
-                var interrad = myrad+otherrad;
-            	var crash = true;
-            	if (((interx*interx)+(intery*intery))>(interrad*interrad)) {
-                	crash = false;
-            	}
-            		return crash;
-    			}
-            
-         }
-         //
-         
-         function updateMapArea() {
-         	mapArea.clear();
-         	if(car2.initflag){
-         		car2.setposition(flagalphabet.x,flagalphabet.y);	
-         	}
-         	
-         	if(car2.crashWith(destinationK)||car2.crashWith(destinationL)||
-         			car2.crashWith(destinationM)||car2.crashWith(destinationN)||
-         			car2.crashWith(destinationO)||car2.crashWith(destinationP)) {
-				car2.flag=true;
-            }else{
-            	if(car2.x>=p*130&&car2.x<=p*420&&car2.y<=p*70){
-              		console.log("역조건1");
-                    car2.angle= 0;
-              		car2.x -= p*1.5;
-                    car2.y+=p*(p*50-car2.y)/100
-               }
-                else if(car2.x>=p*90 &&car2.x<=p*160 && car2.y>p*30 && car2.y<=p*100){
-                	console.log("역조건11");
-                	car2.x -= p*0.6;
-                    car2.ycosplus();
-				}
-                
-                else if(car2.x>=p*50 && car2.x<=p*120 && car2.y>=p*100 && car2.y<p*150){
-                	console.log("역조건10");
-                    car2.x+=p*(p*100-car2.x)/50
-                	car2.y += p*1.5;
-				}
-                else if(car2.x<=p*200 &&car2.x>=p*50 && car2.y<=p*300 && car2.y>=p*150){
-                	console.log("역조건9");
-                	car2.y += p*1.5;
-                    car2.x -= p*0.5;
-				}
-                else if(car2.x<p*60 && car2.y>p*280&& car2.y<=p*380){
-                	console.log("역조건8");
-                    car2.angle= 0.1;
-                    car2.x+=p*0.1;
-                    car2.x+=p*(p*50-car2.x)/10;
-                	car2.y += p*1.5;
-				}
-                else if(car2.x>=p*50 &&car2.x<p*130 && car2.y>p*340){
-                	console.log("역조건7");
-                    car2.ysinplus();
-                	car2.x += p*1.1;
-				}
-                else if(car2.x>p*130 &&car2.x<p*150 && car2.y>p*380){
-                	console.log("역조건6");
-                    car2.ysinplus();
-                	car2.x += p*1.1;
-				}
-               else if(car2.x>=p*150 &&car2.x<=p*410 && car2.y>p*410){
-                	console.log("역조건5");
-                    car2.angle= 0.8;
-                	car2.x += p*1.5;
-                    car2.y+=p*(p*450-car2.y)/100
-				}
-               else if(car2.x<=p*450 && car2.x>p*400 && car2.y>=p*410 && car2.y<p*460){
-               		console.log("역조건4");
-                	car2.x += p*0.9;
-                    car2.ycosminus();
-				}
-              else if(car2.x>p*400&&car2.y>p*90&&car2.y<p*450){
-              		console.log("역조건3");
-                    car2.angle= 0.3;
-              		car2.y -=p*1.5;
-               }
-              else if(car2.x>p*410 && car2.x<=p*460 && car2.y<p*130){
-              		console.log("역조건2");
-              		car2.x -= p*0.7;
-                	car2.ycosminus();
-                }
-            }
-                
-                drawMap();
-              
-              destinationK.update();
-              destinationL.update();
-              destinationM.update();
-              destinationN.update();
-              destinationO.update();
-              destinationP.update();
-              car2.update();
-            }
-         
-         function drawMap() {
-              var ctx = mapArea.context;//차이점 
-              ctx.canvas.width  = window.innerWidth/2;
-              ctx.canvas.height = ctx.canvas.width;
-              var scaleValueWidth = mapArea.canvas.width / ctx.canvas.width
-              var DivtensVW = scaleValueWidth*mapArea.canvas.width /10
-              var scaleValueHeight = mapArea.canvas.height / ctx.canvas.height
-              var DivtensVH = scaleValueHeight*mapArea.canvas.width /10
-              //ctx.scale(scaleValueWidth, scaleValueHeight); // 브라우저 크기에 따른 크기 조정
-              
-                 // 지도의 흰색 테두리, 이 위에 검은색 지도를 덮어 씌움
-                 
-                 ctx.beginPath();
-                 ctx.lineWidth = DivtensVW+2;
-                 ctx.strokeStyle = "white";
-                 ctx.moveTo(DivtensVW*3, DivtensVH);
-                 ctx.lineTo(DivtensVW*8, DivtensVH);
-                 ctx.quadraticCurveTo(DivtensVW*9, DivtensVH, DivtensVW*9, DivtensVH*2);
-
-                 ctx.lineTo(DivtensVW*9, DivtensVH*8);
-                 ctx.quadraticCurveTo(DivtensVW*9, DivtensVH*9, DivtensVW*8, DivtensVH*9);
-
-                 ctx.lineTo(DivtensVW*3, DivtensVH*9);
-                 ctx.bezierCurveTo(DivtensVW*13/5, DivtensVH*9, DivtensVW*13/5, DivtensVH*8, DivtensVW*2, DivtensVH*8);
-                 ctx.quadraticCurveTo(DivtensVW, DivtensVH*8, DivtensVW, DivtensVH*7);
-
-                 ctx.lineTo(DivtensVW, DivtensVH*6);
-                 ctx.lineTo(DivtensVW*2, DivtensVH*3);
-                 ctx.lineTo(DivtensVW*2, DivtensVH*2);
-                 ctx.quadraticCurveTo(DivtensVW*2, DivtensVH, DivtensVW*3, DivtensVH);
-			
-                 ctx.stroke();
-              
-      
-                 // 검정색 지도
-                 ctx.beginPath();
-                 ctx.lineWidth = DivtensVW;
-                 ctx.strokeStyle = "black";
-                 ctx.moveTo(DivtensVW*3, DivtensVH);
-                 ctx.lineTo(DivtensVW*8, DivtensVH);
-                 ctx.quadraticCurveTo(DivtensVW*9, DivtensVH, DivtensVW*9, DivtensVH*2);
-
-                 ctx.lineTo(DivtensVW*9, DivtensVH*8);
-                 ctx.quadraticCurveTo(DivtensVW*9, DivtensVH*9, DivtensVW*8, DivtensVH*9);
-
-                 ctx.lineTo(DivtensVW*3, DivtensVH*9);
-                 ctx.bezierCurveTo(DivtensVW*13/5, DivtensVH*9, DivtensVW*13/5, DivtensVH*8, DivtensVW*2, DivtensVH*8);
-                 ctx.quadraticCurveTo(DivtensVW, DivtensVH*8, DivtensVW, DivtensVH*7);
-
-                 ctx.lineTo(DivtensVW, DivtensVH*6);
-                 ctx.lineTo(DivtensVW*2, DivtensVH*3);
-                 ctx.lineTo(DivtensVW*2, DivtensVH*2);
-                 ctx.quadraticCurveTo(DivtensVW*2, DivtensVH, DivtensVW*3, DivtensVH);
-
-                 ctx.stroke();
-      
-                 //지도의 중간에 점선
-                 ctx.beginPath();
-                 ctx.lineWidth = "3";
-                 ctx.strokeStyle = "white";
-                 ctx.setLineDash([10, 20]) //점선 길이, 간격(15,20)
-                 ctx.moveTo(DivtensVW*3, DivtensVH);
-                 ctx.lineTo(DivtensVW*8, DivtensVH);
-                 ctx.quadraticCurveTo(DivtensVW*9, DivtensVH, DivtensVW*9, DivtensVH*2);
-
-                 ctx.lineTo(DivtensVW*9, DivtensVH*8);
-                 ctx.quadraticCurveTo(DivtensVW*9, DivtensVH*9, DivtensVW*8, DivtensVH*9);
-
-                 ctx.lineTo(DivtensVW*3, DivtensVH*9);
-                 ctx.bezierCurveTo(DivtensVW*13/5, DivtensVH*9, DivtensVW*13/5, DivtensVH*8, DivtensVW*2, DivtensVH*8);
-                 ctx.quadraticCurveTo(DivtensVW, DivtensVH*8, DivtensVW, DivtensVH*7);
-
-                 ctx.lineTo(DivtensVW, DivtensVH*6);
-                 ctx.lineTo(DivtensVW*2, DivtensVH*3);
-                 ctx.lineTo(DivtensVW*2, DivtensVH*2);
-                 ctx.quadraticCurveTo(DivtensVW*2, DivtensVH, DivtensVW*3, DivtensVH);
-
-                 ctx.stroke();
-                 ctx.setLineDash([]); //점선을 다시 실선으로 만들어야 다음에 호출될 때 실선으로 시작함.
-         }
-      </script>
 </head>
-<body onload="startMap()">
-	<button onclick="setdestination('K')">K</button>
-	<button onclick="setdestination('L')">L</button>
-	<button onclick="setdestination('M')">M</button>
-	<button onclick="setdestination('N')">N</button>
-	<button onclick="setdestination('O')">O</button>
-	<button onclick="setdestination('P')">P</button>
-	<button onclick="setdestination('Middle')">안해</button>
+<body onload="startGame()">
+
+<script>
+function startGame() {
+    car1 = new component(15, 20, "red", 50, 350, Math.PI); // component 생성
+    car2 = new component(15, 20, "green", 300, 50, Math.PI / 2);
+    car3 = new component(15, 20, "blue", 350, 50, Math.PI / 2);
+    flagA = new component(15, 20, "A", 300, 50, Math.PI / 2);
+    flagB = new component(15, 20, "B", 350, 50, Math.PI / 2);
+    myGameArea.start(); 
+}
+
+function stop() { // 테스트 용
+   clearInterval(myGameArea.interval);
+}
+
+//var scale = myGameArea.canvas.width / 500;
+
+var myGameArea = {
+    canvas : document.createElement("canvas"), // 캔버스 태그 생성
+    start : function() {
+        this.canvas.width = window.innerHeight; // 캔버스 크기 성정
+        this.canvas.height = window.innerHeight;
+        this.scale = this.canvas.width / 500;
+        this.context = this.canvas.getContext("2d"); // 캔버스에서 그리기 도구 객체 얻기
+        this.context.scale(this.scale, this.scale);
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]); // 캔버스 태그를 body 태그 안에 넣기
+        this.interval = setInterval(updateGameArea, 10); // 20ms마다 updateGameArea 함수를 실행
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    },    
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+var flag1 = false;
+var flag2 = false;
+var flag3 = false;
+
+var direction1 = false;
+var direction2 = false;
+var direction3 = false;
+
+function changeFlag1() {
+   if(flag1 == false) flag1 = true;
+   else flag1 = false;
+   console.log(flag1);
+}
+
+function changeFlag2() {
+   if(flag2 == false) flag2 = true;
+   else flag2 = false;
+   console.log(flag2);
+}
+
+function changeFlag3() {
+   if(flag3 == false) flag3 = true;
+   else flag3 = false;
+   console.log(flag3);
+}
+
+function changeDirection1() {
+   if(direction1 == false) direction1 = true;
+   else direction1 = false;
+   console.log(direction1);
+}
+
+function changeDirection2() {
+   if(direction2 == false) direction2 = true;
+   else direction2 = false;
+   console.log(direction2);
+}
+
+function changeDirection3() {
+   if(direction3 == false) direction3 = true;
+   else direction3 = false;
+   console.log(direction3);
+}
+
+
+function component(width, height, color, x, y, angle) {
+    this.width = width;
+    this.height = height;
+    this.speed = 0;
+    this.angle = angle; // 현대 각도
+    this.moveAngle = 0; // 변화 각도
+    this.x = x; // component 좌표
+    this.y = y;
+    this.update = function() {
+           ctx = myGameArea.context; // 그리기 객체 도구 얻기
+           
+           // component rotation에 필요
+           ctx.save();
+           ctx.translate(this.x, this.y);
+           ctx.rotate(this.angle);
+           
+           ctx.fillStyle = color; // 직사각형 색 설정
+           ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height); // 직사각형 그리기
+           
+           // component rotation을 위해 바꾼 설정을 복구
+           ctx.restore();
+    }
+
+    this.update2 = function() {
+           ctx = myGameArea.context;
+           ctx.save();
+           ctx.translate(this.x, this.y);
+           ctx.fillStyle = "rgba(255, 255, 0, 0.8)";
+           ctx.fillRect(this.width / -2, this.height / -2, 5, 10);
+			ctx.fillStyle = "rgba(0, 128, 0, 1)";
+			ctx.fillRect(this.width / -2, this.height / -2-20, 30, 20);
+            ctx.restore();
+    }
+    
+    this.fixPosition1 = function() {
+       if(this.x >= 150 && this.x < 400 && this.y == 50) {
+           this.moveRight(); console.log("1");}
+        if(this.x >= 400 && this.angle >= Math.PI / 2 && this.angle < Math.PI) { 
+           this.turnRight1(); console.log("2");}
+        if(this.x == 450 && this.y >= 100 && this.y < 400) {
+           this.moveDown(); console.log("3");}
+        if(this.y >= 400 && this.angle >= Math.PI / 2 && this.angle < 3 * Math.PI / 2) {
+           this.turnRight2(); console.log("4");}
+        if(this.x > 160 && this.x <= 400 && this.y == 450) {
+           this.moveLeft(); console.log("5");}
+        
+        if(this.x > 135 && this.x <= 160 && this.angle >= 3 * Math.PI / 2 && this.angle < 2 * Math.PI) {
+           this.turnRight3(); console.log("6");}
+          if(this.x > 100 && this.x <= 135 && this.angle >= 3 * Math.PI / 2 && this.angle < 2 * Math.PI) {
+             this.turnLeft(); console.log("7");}
+          
+          if(this.x > 50 && this.x <= 100 && this.y >= 350 && this.angle >= 3 * Math.PI / 2 && this.angle <= 2 * Math.PI) {
+             this.turnRight4(); console.log("8");}
+          
+          if(this.x == 50 && this.y > 300 && this.y <= 350) {
+             this.moveUp1(); console.log("9");}
+          if(this.y > 150 && this.y <=300 && this.angle >= 2 * Math.PI && this.angle <= 12.62 * Math.PI / 6) {
+             this.moveUp2(); console.log("10");}
+          
+          if(this.x == 100 && this.y > 100 && this.y <=150) {
+             this.moveUp1(); console.log("11");}
+          if(this.x >= 100 && this.y > 50 && this.y <=100  && this.angle >= 2 * Math.PI && this.angle < 5 * Math.PI / 2) {
+             this.turnRight5(); console.log("12");}
+    }
+    
+    this.fixPosition2 = function() {
+       if(this.x > 150 && this.x <= 400 && this.y == 50) {
+           this.moveLeft(); console.log("L1");}
+       if(this.x <= 150 && this.y >= 50 && this.y <100) {
+             this.turnLeft2(); console.log("L2");}
+       if(this.x == 100 && this.y >= 100 && this.y <150) {
+             this.moveDown(); console.log("L3");}
+       if(this.y >= 150 && this.y <300 && this.angle >= Math.PI && this.angle <= Math.PI + 0.62 * Math.PI / 6) {
+             this.moveDown2(); console.log("L4");}
+       if(this.x == 50 && this.y >= 300 && this.y < 350) {
+             this.moveDown(); console.log("L5");}
+       if(this.x >= 50 && this.x < 100 && this.y >= 350 && this.angle >= Math.PI / 2 && this.angle <= Math.PI) {
+             this.turnLeft3(); console.log("L6");}
+       if(this.x >= 100 && this.x < 125 && this.y >= 400 && this.y < 425 && this.angle >= Math.PI / 2 && this.angle <= Math.PI) {
+             this.turnRight6(); console.log("L7");}
+       if(this.x >= 125 && this.x < 150 && this.y >= 425 && this.y < 450 && this.angle >= Math.PI / 2 && this.angle <= Math.PI) {
+           this.turnLeft4(); console.log("L8");}
+       if(this.x >= 150 && this.x < 400 && this.y == 450) {
+           this.moveRight(); console.log("L9");}
+       if(this.x >= 400 && this.angle > 0 && this.angle <= 3 * Math.PI / 2) {
+           this.turnLeft5(); console.log("L10");}
+       
+       if(this.x == 450 && this.y > 100 && this.y <= 400) {
+           this.moveUp1(); console.log("L11");}
+       if(this.x > 400 && this.x <= 450 && this.y <= 100 && this.angle >= 2 * Math.PI / 2 && this.angle <= 5 * Math.PI / 2) { 
+           this.turnLeft6(); console.log("L12");}
+    }
+    
+    this.moveRight = function() {
+       this.speed = 1;
+        this.angle = Math.PI / 2;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnRight1 = function() {
+       this.speed = 1;
+       this.moveAngle = 1.145;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.angle >= Math.PI) { this.x = 450; this.y = 100; return;}
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.moveDown = function() {
+       this.speed = 1;
+        this.angle = Math.PI;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnRight2 = function() {
+       this.speed = 1;
+       this.moveAngle = 1.145;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.angle >= 3 * Math.PI / 2) { this.x = 400; this.y = 450; return;}
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.moveLeft = function() {
+       this.speed = 1;
+        this.angle = 3 * Math.PI / 2;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnRight3 = function() {
+       this.speed = 1;
+       this.moveAngle = 2;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.angle >= 11 * Math.PI / 6) {this.x = 135; this.y = 435; return;} //this.x = 135; this.y = 435; return;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnLeft = function() {
+       this.speed = 1;
+       this.moveAngle = -0.7;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.x < 101) {this.x = 100; this.y = 400; this.angle = 3 * Math.PI / 2; return;} // this.x = 100; this.y = 400; return
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnRight4 = function() {
+       this.speed = 1;
+       this.moveAngle = 1.145;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.angle >= 2 * Math.PI) {this.x = 50; this.y = 350; return;}
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.moveUp1 = function() {
+       this.speed = 1;
+        this.angle =  2 * Math.PI;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.moveUp2 = function() {
+       this.speed = 1;
+        this.angle = 12.62 * Math.PI / 6;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+        if(this.y <= 150) {this.x = 100; this.y = 150; return} //this.x = 100; this.y = 150; return
+    }
+    
+    this.turnRight5 = function() {
+       this.speed = 1;
+       this.moveAngle = 1.145;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.angle >= 5 * Math.PI / 2) { this.x = 150; this.y = 50; return}
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnLeft2 = function() {
+        this.speed = 1;
+        this.moveAngle = -1.145;
+         this.angle +=  this.moveAngle * Math.PI / 180;
+         if (this.angle <= Math.PI) { this.x = 100; this.y = 100; return}
+         this.x += this.speed * Math.sin(this.angle);
+         this.y -= this.speed * Math.cos(this.angle);
+     }
+    
+    this.moveDown2 = function() {
+        this.speed = 1;
+         this.angle = Math.PI + 0.62 * Math.PI / 6;
+         this.x += this.speed * Math.sin(this.angle);
+         this.y -= this.speed * Math.cos(this.angle);
+         if(this.y >= 300) {this.x = 50; this.y = 300; return} //this.x = 100; this.y = 150; return
+     }
+    
+    this.turnLeft3 = function() {
+        this.speed = 1;
+        this.moveAngle = -1.145;
+         this.angle +=  this.moveAngle * Math.PI / 180;
+         if (this.angle <= Math.PI / 2) {this.x = 100; this.y = 400; this.angle = Math.PI / 2; return;}
+         this.x += this.speed * Math.sin(this.angle);
+         this.y -= this.speed * Math.cos(this.angle);
+     }
+    
+    this.turnRight6 = function() {
+        this.speed = 1;
+        this.moveAngle = 2.25;
+         this.angle +=  this.moveAngle * Math.PI / 180;
+         if (this.angle >= Math.PI) {this.x = 125; this.y = 425; this.angle = Math.PI; return;} // this.x = 100; this.y = 400; return
+         this.x += this.speed * Math.sin(this.angle);
+         this.y -= this.speed * Math.cos(this.angle);
+     }
+    
+    this.turnLeft4 = function() {
+       this.speed = 1;
+       this.moveAngle = -2.25;
+        this.angle +=  this.moveAngle * Math.PI / 180;
+        if (this.angle <= Math.PI / 2) {this.x = 150; this.y = 450; this.angle = Math.PI / 2; return;} //this.x = 135; this.y = 435; return;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+    }
+    
+    this.turnLeft5 = function() {
+        this.speed = 1;
+        this.moveAngle = -1.145;
+         this.angle +=  this.moveAngle * Math.PI / 180;
+         if (this.angle <= 0) {this.x = 450; this.y = 400; this.angle = 0; return;}
+         this.x += this.speed * Math.sin(this.angle);
+         this.y -= this.speed * Math.cos(this.angle);
+     }
+    
+    this.turnLeft6 = function() {
+        this.speed = 1;
+        this.moveAngle = -1.145;
+         this.angle +=  this.moveAngle * Math.PI / 180;
+         if (this.angle <= 3 * Math.PI / 2) {this.x = 400; this.y = 50; this.angle = 3 * Math.PI / 2; return;}
+         this.x += this.speed * Math.sin(this.angle);
+         this.y -= this.speed * Math.cos(this.angle);
+     }
+}
+
+function updateGameArea() {
+   myGameArea.clear(); // 캔버스 지우기
+    drawMap(); //지도 그리기
+    
+    car1.moveAngle = 0; // 변화 각도 초기화
+    car1.speed = 0; // 속도 초기화
+    car2.moveAngle = 0;
+    car2.speed = 0;
+    car3.moveAngle = 0;
+    car3.speed = 0;
+    
+    // component 위치 조정
+    // 움직임 통제, 방향 통제 flag를 만족하면 위치 조정
+    if(flag1 && direction1){car1.fixPosition1();} // 역방향 움직임
+    if(flag2 && direction2){car2.fixPosition1();}
+    if(flag3 && direction3){car3.fixPosition1();}
+    
+    if(flag1 && !direction1){car1.fixPosition2();} // 정방향 움직임
+    if(flag2 && !direction2){car2.fixPosition2();}
+    if(flag3 && !direction3){car3.fixPosition2();}
+    
+    car1.update(); // component 그리기
+    car2.update();
+    car3.update();
+
+    flagA.update2();
+    flagB.update2();
+    console.log(car1.x, car1.y, car1.angle * 180 / Math.PI);
+}
+
+
+
+function drawMap() {
+     var ctx = myGameArea.context; // 캔버스에서 그리기 도구 객체 얻기
+     
+     // 도로 테두리 그리기
+     ctx.beginPath(); // path 시작 함수, path를 초기화 또는 재설정
+     ctx.lineWidth = ' 52' // path의 굴기 설정
+     ctx.strokeStyle = "white"; // path의 색 설정
+     ctx.moveTo(150, 50); // path의 시작점
+     ctx.lineTo(400, 50); // 해당 좌표로 직선 이어주기
+     ctx.arcTo(450, 50, 450, 100, 50); // 해당 좌표로 곡선 이어주기
+
+     ctx.lineTo(450, 400);
+     ctx.arcTo(450, 450, 400, 450, 50);
+
+     ctx.lineTo(150, 450);
+     ctx.bezierCurveTo(130, 450, 130, 400, 100, 400); // 해당 좌표로 bezier curve 이어주기
+     ctx.arcTo(50, 400, 50, 350, 50);
+
+     ctx.lineTo(50, 300);
+     ctx.lineTo(100, 150);
+     ctx.lineTo(100, 100);
+     ctx.arcTo(100, 50, 150, 50, 50);
+
+     ctx.stroke(); // 위에서 이어준 좌표 실제로 그리기
+     
+     // 도로 내부 그리기
+     ctx.beginPath();
+     ctx.lineWidth = "50";
+     ctx.strokeStyle = "black";
+     ctx.moveTo(150, 50);
+     ctx.lineTo(400, 50);
+     ctx.arcTo(450, 50, 450, 100, 50);
+
+     ctx.lineTo(450, 400);
+     ctx.arcTo(450, 450, 400, 450, 50);
+
+     ctx.lineTo(150, 450);
+     ctx.bezierCurveTo(130, 450, 130, 400, 100, 400);
+     ctx.arcTo(50, 400, 50, 350, 50);
+
+     ctx.lineTo(50, 300);
+     ctx.lineTo(100, 150);
+     ctx.lineTo(100, 100);
+     ctx.arcTo(100, 50, 150, 50, 50);
+
+     ctx.stroke();
+
+     // 도로 중앙선 그리기
+     ctx.beginPath();
+     ctx.lineWidth = "1";
+     ctx.strokeStyle = "white";
+     ctx.setLineDash([15, 20]) // path를 점선으로 설정, 길이 15, 간격 20
+     ctx.moveTo(150, 50);
+     ctx.lineTo(400, 50);
+     ctx.arcTo(450, 50, 450, 100, 50);
+
+     ctx.lineTo(450, 400);
+     ctx.arcTo(450, 450, 400, 450, 50);
+
+     ctx.lineTo(150, 450);
+     ctx.bezierCurveTo(130, 450, 130, 400, 100, 400);
+     ctx.arcTo(50, 400, 50, 350, 50);
+
+     ctx.lineTo(50, 300);
+     ctx.lineTo(100, 150);
+     ctx.lineTo(100, 100);
+     ctx.arcTo(100, 50, 150, 50, 50);
+
+     ctx.stroke();
+     ctx.setLineDash([]); // path를 실선으로 초기화, 이렇게 해야 다음에 또 그릴 때 위의 코드가 점선으로 시작 안함
+}
+</script>
+
+<p>Make sure the gamearea has focus, and use the arrow keys to move the red square around.</p>
+<button onclick="changeFlag1()">red</button>
+<button onclick="changeFlag2()">green</button>
+<button onclick="changeFlag3()">blue</button>
+<button onclick="changeDirection1()">red direction</button>
+<button onclick="changeDirection2()">green direction</button>
+<button onclick="changeDirection3()">blue direction</button>
 </body>
 </html>
