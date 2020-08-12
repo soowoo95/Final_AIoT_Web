@@ -47,20 +47,21 @@
 			function onConnect() {
 				console.log("mqtt broker connected")
 				
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
-				client.subscribe("/4cctv");
-				client.subscribe("/1jetracer");
-				client.subscribe("/2jetracer");
-				client.subscribe("/3jetracer");
-				
+				client.subscribe("/req/1cctv");
+				client.subscribe("/req/2cctv");
+				client.subscribe("/req/3cctv");
+				client.subscribe("/req/4cctv");
+				client.subscribe("/req/1jetracer");
+				client.subscribe("/req/2jetracer");
+				client.subscribe("/req/3jetracer");
+			}
  				//subscriber 연결됐다고 메세지 발행해서 알리자
- 				message = new Paho.MQTT.Message('newSub');
+ 				/* message = new Paho.MQTT.Message('newSub');
 				message.destinationName = "/sub/connected";
 				client.send(message);
 				console.log("연결됐다고 알림!"); 
-			}
+			}													*/
+			
 			$(document).ready(function() {
 			    setInterval(getinterval, 750);
 			});  
@@ -73,10 +74,10 @@
 						response();
 					}
 			}
-			function response(){
+			function response(value){
 				console.log("답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
-				message.destinationName = "/network";
+				message.destinationName = "/res/" + value;
 				client.send(message);
 			}
 
@@ -89,7 +90,7 @@
 				//client.send(message1); 
 				//console.log("받았다고 알림!");
 				
-				if(message.destinationName =="/1jetracer") {
+				if(message.destinationName =="/req/1jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
 					//obj["witness"]= message.destinationName;
@@ -125,7 +126,7 @@
 					 */
 				}
 				
-				if(message.destinationName =="/2jetracer") {
+				if(message.destinationName =="/req/2jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
 					//obj["witness"]= message.destinationName;
@@ -161,7 +162,7 @@
 					 */
 				}
 				
-				if(message.destinationName =="/3jetracer") {
+				if(message.destinationName =="/req/3jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
 					//obj["witness"]= message.destinationName;
@@ -197,7 +198,7 @@
 					 */
 				}
 				
- 				if(message.destinationName =="/1cctv") {
+ 				if(message.destinationName =="/req/1cctv") {
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -217,7 +218,7 @@
 						document.getElementById('c1Loc').style.color = '#DB6574';
 						document.getElementById('c1Loc').style.fontWeight = 'bold';
 				
-						if (obj["witness"].replace("/","") == "1cctv"){
+						if (obj["witness"].replace("/","") == "req1cctv"){
 							document.getElementById('cameraView1').style.border = '8px solid red';
 						}
 					}
@@ -235,9 +236,12 @@
 					}
 				}
  				
-				if(message.destinationName =="/2cctv") {
-					response();
-					lastSendtime=Date.now();
+				if(message.destinationName =="/req/2cctv") {
+					var value = message.destinationName.replace("/req/", "");
+					response(value);
+					
+					lastSendtime = Date.now();
+					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -257,7 +261,7 @@
 						document.getElementById('c2Loc').style.color = '#DB6574';
 						document.getElementById('c2Loc').style.fontWeight = 'bold';
 
-						if (obj["witness"].replace("/","") == "2cctv"){
+						if (obj["witness"].replace("/","") == "req2cctv"){
 							document.getElementById('cameraView2').style.border = '8px solid red';
 						}
 					}
@@ -274,7 +278,10 @@
 					}
 				}
 
-				if(message.destinationName =="/3cctv") {
+				if(message.destinationName =="/req/3cctv") {
+					
+					lastSendtime = Date.now();
+					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -292,7 +299,7 @@
 						$("#c3Loc").attr("value", "3번 CCTV 촬영 구간");
 						document.getElementById('c3Loc').style.color = '#DB6574';
 						document.getElementById('c3Loc').style.fontWeight = 'bold';
-						if (obj["witness"].replace("/","") == "3cctv"){
+						if (obj["witness"].replace("/","") == "req3cctv"){
 							document.getElementById('cameraView3').style.border = '8px solid red';
 						}
 					}
@@ -309,9 +316,12 @@
 					}
 				}
 
-				if(message.destinationName =="/4cctv") {
-					response();
-					lastSendtime=Date.now();
+				if(message.destinationName =="/req/4cctv") {
+					var value = message.destinationName.replace("/req/", "");
+					response(value);
+					
+					lastSendtime = Date.now();
+					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -330,7 +340,7 @@
 						document.getElementById('c4Loc').style.color = '#DB6574';
 						document.getElementById('c4Loc').style.fontWeight = 'bold';
 						
-						if (obj["witness"].replace("/","") == "4cctv"){
+						if (obj["witness"].replace("/","") == "req4cctv"){
 							document.getElementById('cameraView4').style.border = '8px solid red';
 						}
 					}

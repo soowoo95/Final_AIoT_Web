@@ -32,46 +32,7 @@
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
-
-		<script>
-			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
-				client.onMessageArrived = onMessageArrived;
-				client.connect({onSuccess:onConnect});
-			});
 			
-			function onConnect() {
-				console.log("mqtt broker connected")
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
-				client.subscribe("/4cctv");
-				client.subscribe("/sensor");
-			}
-			
-			function onMessageArrived(message) {
- 				if(message.destinationName =="/1cctv") {
- 					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/2cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
-				if(message.destinationName =="/3cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/4cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
-			}
-		</script>		 
 	</head>
 	
 	<body>
