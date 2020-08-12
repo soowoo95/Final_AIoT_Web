@@ -56,6 +56,10 @@ public class HomeController {
 		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
 		ReadFromOtherMQTT.init(topic);
 		ReadFromOtherMQTT.subscribe(0);
+		
+		//MQTT mqtt = new MQTT();
+		//mqtt.start();
+		ReadFromOtherMQTT.start();
 	}
 	
 	@RequestMapping("/landing.do")

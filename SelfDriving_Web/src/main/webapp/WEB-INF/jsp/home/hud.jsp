@@ -121,7 +121,8 @@ $(function() {
 $(function() {
 	canvasprogress =document.createElement("canvas")
 	canvasprogress.style.position= "absolute";
-	canvasprogress.style.right="0"
+	canvasprogress.style.left = "100px";
+	canvasprogress.style.bottom="0"
   //var can = document.getElementById('canvas'),
       spanProcent = document.createElement("span"),
       spanProcent.style.position= "absolute";
@@ -131,7 +132,6 @@ $(function() {
  
   var posX = canvasprogress.width / 2,
       posY = canvasprogress.height / 2,
-      fps = 1000 / 200,
       procent = 0,
       oneProcent = 360 / 100;
   result = oneProcent * bat;
@@ -142,34 +142,95 @@ $(function() {
   
   function arcMove(){
 	  
-	  
-    var deegres = 0;
+    var barcolor = 'black';
     var acrInterval = setInterval (function() {
     	result = oneProcent * bat;
     	console.log("hi")
-      deegres += 1;
       ctxprogress.clearRect( 0, 0, canvasprogress.width, canvasprogress.height );
-      ctxprogress.font = "30px Georgia";
-      ctxprogress.fillText(Math.round(result/360*100), canvasprogress.width/2, canvasprogress.height/2);
-      procent = deegres / oneProcent;
-
-      spanProcent.innerHTML = procent.toFixed();
-
+      ctxprogress.font = "50px Georgia";
+      if(Math.round(result/360*100)>80){
+    	  barcolor="rgba(30, 130, 76, 0.8)"
+      }else if(Math.round(result/360*100)>60){
+    	  barcolor="rgba(247, 202, 24, 0.8)"
+      }else{
+    	  barcolor="rgba(242, 38, 19, 0.8)"
+      }
+      ctxprogress.fillStyle= barcolor;
+      ctxprogress.fillText(Math.round(result/360*100), canvasprogress.width/2-10, canvasprogress.height/2+10);
+      
       ctxprogress.beginPath();
-      ctxprogress.arc( posX, posY, 70, (Math.PI/180) * 90, (Math.PI/180) * (90 + 360) );
+      ctxprogress.arc( posX, posY, 60, (Math.PI/180) * 90, (Math.PI/180) * (90 + 360) );
       ctxprogress.strokeStyle = '#b1b1b1';
-      ctxprogress.lineWidth = '10';
+      ctxprogress.lineWidth = '20';
       ctxprogress.stroke();
 
       ctxprogress.beginPath();
-      ctxprogress.strokeStyle = '#3949AB';
-      ctxprogress.lineWidth = '10';
-      ctxprogress.arc( posX, posY, 70, (Math.PI/180) * 90, (Math.PI/180) * (90 + result) );
+      ctxprogress.strokeStyle = barcolor;
+      ctxprogress.lineWidth = '20';
+      ctxprogress.arc( posX, posY, 60, (Math.PI/180) * 90, (Math.PI/180) * (90 + result) );
       ctxprogress.stroke();
-    }, 20);
+    }, 1000);
     
   }
 });
+
+$(function() {
+	canvasprogress2 =document.createElement("canvas")
+	canvasprogress2.style.position= "absolute";
+	canvasprogress2.style.bottom="0";
+	canvasprogress2.width=window.innerWidth/2;
+	canvasprogress2.height=canvasprogress2.width;
+	nullbi=window.innerWidth/4;
+	canvasprogress2.style.left=nullbi+"px";
+      spanProcent2 = document.createElement("span"),
+      spanProcent2.style.position= "absolute";
+		 spanProcent2.style.right="0"
+      ctxprogress2 = canvasprogress2.getContext("2d");
+	  
+ 
+  var posX2 = canvasprogress2.width / 2,
+      posY2 = canvasprogress2.height / 2,
+      procent2 = 0,
+      oneProcent2 = 360 / 100;
+  result2 = oneProcent2 * bat;
+  document.body.insertBefore(canvasprogress2, document.body.childNodes[0]);
+  //document.body.insertBefore(spanProcent, document.body.childNodes[0]);
+  arcMove2();
+  
+  function arcMove2(){
+	  
+    var barcolor2 = 'black';
+    var acrInterval2 = setInterval (function() {
+    	result2 = oneProcent2 * bat;
+    	console.log("hi")
+      ctxprogress2.clearRect( 0, 0, canvasprogress2.width, canvasprogress2.height );
+      ctxprogress2.font = "80px Georgia";
+      
+	  
+     	if(Math.round(result/360*100)<60){
+    	  barcolor2="black"
+      }else{
+    	  barcolor2="rgba(242, 38, 19, 0.8)"
+      }
+      ctxprogress2.fillStyle= barcolor2
+      ctxprogress2.fillText(Math.round(result/360*100), canvasprogress2.width/2-10, canvasprogress2.height-30);
+      ctxprogress2.beginPath();
+      ctxprogress2.arc( posX2, window.innerHeight, canvasprogress2.height/4, (Math.PI/180) * 180, (Math.PI/180) * (90 + 270) );
+      ctxprogress2.strokeStyle = '#b1b1b1';
+      ctxprogress2.lineWidth = '20';
+      ctxprogress2.stroke();
+	
+      ctxprogress2.beginPath();
+      ctxprogress2.strokeStyle = barcolor2;
+      ctxprogress2.lineWidth = '20';
+      ctxprogress2.setLineDash([4, 4]);
+      ctxprogress2.arc( posX2, window.innerHeight, canvasprogress2.height/4, (Math.PI/180) * 180, (Math.PI/180) * (180+Math.round(result/180*100)) );
+      ctxprogress2.stroke();
+    }, 1000);
+    
+  }
+});
+
 $(function() {
 	canvascircle =document.createElement("canvas")
 	canvascircle.width = window.innerWidth;
@@ -319,7 +380,7 @@ function component(width, height, color, x, y, angle) {
     this.height = height;
     this.speed = 0;
     this.angle = angle; // 현대 각도
-    this.moveAngle = 0; // 변화 각도
+    this.moveAngle = bat/90* 0; // 변화 각도
     this.x = x; // component 좌표
     this.y = y;
     this.update = function() {
@@ -408,15 +469,15 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.moveRight = function() {
-       this.speed = 1;
+       this.speed = bat/90;
         this.angle = Math.PI / 2;
         this.x += this.speed * Math.sin(this.angle);
         this.y -= this.speed * Math.cos(this.angle);
     }
     
     this.turnRight1 = function() {
-       this.speed = 1;
-       this.moveAngle = 1.145;
+       this.speed = bat/90;
+       this.moveAngle = bat/90* 1.145;
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.angle >= Math.PI) { this.x = 450; this.y = 100; return;}
         this.x += this.speed * Math.sin(this.angle);
@@ -424,15 +485,15 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.moveDown = function() {
-       this.speed = 1;
+       this.speed = bat/90;
         this.angle = Math.PI;
         this.x += this.speed * Math.sin(this.angle);
         this.y -= this.speed * Math.cos(this.angle);
     }
     
     this.turnRight2 = function() {
-       this.speed = 1;
-       this.moveAngle = 1.145;
+       this.speed = bat/90;
+       this.moveAngle = bat/90* 1.145;
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.angle >= 3 * Math.PI / 2) { this.x = 400; this.y = 450; return;}
         this.x += this.speed * Math.sin(this.angle);
@@ -440,15 +501,15 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.moveLeft = function() {
-       this.speed = 1;
+       this.speed = bat/90;
         this.angle = 3 * Math.PI / 2;
         this.x += this.speed * Math.sin(this.angle);
         this.y -= this.speed * Math.cos(this.angle);
     }
     
     this.turnRight3 = function() {
-       this.speed = 1;
-       this.moveAngle = 2;
+       this.speed = bat/90;
+       this.moveAngle = bat/90* 2;
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.angle >= 11 * Math.PI / 6) {this.x = 135; this.y = 435; return;} //this.x = 135; this.y = 435; return;
         this.x += this.speed * Math.sin(this.angle);
@@ -456,8 +517,8 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.turnLeft = function() {
-       this.speed = 1;
-       this.moveAngle = -0.7;
+       this.speed = bat/90;
+       this.moveAngle = bat/90* (-0.7);
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.x < 101) {this.x = 100; this.y = 400; this.angle = 3 * Math.PI / 2; return;} // this.x = 100; this.y = 400; return
         this.x += this.speed * Math.sin(this.angle);
@@ -465,8 +526,8 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.turnRight4 = function() {
-       this.speed = 1;
-       this.moveAngle = 1.145;
+       this.speed = bat/90;
+       this.moveAngle = bat/90* 1.145;
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.angle >= 2 * Math.PI) {this.x = 50; this.y = 350; return;}
         this.x += this.speed * Math.sin(this.angle);
@@ -474,14 +535,14 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.moveUp1 = function() {
-       this.speed = 1;
+       this.speed = bat/90;
         this.angle =  2 * Math.PI;
         this.x += this.speed * Math.sin(this.angle);
         this.y -= this.speed * Math.cos(this.angle);
     }
     
     this.moveUp2 = function() {
-       this.speed = 1;
+       this.speed = bat/90;
         this.angle = 12.62 * Math.PI / 6;
         this.x += this.speed * Math.sin(this.angle);
         this.y -= this.speed * Math.cos(this.angle);
@@ -489,8 +550,8 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.turnRight5 = function() {
-       this.speed = 1;
-       this.moveAngle = 1.145;
+       this.speed = bat/90;
+       this.moveAngle = bat/90*1.145;
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.angle >= 5 * Math.PI / 2) { this.x = 150; this.y = 50; return}
         this.x += this.speed * Math.sin(this.angle);
@@ -498,8 +559,8 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.turnLeft2 = function() {
-        this.speed = 1;
-        this.moveAngle = -1.145;
+        this.speed = bat/90;
+        this.moveAngle = bat/90*(-1.145);
          this.angle +=  this.moveAngle * Math.PI / 180;
          if (this.angle <= Math.PI) { this.x = 100; this.y = 100; return}
          this.x += this.speed * Math.sin(this.angle);
@@ -507,7 +568,7 @@ function component(width, height, color, x, y, angle) {
      }
     
     this.moveDown2 = function() {
-        this.speed = 1;
+        this.speed = bat/90;
          this.angle = Math.PI + 0.62 * Math.PI / 6;
          this.x += this.speed * Math.sin(this.angle);
          this.y -= this.speed * Math.cos(this.angle);
@@ -515,8 +576,8 @@ function component(width, height, color, x, y, angle) {
      }
     
     this.turnLeft3 = function() {
-        this.speed = 1;
-        this.moveAngle = -1.145;
+        this.speed = bat/90;
+        this.moveAngle = bat/90* (-1.145);
          this.angle +=  this.moveAngle * Math.PI / 180;
          if (this.angle <= Math.PI / 2) {this.x = 100; this.y = 400; this.angle = Math.PI / 2; return;}
          this.x += this.speed * Math.sin(this.angle);
@@ -524,8 +585,8 @@ function component(width, height, color, x, y, angle) {
      }
     
     this.turnRight6 = function() {
-        this.speed = 1;
-        this.moveAngle = 2.25;
+        this.speed = bat/90;
+        this.moveAngle = bat/90*2.25;
          this.angle +=  this.moveAngle * Math.PI / 180;
          if (this.angle >= Math.PI) {this.x = 125; this.y = 425; this.angle = Math.PI; return;} // this.x = 100; this.y = 400; return
          this.x += this.speed * Math.sin(this.angle);
@@ -533,8 +594,8 @@ function component(width, height, color, x, y, angle) {
      }
     
     this.turnLeft4 = function() {
-       this.speed = 1;
-       this.moveAngle = -2.25;
+       this.speed = bat/90;
+       this.moveAngle = bat/90*(-2.25);
         this.angle +=  this.moveAngle * Math.PI / 180;
         if (this.angle <= Math.PI / 2) {this.x = 150; this.y = 450; this.angle = Math.PI / 2; return;} //this.x = 135; this.y = 435; return;
         this.x += this.speed * Math.sin(this.angle);
@@ -542,8 +603,8 @@ function component(width, height, color, x, y, angle) {
     }
     
     this.turnLeft5 = function() {
-        this.speed = 1;
-        this.moveAngle = -1.145;
+        this.speed = bat/90;
+        this.moveAngle = bat/90*(-1.145);
          this.angle +=  this.moveAngle * Math.PI / 180;
          if (this.angle <= 0) {this.x = 450; this.y = 400; this.angle = 0; return;}
          this.x += this.speed * Math.sin(this.angle);
@@ -551,8 +612,8 @@ function component(width, height, color, x, y, angle) {
      }
     
     this.turnLeft6 = function() {
-        this.speed = 1;
-        this.moveAngle = -1.145;
+        this.speed = bat/90;
+        this.moveAngle = bat/90*(-1.145);
          this.angle +=  this.moveAngle * Math.PI / 180;
          if (this.angle <= 3 * Math.PI / 2) {this.x = 400; this.y = 50; this.angle = 3 * Math.PI / 2; return;}
          this.x += this.speed * Math.sin(this.angle);

@@ -33,7 +33,7 @@
 			</select>
 	
 			<select id="monthList" resultType="dactnoperTime">
-					SELECT CONCAT(MONTH(dtime),'-', DAY(dtime),' ',hour(dtime),':',minute(dtime)) dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
+					SELECT CONCAT(MONTH(dtime),'-', DAY(dtime)) dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
 			</select>
 			
 			<select id="regionList" resultType="dactnoperFinder">

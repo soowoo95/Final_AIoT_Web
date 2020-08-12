@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +29,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.project.dao.AnimalDao;
 import com.mycompany.project.model.Animal;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Service
-public class MQTT implements MqttCallback{
+public class MQTT extends Thread implements MqttCallback{
 	private static String Broker;
 	private static String Client_ID;
 	private static String UserName;
@@ -39,18 +41,42 @@ public class MQTT implements MqttCallback{
 	private static MqttMessage message;
 	private static MemoryPersistence persistence;
 	private static MqttConnectOptions connOpts;
+	private static Long[] datearray; 
 	private static String topic;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
 	
 	@Autowired
 	private AnimalDao animalDao;
 	public void chogihwa(String broker, String client_id,String username, String passwd){
+		LOGGER.info("초기화");
 		this.Broker = broker;
 		this.Client_ID = client_id;
 		this.UserName = username;
-		this.Passwd = passwd;	
+		this.Passwd = passwd;
+		datearray= new Long[7];
+		Arrays.fill(datearray, System.currentTimeMillis());
 	}
-	
+
+	@Override
+	public void run() {
+		while(true) {
+			long datenow= System.currentTimeMillis();
+			
+				if(datenow-datearray[4]>1000){
+					LOGGER.info("babotiing");
+					publish("sorry", 0, "/network");
+				}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			super.run();
+		}
+		
+	}
+
 	public void init(String topic){
 		this.topic = topic;
 		this.persistence = new MemoryPersistence();
@@ -99,6 +125,7 @@ public class MQTT implements MqttCallback{
 	}
 	
 	public void publish(String msg, int qos,String restopic){
+		LOGGER.info("답장을보내죠.");
 		message.setQos(qos);
 		message.setPayload(msg.getBytes());
 		
@@ -133,7 +160,10 @@ public class MQTT implements MqttCallback{
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
 		LOGGER.info("Message arrived : " +topic);
-		
+		if(topic.equals("/2cctv")) {
+			datearray[4]=System.currentTimeMillis();
+			publish("sorry", 0, "/network");
+		}
     	ObjectMapper mapper = new ObjectMapper();
     	String json = new String(mqttMessage.getPayload());
     	Map<String, Object> map = new HashMap<String, Object>();

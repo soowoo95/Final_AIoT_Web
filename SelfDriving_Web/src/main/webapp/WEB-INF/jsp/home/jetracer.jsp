@@ -48,7 +48,7 @@
 				client.subscribe("/2jr");
 				client.subscribe("/3jetracer");
 				client.subscribe("/3jr");
-				client.subscribe("/mirror");
+				client.subscribe("/3jr");
 			}
 			
 			function onMessageArrived(message) {
