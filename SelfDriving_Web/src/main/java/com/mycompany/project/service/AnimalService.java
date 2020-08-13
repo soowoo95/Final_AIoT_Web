@@ -52,4 +52,9 @@ public class AnimalService {
 		String howdanger= animalDao.getmainDangerLevel();
 		return howdanger;
 	}
+
+	public List getCCTVanimal() {
+		List<Animal> list = animalDao.selectByCCTV();
+		return list;
+	}
 }

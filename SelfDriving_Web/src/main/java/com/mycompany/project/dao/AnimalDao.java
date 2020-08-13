@@ -56,4 +56,10 @@ public class AnimalDao extends EgovAbstractMapper {
 		String howdanger = selectOne("animal.howdanger");
 		return howdanger;
 	}
+
+	public List<Animal> selectByCCTV() {
+		LOGGER.info("실행");
+		List<Animal> list = selectList("animal.selectByCCTV");
+		return list; 
+	}
 }
