@@ -37,6 +37,9 @@
 
 		<script>
 		let ipid;
+		var lastSendtimearr = [Date.now(), Date.now(), Date.now(),Date.now(),Date.now(),Date.now(),Date.now()];
+		var subList=["1jetracer", "2jetracer","3jetracer","1cctv","2cctv","3cctv","4cctv"];
+		
 			$(function(){
 				ipid = new Date().getTime().toString()
 				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
@@ -57,6 +60,7 @@
 				client.subscribe("/req/3jetracer");
 			}
 			$(document).ready(function() {
+				
 			    setInterval(getinterval, 750);
 			    setInterval(animalTable, 30000);
 			});  
@@ -64,29 +68,29 @@
 			 var lastSendtime=Date.now();
 			 
 			 function getinterval(){
-				interval= Date.now()-lastSendtime;
+				nowtime= Date.now();
+				lastSendtimearr.forEach(function(element, index, array){
+					interval=nowtime-element
 					if(interval>750){
-						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
-						console.log("답장을 보내요.");
-						message = new Paho.MQTT.Message(ipid);
-						message.destinationName = "/res/4cctv";
-						client.send(message);
+						console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						response(index);
 					}
+				});
 			}
 			function animalTable(){
 				var currentLocation = window.location;
 				$("#animalTable").load(currentLocation + ' #animalTable');
 			}
 			
-			function response(value){
-				console.log("답장을 보내요.");
+			function response(index){
+				console.log(subList[index]+"에게 답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
-				message.destinationName = "/res/4cctv";
+				message.destinationName = "/res/"+subList[index];
 				client.send(message);
 			}
 
 			function onMessageArrived(message) {
-				if(message.destinationName =="/1jetracer") {
+				if(message.destinationName =="/req/1jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
 					//obj["witness"]= message.destinationName;
@@ -122,7 +126,7 @@
 					 */
 				}
 				
-				if(message.destinationName =="/2jetracer") {
+				if(message.destinationName =="/req/2jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
 					//obj["witness"]= message.destinationName;
@@ -158,7 +162,7 @@
 					 */
 				}
 				
-				if(message.destinationName =="/3jetracer") {
+				if(message.destinationName =="/req/3jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
 					//obj["witness"]= message.destinationName;
@@ -194,7 +198,10 @@
 					 */
 				}
 				
- 				if(message.destinationName =="/1cctv") {
+ 				if(message.destinationName =="/req/1cctv") {
+ 					response(3);
+					lastSendtimearr[3] = Date.now();
+ 					
  					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -232,9 +239,9 @@
 					}
 				}
  				
-				if(message.destinationName =="/2cctv") {
-					response();
-					lastSendtime = Date.now();
+				if(message.destinationName =="/req/2cctv") {
+					response(4);
+					lastSendtimearr[4] = Date.now();
 					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -269,9 +276,9 @@
 					}
 				}
 
-				if(message.destinationName =="/3cctv") {
-					
-					lastSendtime = Date.now();
+				if(message.destinationName =="/req/3cctv") {
+					response(5);
+					lastSendtimearr[5] = Date.now();
 					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -306,8 +313,8 @@
 				}
 
 				if(message.destinationName =="/req/4cctv") {
-					response();
-					lastSendtime = Date.now();
+					response(6);
+					lastSendtimearr[6] = Date.now();
 					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
