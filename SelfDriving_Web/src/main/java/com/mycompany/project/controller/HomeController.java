@@ -102,8 +102,10 @@ public class HomeController {
 	}
 
 	@RequestMapping("/status.do")
-	public String status(){
+	public String status(Model model){
 		LOGGER.info("실행");
+		List<Animal>list = animalService.getCCTVanimal();
+		model.addAttribute("animal", list);
 		return "home/status";
 	}
 	
