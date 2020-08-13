@@ -117,29 +117,29 @@
 
 	            <div class="tab-content" id="pills-tabContent" style="height: 974px; margin-left: 25px; margin-right: 25px;  margin-top: 80px ;color: dimgray; border-style:solid; border-width:medium;">
 	            <div class="row">
-	             <input style="background-color: #ADFF2F ; font-size: xx-large;font-weight: bolder; text-align: center; color: black; margin-left: 45px; margin-top:30px;border-color:#ADFF2F ; border-style:solid; border-width:medium;width: 1485px; height: 45px" readonly="readonly" value="유해 동물 탐지 히스토리 조회 및 탐지 이미지 확인">
+	             <input style="background-color: #ADFF2F; font-size: xx-large;font-weight: bolder; text-align: center; color: black; margin-left: 45px; margin-top:30px;border-color:#ADFF2F ; border-style:solid; border-width:medium;width: 1485px; height: 45px" readonly="readonly" value="유해 동물 탐지 히스토리 조회 및 탐지 이미지 확인">
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 870px; margin-top: 0px; margin-bottom: 0px; height: 400px; margin-left: 30px" > 
-	                  <div class="title" style="color: white"><strong>Animal Detected | History</strong></div>
+	                  <div class="title" style="color: white"><strong>유해 동물 탐지 | 히스토리</strong></div>
 	                  
 	                  <div class="table-responsive" style="height: 350px"> 
 	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; text-align: center">
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
-	                          <th>Detect No.</th>
-	                          <th>Detected Object</th>
-	                          <th>Detected Level</th>
-	                          <th>Object Num</th>
-	                          <th>Detector</th>
-	                          <th>Area</th>
-	                          <th>Detected Time</th>
+	                          <th>사건 번호</th>
+	                          <th>동물 명</th>
+	                          <th>유해등급</th>
+	                          <th>동물 수</th>
+	                          <th>탐지 주체</th>
+	                          <th>탐지 구역</th>
+	                          <th>탐지 시각</th>
 	                        </tr>
 	                      </thead>
 	                      <tbody>
 		                      <c:forEach var="animal" items="${animal}">
 		                      	<tr>
 		                          <td scope="row">${animal.dno}</td>
-		                          <td onclick="viewImage(${animal.dno})" style="color: #ADFF2F; font-weight: bold;">${animal.dname}</td>
+		                          <td onclick="viewImage(${animal.dno})" style="color: #ADFF2F; font-weight: bold">${animal.dname}</td>
 		                          <td>${animal.dlevel}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
@@ -156,7 +156,7 @@
 									</c:if>
 									<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
 										<c:if test="${pager.pageNo == i}">
-											<button href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}" style="background-color:#ADFF2F; border-radius: 10px ">${i}</button>
+											<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}" style="background-color:#ADFF2F; border-color: #ADFF2F; color: black ">${i}</a>
 										</c:if>
 
 										<c:if test="${pager.pageNo != i}">
@@ -176,29 +176,27 @@
 	             
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 600px; height:400px ;margin-top: 0px; margin-bottom: 10px; margin-left: 130px;">
-	                  <div class="title" style="color: white"><strong>Animal Detected | Image</strong></div>
+	                  <div class="title" style="color: white"><strong>유해 동물 탐지 | 이미지</strong></div>
 	                  <div class="table-responsive" style="justify-content: center;">
 	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; width:580px ; height: 310px"/>
 	                  </div>
 	                </div>
 	              </div>
 
-				
-
- 				<input style="background-color: #864DD9; font-size: xx-large; font-weight: bolder; text-align: center; color: white; margin-left: 45px; border-color: transparent; width: 1485px; height: 50px" readonly="readonly" value="Driving Sign Detection History & Captured Image View">
+ 				<input style="background-color: #864DD9; font-size: xx-large; font-weight: bolder; text-align: center; color: white; margin-left: 45px; border-color: transparent; width: 1485px; height: 50px" readonly="readonly" value="주행 사인 탐지 히스토리 조회 및 탐지 이미지 확인">
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 870px; margin-top: 0px; margin-bottom: 10px; height: 400px; margin-left: 30px">
-	                  <div class="title" style="color: white"><strong>Driving Situation | History</strong></div>
+	                  <div class="title" style="color: white"><strong>주행 사인 탐지 | 히스토리</strong></div>
 	                  <div class="table-responsive" style="height: 350px"> 
 	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; text-align: center">
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
-	                          <th>Detect No.</th>
-	                          <th>Detected Object</th>
-	                          <th>Object Num</th>
-	                          <th>Detector</th>
-	                          <th>Area</th>
-	                          <th>Detected Time</th>
+	                          <th>사건 번호</th>
+	                          <th>주행 사인 종류</th>
+	                          <th>탐지 수</th>
+	                          <th>탐지 주체</th>
+	                          <th>탐지 구역</th>
+	                          <th>탐지 시각</th>
 	                        </tr>
 	                      </thead>
 	                      
@@ -222,7 +220,7 @@
 								</c:if>
 								<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
 									<c:if test="${pager.pageNo == i}">
-										<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+										<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}" style="background-color:#864DD9; border-color: #864DD9; color: white ">${i}</a>
 									</c:if>
 
 									<c:if test="${pager.pageNo != i}">
@@ -242,7 +240,7 @@
 	              
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 600px; height:400px ;margin-top: 0px; margin-bottom: 10px; margin-left: 130px">
-	                  <div class="title" style="color: white"><strong>Driving Situation | Image</strong></div>
+	                  <div class="title" style="color: white"><strong>주행 사인 탐지  | 이미지</strong></div>
 	                  <div class="table-responsive">
 	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 310px; max-width:100%; width: 580px; align-self: center;"/>
 	                  </div>

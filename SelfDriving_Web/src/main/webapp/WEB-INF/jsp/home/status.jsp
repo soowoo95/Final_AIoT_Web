@@ -62,7 +62,7 @@
 			$(document).ready(function() {
 				
 			    setInterval(getinterval, 750);
-			    setInterval(animalTable, 30000);
+			    setInterval(animalTable, 5000);
 			});  
 			 
 			 var lastSendtime=Date.now();
@@ -72,23 +72,27 @@
 				lastSendtimearr.forEach(function(element, index, array){
 					interval=nowtime-element
 					if(interval>750){
-						console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 						response(index);
 					}
 				});
 			}
+			 
 			function animalTable(){
 				var currentLocation = window.location;
 				$("#animalTable").load(currentLocation + ' #animalTable');
 			}
-			
+
+			function sendJet(data) {
+				  console.log("넘기고 싶은 이름:" + data);
+			}
+
 			function response(index){
-				console.log(subList[index]+"에게 답장을 보내요.");
+				//console.log(subList[index]+"에게 답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
 				message.destinationName = "/res/"+subList[index];
 				client.send(message);
 			}
-
 			function onMessageArrived(message) {
 				if(message.destinationName =="/req/1jetracer") {
  					//const json = message.payloadString;
@@ -367,8 +371,8 @@
 	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
 	          </div>
 	          <div class="right-menu list-inline no-margin-bottom">    
-	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
-	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="" alt="English" class="mr-2"><span>French  </span></a></div>
 	            </div>
 	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
@@ -397,12 +401,13 @@
 	   
 	      
 	     <div class="page-content" style="top: -50px;height: 1080px; padding-bottom: 0px; ">
-	     	<div style="margin-bottom: 10px; margin-top: 80px; color: dimgray; font-weight: bold; font-size: xx-large; height: 50px; margin-left: 600px">실시간 유해동물 탐지 현황</div>
+	     	
+	     	<div style="margin-bottom: 10px; margin-top: 80px; color: dimgray; font-weight: bold; font-size: xx-large; height: 50px; width: 1623px; text-align: center;">실시간 유해동물 탐지 및 대응 현황</div>
 		     
 		     <section style="padding-right: 0px">
 	          <div class="container-fluid">
 	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 520px; height: 468px; top: 140px">
-	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
+	         	  <input value="JetRacer 탐지 현황" readonly="readonly" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView1 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView2 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
@@ -416,7 +421,7 @@
 	        <section style="padding-right: 0px">
 	          <div class="container-fluid">
 	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 520px; width: 520px; height: 468px; top: 140px">
-	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 170px ;border-color: transparent; font-weight: bold;"/>
+	         	  <input value="CCTV 탐지 현황" readonly="readonly" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 170px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=cameraView1 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
 				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=cameraView2 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
@@ -426,49 +431,54 @@
 				</div>
 	          </div>
 	        </section>
-	        
-	       <!--  <div style="background-color: dimgray; color: white ;position: absolute; top: 150px; left: 1000px; width: 440px; height: 440px">여기에 미니 맵</div> -->
+	       
 	        
 	        <section style="padding-right: 0px">
 	          <div class="container-fluid">
 	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 1040px; width: 520px; height: 468px; top: 140px">
-	         	  <input value="여기에 미니맵" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 170px ;border-color: transparent; font-weight: bold;"/>
+	         	  <input value="여기에 미니맵" readonly="readonly" style="background-color: transparent; color: white; font-weight: 500; font-size:20px;border-color: transparent; font-weight: bold; width: 520px; text-align: center;"/>
 				  <div style="background-color: dimgray; width: 520px; height: 440px;"></div>
 				</div>
 	          </div>
 	        </section>
 	        
-       		<div style="background-color: dimgray; height: 405px; width: 520px; margin-top:490px;  margin-left:1085px; padding:0px ;text-align: center; font-weight: bolder; font-size: 30px; position: absolute;">
-       				
-     			<div class="table-responsive" style="height: 350px">
-     			  <div id="animalTable">
-                   <table class="table table-striped table-sm" style="color: white; text-align: center">
-                     <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white; font-size: xx-small;">
-                       <tr>
-                         <th>CCTV #</th>
-                         <th>Animal Name</th>
-                         <th>Animal Level</th>
-                         <th>Area</th>
-                         <th>Detected Time</th>
+	        <input value="얘네도 처리하렴 어떤 jet이 할래?"readonly="readonly" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 1085px ;border-color: transparent; font-weight: bold;position: absolute;margin-top:480px; height: 36px; padding: 0px; text-align: center;width: 520px"/>
+       		
+       		<div style="background-color: transparent ; height: 405px; width: 520px; margin-top:510px; margin-left:1085px; padding:0px ; position: absolute">
+     			
+     			<div class="table-responsive" style=" border-color: dimgray; border-style:solid; border-width:medium; padding-left:5px; padding-right:5px;">
+     			  <div id="animalTable" style=" text-align: center; justify-content: center; height: 220px">
+                   <table class="table table-striped table-sm" style="color: white; height: 220px">
+                     <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white; font-size: medium;">
+                       <tr style="height: 48px; justify-content: center; padding:0px; color:#DB6574; text-align: center; ">
+                         <th style="width: 100px">CCTV #</th>
+                         <th style="width: 160px">Detected Animal</th> 
+                         <th style="width: 80px">Zone</th>
+                         <th style="width: 180px">Detected Time</th>
                        </tr>
                      </thead>
-                     <tbody style="font-size: xx-small;">
+                     <tbody style="font-size: medium">
                       <c:forEach var="animal" items="${animal}">
                       	<tr>
-                      	  <td>${animal.dfinder}</td>
+                      	  <td scope="row">${animal.dfinder}</td>
                           <td>${animal.dname}</td>
-                          <td>${animal.dlevel}</td>
-                          <td>${animal.dfinder}</td>
-                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+                          <td onclick="sendJet(${animal.dname})">${animal.dfinder}</td>
+                          <td><fmt:formatDate value="${animal.dtime}" pattern="MM/dd HH:mm:ss"/></td>
                         </tr>
                      </c:forEach>
                     </tbody>
                    </table>
-                </div>
-              </div> 
+                 </div>
+               </div>
+               
+               <div style="height: 180px; background-color: pink">
+               
+               
+               </div>  
        		</div>
-	       	
-	       	<div style="border-color: transparent; margin-top: 500px; width: 1070px; padding-left: 5px">
+       		
+	       	<input value="어떤 상황이니" readonly="readonly" style="background-color: transparent; color: white; margin-left:30px ;font-weight: 500; font-size:20px; border-color: transparent; font-weight: bold;position: absolute;margin-top:480px; height: 36px; padding: 0px; text-align: center; width: 1037px"/>
+	       	<div style="border-color: transparent; margin-top: 520px; width: 1070px; padding-left: 5px">
 		       <div class="container" style="background-color: #22252a;  margin-left: 25px; border-color: dimgray; border-style:solid; border-width:medium; width: 1043px ">         
 				  <table class="table hover" style="margin-bottom: 0px; margin-left: 0px">
 				    <thead style="font-size: medium;">
