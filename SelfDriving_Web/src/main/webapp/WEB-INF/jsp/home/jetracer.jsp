@@ -15,7 +15,7 @@
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		
-		<script src="${pageContext.request.contextPath}/resource/js/manual_control.js" ></script> 
+<%-- 		<script src="${pageContext.request.contextPath}/resource/js/manual_control.js" ></script>  --%>
 		
 		<!--  Template 관련 설정 파일들 -->
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
@@ -133,12 +133,14 @@
 ///////////////////////////////////////////////////////////////////		jetracer #2		/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if(message.destinationName =="/2jetracer") {
+					console.log("2jetracer 들어오고 있음");
 					$("#jetView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-					$("#driveView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					//$("#driveView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 				}
 				
 				
 				if(message.destinationName =="/2jr") {
+					console.log("2jr 들어오고 있음");
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
 				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
@@ -225,6 +227,7 @@
 			}
  			
 			/////////////////////////////////////////////////		매뉴얼 컨트롤 모드 변경		///////////////////////////////////////////////////////////////////////						
+			
 			function manual(value){
 				console.log(value);
 				
@@ -240,6 +243,7 @@
 					$(document).keydown(function(event) {
 						if (event.keyCode == '38') {
 						  	console.log("달리자")
+						  	$("#up").css("background-color", "#FFF8DC");
 		 				  	message = new Paho.MQTT.Message("speed:"+ 40);
 							message.destinationName = "/1manual/go";
 							message.qos = 0;
@@ -254,6 +258,112 @@
 							client.send(message);
 						}
 					});
+					
+					document.onkeydown = onkeydown_handler;
+					document.onkeyup = onkeyup_handler;
+
+					function onkeydown_handler(event) {
+						var keycode = event.which || event.keycode;
+						console.log(keycode);
+						if(keycode == 87 || keycode== 65 || keycode== 83 || keycode== 68){		//카메라 제어
+							if(keycode == 83){					//앞
+								$("#cameradown").css("background-color", "#FFF8DC");
+								var topic="command/camera/front";
+							} else if(keycode == 65){			//왼쪽
+								$("#cameraleft").css("background-color", "#FFF8DC");
+								console.log(keycode);
+								var topic="command/camera/left";
+							} else if(keycode == 87){			//뒤
+								$("#cameraup").css("background-color", "#FFF8DC");
+								var topic="command/camera/back";
+							} else if(keycode == 68){			//오른쪽
+								$("#cameraright").css("background-color", "#FFF8DC");
+								var topic="command/camera/right";
+							}
+							message = new Paho.MQTT.Message("camera");
+							message.destinationName = topic;
+							client.send(message);
+						}
+						if(keycode == 37 || keycode == 39) {
+							if(keycode == 37) {
+								//left
+								$("#left").css("background-color", "#FFF8DC");
+								var topic = "command/frontTire/left";
+								console.log(topic);
+							}else if(keycode == 39) {
+								//right
+								$("#right").css("background-color", "#FFF8DC");
+								topic = "command/frontTire/right";
+								console.log(topic);
+							}
+							message = new Paho.MQTT.Message("frontTire");
+							message.destinationName = topic;
+							client.send(message);
+						}
+						if(keycode == 38 || keycode == 40 || keycode == 32) {
+							if(keycode == 38) {
+								// up
+								$("#up").css("background-color", "#FFF8DC");
+								var topic = "command/backTire/forward";
+							} else if(keycode == 40) {
+								// down
+								$("#down").css("background-color", "#FFF8DC");
+								var topic = "command/backTire/backward";
+							} else if(keycode == 32) {
+								//spacebar
+								stopped = true;
+								var topic = "command/backTire/stop";
+							}
+							message = new Paho.MQTT.Message("backTire");
+							message.destinationName = topic;
+							client.send(message);
+						}
+						if(keycode == 100 || keycode == 102) {		// 거리 센서 제어
+							if(keycode == 100) {					//좌
+								$("#sonicleft").css("background-color", "#FFF8DC");
+								var topic = "command/distance/left";
+							} else if(keycode == 102) {				//우
+								$("#sonicright").css("background-color", "#FFF8DC");
+								var topic = "command/distance/right";
+							} 
+							message = new Paho.MQTT.Message("distance");
+							message.destinationName = topic;
+							client.send(message);
+						}
+					}
+
+					function onkeyup_handler(event) {
+						var keycode = event.which || event.keycode;
+						if(keycode == 37 || keycode == 39) {
+							$("#left").css("background-color", "");
+							$("#right").css("background-color", "");
+							var topic = "command/frontTire/front";
+							message = new Paho.MQTT.Message("frontTire");
+							message.destinationName = topic;
+							client.send(message);
+						}
+						if(keycode == 38 || keycode == 40) {
+							$("#up").css("background-color", "");
+							$("#down").css("background-color", "");
+							var topic = "command/backTire/respeed";
+							message = new Paho.MQTT.Message("backTire");
+							message.destinationName = topic;
+							client.send(message);
+						}
+						if(keycode == 87 || keycode== 65 || keycode== 83 || keycode== 68) {
+							$("#cameraup").css("background-color", "");
+							$("#cameradown").css("background-color", "");
+							$("#cameraright").css("background-color", "");
+							$("#cameraleft").css("background-color", "");
+						}
+						if(keycode == 100 || keycode == 102) {
+							$("#sonicleft").css("background-color", "");
+							$("#sonicright").css("background-color", "");
+						}
+					}
+					
+					
+					
 				}
 				
 				else if (value == 'Off'){
@@ -291,7 +401,8 @@
 							client.send(message);
 							console.log(message);
 						}
-						if (event.keyCode == '39'){ 		
+						if (event.keyCode == '39'){ 	
+							console.log("멈추자2");
 		 				  	message = new Paho.MQTT.Message("speed");
 							message.destinationName = "/2manual/stop";
 							message.qos = 0;
@@ -384,11 +495,10 @@
 	    </header>
 	    
 		<div class="d-flex align-items-stretch" style="height: 875px;">
-	      <!-- Sidebar Navigation-->
-	      <nav id="sidebar" style="height: 887px;">
+	      <nav id="sidebar" style="height: 1030px;">
 	        <!-- Sidebar Header-->
 	        <div class="sidebar-header d-flex align-items-center">
-	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
+	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center"><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
 	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
 	            <p style="color: lightgray">Team 2</p>
@@ -404,7 +514,7 @@
 	       	</ul>
 	      </nav>
 	      
-	      <div class="page-content" style="top: -50px; padding-bottom: ">
+	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
 	      
 			<div style="margin-top: 65px">
 			  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="max-width: 100%; margin-left: 30px" >
@@ -420,11 +530,61 @@
 		      </ul>
 	      	</div>
 
-			<div class="tab-content" id="pills-tabContent" style="height: 805px; margin-left: 30px; margin-right: 20px;  border-color: dimgray; border-style:solid; border-width:medium; ">
+			<div class="tab-content" id="pills-tabContent" style="height: 944px; margin-left: 25px; margin-right: 25px;  border-color: dimgray; border-style:solid; border-width:medium; ">
 			  
 		  	<!-- jet racer # 1 -->
 		  	<div class="tab-pane fade show active" id="jet-racer1" role="tabpanel" aria-labelledby="jet-racer1-tab">
-  			
+  				
+  				<div style="background-color: dimgray; height: 900px; width: 1200px; position: absolute; margin-left:22px; margin-top: 22px; text-align: center; font-weight: bolder; font-size: 300px;">여기에 HUD</div>
+  				
+  				<input value="Battery Charging Status" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 150px; left: 1255px; height: 30px;">
+  				<div style="position: absolute; top: 180px; left: 1255px; height: 30px; display: flex; flex-direction:  row;">
+            		<div>
+            			<input value="Battery" readonly="readonly" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black; width: 190px; font-weight: bold;justify-content: center; width: 160px">
+            		</div>
+					<div>
+						<input value="Adapter Connected" readonly="readonly" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 160px">
+					</div>
+	           	</div>
+  				
+  				<input value="Motion Detection" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 220px; left: 1255px; height: 30px;">
+  				<img id=driveView2 style="width: 320px; height: 320px; position: absolute; top: 250px; left: 1255px"/>
+				
+				<section class="no-padding-top no-padding-bottom" style="top:570px; left: 1255px; position: absolute;padding: 0px">
+		          <div class="container-fluid">
+		            <div class="row" style="width: 320px; height: 200px" >
+		              <div class="col-md-3 col-sm-6" style="padding: 0px">
+		                <div class="statistic-block block" style="justify-content: center; padding: 0px; width: 320px; margin-bottom: 10px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;height: 90px; padding: 0px">
+		                    <div class="title" style="justify-content: center; margin: 15px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Detected Motion</strong>
+		                    </div>
+		                    <div id="district1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    	STOP
+		                    </div>
+		                 </div>
+		                </div>
+ 		                <div class="statistic-block block" style="justify-content: center; padding: 0px; width: 320px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center; height: 90px">
+		                    <div class="title" style="justify-content: center; margin: 15px">
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Target Action</strong>
+		                    </div>
+		                    <div id="MotorSpeed" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    	Speed : 0
+		                    </div>
+		                 </div>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </section>
+				
+				<input value="Manual" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 220px; left: 1255px; height: 30px;">
+
+
+
+
+<!--    		
              	<div id="title" style="background-color: #864DD9; width: 875px; color: white; font-weight: bold; text-align : center; margin-left: 30px; margin-top:30px; height: 30px">Auto Driving Situation</div>
 
              	<div id="batteryMode" style="position: absolute; left: 578px; top: 187px">
@@ -445,7 +605,7 @@
 		                <div class="statistic-block block" style="width: 380px; height: 100px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 495px; background-color: transparent;">
 		                  <div class="progress-details d-flex align-items-end justify-content-between">
 		                    <div class="title">
-		                      <div class="icon"><!-- <i class="icon-writing-whiteboard"></i> --></div><strong style="color: white">Battery Status</strong>
+		                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
 		                    </div> 
 		                    <div class="number dashtext-1" id="jetRacerText1">
 		                    	100%
@@ -458,7 +618,7 @@
 		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px; background-color: transparent;">
 		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
 		                    <div class="title" style="padding-bottom: 30px">
-		                      <div class="icon"><!-- <i class="icon-info"></i> --></div><strong style="color: white">Driving District</strong>
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Driving District</strong>
 		                    </div>
 		                    <div class="number dashtext-1" id="district1" style="padding-bottom: 30px">
 		                    	Zone A
@@ -468,7 +628,7 @@
  		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px; background-color: transparent;">
 		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
 		                    <div class="title" style="padding-bottom: 30px">
-		                      <div class="icon"><!-- <i class="icon-info"></i> --></div><strong style="color: white">Motor Speed</strong>
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Motor Speed</strong>
 		                    </div>
 		                    <div class="number dashtext-1" id="MotorSpeed" style="padding-bottom: 30px; color: white;">
 		                    	60 km/h
@@ -478,7 +638,7 @@
 		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px; background-color: transparent;">
 		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;">
 		                    <div class="title" style="padding-bottom: 30px; padding-top: 0px">
-		                      <div class="icon"><!-- <i class="icon-info"></i> --></div><strong style="color: white">Current °C</strong>
+		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Current °C</strong>
 		                    </div>
 		                    <div class="number dashtext-1" id="Temperature" style="padding-bottom: 30px">
 		                    	25 °C
@@ -498,7 +658,8 @@
 						<input id="modeOff" onclick="manual('Off')" value="Auto Driving Mode" readonly="readonly" style="border-color: transparent;width: 435px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold;justify-content: center;">
 					</div>
            		</div>
-<!--              	 
+           		 
+              	 
              	주행 중 탐지하는 표지판 내용 표시
              	<div class="driving-sign" style="height: 51px; top: 550px">Detected Object </div>
              		<input id="driveObject1" value="N/A" readonly="readonly" style="background-color: transparent; border-color: transparent; position: absolute; color: white; left: 390px; font-weight: bold; font-size:x-large; top:632px ">
@@ -514,21 +675,21 @@
 				
 				<div class="driving-sign" style="height: 55px;top: 570px">Target Action </div>
 					<input id=driveAction1 value="N/A" readonly="readonly" style="background-color: transparent; border-color: transparent; position: absolute; color: white; left: 390px; font-weight: bold; font-size:x-large; top:852px ">
- -->
+
 				<div id="manual_control" style="display:none ; width: 380px; height: 100px; position: absolute; top: 775px;">
 					<div style="margin-left: 60px; width: 190px; height:100px; position: absolute" align="center">
-						<!-- 키보드로 출발/정지 -->
+						키보드로 출발/정지
 						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px; display: none;"></br>
 						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style=" margin-bottom:5px ;border-color:#ADFF2F; border-width: medium; font-weight: bold;">↑</a><br/>
 						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">←</a>
 						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">□</a>
 						<a class="btn btn-outline-warning btn-lg" id="right" onmousedown="tire_button_down('right')" onmouseup="tire_button_up('right')" onclick="click_right()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">→</a></br>
-<!-- 					
+					
 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">L Line</a>
 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">R Line</a>
-						 -->
 					</div>
-<!-- 					
+
+					
 					<div style="margin-left: 715px; width: 190px; height:100px; position: absolute" align="center">
 						센서 띄우기
 						<input value="Sensor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
@@ -539,22 +700,10 @@
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:green; margin-top: 10px; color: green">GREEN</a>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:white; margin-top: 10px; color: white">???</a>
 					</div>
-					-->
 				</div>
+				 -->
 			</div> 
 			<!-- END OF jet racer # 1 -->
-			
-<!-- 		    <input id="MotorSpeed" value="60 km/h" style="background-color: #2d3035; border-color: transparent; font-size: xx-large; font-weight: bold; color: lightgray; position: absolute; top:370px; width: 380px; margin-left: 5px"></input> -->
-	            <%-- 서보 각도에 따라 핸들 돌리기 (캔버스로 대체할 것임)
-	            <section>
-		          <div class="container-fluid">
-		         	<div class="container">
-		         	<img id=image_steering src="${pageContext.request.contextPath}/resource/img/steering.png" style=" width: 150px; height: 150px; position: absolute; left: 140px; top: 550px"/>
-					</div>
-		          </div>
-		        </section>
-		        <img src="${pageContext.request.contextPath}/resource/img/driverseat.jpg" style="width: 490px; height: 240px; margin-left: 30px; margin-top: 0px"/>
---%>
 		 		
 			<!-- jet racer # 2 -->
 			<div class="tab-pane fade" id="jet-racer2" role="tabpanel" aria-labelledby="jet-racer2-tab">

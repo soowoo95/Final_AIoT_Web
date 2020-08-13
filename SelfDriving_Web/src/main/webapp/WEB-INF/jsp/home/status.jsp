@@ -47,6 +47,7 @@
 			function onConnect() {
 				console.log("mqtt broker connected")
 				
+<<<<<<< HEAD
 				client.subscribe("/1cctv");
 				client.subscribe("/req2cctv");
 				client.subscribe("/3cctv");
@@ -54,37 +55,58 @@
 				client.subscribe("/1jetracer");
 				client.subscribe("/2jetracer");
 				client.subscribe("/3jetracer");
+=======
+				client.subscribe("/req/1cctv");
+				client.subscribe("/req/2cctv");
+				client.subscribe("/req/3cctv");
+				client.subscribe("/req/4cctv");
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 				
+<<<<<<< HEAD
 			}
 			 $(document).ready(function() {
+=======
+				client.subscribe("/req/1jetracer");
+				client.subscribe("/req/2jetracer");
+				client.subscribe("/req/3jetracer");
+			}
+ 				//subscriber 연결됐다고 메세지 발행해서 알리자
+ 				/* message = new Paho.MQTT.Message('newSub');
+				message.destinationName = "/sub/connected";
+				client.send(message);
+				console.log("연결됐다고 알림!"); 
+			}													*/
+			
+			$(document).ready(function() {
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 			    setInterval(getinterval, 750);
 			});  
 			 
 			 var lastSendtime=Date.now();
+			 
 			 function getinterval(){
 				interval= Date.now()-lastSendtime;
 					if(interval>750){
 						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
-						response();
+						console.log("답장을 보내요.");
+						message = new Paho.MQTT.Message(ipid);
+						message.destinationName = "/res/#";
+						client.send(message);
 					}
 			}
 			function response(value){
 				console.log("답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
+<<<<<<< HEAD
 				message.destinationName = "/res" + value;
 				console.log(message.destinationName);
+=======
+				message.destinationName = "/res/"+value;
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 				client.send(message);
 			}
 
 			function onMessageArrived(message) {
-				//console.log(typeof(message));
-
-				//message 연결됐다고 메세지 발행해서 알리자
-	 			//message1 = new Paho.MQTT.Message('rec');
-				//message1.destinationName = "/sub/received";
-				//client.send(message1); 
-				//console.log("받았다고 알림!");
-				
 				if(message.destinationName =="/1jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
@@ -213,7 +235,7 @@
 						document.getElementById('c1Loc').style.color = '#DB6574';
 						document.getElementById('c1Loc').style.fontWeight = 'bold';
 				
-						if (obj["witness"].replace("/","") == "1cctv"){
+						if (obj["witness"].replace("/","") == "req1cctv"){
 							document.getElementById('cameraView1').style.border = '8px solid red';
 						}
 					}
@@ -231,11 +253,18 @@
 					}
 				}
  				
+<<<<<<< HEAD
 				if(message.destinationName =="/req2cctv") {
 					value = message.destinationName.replace("/req","");
 					response(value);
 					
 					lastSendtime=Date.now();
+=======
+				if(message.destinationName =="/2cctv") {
+					response();
+					lastSendtime = Date.now();
+					
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -254,10 +283,14 @@
 						$("#c2Loc").attr("value", "2번 CCTV 촬영 구간");
 						document.getElementById('c2Loc').style.color = '#DB6574';
 						document.getElementById('c2Loc').style.fontWeight = 'bold';
+<<<<<<< HEAD
 
 						if (obj["witness"].replace("/","") == "req2cctv"){
 							document.getElementById('cameraView2').style.border = '8px solid red';
 						}
+=======
+						document.getElementById('cameraView2').style.border = '8px solid red';
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					}
 					
 					if (obj.Class.length == 0){
@@ -273,6 +306,9 @@
 				}
 
 				if(message.destinationName =="/3cctv") {
+					
+					lastSendtime = Date.now();
+					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -290,9 +326,7 @@
 						$("#c3Loc").attr("value", "3번 CCTV 촬영 구간");
 						document.getElementById('c3Loc').style.color = '#DB6574';
 						document.getElementById('c3Loc').style.fontWeight = 'bold';
-						if (obj["witness"].replace("/","") == "3cctv"){
-							document.getElementById('cameraView3').style.border = '8px solid red';
-						}
+						document.getElementById('cameraView3').style.border = '8px solid red';
 					}
 
 					if (obj.Class.length == 0){
@@ -307,9 +341,14 @@
 					}
 				}
 
+<<<<<<< HEAD
 				if(message.destinationName =="/req4cctv") {
+=======
+				if(message.destinationName =="/req/4cctv") {
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					response();
-					lastSendtime=Date.now();
+					lastSendtime = Date.now();
+					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -327,10 +366,14 @@
 						$("#c4Loc").attr("value", "4번 CCTV 촬영 구간");
 						document.getElementById('c4Loc').style.color = '#DB6574';
 						document.getElementById('c4Loc').style.fontWeight = 'bold';
+<<<<<<< HEAD
 						
 						if (obj["witness"].replace("/","") == "req4cctv"){
 							document.getElementById('cameraView4').style.border = '8px solid red';
 						}
+=======
+						document.getElementById('cameraView4').style.border = '8px solid red';
+>>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					}
 					
 					if (obj.Class.length == 0){
@@ -374,7 +417,7 @@
 	    </header>
 	    
 		<div class="d-flex align-items-stretch" style="height: 875px;">
-	      <nav id="sidebar" style="height: 887px;">
+	      <nav id="sidebar" style="height: 1030px;">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -393,18 +436,18 @@
 	      </nav>
 	   
 	      
-	     <div class="page-content" style="top: -50px;">
-	     	<div style="margin-bottom: 10px; margin-top: 60px; color: white; font-weight: bold; margin-left: 430px; font-size: 20px; height: 25px  ">실시간 유해동물 탐지 현황</div>
+	     <div class="page-content" style="top: -50px;height: 1080px; padding-bottom: 0px; ">
+	     	<div style="margin-bottom: 10px; margin-top: 80px; color: dimgray; font-weight: bold; font-size: xx-large; height: 50px; margin-left: 600px">실시간 유해동물 탐지 현황</div>
 		     
 		     <section style="padding-right: 0px">
 	          <div class="container-fluid">
-	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 520px; height: 428px; top: 80px">
-	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:15px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 520px; height: 468px; top: 140px">
+	         	  <input value="JetRacer 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 200px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView2 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=jrView3 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img src="${pageContext.request.contextPath}/resource/img/jetracer.jpg" style="width: 260px; height: 200px; opacity: 0.5; margin-left: 0px; margin-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView1 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView2 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView3 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img src="${pageContext.request.contextPath}/resource/img/jetracer.jpg" style="width: 260px; height: 220px; opacity: 0.5; margin-left: 0px; margin-right: 0px"/></div>
 				  </div>
 				</div>
 	          </div>
@@ -412,27 +455,42 @@
 	        
 	        <section style="padding-right: 0px">
 	          <div class="container-fluid">
-	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 520px; width: 520px; height: 428px; top: 80px">
-	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:15px; margin-left: 170px ;border-color: transparent; font-weight: bold;"/>
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 520px; width: 520px; height: 468px; top: 140px">
+	         	  <input value="CCTV 탐지 현황" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 170px ;border-color: transparent; font-weight: bold;"/>
 				  <div class="row row-cols-2">
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView1 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView2 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView3 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
-				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 200px"><img id=cameraView4 style="width: 260px; height: 200px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=cameraView1 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px; border:inactiveborder; "/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=cameraView2 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=cameraView3 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=cameraView4 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px; borderstyle: none; bordercolor: transparent; borderwidth: inherit"/></div>
 				  </div>
 				</div>
 	          </div>
 	        </section>
-       
-	       <div style="border-color: transparent; margin-top: 435px; width: 1070px; padding-left: 5px">
+	        
+	       <!--  <div style="background-color: dimgray; color: white ;position: absolute; top: 150px; left: 1000px; width: 440px; height: 440px">여기에 미니 맵</div> -->
+	        
+	        <section style="padding-right: 0px">
+	          <div class="container-fluid">
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 1040px; width: 520px; height: 468px; top: 140px">
+	         	  <input value="여기에 미니맵" style="background-color: transparent; color: white; font-weight: 500; font-size:20px; margin-left: 170px ;border-color: transparent; font-weight: bold;"/>
+				  <div style="background-color: dimgray; width: 520px; height: 440px;"></div>
+				</div>
+	          </div>
+	        </section>
+	        
+       		<div style="background-color: dimgray; height: 405px; width: 520px; margin-top:490px;  margin-left:1085px; padding:0px ;text-align: center; font-weight: bolder; font-size: 30px; position: absolute;">
+       		여기에 누가 처리할 지
+       		</div>
+	       	
+	       	<div style="border-color: transparent; margin-top: 500px; width: 1070px; padding-left: 5px">
 		       <div class="container" style="background-color: #22252a;  margin-left: 25px; border-color: dimgray; border-style:solid; border-width:medium; width: 1043px ">         
 				  <table class="table hover" style="margin-bottom: 0px; margin-left: 0px">
 				    <thead style="font-size: medium;">
 				      <tr>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">탐지주체</th>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">탐지대상</th>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">탐지대상 등급</th>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">탐지 위치</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">Detector</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">Detected Animal</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">Level of Animal</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #DB6574">Detected Area</th>
 				      </tr>
 				    </thead>
 				    <tbody style="color: white; font-size:small;">
@@ -482,6 +540,11 @@
 				  </table>
 				</div>
 	   		</div>
+	   		
+	   		
+	   		
+     
+	   		
    		</div>
    	</div>
     </body>

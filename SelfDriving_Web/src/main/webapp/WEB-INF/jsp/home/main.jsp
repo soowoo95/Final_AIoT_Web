@@ -1,4 +1,4 @@
-﻿﻿<%@ page contentType="text/html; charset=UTF-8"%>
+﻿﻿﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -32,46 +32,7 @@
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
 		
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
-
-		<script>
-			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
-				client.onMessageArrived = onMessageArrived;
-				client.connect({onSuccess:onConnect});
-			});
 			
-			function onConnect() {
-				console.log("mqtt broker connected")
-				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
-				client.subscribe("/3cctv");
-				client.subscribe("/4cctv");
-				client.subscribe("/sensor");
-			}
-			
-			function onMessageArrived(message) {
- 				if(message.destinationName =="/1cctv") {
- 					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/2cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
-				if(message.destinationName =="/3cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				if(message.destinationName =="/4cctv") {
-					const json = message.payloadString;
-					const obj = JSON.parse(json);
-					$("#cameraView4").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
-			}
-		</script>		 
 	</head>
 	
 	<body>
@@ -99,7 +60,7 @@
 	    </header>
 	    
 		<div class="d-flex align-items-stretch" style="height: 855px;">
-	      <nav id="sidebar" style="height: 868px;">
+	      <nav id="sidebar" style="height: 1030px">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -116,7 +77,7 @@
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
 	      </nav>
 	      
-	      <div class="page-content" style="top: -70px;">
+	       <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
 			<div class="row">
 			<div class="col-md-6">
 	      <section class="no-padding-top">

@@ -66,10 +66,8 @@
 	        </div>
 	      </nav>
 	    </header>
-    <div class="d-flex align-items-stretch">
-      <!-- Sidebar Navigation-->
-      <nav id="sidebar">
-        <!-- Sidebar Header-->
+    <div class="d-flex align-items-stretch" style="height: 875px;">
+      <nav id="sidebar" style="height: 1030px;">
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
           <div class="title">
@@ -77,7 +75,7 @@
             <p style="color: lightgray">Team 2</p>
           </div>
         </div>
-        <!-- Sidebar Navidation Menus--><span class="heading" style="color: lightgray">MENU</span>
+        <span class="heading" style="color: lightgray">MENU</span>
         <ul class="list-unstyled">
           <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
@@ -85,11 +83,10 @@
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	      	  <li class="active"><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
         </ul>
-      </nav>
-      <!-- Sidebar Navigation end-->	    
-	      <div class="page-content">
+      </nav>    
+	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; " >
 	      <div>
-					<div style = "width:97%;  height:300px;">
+			<div style = "width:97%;  height:300px;">
 	      <div id="container" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
 	      <div id="container2" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
 	      </div>
