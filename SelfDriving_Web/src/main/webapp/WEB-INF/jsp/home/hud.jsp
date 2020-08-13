@@ -27,31 +27,32 @@ $(function(){
 	client.connect({onSuccess:onConnect});
 });
 function onConnect() {
-	client.subscribe("/2cctv");
+	client.subscribe("/req/2cctv");
 	console.log("연결됐다고 알림!");
 }
-$(document).ready(function() {
-    setInterval(getinterval, 750);
-});  
+ $(document).ready(function() {
+    setInterval(getinterval, 300);
+});   
 	var bat=0;
     var lastSendtime=Date.now();
  function getinterval(){
 	interval= Date.now()-lastSendtime;
-		if(interval>750){
+		if(interval>1000){
 			console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 			response();
 		}
-}
-function response(){
+} 
+ function response(){
 	console.log("답장을 보내요.")
 	  message = new Paho.MQTT.Message(ipid);
-	  message.destinationName = "/network";
+	  message.destinationName = "/res/2cctv";
 	  client.send(message);
 }
-
+ var box;
 function onMessageArrived(message) {
-
-	if(message.destinationName =="/2cctv") {
+	 console.log("hioyng")
+	if(message.destinationName =="/req/2cctv") {
+		console.log("hioyng")
 		response();
 		lastSendtime=Date.now();
 		const json = message.payloadString;
@@ -64,15 +65,16 @@ function onMessageArrived(message) {
 		if(obj.Box)
 			{
 			console.log(obj.Box);
+			box=obj.Box;			
 			obj.Box.forEach(function (item, index, array) {
-				  boxx=(item[0]+item[2])*window.innerWidth/640
-				  boxy=(item[1]+item[3])*window.innerHeight/480;
+				  boxx=(item[0]+item[2])*1200/640
+				  boxy=(item[1]+item[3])*900/480;
 				  arr_boxx.push(boxx);
 				  arr_boxy.push(boxy);
 				})
 			//console.log(obj.Box[0][0]);
-			//boxx=obj.Box[0]*window.innerWidth/320;
-			//boxy=obj.BoxMiddle[1]*window.innerHeight/240;
+			//boxx=obj.Box[0]*1200/320;
+			//boxy=obj.BoxMiddle[1]*900/240;
 			}
 		image.src="data:image/jpg;base64,"+ obj.Cam;
 	}
@@ -80,22 +82,79 @@ function onMessageArrived(message) {
 var arr_boxx=[];
 var arr_boxy=[];
 $(function() {
+	//1200="1200px"
+	//900="900px"
 	canvas1stfloor =document.createElement("canvas")
-	canvas1stfloor.width = window.innerWidth;
-	canvas1stfloor.height = window.innerHeight;
+	canvas1stfloor.width = 1200;
+	canvas1stfloor.height = 900;
 	ctx1stfloor = canvas1stfloor.getContext("2d");
 	document.body.appendChild(canvas1stfloor);
 });
 var image = new Image();
 image.onload = function() {
-  	ctx1stfloor.drawImage(image, 0, 0,window.innerWidth,window.innerHeight);
+  	ctx1stfloor.drawImage(image, 0, 0,1200,900);
 };
 image.src = "";
-
+$(function() {
+	canvastrapezoid =document.createElement("canvas")
+	canvastrapezoid.width = 1200;
+	canvastrapezoid.height = 900;
+	canvastrapezoid.style.position= "absolute";
+	canvastrapezoid.style.bottom="0";
+	ctxtrapezoid = canvastrapezoid.getContext("2d");
+	var grd = ctxtrapezoid.createLinearGradient(0, canvastrapezoid.height, 0, 0);
+	grd.addColorStop(0, "rgba(5,229,238,1)");
+	grd.addColorStop(0.1,"rgba(5,229,238,0)");
+	grd.addColorStop(0.2,"rgba(5,229,238,1)");
+	grd.addColorStop(0.3,"rgba(5,229,238,0)");
+	grd.addColorStop(0.4,"rgba(5,229,238,1)");
+	grd.addColorStop(0.5,"rgba(5,229,238,0)");
+	grd.addColorStop(0.6,"rgba(5,229,238,1)");
+	grd.addColorStop(1, "rgba(5,229,238,0)");
+	document.body.insertBefore(canvastrapezoid, document.body.childNodes[0]);
+	setInterval(drawtrapezoid, 200);
+	function drawtrapezoid(){
+		ctxtrapezoid.clearRect(0,0,canvastrapezoid.width, canvastrapezoid.height);
+		if(box){
+	
+	ctxtrapezoid.moveTo(box[0][0]*1200/320, box[0][3]*900/240);
+	ctxtrapezoid.lineTo(box[0][2]*1200/320, box[0][3]*900/240);
+	//ctxtrapezoid.moveTo(canvastrapezoid.width/2-70, canvastrapezoid.height-200);
+	//ctxtrapezoid.lineTo(canvastrapezoid.width/2-130, canvastrapezoid.height-200);
+	ctxtrapezoid.lineWidth = "2";
+	ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
+	ctxtrapezoid.lineTo(0, canvastrapezoid.height);
+	ctxtrapezoid.fillStyle = grd;
+	ctxtrapezoid.fill();
+	
+	ctxtrapezoid.clearRect(0,0,canvastrapezoid.width, box[0][3]*900/240);
+	
+	ctxtrapezoid.beginPath();
+	ctxtrapezoid.strokeStyle="rgb(5,229,238)";
+	ctxtrapezoid.moveTo(box[0][0]*1200/320, canvastrapezoid.height/2);
+	ctxtrapezoid.lineTo(box[0][2]*1200/320, canvastrapezoid.height/2);
+	ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
+	ctxtrapezoid.lineTo(0, canvastrapezoid.height);
+	ctxtrapezoid.lineTo(box[0][0]*1200/320, canvastrapezoid.height/2);
+	ctxtrapezoid.stroke();
+	box= null;
+		}
+		else{
+			ctxtrapezoid.beginPath();
+			ctxtrapezoid.strokeStyle="rgb(5,229,238)";
+			ctxtrapezoid.moveTo(canvastrapezoid.width/2-70, canvastrapezoid.height/2);
+			ctxtrapezoid.lineTo(canvastrapezoid.width/2+70, canvastrapezoid.height/2);
+			ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
+			ctxtrapezoid.lineTo(0, canvastrapezoid.height);
+			ctxtrapezoid.lineTo(box[0][0]*1200/320, canvastrapezoid.height/2);
+			ctxtrapezoid.stroke();
+		}
+	}
+});
 $(function() {
 	canvas2ndfloor =document.createElement("canvas")
-	canvas2ndfloor.width = window.innerWidth;
-	canvas2ndfloor.height = window.innerHeight;
+	canvas2ndfloor.width = 1200;
+	canvas2ndfloor.height = 900;
 	canvas2ndfloor.style.position= "absolute";
 	
 	ctx2ndfloor = canvas2ndfloor.getContext("2d");
@@ -105,8 +164,8 @@ $(function() {
 });
 $(function() {
 	canvas3rdfloor =document.createElement("canvas")
-	canvas3rdfloor.width = window.innerWidth;
-	canvas3rdfloor.height = window.innerHeight;
+	canvas3rdfloor.width = 1200;
+	canvas3rdfloor.height = 900;
 	canvas3rdfloor.style.position= "absolute";
 	canvas3rdfloor.style.right="0"
 	canvas3rdfloor.style.bottom="0";
@@ -178,9 +237,9 @@ $(function() {
 	canvasprogress2 =document.createElement("canvas")
 	canvasprogress2.style.position= "absolute";
 	canvasprogress2.style.bottom="0";
-	canvasprogress2.width=window.innerWidth/2;
+	canvasprogress2.width=1200/2;
 	canvasprogress2.height=canvasprogress2.width;
-	nullbi=window.innerWidth/4;
+	nullbi=1200/4;
 	canvasprogress2.style.left=nullbi+"px";
       spanProcent2 = document.createElement("span"),
       spanProcent2.style.position= "absolute";
@@ -215,7 +274,7 @@ $(function() {
       ctxprogress2.fillStyle= barcolor2
       ctxprogress2.fillText(Math.round(result/360*100), canvasprogress2.width/2-10, canvasprogress2.height-30);
       ctxprogress2.beginPath();
-      ctxprogress2.arc( posX2, window.innerHeight, canvasprogress2.height/4, (Math.PI/180) * 180, (Math.PI/180) * (90 + 270) );
+      ctxprogress2.arc( posX2, 900, canvasprogress2.height/4, (Math.PI/180) * 180, (Math.PI/180) * (90 + 270) );
       ctxprogress2.strokeStyle = '#b1b1b1';
       ctxprogress2.lineWidth = '20';
       ctxprogress2.stroke();
@@ -224,7 +283,7 @@ $(function() {
       ctxprogress2.strokeStyle = barcolor2;
       ctxprogress2.lineWidth = '20';
       ctxprogress2.setLineDash([4, 4]);
-      ctxprogress2.arc( posX2, window.innerHeight, canvasprogress2.height/4, (Math.PI/180) * 180, (Math.PI/180) * (180+Math.round(result/180*100)) );
+      ctxprogress2.arc( posX2, 900, canvasprogress2.height/4, (Math.PI/180) * 180, (Math.PI/180) * (180+Math.round(result/180*100)) );
       ctxprogress2.stroke();
     }, 1000);
     
@@ -233,8 +292,8 @@ $(function() {
 
 $(function() {
 	canvascircle =document.createElement("canvas")
-	canvascircle.width = window.innerWidth;
-	canvascircle.height = window.innerHeight;
+	canvascircle.width = 1200;
+	canvascircle.height = 900;
 	canvascircle.style.position= "absolute";
 	
 	ctxcirclefloor = canvascircle.getContext("2d");
@@ -245,7 +304,7 @@ $(function() {
 });
 var count=0;
 function drawCircle(){
-	ctxcirclefloor.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctxcirclefloor.clearRect(0,0,1200,900);
 	count++;
 	ctxcirclefloor.beginPath();
 	ctxcirclefloor.lineWidth="5"
@@ -277,15 +336,15 @@ function drawCircle(){
 		
 	}
 function setText(){
-	ctx2ndfloor.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctx2ndfloor.clearRect(0,0,1200,900);
 	ctx2ndfloor.fillText(txtcanvas2, 30, 100);
 }
 var txtcanvas2;
 /* 
 $(function() {
 	canvas3rdfloor =document.createElement("canvas")
-	canvas3rdfloor.width = window.innerWidth/4;
-	canvas3rdfloor.height = window.innerHeight/4;
+	canvas3rdfloor.width = 1200/4;
+	canvas3rdfloor.height = 900/4;
 	canvas3rdfloor.style.position= "absolute";
 	
 	ctx3rdfloor = canvas2ndfloor.getContext("2d");
@@ -311,8 +370,8 @@ function stop() { // 테스트 용
 var myGameArea = {
     canvas : document.createElement("canvas"), // 캔버스 태그 생성
     start : function() {
-        this.canvas.width = window.innerHeight/3; // 캔버스 크기 성정
-        this.canvas.height = window.innerHeight/3;
+        this.canvas.width = 900/3; // 캔버스 크기 성정
+        this.canvas.height = 900/3;
 this.canvas.style.position = "absolute";
         this.canvas.style.right= "0";
         this.canvas.style.bottom= "0";
