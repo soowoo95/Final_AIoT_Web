@@ -3,6 +3,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +47,10 @@ public class MQTT extends Thread implements MqttCallback{
 	private static String topic;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
 	
+
 	@Autowired
 	private AnimalDao animalDao;
+	private String ip;
 	public void chogihwa(String broker, String client_id,String username, String passwd){
 		LOGGER.info("초기화");
 		this.Broker = broker;
@@ -54,6 +58,15 @@ public class MQTT extends Thread implements MqttCallback{
 		this.UserName = username;
 		this.Passwd = passwd;
 		datearray= new Long[7];
+		InetAddress local;
+		try {
+			local = InetAddress.getLocalHost();
+			ip = local.getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Arrays.fill(datearray, System.currentTimeMillis());
 	}
 
@@ -63,11 +76,13 @@ public class MQTT extends Thread implements MqttCallback{
 			long datenow= System.currentTimeMillis();
 			
 				if(datenow-datearray[4]>1000){
-					LOGGER.info("babotiing");
-					publish("sorry", 0, "/network");
+					publish(ip, 0, "/res/2cctv");
+				}
+				if(datenow-datearray[6]>1000){
+					publish(ip, 0, "/res/4cctv");
 				}
 			try {
-				Thread.sleep(100);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -124,7 +139,7 @@ public class MQTT extends Thread implements MqttCallback{
 		}
 	}
 	
-	public void publish(String msg, int qos,String restopic){
+	public void  publish(String msg, int qos,String restopic){
 		LOGGER.info("답장을보내죠.");
 		message.setQos(qos);
 		message.setPayload(msg.getBytes());
@@ -144,9 +159,9 @@ public class MQTT extends Thread implements MqttCallback{
 		try {
 			Client.subscribe(topic,qos);
 			Client.subscribe("/1cctv",qos);
-			Client.subscribe("/2cctv",qos);
+			Client.subscribe("/req/2cctv",qos);
 			Client.subscribe("/3cctv",qos);
-			Client.subscribe("/4cctv",qos);
+			Client.subscribe("/req/4cctv",qos);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,9 +175,13 @@ public class MQTT extends Thread implements MqttCallback{
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
 		LOGGER.info("Message arrived : " +topic);
-		if(topic.equals("/2cctv")) {
+		if(topic.equals("/req/2cctv")) {
 			datearray[4]=System.currentTimeMillis();
-			publish("sorry", 0, "/network");
+			publish(ip, 0, "/res/2cctv");
+		}
+		if(topic.equals("/req/4cctv")) {
+			datearray[4]=System.currentTimeMillis();
+			publish(ip, 0, "/res/4cctv");
 		}
     	ObjectMapper mapper = new ObjectMapper();
     	String json = new String(mqttMessage.getPayload());
@@ -218,7 +237,7 @@ public class MQTT extends Thread implements MqttCallback{
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-		System.out.println("Message with " + iMqttDeliveryToken + " delivered.");
+		//System.out.println("Message with " + iMqttDeliveryToken + " delivered.");
 	}
 	
 	public static boolean decoder(String data, String target){

@@ -39,7 +39,7 @@
 		let ipid;
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -48,20 +48,15 @@
 				console.log("mqtt broker connected")
 				
 				client.subscribe("/1cctv");
-				client.subscribe("/2cctv");
+				client.subscribe("/req2cctv");
 				client.subscribe("/3cctv");
-				client.subscribe("/4cctv");
+				client.subscribe("/req4cctv");
 				client.subscribe("/1jetracer");
 				client.subscribe("/2jetracer");
 				client.subscribe("/3jetracer");
 				
- 				//subscriber 연결됐다고 메세지 발행해서 알리자
- 				message = new Paho.MQTT.Message('newSub');
-				message.destinationName = "/sub/connected";
-				client.send(message);
-				console.log("연결됐다고 알림!"); 
 			}
-			$(document).ready(function() {
+			 $(document).ready(function() {
 			    setInterval(getinterval, 750);
 			});  
 			 
@@ -73,10 +68,11 @@
 						response();
 					}
 			}
-			function response(){
+			function response(value){
 				console.log("답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
-				message.destinationName = "/network";
+				message.destinationName = "/res" + value;
+				console.log(message.destinationName);
 				client.send(message);
 			}
 
@@ -235,8 +231,10 @@
 					}
 				}
  				
-				if(message.destinationName =="/2cctv") {
-					response();
+				if(message.destinationName =="/req2cctv") {
+					value = message.destinationName.replace("/req","");
+					response(value);
+					
 					lastSendtime=Date.now();
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
@@ -257,7 +255,7 @@
 						document.getElementById('c2Loc').style.color = '#DB6574';
 						document.getElementById('c2Loc').style.fontWeight = 'bold';
 
-						if (obj["witness"].replace("/","") == "2cctv"){
+						if (obj["witness"].replace("/","") == "req2cctv"){
 							document.getElementById('cameraView2').style.border = '8px solid red';
 						}
 					}
@@ -309,7 +307,7 @@
 					}
 				}
 
-				if(message.destinationName =="/4cctv") {
+				if(message.destinationName =="/req4cctv") {
 					response();
 					lastSendtime=Date.now();
 					const json = message.payloadString;
@@ -330,7 +328,7 @@
 						document.getElementById('c4Loc').style.color = '#DB6574';
 						document.getElementById('c4Loc').style.fontWeight = 'bold';
 						
-						if (obj["witness"].replace("/","") == "4cctv"){
+						if (obj["witness"].replace("/","") == "req4cctv"){
 							document.getElementById('cameraView4').style.border = '8px solid red';
 						}
 					}
