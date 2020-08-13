@@ -47,7 +47,7 @@ public class HomeController {
 	
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.184:1883";
+		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";
@@ -119,7 +119,7 @@ public class HomeController {
 						HttpSession httpSession) {
 		LOGGER.info("실행");
 
-		Pager pager = new Pager(rowsPerPage, 5, animalService.getTotalListNo(), pageNo);
+		Pager pager = new Pager(rowsPerPage, 10, animalService.getTotalListNo(), pageNo);
 		model.addAttribute("pager", pager);
 		httpSession.setAttribute("pager", pager);
 

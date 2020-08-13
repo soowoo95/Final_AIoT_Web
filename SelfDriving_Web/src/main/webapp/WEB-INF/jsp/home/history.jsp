@@ -93,7 +93,7 @@
 	    </header>
 
 		<div class="d-flex align-items-stretch"  style="height: 875px;">
-	      <nav id="sidebar" style="height: 887px;">
+	      <nav id="sidebar" style="height: 1030px;">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -111,15 +111,18 @@
 	      	</ul>
 	      </nav>
 	      
-	      <div class="page-content" style="top: -50px;">
+	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
 	        <section class="no-padding-top" style="padding: 0px">
 	          <div class="container-fluid">
+
+	            <div class="tab-content" id="pills-tabContent" style="height: 974px; margin-left: 25px; margin-right: 25px;  margin-top: 80px ;color: dimgray; border-style:solid; border-width:medium;">
 	            <div class="row">
-	            
-	              <div class="col-lg-6" style="height: 400px; padding-left: 20px">
-	                <div class="block" style="width: 900px; margin-top: 70px; margin-bottom: 10px" > 
+	             <input style="background-color: #ADFF2F ; font-size: xx-large;font-weight: bolder; text-align: center; color: black; margin-left: 45px; margin-top:30px;border-color:#ADFF2F ; border-style:solid; border-width:medium;width: 1485px; height: 45px" readonly="readonly" value="유해 동물 탐지 히스토리 조회 및 탐지 이미지 확인">
+	              <div class="col-lg-6">
+	                <div class="block" style="width: 870px; margin-top: 0px; margin-bottom: 0px; height: 400px; margin-left: 30px" > 
 	                  <div class="title" style="color: white"><strong>Animal Detected | History</strong></div>
-	                  <div class="table-responsive" style="height: 310px"> 
+	                  
+	                  <div class="table-responsive" style="height: 350px"> 
 	                    <table class="table table-striped table-sm" id= "append_table" style="color: white; text-align: center">
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
@@ -136,7 +139,7 @@
 		                      <c:forEach var="animal" items="${animal}">
 		                      	<tr>
 		                          <td scope="row">${animal.dno}</td>
-		                          <td onclick="viewImage(${animal.dno})" style="color: #DB6574">${animal.dname}</td>
+		                          <td onclick="viewImage(${animal.dno})" style="color: #ADFF2F; font-weight: bold;">${animal.dname}</td>
 		                          <td>${animal.dlevel}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
@@ -153,7 +156,7 @@
 									</c:if>
 									<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
 										<c:if test="${pager.pageNo == i}">
-											<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+											<button href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}" style="background-color:#ADFF2F; border-radius: 10px ">${i}</button>
 										</c:if>
 
 										<c:if test="${pager.pageNo != i}">
@@ -170,9 +173,9 @@
 	                  </div>
 	                </div>
 	              </div>
-	              
-	              <div class="col-lg-6" style="padding: 0px; width: 600px">
-	                <div class="block" style="margin-left: 120px; margin-top: 70px; margin-bottom: 10px; width: 600px">
+	             
+	              <div class="col-lg-6">
+	                <div class="block" style="width: 600px; height:400px ;margin-top: 0px; margin-bottom: 10px; margin-left: 130px;">
 	                  <div class="title" style="color: white"><strong>Animal Detected | Image</strong></div>
 	                  <div class="table-responsive" style="justify-content: center;">
 	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; width:580px ; height: 310px"/>
@@ -180,10 +183,13 @@
 	                </div>
 	              </div>
 
-	              <div class="col-lg-6" style="padding-left: 20px; margin-top: 10px">
-	                <div class="block" style="width: 900px; margin-bottom: 10px">
+				
+
+ 				<input style="background-color: #864DD9; font-size: xx-large; font-weight: bolder; text-align: center; color: white; margin-left: 45px; border-color: transparent; width: 1485px; height: 50px" readonly="readonly" value="Driving Sign Detection History & Captured Image View">
+	              <div class="col-lg-6">
+	                <div class="block" style="width: 870px; margin-top: 0px; margin-bottom: 10px; height: 400px; margin-left: 30px">
 	                  <div class="title" style="color: white"><strong>Driving Situation | History</strong></div>
-	                  <div class="table-responsive" style="height: 310px"> 
+	                  <div class="table-responsive" style="height: 350px"> 
 	                    <table class="table table-striped table-sm" id= "append_table2" style="color: white; text-align: center">
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
@@ -200,7 +206,7 @@
 		                      <c:forEach var="animal" items="${animal}">
 		                      	<tr>
 		                          <td scope="row">${animal.dno}</td>
-		                          <td onclick="viewImage2(${animal.dno})" style="color: #DB6574">${animal.dname}</td>
+		                          <td onclick="viewImage2(${animal.dno})" style="color: #864DD9; font-weight: bold;">${animal.dname}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
 		                          <td>${animal.dfinder}</td>
@@ -234,8 +240,8 @@
 	                </div>
 	              </div>
 	              
-	              <div class="col-lg-6" style="padding: 0px; margin-top: 10px">
-	                <div class="block" style="margin-left: 120px; margin-bottom: 20px; width: 600px">
+	              <div class="col-lg-6">
+	                <div class="block" style="width: 600px; height:400px ;margin-top: 0px; margin-bottom: 10px; margin-left: 130px">
 	                  <div class="title" style="color: white"><strong>Driving Situation | Image</strong></div>
 	                  <div class="table-responsive">
 	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 310px; max-width:100%; width: 580px; align-self: center;"/>
@@ -243,6 +249,7 @@
 	                </div>
 	              </div>
 	              
+	              </div>
 	             </div>
 	            </div>
 			</section>

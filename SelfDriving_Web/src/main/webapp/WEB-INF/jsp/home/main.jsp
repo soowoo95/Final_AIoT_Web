@@ -60,7 +60,7 @@
 	    </header>
 	    
 		<div class="d-flex align-items-stretch" style="height: 855px;">
-	      <nav id="sidebar" style="height: 868px;">
+	      <nav id="sidebar" style="height: 1030px">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -77,7 +77,7 @@
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
 	      </nav>
 	      
-	      <div class="page-content" style="top: -70px;">
+	       <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
 			<div class="row">
 			<div class="col-md-6">
 	      <section class="no-padding-top">
