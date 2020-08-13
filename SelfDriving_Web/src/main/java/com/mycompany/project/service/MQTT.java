@@ -43,14 +43,12 @@ public class MQTT extends Thread implements MqttCallback{
 	private static MqttMessage message;
 	private static MemoryPersistence persistence;
 	private static MqttConnectOptions connOpts;
-	private static Long[] datearray; 
+	private static Long[] datearray;
 	private static String topic;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
 	
-
 	@Autowired
 	private AnimalDao animalDao;
-	private String ip;
 	public void chogihwa(String broker, String client_id,String username, String passwd){
 		LOGGER.info("초기화");
 		this.Broker = broker;
@@ -58,31 +56,53 @@ public class MQTT extends Thread implements MqttCallback{
 		this.UserName = username;
 		this.Passwd = passwd;
 		datearray= new Long[7];
-		InetAddress local;
-		try {
-			local = InetAddress.getLocalHost();
-			ip = local.getHostAddress();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		Arrays.fill(datearray, System.currentTimeMillis());
 	}
 
 	@Override
-	public void run() {
+	public void run(){
 		while(true) {
 			long datenow= System.currentTimeMillis();
-			
-				if(datenow-datearray[4]>1000){
-					publish(ip, 0, "/res/2cctv");
-				}
-				if(datenow-datearray[6]>1000){
-					publish(ip, 0, "/res/4cctv");
-				}
+
+			InetAddress local = null;
 			try {
-				Thread.sleep(300);
+				local = InetAddress.getLocalHost();
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			}
+			String ip = local.getHostAddress();
+			
+			if(datenow-datearray[0]>1000){
+				LOGGER.info("1jet 살아있다구우우");
+				publish(ip, 0, "/res/1jet");
+			}
+			if(datenow-datearray[1]>1000){
+				LOGGER.info("2jet 살아있다구우우");
+				publish(ip, 0, "/res/2jet");
+			}
+			if(datenow-datearray[2]>1000){
+				LOGGER.info("3jet 살아있다구우우");
+				publish(ip, 0, "/res3jet");
+			}
+			if(datenow-datearray[3]>1000){
+				LOGGER.info("1cctv 살아있다구우우");
+				publish(ip, 0, "/res/1cctv");
+			}	
+			if(datenow-datearray[4]>1000){
+				LOGGER.info("2cctv 살아있다구우우");
+				publish(ip, 0, "/res/2cctv");
+			}
+			if(datenow-datearray[5]>1000){
+				LOGGER.info("3cctv 살아있다구우우");
+				publish(ip, 0, "/res/3cctv");
+			}
+			if(datenow-datearray[6]>1000){
+				LOGGER.info("4cctv 살아있다구우우");
+				publish(ip, 0, "/res/4cctv");
+			}
+			
+			try {
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -139,8 +159,9 @@ public class MQTT extends Thread implements MqttCallback{
 		}
 	}
 	
-	public void  publish(String msg, int qos,String restopic){
-		LOGGER.info("답장을보내죠.");
+	
+	public void publish(String msg, int qos,String restopic){
+		//LOGGER.info("답장을보내죠.");
 		message.setQos(qos);
 		message.setPayload(msg.getBytes());
 		
@@ -157,11 +178,13 @@ public class MQTT extends Thread implements MqttCallback{
 	
 	public void subscribe(int qos){
 		try {
-			Client.subscribe(topic,qos);
-			Client.subscribe("/1cctv",qos);
-			Client.subscribe("/req/2cctv",qos);
-			Client.subscribe("/3cctv",qos);
-			Client.subscribe("/req/4cctv",qos);
+			Client.subscribe("/req/1jetracer",0);
+			Client.subscribe("/req/2jetracer",0);
+			Client.subscribe("/req/3jetracer",0);
+			Client.subscribe("/req/1cctv",0);
+			Client.subscribe("/req/2cctv",0);
+			Client.subscribe("/req/3cctv",0);
+			Client.subscribe("/req/4cctv",0);
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -174,13 +197,48 @@ public class MQTT extends Thread implements MqttCallback{
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-		LOGGER.info("Message arrived : " +topic);
+		InetAddress local = null;
+		try {
+			local = InetAddress.getLocalHost();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
+		String ip = local.getHostAddress();
+		
+		//LOGGER.info("Message arrived : " +topic);
+		if(topic.equals("/req/1jet")) {
+			datearray[0]=System.currentTimeMillis();
+			//LOGGER.info("1JET 받았다! 그리고  RES 발행해쒀");
+			publish(ip, 0, "/res1jet");
+		}
+		if(topic.equals("/req/2jet")) {
+			datearray[1]=System.currentTimeMillis();
+			//LOGGER.info("2JET 받았다! 그리고  RES 발행해쒀");
+			publish(ip, 0, "/res2jet");
+		}
+		if(topic.equals("/req/3jet")) {
+			datearray[2]=System.currentTimeMillis();
+			//LOGGER.info("3JET 받았다! 그리고  RES 발행해쒀");
+			publish(ip, 0, "/res/3jet");
+		}
+		if(topic.equals("/req/1cctv")) {
+			datearray[3]=System.currentTimeMillis();
+			//LOGGER.info("1CCTV 받았다! 그리고  RES 발행해쒀");
+			publish(ip, 0, "/res/1cctv");
+		}
 		if(topic.equals("/req/2cctv")) {
 			datearray[4]=System.currentTimeMillis();
+			LOGGER.info("2CCTV 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/2cctv");
 		}
+		if(topic.equals("/req/3cctv")) {
+			datearray[5]=System.currentTimeMillis();
+			//LOGGER.info("3CCTV 받았다! 그리고  RES 발행해쒀");
+			publish(ip, 0, "/res/3cctv");
+		}
 		if(topic.equals("/req/4cctv")) {
-			datearray[4]=System.currentTimeMillis();
+			datearray[6]=System.currentTimeMillis();
+			LOGGER.info("4CCTV 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/4cctv");
 		}
     	ObjectMapper mapper = new ObjectMapper();
@@ -192,6 +250,7 @@ public class MQTT extends Thread implements MqttCallback{
     	//찾은 객체 이름를 저장온다 경로에 넣으려면 /는 없어져야겠지
     	String dfinder= topic;
     	dfinder = dfinder.replace("/", "");
+    	dfinder = dfinder.replace("req", "");
     	
     	//비디오 BASE64형식을 가져온다
     	String video = (String) map.get("Cam");

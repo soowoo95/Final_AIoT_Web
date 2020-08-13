@@ -39,7 +39,7 @@
 		let ipid;
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -47,25 +47,11 @@
 			function onConnect() {
 				console.log("mqtt broker connected")
 				
-<<<<<<< HEAD
-				client.subscribe("/1cctv");
-				client.subscribe("/req2cctv");
-				client.subscribe("/3cctv");
-				client.subscribe("/req4cctv");
-				client.subscribe("/1jetracer");
-				client.subscribe("/2jetracer");
-				client.subscribe("/3jetracer");
-=======
 				client.subscribe("/req/1cctv");
 				client.subscribe("/req/2cctv");
 				client.subscribe("/req/3cctv");
 				client.subscribe("/req/4cctv");
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 				
-<<<<<<< HEAD
-			}
-			 $(document).ready(function() {
-=======
 				client.subscribe("/req/1jetracer");
 				client.subscribe("/req/2jetracer");
 				client.subscribe("/req/3jetracer");
@@ -78,7 +64,6 @@
 			}													*/
 			
 			$(document).ready(function() {
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 			    setInterval(getinterval, 750);
 			});  
 			 
@@ -97,12 +82,7 @@
 			function response(value){
 				console.log("답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
-<<<<<<< HEAD
-				message.destinationName = "/res" + value;
-				console.log(message.destinationName);
-=======
 				message.destinationName = "/res/"+value;
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 				client.send(message);
 			}
 
@@ -253,18 +233,10 @@
 					}
 				}
  				
-<<<<<<< HEAD
-				if(message.destinationName =="/req2cctv") {
-					value = message.destinationName.replace("/req","");
-					response(value);
-					
-					lastSendtime=Date.now();
-=======
 				if(message.destinationName =="/2cctv") {
 					response();
 					lastSendtime = Date.now();
 					
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
@@ -283,14 +255,7 @@
 						$("#c2Loc").attr("value", "2번 CCTV 촬영 구간");
 						document.getElementById('c2Loc').style.color = '#DB6574';
 						document.getElementById('c2Loc').style.fontWeight = 'bold';
-<<<<<<< HEAD
-
-						if (obj["witness"].replace("/","") == "req2cctv"){
-							document.getElementById('cameraView2').style.border = '8px solid red';
-						}
-=======
 						document.getElementById('cameraView2').style.border = '8px solid red';
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					}
 					
 					if (obj.Class.length == 0){
@@ -341,11 +306,7 @@
 					}
 				}
 
-<<<<<<< HEAD
-				if(message.destinationName =="/req4cctv") {
-=======
 				if(message.destinationName =="/req/4cctv") {
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					response();
 					lastSendtime = Date.now();
 					
@@ -366,14 +327,7 @@
 						$("#c4Loc").attr("value", "4번 CCTV 촬영 구간");
 						document.getElementById('c4Loc').style.color = '#DB6574';
 						document.getElementById('c4Loc').style.fontWeight = 'bold';
-<<<<<<< HEAD
-						
-						if (obj["witness"].replace("/","") == "req4cctv"){
-							document.getElementById('cameraView4').style.border = '8px solid red';
-						}
-=======
 						document.getElementById('cameraView4').style.border = '8px solid red';
->>>>>>> branch 'yunji' of https://github.com/soowoo95/Final_AIoT_Web.git
 					}
 					
 					if (obj.Class.length == 0){
