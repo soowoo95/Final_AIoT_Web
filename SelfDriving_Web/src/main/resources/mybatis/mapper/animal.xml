@@ -44,6 +44,14 @@
 				select min(dlevel) from animal WHERE dtime>DATE_SUB(now(),INTERVAL 1 hour);
 			</select>
 			
+			<select id="selectByCCTV" resultType="animal">
+				select dname, dlocation, dfinder, dlevel, dactno, dtime
+				from animal
+				where dfinder like '%cctv'
+                group by dactno
+				order by dtime
+			</select>
+			
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
 					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)
 					values (#{ttitle}, #{tcontent}, #{ttype}, #{twriter}, 0, now(6), 0,0,0,0, #{tattachoname}, #{tattachsname}, #{tattachtype})

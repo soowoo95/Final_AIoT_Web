@@ -56,15 +56,9 @@
 				client.subscribe("/req/2jetracer");
 				client.subscribe("/req/3jetracer");
 			}
- 				//subscriber 연결됐다고 메세지 발행해서 알리자
- 				/* message = new Paho.MQTT.Message('newSub');
-				message.destinationName = "/sub/connected";
-				client.send(message);
-				console.log("연결됐다고 알림!"); 
-			}													*/
-			
 			$(document).ready(function() {
 			    setInterval(getinterval, 750);
+			    setInterval(animalTable, 30000);
 			});  
 			 
 			 var lastSendtime=Date.now();
@@ -75,14 +69,19 @@
 						console.log("연결이 끊긴다음 몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 						console.log("답장을 보내요.");
 						message = new Paho.MQTT.Message(ipid);
-						message.destinationName = "/res/#";
+						message.destinationName = "/res/4cctv";
 						client.send(message);
 					}
 			}
+			function animalTable(){
+				var currentLocation = window.location;
+				$("#animalTable").load(currentLocation + ' #animalTable');
+			}
+			
 			function response(value){
 				console.log("답장을 보내요.");
 				message = new Paho.MQTT.Message(ipid);
-				message.destinationName = "/res/"+value;
+				message.destinationName = "/res/4cctv";
 				client.send(message);
 			}
 
@@ -433,7 +432,33 @@
 	        </section>
 	        
        		<div style="background-color: dimgray; height: 405px; width: 520px; margin-top:490px;  margin-left:1085px; padding:0px ;text-align: center; font-weight: bolder; font-size: 30px; position: absolute;">
-       		여기에 누가 처리할 지
+       				
+     			<div class="table-responsive" style="height: 350px">
+     			  <div id="animalTable">
+                   <table class="table table-striped table-sm" style="color: white; text-align: center">
+                     <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white; font-size: xx-small;">
+                       <tr>
+                         <th>CCTV #</th>
+                         <th>Animal Name</th>
+                         <th>Animal Level</th>
+                         <th>Area</th>
+                         <th>Detected Time</th>
+                       </tr>
+                     </thead>
+                     <tbody style="font-size: xx-small;">
+                      <c:forEach var="animal" items="${animal}">
+                      	<tr>
+                      	  <td>${animal.dfinder}</td>
+                          <td>${animal.dname}</td>
+                          <td>${animal.dlevel}</td>
+                          <td>${animal.dfinder}</td>
+                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+                        </tr>
+                     </c:forEach>
+                    </tbody>
+                   </table>
+                </div>
+              </div> 
        		</div>
 	       	
 	       	<div style="border-color: transparent; margin-top: 500px; width: 1070px; padding-left: 5px">
