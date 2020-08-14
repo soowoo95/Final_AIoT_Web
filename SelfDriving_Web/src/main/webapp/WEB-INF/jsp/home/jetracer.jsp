@@ -134,17 +134,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if(message.destinationName =="/2jetracer") {
 					console.log("2jetracer 들어오고 있음");
-					$("#jetView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-					//$("#driveView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-				
-				
-				if(message.destinationName =="/2jr") {
-					console.log("2jr 들어오고 있음");
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
-				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
-					console.log("battery2:",obj.battery, "%");
+					$("#jetView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					//$("#driveView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 					bat2 = obj.battery;
 					//$("#jetRacerText1").text(bat1 + "%");
 			      	bat2 = parseInt(bat2);
@@ -207,6 +200,16 @@
 			      	temp2 = parseInt(((Math.random()*10+1))+20);
 			      	$("#Temperature2").text(temp2 +" °C");
 			      	//$("#Temperature").attr("value", temp1 +" °C");
+				}
+				
+				
+				if(message.destinationName =="/2jr") {
+					console.log("2jr 들어오고 있음");
+ 					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
+				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
+					console.log("battery2:",obj.battery, "%");
+					
 				}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

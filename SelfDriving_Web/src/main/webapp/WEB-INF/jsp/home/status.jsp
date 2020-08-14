@@ -42,7 +42,7 @@
 		
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});

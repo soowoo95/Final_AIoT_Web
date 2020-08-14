@@ -57,4 +57,22 @@ public class AnimalService {
 		List<Animal> list = animalDao.selectByCCTV();
 		return list;
 	}
+
+	public List getanalysisHour() {
+		List hourlist = new ArrayList<>();
+		hourlist= animalDao.getanalysisHour();
+		return hourlist;
+	}
+
+	public List getanalysisHourwithterm(String term) {
+		List hourlistwithterm = new ArrayList<>();
+		hourlistwithterm= animalDao.getanalysisHourwithterm(term);
+		return hourlistwithterm;
+	}
+
+	public List getanalysisRegionwithterm(String term) {
+		List regionlistwithterm = new ArrayList<>();
+		regionlistwithterm= animalDao.getanalysisRegionwithterm(term);
+		return regionlistwithterm;
+	}
 }

@@ -73,31 +73,24 @@ public class MQTT extends Thread implements MqttCallback{
 			String ip = local.getHostAddress();
 			
 			if(datenow-datearray[0]>1000){
-				LOGGER.info("1jet 살아있다구우우");
 				publish(ip, 0, "/res/1jet");
 			}
 			if(datenow-datearray[1]>1000){
-				LOGGER.info("2jet 살아있다구우우");
 				publish(ip, 0, "/res/2jet");
 			}
 			if(datenow-datearray[2]>1000){
-				LOGGER.info("3jet 살아있다구우우");
-				publish(ip, 0, "/res3jet");
+				publish(ip, 0, "/res/3jet");
 			}
 			if(datenow-datearray[3]>1000){
-				LOGGER.info("1cctv 살아있다구우우");
 				publish(ip, 0, "/res/1cctv");
 			}	
 			if(datenow-datearray[4]>1000){
-				LOGGER.info("2cctv 살아있다구우우");
 				publish(ip, 0, "/res/2cctv");
 			}
 			if(datenow-datearray[5]>1000){
-				LOGGER.info("3cctv 살아있다구우우");
 				publish(ip, 0, "/res/3cctv");
 			}
 			if(datenow-datearray[6]>1000){
-				LOGGER.info("4cctv 살아있다구우우");
 				publish(ip, 0, "/res/4cctv");
 			}
 			
@@ -208,37 +201,30 @@ public class MQTT extends Thread implements MqttCallback{
 		//LOGGER.info("Message arrived : " +topic);
 		if(topic.equals("/req/1jet")) {
 			datearray[0]=System.currentTimeMillis();
-			//LOGGER.info("1JET 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res1jet");
 		}
 		if(topic.equals("/req/2jet")) {
 			datearray[1]=System.currentTimeMillis();
-			//LOGGER.info("2JET 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res2jet");
 		}
 		if(topic.equals("/req/3jet")) {
 			datearray[2]=System.currentTimeMillis();
-			//LOGGER.info("3JET 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/3jet");
 		}
 		if(topic.equals("/req/1cctv")) {
 			datearray[3]=System.currentTimeMillis();
-			//LOGGER.info("1CCTV 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/1cctv");
 		}
 		if(topic.equals("/req/2cctv")) {
 			datearray[4]=System.currentTimeMillis();
-			LOGGER.info("2CCTV 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/2cctv");
 		}
 		if(topic.equals("/req/3cctv")) {
 			datearray[5]=System.currentTimeMillis();
-			//LOGGER.info("3CCTV 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/3cctv");
 		}
 		if(topic.equals("/req/4cctv")) {
 			datearray[6]=System.currentTimeMillis();
-			LOGGER.info("4CCTV 받았다! 그리고  RES 발행해쒀");
 			publish(ip, 0, "/res/4cctv");
 		}
     	ObjectMapper mapper = new ObjectMapper();
