@@ -75,4 +75,10 @@ public class AnimalService {
 		regionlistwithterm= animalDao.getanalysisRegionwithterm(term);
 		return regionlistwithterm;
 	}
+
+	public List getanalysisMonthwithterm(String termval) {
+		List monthlist = new ArrayList<>();
+		monthlist= animalDao.getanalysisMonthwithterm(termval);
+		return monthlist;
+	}
 }

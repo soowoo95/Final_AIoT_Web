@@ -44,7 +44,7 @@
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
 	</head>
 	
-	<body onload="chart2();chart3()">
+	<body onload="chart();chart2();chart3()">
 	<header class="header">   
 	      <nav class="navbar navbar-expand-lg" style="height: 50px">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
@@ -86,30 +86,37 @@
         </ul>
       </nav>    
 	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; " >
-	      <div>
+
 			<div style = "width:97%;  height:300px;">
-			
-	      <div id="container" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
-	      <div id="container">
-	      <select id="term2" style="margin-left: 100px">
-		    	<option value="all">전체기간</option>
-		    	<option value="oneweek">최근일주일</option>
-		    	<option value="onemonth">최근한달</option>
-		    	<option value="oneyear">최근일년</option>
+			<div id="container"style="margin-top: 50px">
+	      	<select id="term1" style="margin-left: 100px">
+		    	<option value="hour">시별</option>
+		    	<option value="day">일별</option>
+		    	<option value="month">월별</option>
+		    	<option value="year">연도별</option>
 			</select>
 			</div>
-	      <div id="container2" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
-	      <div id="container">
-	      <select id="term3" style="margin-left: 100px">
+	      	<div id="containerc" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
+	      	<div id="container">
+	      	<select id="term2" style="margin-left: 100px">
+		    	<option value="all">전체기간</option>
+		    	<option value="oneweek">최근일주일</option>
+		    	<option value="onemonth">최근한달</option>
+		    	<option value="oneyear">최근일년</option>
+				</select>
+			</div>
+	      	<div id="container2" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
+	      	<div id="container">
+	      	<select id="term3" style="margin-left: 100px">
 		    	<option value="all">전체기간</option>
 		    	<option value="oneweek">최근일주일</option>
 		    	<option value="onemonth">최근한달</option>
 		    	<option value="oneyear">최근일년</option>
 			</select>
-		  </div>
-	      <div id="container3" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
-	      </div>
-	      </div>
+		  	</div>
+	      	<div id="container3" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
+	      	</div>
+	      	</div>
 	      <script>
 	      var numbers2;
 	      var numbers3;
@@ -122,6 +129,48 @@
 	      var timearr=['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23'];
 	      var timedactnoarr=[0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0]
 	      var termval;
+	      var termtranslate={"all":"전체기간","oneweek":"최근 일주일","onemonth":"최근 한달","oneyear":"최근 일년",};
+	      var pertranslate={"hour":"시별","day":"일별","month":"월별","year":"연도별",};
+	      
+	      $(function(){
+				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+				client.onMessageArrived = onMessageArrived;
+				client.connect({onSuccess:onConnect});
+			});
+			
+			function onConnect() {
+				console.log("mqtt broker connected")
+				client.subscribe("/mirror");
+			}
+			function onMessageArrived(message) {
+					if(message.destinationName =="/mirror") {
+					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					if(obj.direction=="left"){
+						location.href="status.do";
+					}else if (obj.direction=="right"){
+						alert("최하단페이지입니다.");
+					}
+				}
+}
+	      $('#term1').change(function(){
+	    	  $.ajax({
+	    		type: "POST",
+	    		url: "${pageContext.request.contextPath}/home/analysisMonthwithterm.do",
+	    	  	data: $(this).val(),
+	    	  	async: false,
+	    	  	success: function(monthlist){
+					//monthlist.filter(myFunction);
+					 numbers2 = monthlist.map(myFunction);
+					 numbers3 = monthlist.map(myFunction2);
+					 console.log(numbers2);
+					 console.log(numbers3);
+					 maxdactnocctv=numbers4.indexOf(Math.max(...numbers4));
+					chart();
+				}
+	    	  }) // $.ajax
+	      });
 	      $('#term2').change(function(){
 	    	  $.ajax({
 	    		type: "POST",
@@ -222,13 +271,14 @@
 	      function myFunction6(value, index, array) {
 	    	  return value.dpertime;
 	    	}
-	      var chart = Highcharts.chart('container', {
+	      function chart(){
+	      var chart = Highcharts.chart('containerc', {
 	    	    title: {
-	    	        text: '일별 탐지사건 발생수'
+	    	        text: pertranslate[$('#term1').val()]+' 탐지사건 발생수'
 	    	    },
 
 	    	    subtitle: {
-	    	        text: 'OneStar'
+	    	        text: '가슴이 웅장해진다...'
 	    	    },
 
 	    	    xAxis: {
@@ -248,7 +298,7 @@
 	    	    	enabled: false
 	    	    }
 
-	    	});
+	    	});}
 	      function chart2(){
 	      var chart = Highcharts.chart('container2', {
 	    	    title: {
@@ -256,7 +306,7 @@
 	    	    },
 
 	    	    subtitle: {
-	    	        text: '가장 위험한 지역은'+ numbers5[maxdactnocctv]+'입니다.'
+	    	        text: termtranslate[$('#term2').val()]+' 기준 가장 위험한 지역은'+ numbers5[maxdactnocctv]+'입니다.'
 	    	    },
 
 	    	    xAxis: {
@@ -287,7 +337,7 @@
 	    	        text: '시간별 탐지건수'
 	    	    },
 	    	    subtitle: {
-	    	        text: numbers7[maxdactno]+"시... "+numbers7[maxdactno]+"시를 조심하십시오..."
+	    	        text: termtranslate[$('#term3').val()]+" 기준"+numbers7[maxdactno]+"시... "+numbers7[maxdactno]+"시를 조심하십시오..."
 	    	    },
 	    	    xAxis: {
 	    	        categories: timearr

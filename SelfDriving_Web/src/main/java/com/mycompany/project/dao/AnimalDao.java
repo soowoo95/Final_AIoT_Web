@@ -98,4 +98,19 @@ public class AnimalDao extends EgovAbstractMapper {
 		}
 		return regionlistwithterm;
 	}
+
+	public List getanalysisMonthwithterm(String termval) {
+		List monthlistwithterm= new ArrayList<>();
+		if(termval.equals("hour")) {
+			monthlistwithterm = selectList("animal.monthList");	
+		}
+		else if(termval.equals("day")) {
+			monthlistwithterm = selectList("animal.monthListday");
+		}else if(termval.equals("month")) {
+			monthlistwithterm = selectList("animal.monthListmonth");
+		}else if(termval.equals("year")) {
+			monthlistwithterm = selectList("animal.monthListyear");
+		}
+		return monthlistwithterm;
+	}
 }

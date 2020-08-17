@@ -27,6 +27,28 @@
 		<script src="${pageContext.request.contextPath}/resource/js/moment.min.js"></script>
 
 		<script>
+		$(function(){
+			client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+			client.onMessageArrived = onMessageArrived;
+			client.connect({onSuccess:onConnect});
+		});
+		
+		function onConnect() {
+			console.log("mqtt broker connected")
+			client.subscribe("/mirror");
+		}
+		function onMessageArrived(message) {
+			if(message.destinationName =="/mirror") {
+				const json = message.payloadString;
+					const obj = JSON.parse(json);
+				//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+				if(obj.direction=="left"){
+					location.href="jetracer.do";
+				}else if (obj.direction=="right"){
+					location.href="status.do";
+				}
+			}
+}
 			$(document).ready(function() {
 			    setInterval(renew, 10000);
 			});

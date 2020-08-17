@@ -49,6 +49,7 @@
 				client.subscribe("/3jetracer");
 				client.subscribe("/3jr");
 				client.subscribe("/3jr");
+				client.subscribe("/mirror");
 			}
 			
 			function onMessageArrived(message) {
@@ -217,7 +218,17 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 				if(message.destinationName =="/3jetracer") {
-					$("#jetView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					$("#jetView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					console.log("1:뱉"+obj.battery);
+					console.log("2:섭"+obj.servo);
+					console.log("3:슾"+obj.speed);
+					console.log("4:랍"+obj.label);
+					console.log("5:밗"+obj.boxes);
+					console.log("6:렢"+obj.line_left);
+					console.log("7:뢑"+obj.line_right);
+					
 				}
 				
 				if(message.destinationName =="/3jr") {

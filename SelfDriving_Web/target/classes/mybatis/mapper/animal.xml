@@ -5,7 +5,7 @@
 	
 			<!-- 프로시저를 호출합니다.-->
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},'D');
+					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},#{dlevel});
 					<!-- insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
 					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder}); -->
 			</insert>
@@ -33,7 +33,16 @@
 			</select>
 	
 			<select id="monthList" resultType="dactnoperTime">
+					SELECT DATE_FORMAT(dtime,'%Y-%m-%d %h') as dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
+			</select>
+			<select id="monthListday" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%Y-%m-%d') as dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
+			</select>
+			<select id="monthListmonth" resultType="dactnoperTime">
+					SELECT DATE_FORMAT(dtime,'%Y-%m') as dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
+			</select>
+			<select id="monthListyear" resultType="dactnoperTime">
+					SELECT DATE_FORMAT(dtime,'%Y') as dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
 			</select>
 			
 			<select id="regionList" resultType="dactnoperFinder">

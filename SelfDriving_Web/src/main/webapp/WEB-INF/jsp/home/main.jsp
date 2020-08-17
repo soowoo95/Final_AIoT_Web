@@ -35,7 +35,284 @@
 			
 	</head>
 	<script>
+	var jetracer1connectedflag= false;
+	var jetracer2connectedflag= false;
+	var jetracer3connectedflag= false;
+	$(function(){
+		client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+		client.onMessageArrived = onMessageArrived;
+		client.connect({onSuccess:onConnect});
+	});
 	
+	function onConnect() {
+		console.log("mqtt broker connected")
+		client.subscribe("/1jetracer");
+		client.subscribe("/2jetracer");
+		client.subscribe("/3jetracer");
+		client.subscribe("/mirror");
+	}
+function onMessageArrived(message) {
+		if(message.destinationName =="/mirror") {
+			const json = message.payloadString;
+				const obj = JSON.parse(json);
+			//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+			if(obj.direction=="left"){
+				alert("최상단 페이지입니다.")
+			}else if (obj.direction=="right"){
+				location.href="jetracer.do";
+			}
+			if(message.destinationName =="/1jetracer") {
+				console.log("연결됬음.")
+				jetracer1connectedflag= true;
+				const json = message.payloadString;
+				const obj = JSON.parse(json);
+				
+				carposition = car1;
+				if(obj.label.includes("A")){
+					carposition.x= 400;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+				}
+				if(obj.label.includes("B")){
+		        	carposition.x= 315;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("C")){
+		        	carposition.x= 230;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("D")){
+		        	carposition.x= 151;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("E")){
+		        	carposition.x= 100;
+		        	carposition.y= 100;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("F")){
+		        	carposition.x= 100;
+		        	carposition.y= 149;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("H")){
+		        	carposition.x= 50;
+		        	carposition.y= 300;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("I")){
+		        	carposition.x= 50;
+		        	carposition.y= 349;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("J")){
+		        	carposition.x= 100;
+		        	carposition.y= 400;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("K")){
+		        	carposition.x= 150;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("M")){
+		        	carposition.x= 275;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("N")){
+		        	carposition.x= 400;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("P")){
+		        	carposition.x= 450;
+		        	carposition.y= 310;
+		        	carposition.angle= 0;
+		        }
+				if(obj.label.includes("S")){
+		        	carposition.x= 450;
+		        	carposition.y= 205;
+		        	carposition.angle= 0;
+		        }
+				if(obj.label.includes("T")){
+					carposition.x= 450;
+		        	carposition.y= 101;
+		        	carposition.angle= 0;
+		        }
+			}
+			if(message.destinationName =="/2jetracer") {
+				console.log("연결됬음.")
+				jetracer2connectedflag= true;
+				const json = message.payloadString;
+				const obj = JSON.parse(json);
+				
+				carposition = car2;
+				if(obj.label.includes("A")){
+					carposition.x= 400;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+				}
+				if(obj.label.includes("B")){
+		        	carposition.x= 315;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("C")){
+		        	carposition.x= 230;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("D")){
+		        	carposition.x= 151;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("E")){
+		        	carposition.x= 100;
+		        	carposition.y= 100;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("F")){
+		        	carposition.x= 100;
+		        	carposition.y= 149;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("H")){
+		        	carposition.x= 50;
+		        	carposition.y= 300;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("I")){
+		        	carposition.x= 50;
+		        	carposition.y= 349;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("J")){
+		        	carposition.x= 100;
+		        	carposition.y= 400;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("K")){
+		        	carposition.x= 150;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("M")){
+		        	carposition.x= 275;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("N")){
+		        	carposition.x= 400;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("P")){
+		        	carposition.x= 450;
+		        	carposition.y= 310;
+		        	carposition.angle= 0;
+		        }
+				if(obj.label.includes("S")){
+		        	carposition.x= 450;
+		        	carposition.y= 205;
+		        	carposition.angle= 0;
+		        }
+				if(obj.label.includes("T")){
+					carposition.x= 450;
+		        	carposition.y= 101;
+		        	carposition.angle= 0;
+		        }
+				
+			}
+			if(message.destinationName =="/3jetracer") {
+				console.log("연결됬음.")
+				jetracer3connectedflag= true;
+				const json = message.payloadString;
+				const obj = JSON.parse(json);
+				
+				carposition = car3;
+				if(obj.label.includes("A")){
+					carposition.x= 400;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+				}
+				if(obj.label.includes("B")){
+		        	carposition.x= 315;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("C")){
+		        	carposition.x= 230;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("D")){
+		        	carposition.x= 151;
+		        	carposition.y= 50;
+		        	carposition.angle= -Math.PI/2;
+		        }
+				if(obj.label.includes("E")){
+		        	carposition.x= 100;
+		        	carposition.y= 100;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("F")){
+		        	carposition.x= 100;
+		        	carposition.y= 149;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("H")){
+		        	carposition.x= 50;
+		        	carposition.y= 300;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("I")){
+		        	carposition.x= 50;
+		        	carposition.y= 349;
+		        	carposition.angle= -Math.PI;
+		        }
+				if(obj.label.includes("J")){
+		        	carposition.x= 100;
+		        	carposition.y= 400;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("K")){
+		        	carposition.x= 150;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("M")){
+		        	carposition.x= 275;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("N")){
+		        	carposition.x= 400;
+		        	carposition.y= 450;
+		        	carposition.angle= Math.PI/2;
+		        }
+				if(obj.label.includes("P")){
+		        	carposition.x= 450;
+		        	carposition.y= 310;
+		        	carposition.angle= 0;
+		        }
+				if(obj.label.includes("S")){
+		        	carposition.x= 450;
+		        	carposition.y= 205;
+		        	carposition.angle= 0;
+		        }
+				if(obj.label.includes("T")){
+					carposition.x= 450;
+		        	carposition.y= 101;
+		        	carposition.angle= 0;
+		        }
+			}
+		}
+}
 	</script>
 	<body onload="startGame()">
 		<header class="header">   
@@ -81,7 +358,7 @@
 	      
 	       <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
 			<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-4">
 	      <section class="no-padding-top">
 	          <div class="container-fluid">
 	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold; margin-top: 100px">
@@ -98,76 +375,179 @@
 	             </div>
 	       </section>
 	       </div>
-	       <div class="col-md-9" id="canvashere" >
- 	     <%-- <section style="padding-right: 0px; margin-top: 100px"">
-          <div class="container"style="background-image:url('${pageContext.request.contextPath}/resource/img/track.png');background-repeat : no-repeat;  background-size:contain ">
-			  <div class="row row-cols-6" >
-			  	<div class="col-xs-2"><img id=position1 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position2 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position3 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position4 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position5 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			   	<div class="col-xs-2"><img id=position6 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			  </div>
-			  <div class="row row-cols-6" >
-			  	<div class="col-xs-2"><img id=position20 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position21 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position22 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position23 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position24 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			   	<div class="col-xs-2"><img id=position7 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			  </div>
-			  <div class="row row-cols-6" >
-			  	<div class="col-xs-2"><img id=position19 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position32 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position33 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position34 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position25 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			   	<div class="col-xs-2"><img id=position8 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			  </div>
-			  <div class="row row-cols-6" >
-			  	<div class="col-xs-2"><img id=position18 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position31 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position36 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position35 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position26 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			   	<div class="col-xs-2"><img id=position9 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			  </div>
-			  <div class="row row-cols-6" >
-			  	<div class="col-xs-2"><img id=position17 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position30 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position29 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position28 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position27 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			   	<div class="col-xs-2"><img id=position10 src= "${pageContext.request.contextPath}/resource/img/jetracer.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			  </div>
-			  <div class="row row-cols-6" >
-			  	<div class="col-xs-2"><img id=position16 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position15 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position14 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position13 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			    <div class="col-xs-2"><img id=position12 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			   	<div class="col-xs-2"><img id=position11 src= "${pageContext.request.contextPath}/resource/img/jetracerleft.png"style="width: 100%; height: 100%; padding-left: 0px; padding-right: 0px;visibility: hidden;"/></div>
-			  </div>
-			  
-          </div>
-         
-          <button onclick="move()">눌러요.</button>
-        </section> --%>
+	       <div class="col-md-4">
+	       <section class="no-padding-top">
+	          <div class="container-fluid">
+	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold; margin-top: 100px">
+	            <div class="row row-cols-5">
+	            <div class="col-12" style="border: 1px solid gold">
+	            <p>데이터베이스에 현재 시간을 기준으로 1시간 전에서부터 탐지한 동물들의 위험등급의 최고 값을 나타냅니다. </p>
+	            </div>
+	                  <div class="col-2" style="border: 1px solid red;background-color:rgba(255,0,0,0.5);text-align:center">
+	                  	<br>
+	                  	<p style="color:white;">A등급</p>
+	                  </div>
+	                  <div class="col-10" style="border: 1px solid red">
+	                  	<p>인명피해를 발생시킬 수 있는 맹수</p>
+	                  	<p>ex)멧돼지, 곰, 호랑이, 늑대</p>
+	                  </div>
+	                  <div class="col-2" style="border: 1px solid orange;background-color:rgba(255,128,0,0.5);text-align:center">
+	                  <br>
+	                  	<p style="color:white;">B등급</p>
+	                  </div>
+	                  <div class="col-10" style="border: 1px solid orange">
+	                  	<p>가축피해를 발생시킬 수 있는 맹수</p>
+	                  	<p>ex)살쾡이, 스라소니, 여우, 너구리</p>
+	                  </div>
+	                  <div class="col-2" style="border: 1px solid gold;background-color:rgba(255,255,0,0.5);text-align:center">
+	                  <br>
+	                  	<p style="color:white;">C등급</p>
+	                  </div>
+	                  <div class="col-10" style="border: 1px solid gold">
+	                  	<p>농작물피해를 발생시킬 수 있는 동물</p> 
+	                  	<p>ex)고라니, 노루, 꿩</p>
+	                  </div>
+	                  <div class="col-2" style="border: 1px solid green;background-color:rgba(0,255,0,0.5);">
+	                  <br>
+	                  	<p style="color:white;">D등급</p>
+	                  </div>
+	                  <div class="col-10" style="border: 1px solid green">
+	                  	<p>아무런 해를 끼치지 않는 동물</p>
+	                  	<p>ex)고양이</p>
+	                  </div>
+	            </div>
+	            </div>
+	       </div>
+	       </section>
+	       </div>
+	       <div class="col-md-4" id="canvashere" >
         </div>
         </div>
+        <section class="no-padding-top">
+	          <div class="container-fluid">
+	        	<div class="container">
+	        	<button id="btn_A">버튼A</button>
+	        	<button id="btn_B">버튼B</button>
+	        	<button id="btn_C">버튼C</button>
+	        	<button id="btn_D">버튼D</button>
+	        	<button id="btn_E">버튼E</button>
+	        	<button id="btn_F">버튼F</button>
+	        	<button id="btn_H">버튼H</button>
+	        	<button id="btn_I">버튼I</button>
+	        	<button id="btn_J">버튼J</button>
+	        	<button id="btn_K">버튼K</button>
+	        	<button id="btn_M">버튼M</button>
+	        	<button id="btn_N">버튼N</button>
+	        	<button id="btn_P">버튼P</button>
+	        	<button id="btn_S">버튼S</button>
+	        	<button id="btn_T">버튼T</button>
+	        	<p>저희 팀은 인공지능 딥러닝과 사물인터넷 기술을 활용해서 야생동물탐지 및 긴급 대응을 위한 웹페이지를 제작했습니다.</p>
+	        	<p>팀장: 이정민  팀원: 장윤지, 김원준, 정성윤, 정택만, 진상우</p>
+				<p>후원문의: 진상우 010-5095-4197 후원계좌: 국민 664602-02-177425 진상우</p>
+				<p>익명후원 희망시 익명후원 가능하며 후원은 최소 만원부터 가능합니다.</p>
+	        	</div>
+	        	</div>
+	    </section>
+        
      	</div>
+     	
         <script>
+        $("#btn_A").click(function() {
+        	car1.x= 400;
+        	car1.y= 50;
+        	car1.angle= -Math.PI/2;
+        });
+        $("#btn_B").click(function() {
+        	car1.x= 315;
+        	car1.y= 50;
+        	car1.angle= -Math.PI/2;
+        });
+        $("#btn_C").click(function() {
+        	car1.x= 230;
+        	car1.y= 50;
+        	car1.angle= -Math.PI/2;
+        });
+        $("#btn_D").click(function() {
+        	car1.x= 151;
+        	car1.y= 50;
+        	car1.angle= -Math.PI/2;
+        });
+        $("#btn_E").click(function() {
+        	car1.x= 100;
+        	car1.y= 100;
+        	car1.angle= -Math.PI;
+        });
+        $("#btn_F").click(function() {
+        	car1.x= 100;
+        	car1.y= 149;
+        	car1.angle= -Math.PI;
+        });
+        $("#btn_H").click(function() {
+        	car1.x= 50;
+        	car1.y= 300;
+        	car1.angle= -Math.PI;
+        });
+        $("#btn_I").click(function() {
+        	car1.x= 50;
+        	car1.y= 349;
+        	car1.angle= -Math.PI;
+        });
+        $("#btn_J").click(function() {
+        	car1.x= 100;
+        	car1.y= 400;
+        	car1.angle= Math.PI/2;
+        });
+        $("#btn_K").click(function() {
+        	car1.x= 150;
+        	car1.y= 450;
+        	car1.angle= Math.PI/2;
+        });
+        $("#btn_M").click(function() {
+        	car1.x= 275;
+        	car1.y= 450;
+        	car1.angle= Math.PI/2;
+        });
+        $("#btn_N").click(function() {
+        	car1.x= 400;
+        	car1.y= 450;
+        	car1.angle= Math.PI/2;
+        });
+        $("#btn_P").click(function() {
+        	car1.x= 450;
+        	car1.y= 310;
+        	car1.angle= 0;
+        });
+        $("#btn_S").click(function() {
+        	car1.x= 450;
+        	car1.y= 205;
+        	car1.angle= 0;
+        });
+        $("#btn_T").click(function() {
+        	car1.x= 450;
+        	car1.y= 101;
+        	car1.angle= 0;
+        });
+        var flagarr=[];
         function startGame() {
             car1 = new component(15, 20, "red", 50, 350, Math.PI); // component 생성
             car2 = new component(15, 20, "green", 300, 50, Math.PI / 2);
             car3 = new component(15, 20, "blue", 350, 50, Math.PI / 2);
             flagA = new component(15, 20, "A", 400, 50, Math.PI / 2);
-            flagB = new component(15, 20, "B", 320, 50, Math.PI / 2);
-            flagC = new component(15, 20, "C", 240, 50, Math.PI / 2);
+            flagB = new component(15, 20, "B", 315, 50, Math.PI / 2);
+            flagC = new component(15, 20, "C", 230, 50, Math.PI / 2);
             flagD = new component(15, 20, "D", 150, 50, Math.PI / 2);
-            flagE = new component(15, 20, "E", 100, 50, Math.PI / 2);
-            flagF = new component(15, 20, "F", 100, 100, Math.PI / 2);
+            flagE = new component(15, 20, "E", 100, 100, Math.PI / 2);
+            flagF = new component(15, 20, "F", 100, 150, Math.PI / 2);
+            flagH = new component(15, 20, "H", 50, 300, Math.PI / 2);
+            flagI = new component(15, 20, "I", 50, 350, Math.PI / 2);
+            flagJ = new component(15, 20, "J", 100, 400, Math.PI / 2);
+            flagK = new component(15, 20, "K", 150, 450, Math.PI / 2);
+            flagM = new component(15, 20, "M", 275, 450, Math.PI / 2);
+            flagN = new component(15, 20, "N", 400, 450, Math.PI / 2);
+            flagP = new component(15, 20, "P", 450, 310, Math.PI / 2);
+            flagS = new component(15, 20, "S", 450, 205, Math.PI / 2);
+            flagT = new component(15, 20, "T", 450, 100, Math.PI / 2);
+            flagarr=[flagA,flagB,flagC,flagD,flagE,flagF,flagH,flagI,flagJ,flagK,flagM,flagN,flagP,flagS,flagT]
             myGameArea.start(); 
         }
 
@@ -217,8 +597,12 @@
                    ctx.translate(this.x, this.y);
                    ctx.rotate(this.angle);
                    
-                   ctx.fillStyle = color; // 직사각형 색 설정
-                   ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height); // 직사각형 그리기
+                   
+                   //ctx.fillStyle = color; // 직사각형 색 설정
+                   var image= document.createElement("img");
+                   image.src="${pageContext.request.contextPath}/resource/img/myjetracer.png";
+                   ctx.drawImage(image, -20, -20);
+                   //ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height); // 직사각형 그리기
                    
                    // component rotation을 위해 바꾼 설정을 복구
                    ctx.restore();
@@ -237,38 +621,7 @@
         			ctx.fillText(this.color, this.width /-2+10, this.height / -2-5);
                     ctx.restore();
             }
-            
-            this.fixPosition1 = function() {
-               if(this.x >= 150 && this.x < 400 && this.y == 50) {
-                   this.moveRight(); console.log("1");}
-                if(this.x >= 400 && this.angle >= Math.PI / 2 && this.angle < Math.PI) { 
-                   this.turnRight1(); console.log("2");}
-                if(this.x == 450 && this.y >= 100 && this.y < 400) {
-                   this.moveDown(); console.log("3");}
-                if(this.y >= 400 && this.angle >= Math.PI / 2 && this.angle < 3 * Math.PI / 2) {
-                   this.turnRight2(); console.log("4");}
-                if(this.x > 160 && this.x <= 400 && this.y == 450) {
-                   this.moveLeft(); console.log("5");}
-                
-                if(this.x > 135 && this.x <= 160 && this.angle >= 3 * Math.PI / 2 && this.angle < 2 * Math.PI) {
-                   this.turnRight3(); console.log("6");}
-                  if(this.x > 100 && this.x <= 135 && this.angle >= 3 * Math.PI / 2 && this.angle < 2 * Math.PI) {
-                     this.turnLeft(); console.log("7");}
-                  
-                  if(this.x > 50 && this.x <= 100 && this.y >= 350 && this.angle >= 3 * Math.PI / 2 && this.angle <= 2 * Math.PI) {
-                     this.turnRight4(); console.log("8");}
-                  
-                  if(this.x == 50 && this.y > 300 && this.y <= 350) {
-                     this.moveUp1(); console.log("9");}
-                  if(this.y > 150 && this.y <=300 && this.angle >= 2 * Math.PI && this.angle <= 12.62 * Math.PI / 6) {
-                     this.moveUp2(); console.log("10");}
-                  
-                  if(this.x == 100 && this.y > 100 && this.y <=150) {
-                     this.moveUp1(); console.log("11");}
-                  if(this.x >= 100 && this.y > 50 && this.y <=100  && this.angle >= 2 * Math.PI && this.angle < 5 * Math.PI / 2) {
-                     this.turnRight5(); console.log("12");}
-            }
-            
+           
             this.fixPosition2 = function() {
                if(this.x > 150 && this.x <= 400 && this.y == 50) {
                    this.moveLeft();}
@@ -375,7 +728,7 @@
                 this.angle = 12.62 * Math.PI / 6;
                 this.x += this.speed * Math.sin(this.angle);
                 this.y -= this.speed * Math.cos(this.angle);
-                if(this.y <= 150) {this.x = 100; this.y = 150; return} //this.x = 100; this.y = 150; return
+                if(this.y <= 150) {this.x = 100; this.y = 150; return;} //this.x = 100; this.y = 150; return
             }
             
             this.turnRight5 = function() {
@@ -401,7 +754,7 @@
                  this.angle = Math.PI + 0.62 * Math.PI / 6;
                  this.x += this.speed * Math.sin(this.angle);
                  this.y -= this.speed * Math.cos(this.angle);
-                 if(this.y >= 300) {this.x = 50; this.y = 300; return} //this.x = 100; this.y = 150; return
+                 if(this.y >= 300) {this.x = 50; this.y = 300; return;} //this.x = 100; this.y = 150; return
              }
             
             this.turnLeft3 = function() {
@@ -448,8 +801,39 @@
                  this.x += this.speed * Math.sin(this.angle);
                  this.y -= this.speed * Math.cos(this.angle);
              }
+            this.crashWith = function(otherobj) {
+        		var myx = this.x;
+        		var myy = this.y;
+        		var otherx = otherobj.x;
+        		var othery = otherobj.y;
+                var interx= Math.abs(myx-otherx);
+                var intery= Math.abs(myy-othery);
+                var interrad = 5;
+        		var crash = true;
+        		if (((interx*interx)+(intery*intery))>(interrad*interrad)) {
+            		crash = false;
+        		}
+        		return crash;
+			}
+			            
+            this.crashWitharr = function(otherobjarr) {
+        		var myx = this.x;
+        		var myy = this.y;
+        		var crash = true;
+        		function checkoth(otherobj) {
+            		var otherx = otherobj.x;
+            		var othery = otherobj.y;
+                    var interx= Math.abs(myx-otherx);
+                    var intery= Math.abs(myy-othery);
+                    var interrad = 5;
+            		return ((interx*interx)+(intery*intery))<(interrad*interrad);
+                }
+        		crash = otherobjarr.some(checkoth)
+        		return crash;
+			}
+            
         }
-
+        
         function updateGameArea() {
            myGameArea.clear(); // 캔버스 지우기
             drawMap(); //지도 그리기
@@ -463,21 +847,35 @@
             
             // component 위치 조정
             // 움직임 통제, 방향 통제 flag를 만족하면 위치 조정
-
-            car1.fixPosition2(); // 정방향 움직임
+            console.log(car1.crashWitharr(flagarr));
+			/* if (car1.crashWitharr(flagarr)) {
+			car1.fixPosition2();
+            } else {
+			car1.fixPosition2();
+            } */
+            car1.fixPosition2();
             car2.fixPosition2();
-           car3.fixPosition2();
-            
+            car3.fixPosition2();
+                
             car1.update(); // component 그리기
             car2.update();
             car3.update();
-
+                
             flagA.update2();
             flagB.update2();
             flagC.update2();
             flagD.update2();
             flagE.update2();
             flagF.update2();
+            flagH.update2();
+            flagI.update2();
+            flagJ.update2();
+            flagK.update2();
+            flagM.update2();
+            flagN.update2();
+            flagP.update2();
+            flagS.update2();
+            flagT.update2();
             //console.log(car1.x, car1.y, car1.angle * 180 / Math.PI);
         }
 
@@ -509,7 +907,7 @@
              // 도로 내부 그리기
              ctx.beginPath();
              ctx.lineWidth = "50";
-             ctx.strokeStyle = "black";
+             ctx.strokeStyle = "rgb(128,128,128)";
              ctx.moveTo(150, 50);
              ctx.lineTo(400, 50);
              ctx.arcTo(450, 50, 450, 100, 50);
@@ -573,21 +971,25 @@
 					var d =new Date()
 					if (howdanger == "" || howdanger == "D"){
 						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_good.png")
+						$("#notice").css("color", "green");
 						$("#notice").html("D등급: 안전");
 						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
 					}
 					else if (howdanger == "C"){
 						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_good.png")
-						$("#notice").html("C등급: 안전");
+						$("#notice").css("color", "yellow");
+						$("#notice").html("C등급: 주의");
 						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
 					}
 					else if (howdanger == "B"){
 						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_soso.png")
+						$("#notice").css("color", "orange");
 						$("#notice").html("B등급: 위험");
 						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
 					}
 					else if (howdanger == "A"){
 						$("#faceimg").attr("src","${pageContext.request.contextPath}/resource/img/face_bad.png")
+						$("#notice").css("color", "red");
 						$("#notice").html("A등급: 매우위험");
 						$("#daynotice").html(d.getFullYear()+"년"+(d.getMonth()+1)+"월"+d.getDate()+"일"+d.getHours()+"시");
 					}

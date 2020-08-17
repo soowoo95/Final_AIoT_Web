@@ -61,6 +61,7 @@ public class HomeController {
 		
 		//MQTT mqtt = new MQTT();
 		//mqtt.start();
+		ReadFromOtherMQTT.setDaemon(true);
 		ReadFromOtherMQTT.start();
 	}
 	
@@ -172,6 +173,14 @@ public class HomeController {
 		List monthlist = new ArrayList<>(); 
 		monthlist = animalService.getanalysisMonth();
 		return monthlist;
+	}
+	@RequestMapping("/analysisMonthwithterm.do")
+	@ResponseBody
+	public List analysisMonth(@RequestBody String termval) {
+		termval= termval.replaceAll("=", "");
+		List monthlistwithterm = new ArrayList<>(); 
+		monthlistwithterm = animalService.getanalysisMonthwithterm(termval);
+		return monthlistwithterm;
 	}
 	@RequestMapping("/analysisHour.do")
 	@ResponseBody

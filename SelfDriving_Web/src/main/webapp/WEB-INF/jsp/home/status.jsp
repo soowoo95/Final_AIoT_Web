@@ -49,7 +49,7 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
-				
+				client.subscribe("/mirror");
 				client.subscribe("/req/1cctv");
 				client.subscribe("/req/2cctv");
 				client.subscribe("/req/3cctv");
@@ -58,6 +58,7 @@
 				client.subscribe("/req/1jetracer");
 				client.subscribe("/req/2jetracer");
 				client.subscribe("/req/3jetracer");
+				
 			}
 			$(document).ready(function() {
 				
@@ -94,6 +95,16 @@
 				client.send(message);
 			}
 			function onMessageArrived(message) {
+				if(message.destinationName =="/mirror") {
+					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
+					//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					if(obj.direction=="left"){
+						location.href="history.do";
+					}else if (obj.direction=="right"){
+						location.href="analysis.do";
+					}
+				}
 				if(message.destinationName =="/req/1jetracer") {
  					//const json = message.payloadString;
 					//const obj = JSON.parse(json);
