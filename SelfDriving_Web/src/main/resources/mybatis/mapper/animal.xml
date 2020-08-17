@@ -5,7 +5,7 @@
 	
 			<!-- 프로시저를 호출합니다.-->
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},'D');
+					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},'D', 0);
 					<!-- insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
 					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder}); -->
 			</insert>
@@ -45,12 +45,18 @@
 			</select>
 			
 			<select id="selectByCCTV" resultType="animal">
-				select dname, dlocation, dfinder, dlevel, dactno, dtime
+				select dno, dname, dlocation, dfinder, dlevel, dactno, dtime, dcomplete
 				from animal
-				where dfinder like '%cctv'
+				where dfinder like '%cctv' and dcomplete=0
                 group by dactno
 				order by dtime
 			</select>
+			
+			<update id="updateDcompleteByDno">
+				update animal 
+				set dcomplete=1
+				where dactno IN (select dactno from (select dactno from animal where dno = #{dno}) a);		
+			</update>
 			
 <!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
 					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)

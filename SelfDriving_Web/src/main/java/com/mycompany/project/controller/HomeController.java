@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -56,9 +57,7 @@ public class HomeController {
 		ReadFromOtherMQTT.chogihwa(MqttServer1, client_id, username, passwd);
 		ReadFromOtherMQTT.init(topic);
 		ReadFromOtherMQTT.subscribe(0);
-		
-		//MQTT mqtt = new MQTT();
-		//mqtt.start();
+
 		ReadFromOtherMQTT.start();
 	}
 	
@@ -108,6 +107,18 @@ public class HomeController {
 		model.addAttribute("animal", list);
 		return "home/status";
 	}
+	
+	@ResponseBody
+	@RequestMapping("/dcompleteUpdate.do")
+	public void update(@RequestParam Map<String,Object> data){
+		LOGGER.info("실행");
+		Object dnoStr = data.get("dno");
+		int dno = Integer.parseInt((String) dnoStr);
+		System.out.println("넘어온 사건 번호: " + dno);
+		animalService.updateDcomplete(dno);
+		System.out.println("업데이트 처리 완료했지롱");
+	}
+	
 	
 	@RequestMapping("/analysis.do")
 	public String analysis(){

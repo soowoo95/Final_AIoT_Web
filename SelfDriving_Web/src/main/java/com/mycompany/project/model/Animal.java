@@ -2,8 +2,6 @@ package com.mycompany.project.model;
 
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class Animal {
 
 	private int dno;			
@@ -17,7 +15,7 @@ public class Animal {
 	private String dimagesname;			
 	private String dimagetype;
 	
-	private String dtimeconv;
+	private int dcomplete;
 	
 	public int getDno() {
 		return dno;
@@ -61,9 +59,6 @@ public class Animal {
 	public void setDtime(Date dtime) {
 		this.dtime = dtime;
 	}
-	public void setDtimeconv(String dtimeconv) {
-		this.dtimeconv = dtimeconv;
-	}
 	public String getDimagesname() {
 		return dimagesname;
 	}
@@ -75,5 +70,11 @@ public class Animal {
 	}
 	public void setDimagetype(String dimagetype) {
 		this.dimagetype = dimagetype;
+	}
+	public int getDcomplete() {
+		return dcomplete;
+	}
+	public void setDcomplete(int dcomplete) {
+		this.dcomplete = dcomplete;
 	}
 }

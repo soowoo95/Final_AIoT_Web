@@ -57,4 +57,8 @@ public class AnimalService {
 		List<Animal> list = animalDao.selectByCCTV();
 		return list;
 	}
+
+	public void updateDcomplete(int dno) {
+		animalDao.updateDcomplete(dno);
+	}
 }

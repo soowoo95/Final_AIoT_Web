@@ -62,4 +62,8 @@ public class AnimalDao extends EgovAbstractMapper {
 		List<Animal> list = selectList("animal.selectByCCTV");
 		return list; 
 	}
+
+	public void updateDcomplete(int dno) {
+		int rows = update("animal.updateDcompleteByDno", dno);
+	}
 }

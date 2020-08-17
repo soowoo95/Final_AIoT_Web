@@ -133,18 +133,18 @@
 ///////////////////////////////////////////////////////////////////		jetracer #2		/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if(message.destinationName =="/2jetracer") {
-					console.log("2jetracer 들어오고 있음");
-					$("#jetView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-					//$("#driveView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
+					$("#jetView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 				
 				
 				if(message.destinationName =="/2jr") {
-					console.log("2jr 들어오고 있음");
+					//console.log("2jr 들어오고 있음");
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
 				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
-					console.log("battery2:",obj.battery, "%");
+					//console.log("battery2:",obj.battery, "%");
 					bat2 = obj.battery;
 					//$("#jetRacerText1").text(bat1 + "%");
 			      	bat2 = parseInt(bat2);
@@ -214,15 +214,68 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 				if(message.destinationName =="/3jetracer") {
-					$("#jetView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
+					$("#jetView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 				}
 				
 				if(message.destinationName =="/3jr") {
-					//const json = message.payloadString;
-					//const obj = JSON.parse(json);
-			      	//$("#battery3").attr("value", obj.Battery);
-			      	//$("#jetRacerText3").text(obj.Battery + "%");
-			      	//document.getElementById('jet3Battery').style.width = obj.Battery + '%';
+					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
+ 					bat3 = obj.battery;
+ 					bat3 = parseInt(bat3);
+
+			      	if (bat3 >= 100){
+			      		bat3 == 100;
+			      		document.getElementById('batt3').style.backgroundColor = 'dimgray';
+			      		document.getElementById('batt3').style.opacity = '0.9';
+			      		document.getElementById('batt3').style.color = 'white';
+			      		document.getElementById('adtt3').style.backgroundColor = 'red';
+			      		document.getElementById('jet3Battery').style.width = bat3 + '%';
+			      		$("#batt3").attr("value", "Battery");
+			      		$("#jetRacerText3").text("100%");
+			      	}
+			      	else if (40<bat3 && bat3<100){
+			      		document.getElementById('batt3').style.backgroundColor = '#ADFF2F';
+			      		document.getElementById('batt3').style.color = 'black';
+			      		document.getElementById('adtt3').style.backgroundColor = 'dimgray';
+			      		document.getElementById('adtt3').style.opacity = '0.9';
+			      		document.getElementById('jet3Battery').style.width = String(bat3) + '%';
+			      		$("#batt3").attr("value", "Battery");
+			      		$("#jetRacerText3").text(String(bat3) + "%");
+			      	}
+			      	else if (bat3 <= 40){
+			      		document.getElementById('batt3').style.backgroundColor = 'red';
+			      		document.getElementById('batt3').style.color = 'white';
+			      		document.getElementById('adtt3').style.backgroundColor = 'dimgray';
+			      		document.getElementById('adtt3').style.opacity = '0.9';
+			      		document.getElementById('vacant3').style.backgroundColor ="transparent";
+			      		document.getElementById('jet3Battery').style.width = String(bat3) + '%';
+			      		$("#batt3").attr("value", "CHARGE NOW !!!");
+			      		$("#jetRacerText3").text(String(bat3) + "%");
+			      	}
+	
+				/////////////////////////////////////////////////		dc speed		///////////////////////////////////////////////////////////////////
+					speed3 = obj.speed;
+			      	speed3=Math.round(speed2);
+			      	
+			      	if(speed3 < 40){
+			      		$("#MotorSpeed3").text(0 +" km/h");
+			      	}
+			      	else if(40 <= speed3){
+			      		$("#MotorSpeed3").text(speed3 +" km/h");
+			      	}
+
+				/////////////////////////////////////////////////		주행 구역		///////////////////////////////////////////////////////////////////////
+			      	//area1 = obj.area;
+			   		var text3 = "";
+					var possible = "ABCDEFGHIJKLMNOPQRST";
+					text3 = possible.charAt(Math.floor(Math.random() * possible.length));
+			      	$("#district3").text("Zone " + text3);
+			      	
+				/////////////////////////////////////////////////		외부 온도		///////////////////////////////////////////////////////////////////////
+			      	temp3 = parseInt(((Math.random()*10+1))+20);
+			      	$("#Temperature3").text(temp3 +" °C");
 				}
 			}
  			
@@ -408,6 +461,21 @@
 							message.qos = 0;
 							client.send(message);
 						}
+						if (event.keyCode == '65'){
+						  	console.log("toL");
+		 				  	message = new Paho.MQTT.Message("lineChangeToL");
+							message.destinationName = "/2manual/toL";
+							message.qos = 0;
+							client.send(message);
+							console.log(message);
+						}
+						if (event.keyCode == '83'){ 	
+							console.log("toR");
+		 				  	message = new Paho.MQTT.Message("lineChangeToR");
+							message.destinationName = "/2manual/toR";
+							message.qos = 0;
+							client.send(message);
+						}
 					});
 				}
 			
@@ -537,25 +605,25 @@
   				
   				<div style="background-color: dimgray; height: 900px; width: 1200px; position: absolute; margin-left:22px; margin-top: 22px; text-align: center; font-weight: bolder; font-size: 300px;">여기에 HUD</div>
   				
-  				<input value="Battery Charging Status" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 150px; left: 1255px; height: 30px;">
-  				<div style="position: absolute; top: 180px; left: 1255px; height: 30px; display: flex; flex-direction:  row;">
+  				<input value="Battery Charging Status" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 150px; left: 1260px; height: 30px;">
+  				<div style="position: absolute; top: 180px; left: 1260px; height: 30px; display: flex; flex-direction:  row;">
             		<div>
-            			<input value="Battery" readonly="readonly" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black; width: 190px; font-weight: bold;justify-content: center; width: 160px">
+            			<input value="Battery" readonly="readonly" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black;  font-weight: bold;justify-content: center; width: 160px; height: 50px">
             		</div>
 					<div>
-						<input value="Adapter Connected" readonly="readonly" style="border-color: transparent; background-color:dimgray; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 160px">
+						<input value="Adapter Connected" readonly="readonly" style="border-color: transparent; background-color:dimgray; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 160px; height: 50px">
 					</div>
 	           	</div>
   				
-  				<input value="Motion Detection" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 220px; left: 1255px; height: 30px;">
-  				<img id=driveView2 style="width: 320px; height: 320px; position: absolute; top: 250px; left: 1255px"/>
+  				<input value="Motion Detection" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 250px; left: 1260px; height: 30px;">
+  				<img id=driveView2 style="width: 320px; height: 280px; position: absolute; top: 280px; left: 1260px"/>
 				
-				<section class="no-padding-top no-padding-bottom" style="top:570px; left: 1255px; position: absolute;padding: 0px">
+				<section class="no-padding-top no-padding-bottom" style="top:560px; left: 1260px; position: absolute;padding: 0px">
 		          <div class="container-fluid">
 		            <div class="row" style="width: 320px; height: 200px" >
 		              <div class="col-md-3 col-sm-6" style="padding: 0px">
 		                <div class="statistic-block block" style="justify-content: center; padding: 0px; width: 320px; margin-bottom: 10px">
-		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;height: 90px; padding: 0px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;height: 80px; padding: 0px">
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Detected Motion</strong>
 		                    </div>
@@ -565,7 +633,7 @@
 		                 </div>
 		                </div>
  		                <div class="statistic-block block" style="justify-content: center; padding: 0px; width: 320px">
-		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center; height: 90px">
+		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center; height: 80px">
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Target Action</strong>
 		                    </div>
@@ -578,10 +646,40 @@
 		            </div>
 		          </div>
 		        </section>
+		        
+		        
+		        <input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 750px; left: 1260px; height: 30px">
+		        <div id=batteryMode style="background-color: #864DD9; width:320px; color: white; font-weight: bold;justify-content: center; position: absolute; left: 1260px; top:780px">
+           			<div style="width:160px">
+             			<input id="modeOn" onclick="manual('On')" value="Manual Driving" readonly="readonly" style="border-color: transparent; width: 160px; background-color: dimgray; text-align: center; color: white; font-weight: bold;justify-content: center;">
+             		</div>
+					<div  style="width: 160px">
+						<input id="modeOff" onclick="manual('Off')" value="Auto Driving" readonly="readonly" style="border-color: transparent; width: 160px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold;justify-content: center;">
+					</div>
+           		</div>
 				
-				<input value="Manual" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; width: 190px; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 220px; left: 1255px; height: 30px;">
+				<div id="manual_control" style="display:none ; width: 380px; height: 200px; position: absolute; top: 790px;">
+					<div style="margin-left: 1180px; width: 320px; height:200px; position: absolute" align="center">
+						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none"></br>
+						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style=" margin-bottom:5px ;border-color:#ADFF2F; border-width: medium; font-weight: bold;">↑</a><br/>
+						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">←</a>
+						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">□</a>
+						<a class="btn btn-outline-warning btn-lg" id="right" onmousedown="tire_button_down('right')" onmouseup="tire_button_up('right')" onclick="click_right()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">→</a></br>
+ 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">L Line</a>
+						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">R Line</a>
+					</div>
 
-
+					
+					<div style="margin-left: 1350px; width: 190px; height:200px; position: absolute" align="center">
+						<input ="Sensor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
+<!-- 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:darkred;  color: darkred">RED</a> 
+						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('S')" style="border-color:white;  color: white">SIREN</a>
+ 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:gold;  padding-left: 8px; margin-top: 10px; color: gold">YELLOW</a>
+						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:white;  padding-left: 8px; margin-top: 10px; color: white">FLASH</a></br>
+						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:green; margin-top: 10px; color: green">GREEN</a> -->
+					</div>
+				</div>
+				
 
 
 <!--    		
@@ -692,7 +790,7 @@
 					
 					<div style="margin-left: 715px; width: 190px; height:100px; position: absolute" align="center">
 						센서 띄우기
-						<input value="Sensor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
+						<input ="Sensor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:darkred;  color: darkred">RED</a>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('S')" style="border-color:white;  color: white">SIREN</a>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:gold;  padding-left: 8px; margin-top: 10px; color: gold">YELLOW</a>
