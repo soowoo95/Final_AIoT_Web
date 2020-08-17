@@ -1,5 +1,6 @@
 package com.mycompany.project.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,5 +66,55 @@ public class AnimalDao extends EgovAbstractMapper {
 
 	public void updateDcomplete(int dno) {
 		int rows = update("animal.updateDcompleteByDno", dno);
+	}
+
+	public List getanalysisHour() {
+		List hourlist = selectList("animal.hourList");
+		return hourlist;
+	}
+
+	public List getanalysisHourwithterm(String term) {
+		List hourlistwithterm= new ArrayList<>();
+		if(term.equals("all")) {
+			hourlistwithterm = selectList("animal.hourList");	
+		}
+		else if(term.equals("oneyear")) {
+			hourlistwithterm = selectList("animal.hourListoneyear");
+		}else if(term.equals("onemonth")) {
+			hourlistwithterm = selectList("animal.hourListonemonth");
+		}else if(term.equals("oneweek")) {
+			hourlistwithterm = selectList("animal.hourListoneweek");
+		}
+		return hourlistwithterm;
+	}
+
+	public List getanalysisRegionwithterm(String term) {
+		List regionlistwithterm= new ArrayList<>();
+		if(term.equals("all")) {
+			regionlistwithterm = selectList("animal.regionList");	
+		}
+		else if(term.equals("oneyear")) {
+			regionlistwithterm = selectList("animal.regionListoneyear");
+		}else if(term.equals("onemonth")) {
+			regionlistwithterm = selectList("animal.regionListonemonth");
+		}else if(term.equals("oneweek")) {
+			regionlistwithterm = selectList("animal.regionListoneweek");
+		}
+		return regionlistwithterm;
+	}
+
+	public List getanalysisMonthwithterm(String termval) {
+		List monthlistwithterm= new ArrayList<>();
+		if(termval.equals("hour")) {
+			monthlistwithterm = selectList("animal.monthList");	
+		}
+		else if(termval.equals("day")) {
+			monthlistwithterm = selectList("animal.monthListday");
+		}else if(termval.equals("month")) {
+			monthlistwithterm = selectList("animal.monthListmonth");
+		}else if(termval.equals("year")) {
+			monthlistwithterm = selectList("animal.monthListyear");
+		}
+		return monthlistwithterm;
 	}
 }

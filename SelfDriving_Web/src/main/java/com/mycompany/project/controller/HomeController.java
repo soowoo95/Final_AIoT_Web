@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,6 +60,10 @@ public class HomeController {
 		ReadFromOtherMQTT.init(topic);
 		ReadFromOtherMQTT.subscribe(0);
 
+		
+		//MQTT mqtt = new MQTT();
+		//mqtt.start();
+		ReadFromOtherMQTT.setDaemon(true);
 		ReadFromOtherMQTT.start();
 	}
 	
@@ -182,12 +188,45 @@ public class HomeController {
 		monthlist = animalService.getanalysisMonth();
 		return monthlist;
 	}
+	@RequestMapping("/analysisMonthwithterm.do")
+	@ResponseBody
+	public List analysisMonth(@RequestBody String termval) {
+		termval= termval.replaceAll("=", "");
+		List monthlistwithterm = new ArrayList<>(); 
+		monthlistwithterm = animalService.getanalysisMonthwithterm(termval);
+		return monthlistwithterm;
+	}
+	@RequestMapping("/analysisHour.do")
+	@ResponseBody
+	public List analysisHour() {
+		List hourlist = new ArrayList<>(); 
+		hourlist = animalService.getanalysisHour();
+		return hourlist;
+	}
+	@RequestMapping("/analysisHourwithterm.do")
+	@ResponseBody
+	public List analysisHourwithterm(@RequestBody String termval){
+		LOGGER.info(termval);
+		termval= termval.replaceAll("=", "");
+		List hourlistwithterm = new ArrayList<>(); 
+		hourlistwithterm = animalService.getanalysisHourwithterm(termval);
+		return hourlistwithterm;
+	}
 	@RequestMapping("/analysisRegion.do")
 	@ResponseBody
 	public List analysisRegion() {
 		List regionlist = new ArrayList<>(); 
 		regionlist = animalService.getanalysisRegion();
 		return regionlist;
+	}
+	@RequestMapping("/analysisRegionwithterm.do")
+	@ResponseBody
+	public List analysisRegionwithterm(@RequestBody String termval){
+		LOGGER.info(termval);
+		termval= termval.replaceAll("=", "");
+		List regionlistwithterm = new ArrayList<>(); 
+		regionlistwithterm = animalService.getanalysisRegionwithterm(termval);
+		return regionlistwithterm;
 	}
 	@RequestMapping("/mainDangerLevel.do")
 	@ResponseBody

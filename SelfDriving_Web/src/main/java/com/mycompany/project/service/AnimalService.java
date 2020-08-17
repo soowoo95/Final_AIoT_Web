@@ -58,7 +58,32 @@ public class AnimalService {
 		return list;
 	}
 
+
 	public void updateDcomplete(int dno) {
 		animalDao.updateDcomplete(dno);
+	}
+
+	public List getanalysisHour() {
+		List hourlist = new ArrayList<>();
+		hourlist= animalDao.getanalysisHour();
+		return hourlist;
+	}
+
+	public List getanalysisHourwithterm(String term) {
+		List hourlistwithterm = new ArrayList<>();
+		hourlistwithterm= animalDao.getanalysisHourwithterm(term);
+		return hourlistwithterm;
+	}
+
+	public List getanalysisRegionwithterm(String term) {
+		List regionlistwithterm = new ArrayList<>();
+		regionlistwithterm= animalDao.getanalysisRegionwithterm(term);
+		return regionlistwithterm;
+	}
+
+	public List getanalysisMonthwithterm(String termval) {
+		List monthlist = new ArrayList<>();
+		monthlist= animalDao.getanalysisMonthwithterm(termval);
+		return monthlist;
 	}
 }
