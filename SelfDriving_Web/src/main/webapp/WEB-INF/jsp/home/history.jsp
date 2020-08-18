@@ -165,7 +165,7 @@
 		                          <td>${animal.dlevel}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dzone}</td>
 		                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
 		                        </tr>
 	                      	  </c:forEach>
@@ -229,7 +229,7 @@
 		                          <td onclick="viewImage2(${animal.dno})" style="color: #864DD9; font-weight: bold;">${animal.dname}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dzone}</td>
 		                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
 		                        </tr>
 	                      	  </c:forEach>

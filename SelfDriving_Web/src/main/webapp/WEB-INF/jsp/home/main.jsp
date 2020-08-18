@@ -51,268 +51,272 @@
 		client.subscribe("/3jetracer");
 		client.subscribe("/mirror");
 	}
-function onMessageArrived(message) {
+	
+	function onMessageArrived(message) {
 		if(message.destinationName =="/mirror") {
 			const json = message.payloadString;
-				const obj = JSON.parse(json);
+			const obj = JSON.parse(json);
 			//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+			
 			if(obj.direction=="left"){
 				alert("최상단 페이지입니다.")
-			}else if (obj.direction=="right"){
+			}
+			else if (obj.direction=="right"){
 				location.href="jetracer.do";
 			}
-			if(message.destinationName =="/1jetracer") {
-				console.log("연결됬음.")
-				jetracer1connectedflag= true;
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
-				
-				carposition = car1;
-				if(obj.label.includes("A")){
-					carposition.x= 400;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-				}
-				if(obj.label.includes("B")){
-		        	carposition.x= 315;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("C")){
-		        	carposition.x= 230;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("D")){
-		        	carposition.x= 151;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("E")){
-		        	carposition.x= 100;
-		        	carposition.y= 100;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("F")){
-		        	carposition.x= 100;
-		        	carposition.y= 149;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("H")){
-		        	carposition.x= 50;
-		        	carposition.y= 300;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("I")){
-		        	carposition.x= 50;
-		        	carposition.y= 349;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("J")){
-		        	carposition.x= 100;
-		        	carposition.y= 400;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("K")){
-		        	carposition.x= 150;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("M")){
-		        	carposition.x= 275;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("N")){
-		        	carposition.x= 400;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("P")){
-		        	carposition.x= 450;
-		        	carposition.y= 310;
-		        	carposition.angle= 0;
-		        }
-				if(obj.label.includes("S")){
-		        	carposition.x= 450;
-		        	carposition.y= 205;
-		        	carposition.angle= 0;
-		        }
-				if(obj.label.includes("T")){
-					carposition.x= 450;
-		        	carposition.y= 101;
-		        	carposition.angle= 0;
-		        }
-			}
-			if(message.destinationName =="/2jetracer") {
-				console.log("연결됬음.")
-				jetracer2connectedflag= true;
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
-				
-				carposition = car2;
-				if(obj.label.includes("A")){
-					carposition.x= 400;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-				}
-				if(obj.label.includes("B")){
-		        	carposition.x= 315;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("C")){
-		        	carposition.x= 230;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("D")){
-		        	carposition.x= 151;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("E")){
-		        	carposition.x= 100;
-		        	carposition.y= 100;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("F")){
-		        	carposition.x= 100;
-		        	carposition.y= 149;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("H")){
-		        	carposition.x= 50;
-		        	carposition.y= 300;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("I")){
-		        	carposition.x= 50;
-		        	carposition.y= 349;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("J")){
-		        	carposition.x= 100;
-		        	carposition.y= 400;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("K")){
-		        	carposition.x= 150;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("M")){
-		        	carposition.x= 275;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("N")){
-		        	carposition.x= 400;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("P")){
-		        	carposition.x= 450;
-		        	carposition.y= 310;
-		        	carposition.angle= 0;
-		        }
-				if(obj.label.includes("S")){
-		        	carposition.x= 450;
-		        	carposition.y= 205;
-		        	carposition.angle= 0;
-		        }
-				if(obj.label.includes("T")){
-					carposition.x= 450;
-		        	carposition.y= 101;
-		        	carposition.angle= 0;
-		        }
-				
-			}
-			if(message.destinationName =="/3jetracer") {
-				console.log("연결됬음.")
-				jetracer3connectedflag= true;
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
-				
-				carposition = car3;
-				if(obj.label.includes("A")){
-					carposition.x= 400;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-				}
-				if(obj.label.includes("B")){
-		        	carposition.x= 315;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("C")){
-		        	carposition.x= 230;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("D")){
-		        	carposition.x= 151;
-		        	carposition.y= 50;
-		        	carposition.angle= -Math.PI/2;
-		        }
-				if(obj.label.includes("E")){
-		        	carposition.x= 100;
-		        	carposition.y= 100;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("F")){
-		        	carposition.x= 100;
-		        	carposition.y= 149;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("H")){
-		        	carposition.x= 50;
-		        	carposition.y= 300;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("I")){
-		        	carposition.x= 50;
-		        	carposition.y= 349;
-		        	carposition.angle= -Math.PI;
-		        }
-				if(obj.label.includes("J")){
-		        	carposition.x= 100;
-		        	carposition.y= 400;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("K")){
-		        	carposition.x= 150;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("M")){
-		        	carposition.x= 275;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("N")){
-		        	carposition.x= 400;
-		        	carposition.y= 450;
-		        	carposition.angle= Math.PI/2;
-		        }
-				if(obj.label.includes("P")){
-		        	carposition.x= 450;
-		        	carposition.y= 310;
-		        	carposition.angle= 0;
-		        }
-				if(obj.label.includes("S")){
-		        	carposition.x= 450;
-		        	carposition.y= 205;
-		        	carposition.angle= 0;
-		        }
-				if(obj.label.includes("T")){
-					carposition.x= 450;
-		        	carposition.y= 101;
-		        	carposition.angle= 0;
-		        }
-			}
 		}
-}
+		if(message.destinationName =="/1jetracer") {
+			console.log("연결됬음.")
+			jetracer1connectedflag= true;
+			const json = message.payloadString;
+			const obj = JSON.parse(json);
+			
+			carposition = car1;
+			if(obj.label.includes("A")){
+				carposition.x= 400;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+			}
+			if(obj.label.includes("B")){
+	        	carposition.x= 315;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("C")){
+	        	carposition.x= 230;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("D")){
+	        	carposition.x= 151;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("E")){
+	        	carposition.x= 100;
+	        	carposition.y= 100;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("F")){
+	        	carposition.x= 100;
+	        	carposition.y= 149;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("H")){
+	        	carposition.x= 50;
+	        	carposition.y= 300;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("I")){
+	        	carposition.x= 50;
+	        	carposition.y= 349;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("J")){
+	        	carposition.x= 100;
+	        	carposition.y= 400;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("K")){
+	        	carposition.x= 150;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("M")){
+	        	carposition.x= 275;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("N")){
+	        	carposition.x= 400;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("P")){
+	        	carposition.x= 450;
+	        	carposition.y= 310;
+	        	carposition.angle= 0;
+	        }
+			if(obj.label.includes("S")){
+	        	carposition.x= 450;
+	        	carposition.y= 205;
+	        	carposition.angle= 0;
+	        }
+			if(obj.label.includes("T")){
+				carposition.x= 450;
+	        	carposition.y= 101;
+	        	carposition.angle= 0;
+	        }
+		}
+		if(message.destinationName =="/2jetracer") {
+			console.log("연결됬음.")
+			jetracer2connectedflag= true;
+			const json = message.payloadString;
+			const obj = JSON.parse(json);
+			
+			carposition = car2;
+			if(obj.label.includes("A")){
+				carposition.x= 400;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+			}
+			if(obj.label.includes("B")){
+	        	carposition.x= 315;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("C")){
+	        	carposition.x= 230;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("D")){
+	        	carposition.x= 151;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("E")){
+	        	carposition.x= 100;
+	        	carposition.y= 100;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("F")){
+	        	carposition.x= 100;
+	        	carposition.y= 149;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("H")){
+	        	carposition.x= 50;
+	        	carposition.y= 300;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("I")){
+	        	carposition.x= 50;
+	        	carposition.y= 349;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("J")){
+	        	carposition.x= 100;
+	        	carposition.y= 400;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("K")){
+	        	carposition.x= 150;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("M")){
+	        	carposition.x= 275;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("N")){
+	        	carposition.x= 400;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("P")){
+	        	carposition.x= 450;
+	        	carposition.y= 310;
+	        	carposition.angle= 0;
+	        }
+			if(obj.label.includes("S")){
+	        	carposition.x= 450;
+	        	carposition.y= 205;
+	        	carposition.angle= 0;
+	        }
+			if(obj.label.includes("T")){
+				carposition.x= 450;
+	        	carposition.y= 101;
+	        	carposition.angle= 0;
+	        }
+			
+		}
+		if(message.destinationName =="/3jetracer") {
+			console.log("연결됬음.")
+			jetracer3connectedflag= true;
+			const json = message.payloadString;
+			const obj = JSON.parse(json);
+			
+			carposition = car3;
+			if(obj.label.includes("A")){
+				carposition.x= 400;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+			}
+			if(obj.label.includes("B")){
+	        	carposition.x= 315;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("C")){
+	        	carposition.x= 230;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("D")){
+	        	carposition.x= 151;
+	        	carposition.y= 50;
+	        	carposition.angle= -Math.PI/2;
+	        }
+			if(obj.label.includes("E")){
+	        	carposition.x= 100;
+	        	carposition.y= 100;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("F")){
+	        	carposition.x= 100;
+	        	carposition.y= 149;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("H")){
+	        	carposition.x= 50;
+	        	carposition.y= 300;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("I")){
+	        	carposition.x= 50;
+	        	carposition.y= 349;
+	        	carposition.angle= -Math.PI;
+	        }
+			if(obj.label.includes("J")){
+	        	carposition.x= 100;
+	        	carposition.y= 400;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("K")){
+	        	carposition.x= 150;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("M")){
+	        	carposition.x= 275;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("N")){
+	        	carposition.x= 400;
+	        	carposition.y= 450;
+	        	carposition.angle= Math.PI/2;
+	        }
+			if(obj.label.includes("P")){
+	        	carposition.x= 450;
+	        	carposition.y= 310;
+	        	carposition.angle= 0;
+	        }
+			if(obj.label.includes("S")){
+	        	carposition.x= 450;
+	        	carposition.y= 205;
+	        	carposition.angle= 0;
+	        }
+			if(obj.label.includes("T")){
+				carposition.x= 450;
+	        	carposition.y= 101;
+	        	carposition.angle= 0;
+	        }
+		}
+	}
+
 	</script>
 	<body onload="startGame()">
 		<header class="header">   
@@ -323,15 +327,12 @@ function onMessageArrived(message) {
 		              <div class="brand-text brand-big visible text-uppercase" style="font-size: x-large"><strong class="text-primary">AIOT</strong><strong>Admin</strong></div>
 		              <div class="brand-text brand-sm"><strong class="text-primary">A</strong><strong>A</strong></div>
 		         </a>
-	            <!-- Sidebar Toggle Btn-->
 	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
 	          </div>
 	          <div class="right-menu list-inline no-margin-bottom">    
-	            <!-- Languages dropdown    -->
-	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
-	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="" alt="English" class="mr-2"><span>French  </span></a></div>
 	            </div>
-	            <!-- Log out               -->
 	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
 	        </div>
@@ -952,12 +953,14 @@ function onMessageArrived(message) {
         $(document).ready(function() {
 		    setInterval(move,100)
         });
+       
         function move() {
         	$("#position"+x).css("visibility","hidden");
         	count++;
         	x= count%19+1;
 			$("#position"+x).css("visibility","visible");
 		}
+        
         $.ajax({
 				type: "POST",
 				async: false,

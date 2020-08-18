@@ -25,7 +25,7 @@
 			<!-- history 뷰 페이지 테이블 구성 관련 -->
 			<!-- group by는 사건번호로 묶는 코드-->
 			<select id="selectByPage" resultType="animal">
-				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder, dlevel, dactno
+				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder, dlevel, dactno, dzone
 				from animal
                 group by dactno
 				order by dno desc

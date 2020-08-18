@@ -568,7 +568,9 @@
 	          <div class="container-fluid">
 	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 1040px; width: 520px; height: 468px; top: 130px">
 	         	  <input value="유해동물 탐지 위치" readonly="readonly" style="background-color: #864DD9; color: white; font-weight: 500; font-size:20px;border-color: transparent; font-weight: bold; width: 520px; text-align: center;"/>
-				  <div style="background-color: dimgray; width: 520px; height: 440px; color: white;text-align: center ;font-size: xx-large; justify-content: center;">여기에 미니 매애앱</div>
+				  <div style="background-color: dimgray; width: 520px; height: 440px; color: white;text-align: center ;font-size: xx-large; justify-content: center;">
+				 	 여기에 미니 매애앱
+				  </div>
 				</div>
 	          </div>
 	        </section>

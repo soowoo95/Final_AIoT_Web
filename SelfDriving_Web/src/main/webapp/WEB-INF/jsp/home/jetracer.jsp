@@ -698,7 +698,7 @@
 				
 				<div id="manual_control" style="display:none ; width: 380px; height: 200px; position: absolute; top: 840px;">
 					<div style="margin-left: 1170px; width: 320px; height:200px; position: absolute" align="center">
-						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none"></br>
+						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none;"></br>
 						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style=" margin-bottom:5px ;border-color:#ADFF2F; border-width: medium; font-weight: bold;">↑</a><br/>
 						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">←</a>
 						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">□</a>
@@ -706,7 +706,7 @@
  						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">L Line</a>
 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">R Line</a>
 					</div>
-
+			
 					<div style="margin-left: 1350px; width: 190px; height:200px; position: absolute" align="center">
 						<input ="Sensor Ctrl" readonly="readonly" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
 <!-- 					<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:darkred;  color: darkred">RED</a> 
