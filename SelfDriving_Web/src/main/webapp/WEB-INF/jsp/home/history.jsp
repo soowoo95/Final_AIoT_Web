@@ -200,7 +200,7 @@
 	                <div class="block" style="width: 600px; height:400px ;margin-top: 0px; margin-bottom: 10px; margin-left: 130px;">
 	                  <div class="title" style="color: white"><strong>유해 동물 탐지 | 이미지</strong></div>
 	                  <div class="table-responsive" style="justify-content: center;">
-	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/default1.png" style="max-width:100%; width:580px ; height: 310px"/>
+	                    <img id="imgShow" src="${pageContext.request.contextPath}/resource/img/farm.png" style="max-width:100%; width:580px ; height: 310px"/>
 	                  </div>
 	                </div>
 	              </div>
@@ -264,7 +264,7 @@
 	                <div class="block" style="width: 600px; height:400px ;margin-top: 0px; margin-bottom: 10px; margin-left: 130px">
 	                  <div class="title" style="color: white"><strong>주행 사인 탐지  | 이미지</strong></div>
 	                  <div class="table-responsive">
-	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/default2.png" style="height: 310px; max-width:100%; width: 580px; align-self: center;"/>
+	                    <img id="imgShow2" src="${pageContext.request.contextPath}/resource/img/driving.png" style="height: 310px; max-width:100%; width: 580px; align-self: center;"/>
 	                  </div>
 	                </div>
 	              </div>

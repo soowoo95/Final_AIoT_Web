@@ -122,6 +122,10 @@ public class MQTT extends Thread implements MqttCallback {
 			connOpts = new MqttConnectOptions();
 			connOpts.setUserName(this.UserName);
 			connOpts.setPassword(this.Passwd.toCharArray());
+			// if(Client_ID!=null && Passwd != null){
+			connOpts.setUserName(this.UserName);
+			connOpts.setPassword(this.Passwd.toCharArray());
+			// }
 			connOpts.setCleanSession(true);
 			System.out.println("Connecting to broker: " + this.Broker);
 
@@ -176,7 +180,8 @@ public class MQTT extends Thread implements MqttCallback {
 	}
 
 	public void subscribe(int qos) {
-		//구독한다.
+//구독한다.
+
 		try {
 			Client.subscribe("/req/1jetracer", 0);
 			Client.subscribe("/req/2jetracer", 0);
@@ -278,6 +283,15 @@ public class MQTT extends Thread implements MqttCallback {
 				}
 			}
 			
+			if (Arrays.asList(AClassAnimal).containsAll(clss)) {
+				DLevel = "A";
+			}
+			if (Arrays.asList(BClassAnimal).containsAll(clss)) {
+				DLevel = "B";
+			}
+			if (Arrays.asList(CClassAnimal).containsAll(clss)) {
+				DLevel = "C";
+			}
 			// 사진을 저장하자
 			decoder(video, filepath);
 

@@ -42,7 +42,7 @@
 		
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -58,8 +58,8 @@
 				client.subscribe("/req/1jetracer");
 				client.subscribe("/req/2jetracer");
 				client.subscribe("/req/3jetracer");
-
-				document.querySelector("#animalName").click();
+				
+				RowClick();
 			}
 			
 			$(document).ready(function() {
@@ -78,22 +78,22 @@
 					}
 				});
 			}
-			var currentLocation = window.location;
-			
+
 			function animalTable(){
+				var currentLocation = window.location;
 				$("#animalTable").load(currentLocation + ' #animalTable');
 				console.log("table reloaded~~~!!!");
 			}
 			
 			function RowClick(){
+				console.log("Table Row Clicliclicked");
 			    document.querySelector("#animalName").click();
-			    console.log("Table Row Clicliclicked");
 			}
 			
 			var row_td = null;
 			var row_dno = 0;
-			
 			function sendJet(data) {
+				console.log("gonna publish~~~");
 				row_td = data.getElementsByTagName("td");
 
 				var orderData = {
@@ -125,19 +125,46 @@
 				$("#zoneShow").css('color', 'white');
 				$("#animalShow").attr("value", orderData.name + " 탐지 됨");
 				$("#animalShow").css('color', 'white');
+			
+				setTimeout(function() {
+					$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
+					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
+					$("#beginText").css('color', 'dimgray');
+					$("#startText").css('color', 'white');
+					
+					console.log("처리 중 실행");
+				}, 3000);
 				
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					data : {"dno" : row_dno},
-					url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
-					success : 
-						console.log("업데이트 성공!!!")
-				});
-				animalTable();
-				RowClick();
+				setTimeout(function() {
+					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
+					$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
+					$("#startText").css('color', 'dimgray');
+					$("#finishText").css('color', 'white');
+					
+					$("#numShow").attr("value", " --- ");
+					$("#numShow").css('color', 'dimgray');
+					$("#zoneShow").attr("value", " --- ");
+					$("#zoneShow").css('color', 'dimgray');
+					$("#animalShow").attr("value"," --- ");
+					$("#animalShow").css('color', 'dimgray');
 				
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						data : {"dno" : row_dno},
+						url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
+						async : false,
+						success : 
+							animalTable()
+					});
+					console.log("처리 완료");
 				
+				}, 6000);
+			
+				setTimeout(function() {
+					RowClick();
+				}, 9000);
+			
 			}
 
 			function response(index){
@@ -150,14 +177,17 @@
 			function onMessageArrived(message) {
 
 				if(message.destinationName == "/order/ing"){
+					/* 
 					//출동 중 사인 내리고 처리 중 사인 올리기
 					$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
 					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
 					$("#beginText").css('color', 'dimgray');
 					$("#startText").css('color', 'white');
+					 */
 				}
 				
 				if(message.destinationName == "/order/completed"){
+				/* 	
 					console.log("order completed");
 					//처리 중 사인 내리고 처리 완료 사인 올리기 + 텍스트 스타일 바꾸기
 					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
@@ -182,15 +212,16 @@
 					});
 					animalTable();
 					RowClick();
+					 */
 				}
 
 				if(message.destinationName =="/mirror") {
 					const json = message.payloadString;
  					const obj = JSON.parse(json);
-					//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+				
 					if(obj.direction=="left"){
 						location.href="history.do";
-					}else if (obj.direction=="right"){
+					} else if (obj.direction=="right"){
 						location.href="analysis.do";
 					}
 				}
@@ -491,7 +522,7 @@
 	          </div>
 	        </div>
 	        <span class="heading" style="color:lightgray ;">MENU</span>
-	        <ul class="list-unstyled">
+	         <ul class="list-unstyled">
 	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>MAIN DASHBOARD </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>JET-RACERS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
@@ -575,9 +606,9 @@
 
                <div style="height: 239px; background-color : transparent ; text-align: center; justify-content: center; margin-top: 10px; border-color: #864DD9; border-style:solid; border-width:medium; ">
                		<input value="CCTV에서 보낸 유해동물 대응 미션 현황"readonly="readonly" style="background-color: #864DD9; color: white; font-weight: 500; font-size:20px; border:none ;font-weight: bold; height: 36px; text-align: center; width: 520px; margin-top: -3px; margin-left: -3px"/>
-               		<input id="numShow" value="사건 번호 000 대응 중" readonly="readonly" style="background-color: transparent ; font-weight: bold; border-color: transparent; color: dimgray; text-align: center; margin-left: 0px; width: 170px; margin-top: 10px">
-               		<input id="zoneShow" value="E 구역에서" readonly="readonly" style="background-color: transparent ; font-weight: bold; border-color: transparent; color: dimgray; text-align: center; margin-left: 0px; width: 120px; margin-top: 10px">
-               		<input id="animalShow" value="고라니 탐지됨" readonly="readonly" style="background-color: transparent ; font-weight: bold; border-color: transparent; color: dimgray; text-align: center; margin-left: 0px; width: 120px; margin-top: 10px">
+               		<input id="numShow" value="사건 번호 000 대응 중" readonly="readonly" style="background-color: transparent ; font-weight: bold; border-color: transparent; color: dimgray; text-align: center; margin-left: -30px; width: 180px; margin-top: 10px; ">
+               		<input id="zoneShow" value="E 구역에서" readonly="readonly" style="background-color: transparent ; font-weight: bold; border-color: transparent; color: dimgray; text-align: center; margin-left: 10px; width: 120px; margin-top: 10px">
+               		<input id="animalShow" value="고라니 탐지됨" readonly="readonly" style="background-color: transparent ; font-weight: bold; border-color: transparent; color: dimgray; text-align: center; margin-left: 10px; width: 120px; margin-top: 10px">
               		
               		<img id="beginSign" src="${pageContext.request.contextPath}/resource/img/begin.png" style="width: 100px; height: 100px; margin-left: 30px; margin-top: 20px">
                		<img id="startSign" src="${pageContext.request.contextPath}/resource/img/arrived.png" style="width: 100px; height: 100px; margin-left: 60px; margin-top: 20px">
