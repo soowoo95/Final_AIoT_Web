@@ -48,9 +48,10 @@ public class MQTT extends Thread implements MqttCallback {
 	private static String topic;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
 	//위험 동물군들을 등급별로 3개의 배열로 정의를 해두자.
-	private static final String AClassAnimal[] = { "wildboar", "bear" };
-	private static final String BClassAnimal[] = { "fox", "weasel" };
-	private static final String CClassAnimal[] = { "dear", "rabbit" };
+	private static final String ALevelAnimal[] = { "bear","leopard","wildboar", "wolf" };
+	private static final String BLevelAnimal[] = { "fox", "raccon","hawk" };
+	private static final String CLevelAnimal[] = { "deer", "crow","rabbit" };
+	private static final String DLevelAnimal[] = { "chicken", "cat","cow","duck","dog","pig","sheep","horse" };
 	@Autowired
 	private AnimalDao animalDao;
 
@@ -261,7 +262,7 @@ public class MQTT extends Thread implements MqttCallback {
 		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
 		String savedFileName = "savedAt_" + dfinder + StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;
-		String DLevel = "D";
+		String DLevel = "";
 		// 탐지된 객체 배열을 가져온다.
 		ArrayList<String> clss = (ArrayList<String>) map.get("Class");
 		String listString = "";
@@ -269,29 +270,29 @@ public class MQTT extends Thread implements MqttCallback {
 		// 배열이 멧돼지나 고라니 등 포함하지 않으면 저장하지 않아도 될 지도 모를 수 도.
 		if (clss.size() != 0) {
 			for(int i=0;i<clss.size();i++) {
-				if (Arrays.asList(CClassAnimal).contains(clss.get(i))) {
+				if (Arrays.asList(DLevelAnimal).contains(clss.get(i))) {
+					if(!DLevel.equals("C") || !DLevel.equals("B")) {
+						DLevel = "D";
+					}
+				}
+				if (Arrays.asList(CLevelAnimal).contains(clss.get(i))) {
 					if(!DLevel.equals("B")) {
 						DLevel = "C";
 					}
 				}
-				else if (Arrays.asList(BClassAnimal).contains(clss.get(i))) {
+				else if (Arrays.asList(BLevelAnimal).contains(clss.get(i))) {
 					DLevel = "B";
 				}
-				else if (Arrays.asList(AClassAnimal).contains(clss.get(i))) {
+				else if (Arrays.asList(ALevelAnimal).contains(clss.get(i))) {
 					DLevel = "A";
 					break;
 				}
 			}
+			if(DLevel=="") {
+				LOGGER.info("아무 동물이 탐지되지 않았습니다.");
+			}else {
+				
 			
-			if (Arrays.asList(AClassAnimal).containsAll(clss)) {
-				DLevel = "A";
-			}
-			if (Arrays.asList(BClassAnimal).containsAll(clss)) {
-				DLevel = "B";
-			}
-			if (Arrays.asList(CClassAnimal).containsAll(clss)) {
-				DLevel = "C";
-			}
 			// 사진을 저장하자
 			decoder(video, filepath);
 
@@ -311,6 +312,7 @@ public class MQTT extends Thread implements MqttCallback {
 			animal.setDnum(clss.size());
 			animal.setDfinder(dfinder);
 			animalDao.insert(animal);
+		}
 		}
 	}
 

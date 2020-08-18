@@ -5,7 +5,7 @@
 	
 			<!-- 프로시저를 호출합니다.-->
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},#{dlevel}, 0);
+					call ifdactno(#{dname},#{dnum},#{dlevel},#{dfinder},#{dzone},#{dimagesname},#{dlocation},#{dtime}, 0);
 					<!-- insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
 					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder}); -->
 			</insert>

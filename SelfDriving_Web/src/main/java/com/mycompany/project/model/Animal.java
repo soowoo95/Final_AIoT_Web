@@ -4,19 +4,32 @@ import java.util.Date;
 
 public class Animal {
 
-	private int dno;			
+	private int dno;
+	private int dactno;
 	private String dname;	
 	private String dlevel;
 	private int dnum;	
 	private String dfinder;	
 	private String dlocation;
 	private Date dtime;
-	
 	private String dimagesname;			
 	private String dimagetype;
-	
 	private int dcomplete;
+	private String dzone;
 	
+	
+	public int getDactno() {
+		return dactno;
+	}
+	public void setDactno(int dactno) {
+		this.dactno = dactno;
+	}
+	public String getDzone() {
+		return dzone;
+	}
+	public void setDzone(String dzone) {
+		this.dzone = dzone;
+	}
 	public int getDno() {
 		return dno;
 	}
