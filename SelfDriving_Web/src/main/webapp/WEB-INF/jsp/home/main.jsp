@@ -338,8 +338,8 @@ function onMessageArrived(message) {
 	      </nav>
 	    </header>
 	    
-		<div class="d-flex align-items-stretch" style="height: 855px;">
-	      <nav id="sidebar" style="height: 1030px">
+		<div class="d-flex align-items-stretch" style="height: 100%;">
+	      <nav id="sidebar" style="height: 100%">
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
@@ -354,31 +354,29 @@ function onMessageArrived(message) {
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>HISTORY </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>REAL-TIME STATUS </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>ANALYSIS </a></li>
+	          </ul>
 	      </nav>
-	      
-	       <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
+	     
+	       <div class="page-content" style="top: 0px; height: 100%;                                                                             ">
 			<div class="row">
-			<div class="col-md-4">
-	      <section class="no-padding-top">
-	          <div class="container-fluid">
-	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold; margin-top: 100px">
+			<div class="col-md-2 col-sm-12">
+	          <div class="container">
+	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto;border: 1px solid gold;">
 	            <div class="row row-cols-2">	            
 	                  <div class="col-12" style="border: 1px solid gold">
 	                  	<img id="faceimg" src= "${pageContext.request.contextPath}/resource/img/face_good.png"style="width: 100%; height:auto;padding-left: 0px; padding-right: 0px;"/>
 	                  	</div>
 	                  	<div class="col-12" style="border: 1px solid gold">
-	                  		<p id="notice" style="font-size: 2em;">안전합니다 여러분!</p>
-	                  		<p id="daynotice" style="font-size: 2em;"></p>
+	                  		<p id="notice" style="font-size: 1em;">데이터베이스에 연결하지 못했습니다.</p>
+	                  		<p id="daynotice" style="font-size: 1em;"></p>
 	                  	</div>
 	                  </div>
 	             </div>
 	             </div>
-	       </section>
 	       </div>
-	       <div class="col-md-4">
-	       <section class="no-padding-top">
-	          <div class="container-fluid">
-	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto; margin-top: 20px;border: 1px solid gold; margin-top: 100px">
+	       <div class="col-md-4 col-sm-12">
+	          <div class="container">
+	        	<div class="container" style="position:relative; margin-right: 0px; margin-left:0px; width: 100%; height:auto;border: 1px solid gold;">
 	            <div class="row row-cols-5">
 	            <div class="col-12" style="border: 1px solid gold">
 	            <p>데이터베이스에 현재 시간을 기준으로 1시간 전에서부터 탐지한 동물들의 위험등급의 최고 값을 나타냅니다. </p>
@@ -418,15 +416,14 @@ function onMessageArrived(message) {
 	            </div>
 	            </div>
 	       </div>
-	       </section>
 	       </div>
-	       <div class="col-md-4" id="canvashere" >
+	       <div class="container-fluid col-md-4 col-sm-12" id="canvashere" >
         </div>
         </div>
-        <section class="no-padding-top">
+        <div class="col-12">
 	          <div class="container-fluid">
 	        	<div class="container">
-	        	<button id="btn_A">버튼A</button>
+	        	<!-- <button id="btn_A">버튼A</button>
 	        	<button id="btn_B">버튼B</button>
 	        	<button id="btn_C">버튼C</button>
 	        	<button id="btn_D">버튼D</button>
@@ -440,15 +437,15 @@ function onMessageArrived(message) {
 	        	<button id="btn_N">버튼N</button>
 	        	<button id="btn_P">버튼P</button>
 	        	<button id="btn_S">버튼S</button>
-	        	<button id="btn_T">버튼T</button>
+	        	<button id="btn_T">버튼T</button> -->
 	        	<p>저희 팀은 인공지능 딥러닝과 사물인터넷 기술을 활용해서 야생동물탐지 및 긴급 대응을 위한 웹페이지를 제작했습니다.</p>
 	        	<p>팀장: 이정민  팀원: 장윤지, 김원준, 정성윤, 정택만, 진상우</p>
 				<p>후원문의: 진상우 010-5095-4197 후원계좌: 국민 664602-02-177425 진상우</p>
 				<p>익명후원 희망시 익명후원 가능하며 후원은 최소 만원부터 가능합니다.</p>
 	        	</div>
 	        	</div>
-	    </section>
-        
+        </div>
+        </div>
      	</div>
      	
         <script>
@@ -564,7 +561,7 @@ function onMessageArrived(message) {
                 this.canvas.height = 900/2;
         		this.canvas.style.position = "absolute";
                 this.canvas.style.left= "0";
-                this.canvas.style.bottom= "0";
+                this.canvas.style.top= "0";
                 this.scale = this.canvas.width / 500;
                 this.context = this.canvas.getContext("2d"); // 캔버스에서 그리기 도구 객체 얻기
                 this.context.scale(this.scale, this.scale);

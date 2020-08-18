@@ -138,7 +138,7 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/intro";
 	}
-	
+	//페이지처리
 	@RequestMapping("/history.do")
 	public String history(Model model, @RequestParam(defaultValue="1")int pageNo, 
 						@RequestParam(defaultValue="7") int rowsPerPage,

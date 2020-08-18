@@ -96,7 +96,8 @@
 		    	<option value="year">연도별</option>
 			</select>
 			</div>
-	      	<div id="containerc" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
+	      	<div id="containerc" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;">
+	      	DB에 연결하지 못했습니다.</div>
 	      	<div id="container">
 	      	<select id="term2" style="margin-left: 100px">
 		    	<option value="all">전체기간</option>
@@ -105,7 +106,8 @@
 		    	<option value="oneyear">최근일년</option>
 				</select>
 			</div>
-	      	<div id="container2" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
+	      	<div id="container2" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;">
+	      	DB에 연결하지 못했습니다.</div>
 	      	<div id="container">
 	      	<select id="term3" style="margin-left: 100px">
 		    	<option value="all">전체기간</option>
@@ -114,7 +116,8 @@
 		    	<option value="oneyear">최근일년</option>
 			</select>
 		  	</div>
-	      	<div id="container3" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;"></div>
+	      	<div id="container3" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;">
+	      	DB에 연결하지 못했습니다.</div>
 	      	</div>
 	      	</div>
 	      <script>

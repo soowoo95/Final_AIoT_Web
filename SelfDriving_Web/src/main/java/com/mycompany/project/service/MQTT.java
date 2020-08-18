@@ -47,9 +47,10 @@ public class MQTT extends Thread implements MqttCallback {
 	private static Long[] datearray;
 	private static String topic;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
-	private static final String AClassAnimal[] = { "멧돼지", "곰" };
-	private static final String BClassAnimal[] = { "너구리", "노루" };
-	private static final String CClassAnimal[] = { "고라니", "토끼" };
+	//위험 동물군들을 등급별로 3개의 배열로 정의를 해두자.
+	private static final String AClassAnimal[] = { "wildboar", "bear" };
+	private static final String BClassAnimal[] = { "fox", "weasel" };
+	private static final String CClassAnimal[] = { "dear", "rabbit" };
 	@Autowired
 	private AnimalDao animalDao;
 
@@ -68,6 +69,7 @@ public class MQTT extends Thread implements MqttCallback {
 		while (true) {
 			long datenow = System.currentTimeMillis();
 
+			//1초마다 현재시간과 최신 발행시간을 비교해서 1초 이상이면 서버의 IPADRESS를 PUBLISH한다.
 			InetAddress local = null;
 			try {
 				local = InetAddress.getLocalHost();
@@ -110,6 +112,7 @@ public class MQTT extends Thread implements MqttCallback {
 	}
 
 	public void init(String topic) {
+		//초기화를 한다.
 		this.topic = topic;
 		this.persistence = new MemoryPersistence();
 		try {
@@ -117,6 +120,8 @@ public class MQTT extends Thread implements MqttCallback {
 			Client.setCallback(this);
 
 			connOpts = new MqttConnectOptions();
+			connOpts.setUserName(this.UserName);
+			connOpts.setPassword(this.Passwd.toCharArray());
 			// if(Client_ID!=null && Passwd != null){
 			connOpts.setUserName(this.UserName);
 			connOpts.setPassword(this.Passwd.toCharArray());
@@ -147,6 +152,7 @@ public class MQTT extends Thread implements MqttCallback {
 	}
 
 	public void disconnect() {
+		//연결을 끊는다.
 		try {
 			Client.disconnect();
 			Client.close();
@@ -157,6 +163,7 @@ public class MQTT extends Thread implements MqttCallback {
 	}
 
 	public void publish(String msg, int qos, String restopic) {
+		//발행한다.
 		// LOGGER.info("답장을보내죠.");
 		message.setQos(qos);
 		message.setPayload(msg.getBytes());
@@ -173,6 +180,8 @@ public class MQTT extends Thread implements MqttCallback {
 	}
 
 	public void subscribe(int qos) {
+//구독한다.
+
 		try {
 			Client.subscribe("/req/1jetracer", 0);
 			Client.subscribe("/req/2jetracer", 0);
@@ -193,6 +202,7 @@ public class MQTT extends Thread implements MqttCallback {
 
 	@Override
 	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+		//메세지를 구독했으면 자신의 IP로 답장을 보낸다.
 		InetAddress local = null;
 		try {
 			local = InetAddress.getLocalHost();
@@ -258,6 +268,21 @@ public class MQTT extends Thread implements MqttCallback {
 		// 배열의 개수가 0이면 저장하지 않는다.
 		// 배열이 멧돼지나 고라니 등 포함하지 않으면 저장하지 않아도 될 지도 모를 수 도.
 		if (clss.size() != 0) {
+			for(int i=0;i<clss.size();i++) {
+				if (Arrays.asList(CClassAnimal).contains(clss.get(i))) {
+					if(!DLevel.equals("B")) {
+						DLevel = "C";
+					}
+				}
+				else if (Arrays.asList(BClassAnimal).contains(clss.get(i))) {
+					DLevel = "B";
+				}
+				else if (Arrays.asList(AClassAnimal).contains(clss.get(i))) {
+					DLevel = "A";
+					break;
+				}
+			}
+			
 			if (Arrays.asList(AClassAnimal).containsAll(clss)) {
 				DLevel = "A";
 			}
