@@ -36,7 +36,6 @@ import com.mycompany.project.model.Pager;
 import com.mycompany.project.service.AnimalService;
 import javax.servlet.http.HttpServletRequest;
 
-
 @Controller
 @RequestMapping("/home") 
 public class HomeController {
@@ -48,9 +47,10 @@ public class HomeController {
 	@Autowired
 	MQTT ReadFromOtherMQTT;
 	
+	//MQTT 연결 및 스레드 실행
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.105:1883";
+		String MqttServer1= "tcp://192.168.3.184:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";
@@ -60,7 +60,6 @@ public class HomeController {
 		ReadFromOtherMQTT.init(topic);
 		ReadFromOtherMQTT.subscribe(0);
 
-		
 		//MQTT mqtt = new MQTT();
 		//mqtt.start();
 		ReadFromOtherMQTT.setDaemon(true);
@@ -77,16 +76,18 @@ public class HomeController {
 	public String main(){
 		return "home/main";
 	}
+	
 	@RequestMapping("/hud.do")
 	public String hud(){
 		return "home/hud";
 	}
+	
 	@RequestMapping("/jetracer.do")
 	public String jetbot(){
 		LOGGER.info("실행");
 		return "home/jetracer";
 	}
-	
+	//history.jsp에서 이미지를 보여준다.
 	@RequestMapping("/imageView.do")
 	@ResponseBody
 	public void imageView(@RequestParam int dno,
@@ -94,7 +95,7 @@ public class HomeController {
 
 		Animal animal = new Animal();
 		animal = animalService.getAnimal(dno);
-		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+		//LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
 		
 		String imgLoc = animal.getDlocation();
 		LOGGER.info(imgLoc);
@@ -105,7 +106,7 @@ public class HomeController {
 		os.close();
 		is.close();
 	}
-
+	//status.jsp에서 리스트를 갖고온다. 	
 	@RequestMapping("/status.do")
 	public String status(Model model){
 		LOGGER.info("실행");
@@ -114,6 +115,7 @@ public class HomeController {
 		return "home/status";
 	}
 	
+	//
 	@ResponseBody
 	@RequestMapping("/dcompleteUpdate.do")
 	public void update(@RequestParam Map<String,Object> data){
@@ -125,11 +127,16 @@ public class HomeController {
 		System.out.println("업데이트 처리 완료했지롱");
 	}
 	
-	
 	@RequestMapping("/analysis.do")
 	public String analysis(){
 		LOGGER.info("실행");
 		return "home/analysis";
+	}
+	//페이지처리
+	@RequestMapping("/intro.do")
+	public String intro(){
+		LOGGER.info("실행");
+		return "home/intro";
 	}
 	
 	@RequestMapping("/history.do")
@@ -145,32 +152,14 @@ public class HomeController {
 		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
 		return "home/history";
 	}
+	
 	@RequestMapping("/newfile.do")
 	public String newfile() {
 		LOGGER.info("실행");
 		return "home/NewFile";
 	}
-/*	
-	@RequestMapping("/showResult.do")
-	public void history(int dno,
-						HttpServletResponse response) throws Exception {
-		
-		//나중엔 driving 관련으로 뽑아야해!
-		Animal animal = new Animal();
-		animal = animalService.getAnimal(dno);
-		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
-		
-		String imgLoc = animal.getDlocation();
-		LOGGER.info(imgLoc);
-		
-		InputStream is = new FileInputStream(imgLoc);
-		OutputStream os = response.getOutputStream();
-		FileCopyUtils.copy(is, os);
-		os.close();
-		is.close();
-	}
 
-*/	@RequestMapping("/sleep.do")
+	@RequestMapping("/sleep.do")
 	@ResponseBody
 	public void sleep() {
 		try {
@@ -181,6 +170,7 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}	
+
 	@RequestMapping("/analysisMonth.do")
 	@ResponseBody
 	public List analysisMonth() {
@@ -188,6 +178,7 @@ public class HomeController {
 		monthlist = animalService.getanalysisMonth();
 		return monthlist;
 	}
+	
 	@RequestMapping("/analysisMonthwithterm.do")
 	@ResponseBody
 	public List analysisMonth(@RequestBody String termval) {
@@ -196,6 +187,7 @@ public class HomeController {
 		monthlistwithterm = animalService.getanalysisMonthwithterm(termval);
 		return monthlistwithterm;
 	}
+	
 	@RequestMapping("/analysisHour.do")
 	@ResponseBody
 	public List analysisHour() {
@@ -203,6 +195,7 @@ public class HomeController {
 		hourlist = animalService.getanalysisHour();
 		return hourlist;
 	}
+	
 	@RequestMapping("/analysisHourwithterm.do")
 	@ResponseBody
 	public List analysisHourwithterm(@RequestBody String termval){
@@ -212,6 +205,7 @@ public class HomeController {
 		hourlistwithterm = animalService.getanalysisHourwithterm(termval);
 		return hourlistwithterm;
 	}
+	
 	@RequestMapping("/analysisRegion.do")
 	@ResponseBody
 	public List analysisRegion() {
@@ -219,6 +213,7 @@ public class HomeController {
 		regionlist = animalService.getanalysisRegion();
 		return regionlist;
 	}
+	
 	@RequestMapping("/analysisRegionwithterm.do")
 	@ResponseBody
 	public List analysisRegionwithterm(@RequestBody String termval){
@@ -228,10 +223,12 @@ public class HomeController {
 		regionlistwithterm = animalService.getanalysisRegionwithterm(termval);
 		return regionlistwithterm;
 	}
+	
 	@RequestMapping("/mainDangerLevel.do")
 	@ResponseBody
 	public String mainDangerLevel() {
 		String howdanger = animalService.mainDangerLevel();
 		return howdanger;
 	}
+
 }
