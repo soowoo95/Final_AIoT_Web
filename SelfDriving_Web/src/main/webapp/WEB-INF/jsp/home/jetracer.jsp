@@ -15,8 +15,6 @@
 		<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
 		
-<%-- 		<script src="${pageContext.request.contextPath}/resource/js/manual_control.js" ></script>  --%>
-		
 		<!--  Template 관련 설정 파일들 -->
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -43,12 +41,8 @@
 			function onConnect() {
 				console.log("mqtt broker connected")
 				client.subscribe("/1jetracer");
-				client.subscribe("/1jr");
 				client.subscribe("/2jetracer");
-				client.subscribe("/2jr");
 				client.subscribe("/3jetracer");
-				client.subscribe("/3jr");
-				client.subscribe("/3jr");
 				client.subscribe("/mirror");
 			}
 			
@@ -56,24 +50,54 @@
 				if(message.destinationName =="/mirror") {
 					const json = message.payloadString;
  					const obj = JSON.parse(json);
-					$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					$("#motionView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					
+					handMotion = obj.hands;
+					console.log(handMotion);
+					
+					if(handMotion=='rock'){
+						$("#motionName1").text('STOP');
+						$("#targetSpeed1").text("Speed : 0");
+						
+						message = new Paho.MQTT.Message("speed:"+ 0);
+						message.destinationName = "/1motion/stop";
+						message.qos = 0;
+						client.send(message);
+					}
+					
+					else if(handMotion=='5fingers'){
+						$("#motionName1").text('GO');
+						$("#targetSpeed1").text("Speed : 60");
+						
+						message = new Paho.MQTT.Message("speed:"+ 60);
+						message.destinationName = "/1motion/go";
+						message.qos = 0;
+						client.send(message);
+					}
+					
+					else if(handMotion=='unlabeled'){
+						$("#motionName1").text('---');
+						$("#targetSpeed1").text("Speed : ---");
+					}
+
 					if(obj.direction=="left"){
 						location.href="main.do";
-					}else if (obj.direction=="right"){
+					}
+					
+					else if (obj.direction=="right"){
 						location.href="history.do";
 					}
+
 				}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////		jetracer #1 	/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  				if(message.destinationName =="/1jetracer") {
- 					$("#jetView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-					//$("#driveView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-				}
-
- 				if(message.destinationName =="/1jr") {
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
+ 					
+ 					$("#jetView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					
 				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
 					bat1 = obj.battery;
 			      	bat1 = parseInt(bat1);
@@ -137,24 +161,14 @@
 					const json = message.payloadString;
  					const obj = JSON.parse(json);
 					$("#jetView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				}
-				
-				
-				if(message.destinationName =="/2jr") {
-					//console.log("2jr 들어오고 있음");
-					console.log("2jetracer 들어오고 있음");
- 					const json = message.payloadString;
- 					const obj = JSON.parse(json);
-
-				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
-					//console.log("battery2:",obj.battery, "%");
-
-					$("#jetView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-					//$("#driveView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					
+					/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
 
 					bat2 = obj.battery;
-					//$("#jetRacerText1").text(bat1 + "%");
 			      	bat2 = parseInt(bat2);
+			      	
+			      	servo2 = obj.servo;
+			      	console.log("servo:" + servo2);
 			      	
 			      	if (bat2 >= 100){
 			      		bat2 == 100;
@@ -216,15 +230,6 @@
 			      	//$("#Temperature").attr("value", temp1 +" °C");
 				}
 				
-				
-				if(message.destinationName =="/2jr") {
-					console.log("2jr 들어오고 있음");
- 					const json = message.payloadString;
- 					const obj = JSON.parse(json);
-				/////////////////////////////////////////////////		배터리 상태		///////////////////////////////////////////////////////////////////////
-					console.log("battery2:",obj.battery, "%");
-					
-				}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////		jetracer #3		/////////////////////////////////////////////////////
@@ -234,6 +239,7 @@
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#jetView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+				
 					console.log("1:뱉"+obj.battery);
 					console.log("2:섭"+obj.servo);
 					console.log("3:슾"+obj.speed);
@@ -241,11 +247,7 @@
 					console.log("5:밗"+obj.boxes);
 					console.log("6:렢"+obj.line_left);
 					console.log("7:뢑"+obj.line_right);
-				}
-				
-				if(message.destinationName =="/3jr") {
-					const json = message.payloadString;
- 					const obj = JSON.parse(json);
+
  					bat3 = obj.battery;
  					bat3 = parseInt(bat3);
 
@@ -281,8 +283,7 @@
 	
 				/////////////////////////////////////////////////		dc speed		///////////////////////////////////////////////////////////////////
 					speed3 = obj.speed;
-			      	speed3=Math.round(speed2);
-			      	
+
 			      	if(speed3 < 40){
 			      		$("#MotorSpeed3").text(0 +" km/h");
 			      	}
@@ -577,8 +578,8 @@
 	            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
 	          </div>
 	          <div class="right-menu list-inline no-margin-bottom">    
-	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="img/flags/16/GB.png" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
-	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
+	            <div class="list-inline-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="" alt=""><span class="d-none d-sm-inline-block">LOGIN</span></a>
+	              <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="" alt="" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="" alt="English" class="mr-2"><span>French  </span></a></div>
 	            </div>
 	            <div class="list-inline-item logout"><a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a></div>
 	          </div>
@@ -632,27 +633,41 @@
   				<input value="Battery Charging Status" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white; font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 150px; left: 1260px; height: 30px;">
   				<div style="position: absolute; top: 180px; left: 1260px; height: 30px; display: flex; flex-direction:  row;">
             		<div>
-            			<input value="Battery" readonly="readonly" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black;  font-weight: bold;justify-content: center; width: 160px; height: 50px">
+            			<input value="Battery" readonly="readonly" style="border-color: transparent; background-color: #ADFF2F; text-align: center; color: black;  font-weight: bold;justify-content: center; width: 160px; height: 30px">
             		</div>
 					<div>
-						<input value="Adapter Connected" readonly="readonly" style="border-color: transparent; background-color:dimgray; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 160px; height: 50px">
+						<input value="Adapter Connected" readonly="readonly" style="border-color: transparent; background-color:dimgray; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 160px; height: 30px">
 					</div>
 	           	</div>
-  				
-  				<input value="Motion Detection" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 250px; left: 1260px; height: 30px;">
-  				<img id=driveView2 style="width: 320px; height: 280px; position: absolute; top: 280px; left: 1260px"/>
 				
-				<section class="no-padding-top no-padding-bottom" style="top:560px; left: 1260px; position: absolute;padding: 0px">
+				<div class="statistic-block block" style="width: 320px; height: 100px; margin-bottom: 10px; padding-bottom: 0px; margin-left: 1232px; position: absolute; top:210px">
+                  <div class="progress-details d-flex align-items-end justify-content-between">
+                    <div class="title">
+                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong style="color: white">Battery Status</strong>
+                    </div> 
+                    <div class="number dashtext-1" id="jetRacerText1">
+                    	100%
+                    </div>
+                  </div>
+                  <div class="progress progress-template">
+                    <div id="jet1Battery" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+                  </div>
+                </div>
+				
+  				<input value="Motion Detection" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 325px; left: 1260px; height: 30px;">
+  				<img id=motionView style="width: 320px; height: 280px; position: absolute; top: 355px; left: 1260px"/>
+				
+				<section class="no-padding-top no-padding-bottom" style="top:640px; left: 1260px; position: absolute;padding: 0px">
 		          <div class="container-fluid">
 		            <div class="row" style="width: 320px; height: 200px" >
-		              <div class="col-md-3 col-sm-6" style="padding: 0px">
+		              <div class="col-md-3 col-sm-6" style="padding: 0px; height: 170px">
 		                <div class="statistic-block block" style="justify-content: center; padding: 0px; width: 320px; margin-bottom: 10px">
 		                  <div class="progress-details d-flex align-items-end justify-content-between" style="justify-content: center;height: 80px; padding: 0px">
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Detected Motion</strong>
 		                    </div>
-		                    <div id="district1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
-		                    	STOP
+		                    <div id="motionName1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    	---
 		                    </div>
 		                 </div>
 		                </div>
@@ -661,8 +676,8 @@
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Target Action</strong>
 		                    </div>
-		                    <div id="MotorSpeed" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
-		                    	Speed : 0
+		                    <div id="targetSpeed1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    	Speed : ---
 		                    </div>
 		                 </div>
 		                </div>
@@ -670,10 +685,9 @@
 		            </div>
 		          </div>
 		        </section>
-		        
-		        
-		        <input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 750px; left: 1260px; height: 30px">
-		        <div id=batteryMode style="background-color: #864DD9; width:320px; color: white; font-weight: bold;justify-content: center; position: absolute; left: 1260px; top:780px">
+
+		        <input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 820px; left: 1260px; height: 30px">
+		        <div id=batteryMode style="background-color: #864DD9; width:320px; color: white; font-weight: bold;justify-content: center; position: absolute; left: 1260px; top:820px">
            			<div style="width:160px">
              			<input id="modeOn" onclick="manual('On')" value="Manual Driving" readonly="readonly" style="border-color: transparent; width: 160px; background-color: dimgray; text-align: center; color: white; font-weight: bold;justify-content: center;">
              		</div>
@@ -682,8 +696,8 @@
 					</div>
            		</div>
 				
-				<div id="manual_control" style="display:none ; width: 380px; height: 200px; position: absolute; top: 790px;">
-					<div style="margin-left: 1180px; width: 320px; height:200px; position: absolute" align="center">
+				<div id="manual_control" style="display:none ; width: 380px; height: 200px; position: absolute; top: 840px;">
+					<div style="margin-left: 1170px; width: 320px; height:200px; position: absolute" align="center">
 						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none"></br>
 						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style=" margin-bottom:5px ;border-color:#ADFF2F; border-width: medium; font-weight: bold;">↑</a><br/>
 						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">←</a>
@@ -693,18 +707,15 @@
 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">R Line</a>
 					</div>
 
-					
 					<div style="margin-left: 1350px; width: 190px; height:200px; position: absolute" align="center">
-						<input ="Sensor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
-<!-- 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:darkred;  color: darkred">RED</a> 
+						<input ="Sensor Ctrl" readonly="readonly" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 190px"></br>
+<!-- 					<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:darkred;  color: darkred">RED</a> 
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('S')" style="border-color:white;  color: white">SIREN</a>
  						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:gold;  padding-left: 8px; margin-top: 10px; color: gold">YELLOW</a>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:white;  padding-left: 8px; margin-top: 10px; color: white">FLASH</a></br>
 						<a class="btn btn-outline-warning btn-sm manual-button" onclick="manual('W')" style="border-color:green; margin-top: 10px; color: green">GREEN</a> -->
 					</div>
 				</div>
-				
-
 
 <!--    		
              	<div id="title" style="background-color: #864DD9; width: 875px; color: white; font-weight: bold; text-align : center; margin-left: 30px; margin-top:30px; height: 30px">Auto Driving Situation</div>
@@ -987,7 +998,7 @@
 		                    </div>
 		                  </div>
 		                  <div class="progress progress-template">
-		                    <div id="jet2Battery" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+		                    <div id="jet3Battery" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
 		                  </div>
 		                </div>
 		                <div class="statistic-block block" style="width: 380px; height: 80px; margin-left: 495px; justify-content: center; margin-bottom: 10px; padding-bottom: 0px">
