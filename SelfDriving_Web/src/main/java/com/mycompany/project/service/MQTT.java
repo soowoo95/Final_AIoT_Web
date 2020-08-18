@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,15 @@ public class MQTT extends Thread implements MqttCallback {
 	private static final String BLevelAnimal[] = { "fox", "raccon","hawk" };
 	private static final String CLevelAnimal[] = { "deer", "crow","rabbit" };
 	private static final String DLevelAnimal[] = { "chicken", "cat","cow","duck","dog","pig","sheep","horse" };
+	private static final Map<String, String> CCTVZONE = new HashMap<String, String>() {
+        {
+            put("1cctv","A");
+            put("2cctv","E");
+            put("3cctv","K");
+            put("4cctv","P");
+        }
+    };
+    
 	@Autowired
 	private AnimalDao animalDao;
 
@@ -304,13 +314,19 @@ public class MQTT extends Thread implements MqttCallback {
 			listString = listString.substring(1);
 			// 객체를 생성하고 set하고 Dao로 DB에 넘겨서 저장한다.
 			Animal animal = new Animal();
-			animal.setDimagesname(savedFileName);
-			animal.setDtime(date);
-			animal.setDlevel(DLevel);
-			animal.setDlocation(filepath);
+			
 			animal.setDname(listString);
 			animal.setDnum(clss.size());
+			animal.setDlevel(DLevel);
 			animal.setDfinder(dfinder);
+			String dzone2= CCTVZONE.getOrDefault(dfinder, "디폴트");
+			LOGGER.info(dfinder);
+			LOGGER.info(CCTVZONE.toString());
+			LOGGER.info(dzone2);
+			animal.setDzone(CCTVZONE.get(dfinder));
+			animal.setDimagesname(savedFileName);
+			animal.setDlocation(filepath);
+			animal.setDtime(date);
 			animalDao.insert(animal);
 		}
 		}

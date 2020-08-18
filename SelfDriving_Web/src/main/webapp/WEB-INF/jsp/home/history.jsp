@@ -165,7 +165,7 @@
 		                          <td>${animal.dlevel}</td>
 		                          <td>${animal.dnum}</td>
 		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dfinder}</td>
+		                          <td>${animal.dzone}</td>
 		                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
 		                        </tr>
 	                      	  </c:forEach>
