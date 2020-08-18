@@ -48,9 +48,10 @@ public class HomeController {
 	@Autowired
 	MQTT ReadFromOtherMQTT;
 	
+	//MQTT 연결 및 스레드 실행
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.105:1883";
+		String MqttServer1= "tcp://192.168.3.184:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";
@@ -86,7 +87,7 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/jetracer";
 	}
-	
+	//history.jsp에서 이미지를 보여준다.
 	@RequestMapping("/imageView.do")
 	@ResponseBody
 	public void imageView(@RequestParam int dno,
@@ -94,7 +95,7 @@ public class HomeController {
 
 		Animal animal = new Animal();
 		animal = animalService.getAnimal(dno);
-		LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+		//LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
 		
 		String imgLoc = animal.getDlocation();
 		LOGGER.info(imgLoc);
@@ -105,7 +106,7 @@ public class HomeController {
 		os.close();
 		is.close();
 	}
-
+	//status.jsp에서 리스트를 갖고온다. 	
 	@RequestMapping("/status.do")
 	public String status(Model model){
 		LOGGER.info("실행");
@@ -114,6 +115,7 @@ public class HomeController {
 		return "home/status";
 	}
 	
+	//
 	@ResponseBody
 	@RequestMapping("/dcompleteUpdate.do")
 	public void update(@RequestParam Map<String,Object> data){
@@ -131,7 +133,7 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/analysis";
 	}
-	
+	//페이지처리
 	@RequestMapping("/history.do")
 	public String history(Model model, @RequestParam(defaultValue="1")int pageNo, 
 						@RequestParam(defaultValue="7") int rowsPerPage,
@@ -170,17 +172,8 @@ public class HomeController {
 		is.close();
 	}
 
-*/	@RequestMapping("/sleep.do")
-	@ResponseBody
-	public void sleep() {
-		try {
-			//주어진 time millisecond만큼 잠든다.
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// 트라이-캐치
-			e.printStackTrace();
-		}
-	}	
+*/
+	//분석 차트를 띄우기 위해 DB에 접근
 	@RequestMapping("/analysisMonth.do")
 	@ResponseBody
 	public List analysisMonth() {
@@ -228,6 +221,7 @@ public class HomeController {
 		regionlistwithterm = animalService.getanalysisRegionwithterm(termval);
 		return regionlistwithterm;
 	}
+	//메인 페이지에서 위험등급을 띄우기 위해 DB에 접근
 	@RequestMapping("/mainDangerLevel.do")
 	@ResponseBody
 	public String mainDangerLevel() {

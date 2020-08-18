@@ -5,11 +5,7 @@
 	
 			<!-- 프로시저를 호출합니다.-->
 			<insert id="insert" parameterType="animal" useGeneratedKeys="true" keyProperty="dno">
-
-					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},'D', 0);
-
-					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},#{dlevel});
-
+					call ifdactno(#{dname},#{dnum},#{dfinder},#{dimagesname},#{dlocation},#{dtime},#{dlevel}, 0);
 					<!-- insert into animal (dname, dimagesname, dlocation, dtime, dnum, dfinder)
 					values (#{dname}, #{dimagesname}, #{dlocation}, #{dtime}, #{dnum}, #{dfinder}); -->
 			</insert>
@@ -73,13 +69,11 @@
 				order by dtime
 			</select>
 			
-
 			<update id="updateDcompleteByDno">
 				update animal 
 				set dcomplete=1
 				where dactno IN (select dactno from (select dactno from animal where dno = #{dno}) a);		
 			</update>
-			
 
 			<select id="hourList" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%H') as dpertime, count(distinct dactno) as dactno FROM animal GROUP BY dpertime;
@@ -93,73 +87,5 @@
 			<select id="hourListoneyear" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%H') as dpertime, count(distinct dactno) as dactno FROM animal where dtime>date_add(now(),interval -1 year) GROUP BY dpertime ;
 			</select>
-<!-- 		<insert id="insert" parameterType="tipBoard" useGeneratedKeys="true" keyProperty="tno">
-					insert into tipBoard(ttitle, tcontent, ttype, twriter, thitcount, tdate, trating, tratingcount, tratingavg, tratingsum, tattachoname, tattachsname, tattachtype)
-					values (#{ttitle}, #{tcontent}, #{ttype}, #{twriter}, 0, now(6), 0,0,0,0, #{tattachoname}, #{tattachsname}, #{tattachtype})
-			</insert>
-			
-			<select id="selectByType" resultType ="tipBoard">
-					select tno, ttitle, twriter, ttype, tdate, thitcount, tratingavg
-					from tipBoard
-					where ttype = #{ttype}
-					order by tdate desc
-			</select>
-			
-			<select id="selectByTno" parameterType="int" resultType ="tipBoard">
-					select tno, ttitle, twriter, ttype, tcontent, thitcount, tdate, tratingavg, tattachoname, tattachsname, tattachtype
-					from tipBoard
-					where tno = #{tno}
-			</select>
-			
-			<select id="selectByTtitle" parameterType="int" resultType ="tipBoard">
-					select tno, ttitle, twriter, ttype, tcontent, thitcount, tdate, tratingavg, tattachoname, tattachsname, tattachtype
-					from tipBoard
-					where ttitle = #{ttitle}
-			</select>
-			
-			<select id="selectByPage" resultType="tipBoard">
-				select tno, ttitle, twriter, ttype, thitcount, tdate, tratingavg
-				from tipBoard
-				order by tdate desc
-				limit #{startIndex}, #{rowsPerPage}
-		</select>
-		
-			<select id="count" resultType="int">
-				select count(*) from tipBoard
-			</select>
-			
-			<update id="updateByTno">
-					update tipBoard set ttitle=#{ttitle}, tcontent=#{tcontent}, ttype=#{ttype}
-					where tno=#{tno}
-			</update>
-			
-			<update id="updateThitcountByTno">
-					update tipBoard set thitcount= thitcount+1
-					where tno = #{tno}
-			</update>
-			
-			<update id="updateTratingByTno">
-					update tipBoard set 
-						trating = #{trating}
-					where tno = #{tno}
-			</update>
-			
- 			<update id="updateTratingCountByTno">
-					update tipBoard set tratingcount = tratingcount+1
-					where tno = #{tno}
-			</update>
-			
-			<update id="updateTratingSumByTno">
-					update tipBoard set tratingsum = tratingsum + #{trating}
-					where tno = #{tno}
-			</update>
-			
-			<update id="updateTratingAvgByTno">
-					update tipBoard set tratingavg = tratingsum/tratingcount
-					where tno = #{tno}
-			</update> 
-			
-			<delete id="deleteByTno">
-					delete from tipBoard where tno=#{tno}
-			</delete> -->
+
 	</mapper>
