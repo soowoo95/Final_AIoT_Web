@@ -86,4 +86,10 @@ public class AnimalService {
 		monthlist= animalDao.getanalysisMonthwithterm(termval);
 		return monthlist;
 	}
+
+	public List levelCount() {
+		List dlevelCount = new ArrayList<>();
+		dlevelCount = animalDao.getDlevelCount();
+		return dlevelCount;
+	}
 }

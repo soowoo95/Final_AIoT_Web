@@ -6,5 +6,6 @@
 				<typeAlias alias="animal" type="com.mycompany.project.model.Animal"/>
 				<typeAlias alias="dactnoperTime" type="com.mycompany.project.model.DactnoperTime"/>
 				<typeAlias alias="dactnoperFinder" type="com.mycompany.project.model.DactnoperFinder"/>
+				<typeAlias alias="dlevelCount" type="com.mycompany.project.model.DlevelCount"/>
 		</typeAliases>
 </configuration>

@@ -117,4 +117,10 @@ public class AnimalDao extends EgovAbstractMapper {
 		}
 		return monthlistwithterm;
 	}
+
+	public List getDlevelCount() {
+		List dlevelCount = new ArrayList<>();
+		dlevelCount = selectList("animal.countLevel");
+		return dlevelCount;
+	}
 }

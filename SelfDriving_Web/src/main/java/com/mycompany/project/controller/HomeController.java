@@ -138,6 +138,22 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/intro";
 	}
+	
+	@RequestMapping("/1jet.do")
+	public String jet1(){
+		return "home/1jet";
+	}
+	
+	@RequestMapping("/2jet.do")
+	public String jet2(){
+		return "home/2jet";
+	}
+	
+	@RequestMapping("/3jet.do")
+	public String jet3(){
+		return "home/3jet";
+	}
+
 	//페이지처리
 	@RequestMapping("/history.do")
 	public String history(Model model, @RequestParam(defaultValue="1")int pageNo, 
@@ -230,5 +246,12 @@ public class HomeController {
 		String howdanger = animalService.mainDangerLevel();
 		return howdanger;
 	}
-
+	
+	@RequestMapping("/LevelCount.do")
+	@ResponseBody
+	public List mainLevelCount() {
+		List dlevelCount = new ArrayList<>();
+		dlevelCount = animalService.levelCount();
+		return dlevelCount;
+	}
 }

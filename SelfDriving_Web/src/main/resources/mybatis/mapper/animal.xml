@@ -12,7 +12,7 @@
 			
 			<!-- 로컬 경로에 저장되어있는 그림 미리보기 -->
 			<select id="selectByDno" parameterType="int" resultType ="animal">
-					select dno, dname, dnum, dfinder, dtime, dimagesname, dlocation
+					select dno, dname, dnum, dfinder,dzone, dtime, dimagesname, dlocation
 					from animal
 					where dno = #{dno}
 			</select>
@@ -25,7 +25,7 @@
 			<!-- history 뷰 페이지 테이블 구성 관련 -->
 			<!-- group by는 사건번호로 묶는 코드-->
 			<select id="selectByPage" resultType="animal">
-				select dno, dname, dimagesname, dlocation, dtime, dnum, dfinder, dlevel, dactno, dzone
+				select dno, dname, dimagesname, dlocation, dtime, dzone, dnum, dfinder, dlevel, dactno
 				from animal
                 group by dactno
 				order by dno desc
@@ -62,7 +62,7 @@
 			</select>
 			
 			<select id="selectByCCTV" resultType="animal">
-				select dno, dname, dlocation, dfinder, dlevel, dactno, dtime, dcomplete
+				select dno, dname, dlocation, dfinder, dzone, dlevel, dactno, dtime, dcomplete
 				from animal
 				where dfinder like '%cctv' and dcomplete=0
                 group by dactno
@@ -78,14 +78,21 @@
 			<select id="hourList" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%H') as dpertime, count(distinct dactno) as dactno FROM animal GROUP BY dpertime;
 			</select>
+			
 			<select id="hourListoneweek" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%H') as dpertime, count(distinct dactno) as dactno FROM animal where dtime>date_add(now(),interval -1 week) GROUP BY dpertime ;
 			</select>
+			
 			<select id="hourListonemonth" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%H') as dpertime, count(distinct dactno) as dactno FROM animal where dtime>date_add(now(),interval -1 month) GROUP BY dpertime ;
 			</select>
+			
 			<select id="hourListoneyear" resultType="dactnoperTime">
 					SELECT DATE_FORMAT(dtime,'%H') as dpertime, count(distinct dactno) as dactno FROM animal where dtime>date_add(now(),interval -1 year) GROUP BY dpertime ;
+			</select>
+			
+			<select id="countLevel" resultType="dlevelCount">
+					select dlevel, count(dlevel) as dlevelCount from animal group by dlevel ;
 			</select>
 
 	</mapper>

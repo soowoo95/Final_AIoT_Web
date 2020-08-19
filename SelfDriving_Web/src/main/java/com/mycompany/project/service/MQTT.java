@@ -47,11 +47,22 @@ public class MQTT extends Thread implements MqttCallback {
 	private static Long[] datearray;
 	private static String topic;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
-	//위험 동물군들을 등급별로 3개의 배열로 정의를 해두자.
+	
+	//위험 동물군들을 등급별로 4개의 배열로 정의를 해두자.
 	private static final String ALevelAnimal[] = { "bear","leopard","wildboar", "wolf" };
-	private static final String BLevelAnimal[] = { "fox", "raccon","hawk" };
-	private static final String CLevelAnimal[] = { "deer", "crow","rabbit" };
-	private static final String DLevelAnimal[] = { "chicken", "cat","cow","duck","dog","pig","sheep","horse" };
+	private static final String BLevelAnimal[] = { "fox", "raccoon","hawk" };
+	private static final String CLevelAnimal[] = { "deer", "crow", "rabbit" };
+	private static final String DLevelAnimal[] = { "chicken","cow","duck","horse","pig", "sheep","cat","dog" };
+	
+	private static final Map<String, String> CCTVZONE = new HashMap<String, String>() {
+        {
+            put("1cctv","A");
+            put("2cctv","E");
+            put("3cctv","K");
+            put("4cctv","P");
+        }
+    };
+
 	@Autowired
 	private AnimalDao animalDao;
 
@@ -179,9 +190,8 @@ public class MQTT extends Thread implements MqttCallback {
 			e.printStackTrace();
 		}
 	}
-
+	//구독
 	public void subscribe(int qos) {
-//구독한다.
 
 		try {
 			Client.subscribe("/req/1jetracer", 0);
@@ -213,17 +223,17 @@ public class MQTT extends Thread implements MqttCallback {
 		String ip = local.getHostAddress();
 
 		// LOGGER.info("Message arrived : " +topic);
-		if (topic.equals("/req/1jet")) {
+		if (topic.equals("/req/1jetracer")) {
 			datearray[0] = System.currentTimeMillis();
-			publish(ip, 0, "/res1jet");
+			publish(ip, 0, "/res/1jetracer");
 		}
-		if (topic.equals("/req/2jet")) {
+		if (topic.equals("/req/2jetracer")) {
 			datearray[1] = System.currentTimeMillis();
-			publish(ip, 0, "/res2jet");
+			publish(ip, 0, "/res/2jetracer");
 		}
-		if (topic.equals("/req/3jet")) {
+		if (topic.equals("/req/3jetracer")) {
 			datearray[2] = System.currentTimeMillis();
-			publish(ip, 0, "/res/3jet");
+			publish(ip, 0, "/res/3jetracer");
 		}
 		if (topic.equals("/req/1cctv")) {
 			datearray[3] = System.currentTimeMillis();
@@ -241,12 +251,14 @@ public class MQTT extends Thread implements MqttCallback {
 			datearray[6] = System.currentTimeMillis();
 			publish(ip, 0, "/res/4cctv");
 		}
+		
 		ObjectMapper mapper = new ObjectMapper();
+		
 		String json = new String(mqttMessage.getPayload());
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
 		});
-		// System.out.println(map);
 
 		// 찾은 객체 이름를 저장온다 경로에 넣으려면 /는 없어져야겠지
 		String dfinder = topic;
@@ -259,16 +271,20 @@ public class MQTT extends Thread implements MqttCallback {
 		// 저장한 시각을 가져온다
 		Date date = new Date();
 		String StringDate = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss-S").format(date);
+		
 		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
 		String savedFileName = "savedAt_" + dfinder + StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;
 		String DLevel = "";
-		// 탐지된 객체 배열을 가져온다.
+		
+		// 탐지된 객체 (동물/표지판/구간이름) 배열을 가져온다.
 		ArrayList<String> clss = (ArrayList<String>) map.get("Class");
 		String listString = "";
-		// 배열의 개수가 0이면 저장하지 않는다.
-		// 배열이 멧돼지나 고라니 등 포함하지 않으면 저장하지 않아도 될 지도 모를 수 도.
+		
+		// 탐지된 것이 있을 때 !!!
 		if (clss.size() != 0) {
+			
+			// 상위 등급의 동물이 탐지됐을 때는 상위 등급이 저장되도록 해야하암
 			for(int i=0;i<clss.size();i++) {
 				if (Arrays.asList(DLevelAnimal).contains(clss.get(i))) {
 					if(!DLevel.equals("C") || !DLevel.equals("B")) {
@@ -288,31 +304,34 @@ public class MQTT extends Thread implements MqttCallback {
 					break;
 				}
 			}
+			
 			if(DLevel=="") {
 				LOGGER.info("아무 동물이 탐지되지 않았습니다.");
-			}else {
-				
+			} else {
+				// 사진을 저장하자
+				encoder(video, filepath);
 			
-			// 사진을 저장하자
-			decoder(video, filepath);
-
-			for (String s : clss) {
-				// 객체 배열을 뽑아오기.
-				listString += "," + s;
-
+				for (String s : clss) {
+					// 객체 배열을 뽑아오기.
+					listString += "," + s;
+				}
+				
+				listString = listString.substring(1);
+				
+				// 객체를 생성하고 set하고 Dao로 DB에 넘겨서 저장한다.
+				Animal animal = new Animal();
+				
+				animal.setDname(listString);
+				animal.setDnum(clss.size());
+				animal.setDlevel(DLevel);
+				animal.setDfinder(dfinder);
+				animal.setDzone(CCTVZONE.get(dfinder));
+				animal.setDimagesname(savedFileName);
+				animal.setDlocation(filepath);
+				animal.setDtime(date);
+				
+				animalDao.insert(animal);
 			}
-			listString = listString.substring(1);
-			// 객체를 생성하고 set하고 Dao로 DB에 넘겨서 저장한다.
-			Animal animal = new Animal();
-			animal.setDimagesname(savedFileName);
-			animal.setDtime(date);
-			animal.setDlevel(DLevel);
-			animal.setDlocation(filepath);
-			animal.setDname(listString);
-			animal.setDnum(clss.size());
-			animal.setDfinder(dfinder);
-			animalDao.insert(animal);
-		}
 		}
 	}
 
@@ -326,7 +345,7 @@ public class MQTT extends Thread implements MqttCallback {
 		// System.out.println("Message with " + iMqttDeliveryToken + " delivered.");
 	}
 
-	public static boolean decoder(String data, String target) {
+	public static boolean encoder(String data, String target) {
 		byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
 		try {
 			BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
