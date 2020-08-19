@@ -51,7 +51,7 @@
 		
 			$(function(){
 				ipid = new Date().getTime().toString()
-				client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
+				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 			});
@@ -269,10 +269,11 @@
 				}
 
 				if(message.destinationName =="/req/1jetracer") {
- 					//const json = message.payloadString;
-					//const obj = JSON.parse(json);
-					//obj["witness"]= message.destinationName;
-					
+					jetracer1connectedflag= true;
+					response(0);
+					lastSendtimearr[0] = Date.now();
+ 					const json = message.payloadString;
+					const obj = JSON.parse(json);
 					$("#jrView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 /* 					
 					if (obj.Class.length != 0){
@@ -304,12 +305,115 @@
 					 */
 				}
 				
-				if(message.destinationName =="/req/2jetracer") {
- 					//const json = message.payloadString;
-					//const obj = JSON.parse(json);
-					//obj["witness"]= message.destinationName;
+				if(message.destinationName =="/2jetracer") {
+					jetracer2connectedflag= true;
 					
-					$("#jrView2").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+					console.log("메세지가 왔어요.")
+					response(1);
+					lastSendtimearr[1] = Date.now();
+ 					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					$("#jrView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+
+					console.log("2jet:뱉"+obj.battery);
+					console.log("2jet:섭"+obj.servo);
+					console.log("2jet:슾"+obj.speed);
+					console.log("2jet:랍"+obj.Class);
+					console.log("2jet:밗"+obj.boxes);
+					console.log("2jet:렢"+obj.line_left);
+					console.log("2jet:뢑"+obj.line_right);
+					
+					 carposition = car2;
+					 if(obj.Class.includes("A")&&nowzone["1jetracer"]!="A"){
+							carposition.x= 450;
+				        	carposition.y= 94;
+				        	carposition.angle= 0;
+				        	nowzone["1jetracer"]="A";
+						}
+						if(obj.Class.includes("B")&&nowzone["1jetracer"]!="B"){
+				        	carposition.x= 394;
+				        	carposition.y= 50;
+				        	carposition.angle= -Math.PI/2;
+				        	nowzone["1jetracer"]="B";
+				        }
+						if(obj.Class.includes("C")&&nowzone["1jetracer"]!="C"){
+				        	carposition.x= 309;
+				        	carposition.y= 50;
+				        	carposition.angle= -Math.PI/2;
+				        	nowzone["1jetracer"]="C";
+				        }
+						if(obj.Class.includes("D")&&nowzone["1jetracer"]!="D"){
+				        	carposition.x= 224;
+				        	carposition.y= 50;
+				        	carposition.angle= -Math.PI/2;
+				        	nowzone["1jetracer"]="D";
+				        }
+						if(obj.Class.includes("E")&&nowzone["1jetracer"]!="E"){
+				        	carposition.x= 144;
+				        	carposition.y= 50;
+				        	carposition.angle= -Math.PI/2;
+				        	nowzone["1jetracer"]="E";
+				        }
+						if(obj.Class.includes("F")&&nowzone["1jetracer"]!="F"){
+				        	carposition.x= 96;
+				        	carposition.y= 96;
+				        	carposition.angle= -Math.PI;
+				        	nowzone["1jetracer"]="F";
+				        }
+						if(obj.Class.includes("H")&&nowzone["1jetracer"]!="H"){
+				        	carposition.x= 96;
+				        	carposition.y= 162;
+				        	carposition.angle= -Math.PI;
+				        	nowzone["1jetracer"]="H";
+				        }
+						if(obj.Class.includes("I")&&nowzone["1jetracer"]!="I"){
+				        	carposition.x= 50;
+				        	carposition.y= 305;
+				        	carposition.angle= -Math.PI;
+				        	nowzone["1jetracer"]="I";
+				        }
+						if(obj.Class.includes("J")&&nowzone["1jetracer"]!="J"){
+				        	carposition.x= 54;
+				        	carposition.y= 354;
+				        	carposition.angle= -Math.PI;
+				        	nowzone["1jetracer"]="J";
+				        }
+						if(obj.Class.includes("K")&&nowzone["1jetracer"]!="K"){
+				        	carposition.x= 104;
+				        	carposition.y= 404;
+				        	carposition.angle= Math.PI/2;
+				        	nowzone["1jetracer"]="K";
+				        }
+					if(obj.Class.includes("M")&&nowzone["1jetracer"]!="M"){
+				        	carposition.x= 156;
+				        	carposition.y= 450;
+				        	carposition.angle= Math.PI/2;
+				        	nowzone["1jetracer"]="M";
+				        }
+						if(obj.Class.includes("N")&&nowzone["1jetracer"]!="N"){
+				        	carposition.x= 281;
+				        	carposition.y= 450;
+				        	carposition.angle= Math.PI/2;
+				        	nowzone["1jetracer"]="N";
+				        }
+						if(obj.Class.includes("P")&&nowzone["1jetracer"]!="P"){
+				        	carposition.x= 450;
+				        	carposition.y= 400;
+				        	carposition.angle= 0;
+				        	nowzone["1jetracer"]="P";
+				        }
+						if(obj.Class.includes("S")&&nowzone["1jetracer"]!="S"){
+				        	carposition.x= 450;
+				        	carposition.y= 300;
+				        	carposition.angle= 0;
+				        	nowzone["1jetracer"]="S";
+				        }
+						if(obj.Class.includes("T")&&nowzone["1jetracer"]!="T"){
+							carposition.x= 450;
+				        	carposition.y= 199;
+				        	carposition.angle= 0;
+				        	nowzone["1jetracer"]="T";
+				        } 
 /* 					
 					if (obj.Class.length != 0){
 						$("#j2Obj").attr("value", obj.Class);
@@ -531,6 +635,153 @@
 				}
 			}
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			var flagarr=[];
 	        function startGame() {
 	            car1 = new component(15, 20, "red", 50, 350, Math.PI); // component 생성
@@ -552,7 +803,6 @@
 	            flagP = new component(15, 20, "P", 450, 310, Math.PI / 2);
 	            flagS = new component(15, 20, "S", 450, 205, Math.PI / 2);
 	            flagT = new component(15, 20, "T", 450, 100, Math.PI / 2);
-	            
 	            flagarr=[flagA,flagB,flagC,flagD,flagE,flagF,flagH,flagI,flagJ,flagK,flagM,flagN,flagP,flagS,flagT]
 	            myGameArea.start(); 
 	        }
@@ -863,18 +1113,17 @@
 	            // component 위치 조정
 	            // 움직임 통제, 방향 통제 flag를 만족하면 위치 조정
 	            console.log(car1.crashWitharr(flagarr));
-				/* if (car1.crashWitharr(flagarr)) {
-				car1.fixPosition2();
+				  if (car2.crashWitharr(flagarr)) {
 	            } else {
-				car1.fixPosition2();
-	            } */
+				car2.fixPosition2();
+	            }
 	            car1.fixPosition2();
-	            car2.fixPosition2();
+	            //car2.fixPosition2();
 	            car3.fixPosition2();
 	                
-	            car1.update(); // component 그리기
-	            car2.update();
-	            car3.update();
+	            if(jetracer1connectedflag){car1.update();} // component 그리기
+	            if(jetracer2connectedflag){car2.update();}
+	            if(jetracer3connectedflag){car3.update();}
 	            
 	            if (cctv1DetectingFlag){
 	            	flagA.update3();

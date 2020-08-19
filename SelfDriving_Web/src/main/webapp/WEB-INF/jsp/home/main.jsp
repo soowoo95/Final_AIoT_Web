@@ -46,46 +46,14 @@
 	
 	$(function(){
 		ipid = new Date().getTime().toString()
-		client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
+		client = new Paho.MQTT.Client(location.hostname, 61614, ipid);
 		client.onMessageArrived = onMessageArrived;
 		client.connect({onSuccess:onConnect});
 	});
 	
 	function onConnect() {
-		console.log("mqtt broker connected")
-
+		console.log("mqtt broker connected");
 		client.subscribe("/mirror");
-		client.subscribe("/req/1cctv");
-		client.subscribe("/req/2cctv");
-		client.subscribe("/req/3cctv");
-		client.subscribe("/req/4cctv");
-		client.subscribe("/req/1jetracer");
-		client.subscribe("/req/2jetracer");
-		client.subscribe("/req/3jetracer");
-	}
-	
-	$(document).ready(function() {
-	    setInterval(getinterval, 750);
-	});  
-	 
-	 var lastSendtime=Date.now();
-	 
-	 function getinterval(){
-		nowtime= Date.now();
-		lastSendtimearr.forEach(function(element, index, array){
-			interval=nowtime-element
-			if(interval>750){
-				console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
-				response(index);
-			}
-		});
-	}
-	 
- 	function response(index){
-		//console.log(subList[index]+"에게 답장을 보내쥬");
-		message = new Paho.MQTT.Message(ipid);
-		message.destinationName = "/res/"+subList[index];
-		client.send(message);
 	}
 	
 	function onMessageArrived(message) {

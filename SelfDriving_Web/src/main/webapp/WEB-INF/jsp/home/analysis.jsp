@@ -250,10 +250,10 @@
 	    	  return value.dpertime;
 	    	}
 	      function myFunction3(value, index, array) {
-	    	  return value.dfinder;
+	    	  return value.dzone;
 	    	}
 	      function myFunction4(value, index, array) {
-	    	  return value.dperfinder;
+	    	  return value.dperzone;
 	    	}
 	      function myFunction5(value, index, array) {
 	    	  tempnum= array[index].dpertime
@@ -283,7 +283,10 @@
 	    	    xAxis: {
 	    	        categories: numbers3
 	    	    },
-
+	    	    tooltip: {
+	    	        crosshairs: true,
+	    	        shared: true
+	    	    },
 	    	    series: [{
 	    	        type: 'column',
 	    	        colorByPoint: true,
@@ -301,7 +304,7 @@
 	      function chart2(){
 	      var chart = Highcharts.chart('container2', {
 	    	    title: {
-	    	        text: '탐지객체별 탐지사건 발생수'
+	    	        text: '위치별 탐지사건 발생수'
 	    	    },
 
 	    	    subtitle: {
@@ -310,6 +313,10 @@
 
 	    	    xAxis: {
 	    	        categories: numbers5
+	    	    }, 
+	    	    tooltip: {
+	    	        crosshairs: true,
+	    	        shared: true
 	    	    },
 
 	    	    series: [{

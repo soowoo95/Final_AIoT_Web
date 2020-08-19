@@ -173,19 +173,6 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/NewFile";
 	}
-
-	@RequestMapping("/sleep.do")
-	@ResponseBody
-	public void sleep() {
-		try {
-			//주어진 time millisecond만큼 잠든다.
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// 트라이-캐치
-			e.printStackTrace();
-		}
-	}	
-
 	@RequestMapping("/analysisMonth.do")
 	@ResponseBody
 	public List analysisMonth() {

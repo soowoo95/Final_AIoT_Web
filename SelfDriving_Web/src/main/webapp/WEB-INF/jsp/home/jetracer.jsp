@@ -31,8 +31,14 @@
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
 
 		<script>
+		let ipid;
+		var text2 = "UNKNOWN";
+		var lastSendtimearr = [Date.now(), Date.now(), Date.now()];
+		var subList=["1jetracer", "2jetracer","3jetracer"];
+		var ZONEarr= ["A","B","C","D","E","F","H","I","J","K","M","N","P","S","T"];
 			$(function(){
-				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+				ipid = new Date().getTime().toString()
+				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
 				client.onMessageArrived = onMessageArrived;
 				client.connect({onSuccess:onConnect});
 				
@@ -47,10 +53,41 @@
 				console.log("mqtt broker connected")
 				client.subscribe("/1jetracer");
 				client.subscribe("/2jetracer");
-				client.subscribe("/3jetracer");
+				client.subscribe("/req/3jetracer");
 				client.subscribe("/mirror");
 			}
-			
+/////////////////////////////////////////////////		동기화 		///////////////////////////////////////////////////////////////////////
+			$(function() {
+			   setInterval(getinterval, 750);
+			});  
+			 
+			 var lastSendtime=Date.now();
+			 
+			 function getinterval(){
+				nowtime= Date.now();
+				lastSendtimearr.forEach(function(element, index, array){
+					interval=nowtime-element
+					if(interval>750){
+						console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						response(index);
+					}
+				});
+			}
+			/*  function response(index){
+					
+					message = new Paho.MQTT.Message(ipid);
+					message.destinationName = "/res/"+subList[index];
+					message.qos = 0;
+					//client.send(message);
+			} */
+			 function response(index){
+					//console.log(subList[index]+"에게 답장을 보내쥬");
+					message = new Paho.MQTT.Message(ipid);
+					message.destinationName = "/res/"+subList[index];
+					console.log(ipid);
+					console.log("/res/"+subList[index]);
+					//client.send(message);
+				}
 			function onMessageArrived(message) {
 				if(message.destinationName =="/mirror") {
 					const json = message.payloadString;
@@ -98,6 +135,8 @@
 ///////////////////////////////////////////////////////////////////		jetracer #1 	/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  				if(message.destinationName =="/1jetracer") {
+ 					response(0);
+					lastSendtimearr[0] = Date.now();
  					const json = message.payloadString;
  					const obj = JSON.parse(json);
  					
@@ -240,7 +279,10 @@
 ///////////////////////////////////////////////////////////////////		jetracer #3		/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-				if(message.destinationName =="/3jetracer") {
+				if(message.destinationName =="/req/3jetracer") {
+					response(2);
+					lastSendtimearr[2] = Date.now();
+					console.log("메세지가 왔습니다.")
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#jetView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
@@ -248,7 +290,7 @@
 					console.log("1:뱉"+obj.battery);
 					console.log("2:섭"+obj.servo);
 					console.log("3:슾"+obj.speed);
-					console.log("4:랍"+obj.label);
+					console.log("4:랍"+obj.Class);
 					console.log("5:밗"+obj.boxes);
 					console.log("6:렢"+obj.line_left);
 					console.log("7:뢑"+obj.line_right);

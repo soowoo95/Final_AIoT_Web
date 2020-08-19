@@ -25,7 +25,7 @@
 			<!-- history 뷰 페이지 테이블 구성 관련 -->
 			<!-- group by는 사건번호로 묶는 코드-->
 			<select id="selectByPage" resultType="animal">
-				select dno, dname, dimagesname, dlocation, dtime, dzone, dnum, dfinder, dlevel, dactno
+				select dno, dname, dimagesname, dlocation, dtime,dzone, dnum, dfinder, dlevel, dactno
 				from animal
                 group by dactno
 				order by dno desc
@@ -45,17 +45,17 @@
 					SELECT DATE_FORMAT(dtime,'%Y') as dpertime, max(dactno)-min(dactno) as dactno FROM animal GROUP BY dpertime;
 			</select>
 			
-			<select id="regionList" resultType="dactnoperFinder">
-					select dfinder,count(distinct(dactno)) as dperfinder from animal group by dfinder;
+			<select id="regionList" resultType="dactnoperZone">
+					select dZone,count(distinct(dactno)) as dperZone from animal group by dZone;
 			</select>
-			<select id="regionListoneweek" resultType="dactnoperFinder">
-					select dfinder,count(distinct(dactno)) as dperfinder from animal where dtime>date_add(now(),interval -1 week) group by dfinder;
+			<select id="regionListoneweek" resultType="dactnoperZone">
+					select dZone,count(distinct(dactno)) as dperZone from animal where dtime>date_add(now(),interval -1 week) group by dZone;
 			</select>
-			<select id="regionListonemonth" resultType="dactnoperFinder">
-					select dfinder,count(distinct(dactno)) as dperfinder from animal where dtime>date_add(now(),interval -1 month) group by dfinder;
+			<select id="regionListonemonth" resultType="dactnoperZone">
+					select dZone,count(distinct(dactno)) as dperZone from animal where dtime>date_add(now(),interval -1 month) group by dZone;
 			</select>
-			<select id="regionListoneyear" resultType="dactnoperFinder">
-					select dfinder,count(distinct(dactno)) as dperfinder from animal where dtime>date_add(now(),interval -1 year) group by dfinder;
+			<select id="regionListoneyear" resultType="dactnoperZone">
+					select dZone,count(distinct(dactno)) as dperZone from animal where dtime>date_add(now(),interval -1 year) group by dZone;
 			</select>
 			<select id="howdanger" resultType="String">
 				select min(dlevel) from animal WHERE dtime>DATE_SUB(now(),INTERVAL 1 hour);

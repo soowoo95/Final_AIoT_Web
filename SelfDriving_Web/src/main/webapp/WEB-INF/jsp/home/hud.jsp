@@ -27,7 +27,7 @@ $(function(){
 	client.connect({onSuccess:onConnect});
 });
 function onConnect() {
-	client.subscribe("/req/2cctv");
+	client.subscribe("/2jetracer");
 	console.log("연결됐다고 알림!");
 }
  $(document).ready(function() {
@@ -45,28 +45,50 @@ function onConnect() {
  function response(){
 	console.log("답장을 보내요.")
 	  message = new Paho.MQTT.Message(ipid);
-	  message.destinationName = "/res/2cctv";
+	  message.destinationName = "/res/2jetracer";
 	  client.send(message);
 }
  var box;
+ var leftx;
+ var rightx;
 function onMessageArrived(message) {
 	 console.log("hioyng")
-	if(message.destinationName =="/req/2cctv") {
+	if(message.destinationName =="/2jetracer") {
 		console.log("hioyng")
 		response();
 		lastSendtime=Date.now();
 		const json = message.payloadString;
 		const obj = JSON.parse(json);
 		txtcanvas2=obj.Class;
+
+		console.log("2jet:뱉"+obj.battery);
+		console.log("2jet:섭"+obj.servo);
+		console.log("2jet:슾"+obj.speed);
+		console.log("2jet:랍"+obj.Class);
+		console.log("2jet:밗"+obj.boxes);
+		console.log("2jet:렢"+obj.line_left);
+		console.log("2jet:뢑"+obj.line_right);
 		
-		bat=obj.Battery;
+		if(obj.line_left){
+			leftx=obj.line_left*1200/320;
+		}
+		else{
+			leftx=0;
+		}
+		if(obj.line_right){
+			rightx=obj.line_right*1200/320;	
+		}
+		else{
+			rightx=1200;
+		}
+		bat=obj.battery;
 		
 		//console.log(bat);
-		if(obj.Box)
+		if(obj.boxes)
 			{
-			console.log(obj.Box);
-			box=obj.Box;			
-			obj.Box.forEach(function (item, index, array) {
+			console.log(obj.boxes);
+			box=obj.boxes;			
+			obj.boxes.forEach(function (item, index, array) {
 				  boxx=(item[0]+item[2])*1200/640
 				  boxy=(item[1]+item[3])*900/480;
 				  arr_boxx.push(boxx);
@@ -100,7 +122,7 @@ $(function() {
 	canvastrapezoid.width = 1200;
 	canvastrapezoid.height = 900;
 	canvastrapezoid.style.position= "absolute";
-	canvastrapezoid.style.bottom="0";
+	canvastrapezoid.style.top="0";
 	ctxtrapezoid = canvastrapezoid.getContext("2d");
 	var grd = ctxtrapezoid.createLinearGradient(0, canvastrapezoid.height, 0, 0);
 	grd.addColorStop(0, "rgba(5,229,238,1)");
@@ -115,40 +137,37 @@ $(function() {
 	setInterval(drawtrapezoid, 200);
 	function drawtrapezoid(){
 		ctxtrapezoid.clearRect(0,0,canvastrapezoid.width, canvastrapezoid.height);
-		if(box){
-	
-	ctxtrapezoid.moveTo(box[0][0]*1200/320, box[0][3]*900/240);
-	ctxtrapezoid.lineTo(box[0][2]*1200/320, box[0][3]*900/240);
-	//ctxtrapezoid.moveTo(canvastrapezoid.width/2-70, canvastrapezoid.height-200);
-	//ctxtrapezoid.lineTo(canvastrapezoid.width/2-130, canvastrapezoid.height-200);
-	ctxtrapezoid.lineWidth = "2";
-	ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
-	ctxtrapezoid.lineTo(0, canvastrapezoid.height);
-	ctxtrapezoid.fillStyle = grd;
-	ctxtrapezoid.fill();
-	
-	ctxtrapezoid.clearRect(0,0,canvastrapezoid.width, box[0][3]*900/240);
-	
-	ctxtrapezoid.beginPath();
-	ctxtrapezoid.strokeStyle="rgb(5,229,238)";
-	ctxtrapezoid.moveTo(box[0][0]*1200/320, canvastrapezoid.height/2);
-	ctxtrapezoid.lineTo(box[0][2]*1200/320, canvastrapezoid.height/2);
-	ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
-	ctxtrapezoid.lineTo(0, canvastrapezoid.height);
-	ctxtrapezoid.lineTo(box[0][0]*1200/320, canvastrapezoid.height/2);
-	ctxtrapezoid.stroke();
-	box= null;
-		}
-		else{
+		ctxtrapezoid.beginPath();
+		ctxtrapezoid.strokeStyle="rgb(5,229,238)";
+		ctxtrapezoid.moveTo(leftx, 600);
+		ctxtrapezoid.lineTo(rightx, 600);
+		ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
+		ctxtrapezoid.lineTo(0, canvastrapezoid.height);
+		ctxtrapezoid.lineTo(leftx, 600);
+		ctxtrapezoid.stroke();
+		if(box==""){
+			
 			ctxtrapezoid.beginPath();
-			ctxtrapezoid.strokeStyle="rgb(5,229,238)";
-			ctxtrapezoid.moveTo(canvastrapezoid.width/2-70, canvastrapezoid.height/2);
-			ctxtrapezoid.lineTo(canvastrapezoid.width/2+70, canvastrapezoid.height/2);
+			ctxtrapezoid.moveTo(leftx, 600);
+			ctxtrapezoid.lineTo(rightx, 600);
+			ctxtrapezoid.lineWidth = "2";
 			ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
 			ctxtrapezoid.lineTo(0, canvastrapezoid.height);
-			ctxtrapezoid.lineTo(box[0][0]*1200/320, canvastrapezoid.height/2);
-			ctxtrapezoid.stroke();
+			ctxtrapezoid.fillStyle = grd;
+			ctxtrapezoid.fill();
+			box=null;
 		}
+		else{
+			ctxtrapezoid.moveTo(box[0][0]*1200/320, box[0][3]*900/240);
+			ctxtrapezoid.lineTo(box[0][2]*1200/320, box[0][3]*900/240);
+			ctxtrapezoid.lineWidth = "2";
+			ctxtrapezoid.lineTo(canvastrapezoid.width, canvastrapezoid.height);
+			ctxtrapezoid.lineTo(0, canvastrapezoid.height);
+			ctxtrapezoid.fillStyle = grd;
+			ctxtrapezoid.fill();
+			
+			ctxtrapezoid.clearRect(0,0,canvastrapezoid.width, box[0][3]*900/240);
+		} 
 	}
 });
 $(function() {
@@ -374,11 +393,11 @@ var myGameArea = {
         this.canvas.height = 900/3;
 this.canvas.style.position = "absolute";
         this.canvas.style.right= "0";
-        this.canvas.style.bottom= "0";
+        this.canvas.style.top= "0";
         this.scale = this.canvas.width / 500;
         this.context = this.canvas.getContext("2d"); // 캔버스에서 그리기 도구 객체 얻기
         this.context.scale(this.scale, this.scale);
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]); // 캔버스 태그를 body 태그 안에 넣기
+        //document.body.insertBefore(this.canvas, document.body.childNodes[0]); // 캔버스 태그를 body 태그 안에 넣기
         this.interval = setInterval(updateGameArea, 20); // 20ms마다 updateGameArea 함수를 실행
     },
     stop : function() {

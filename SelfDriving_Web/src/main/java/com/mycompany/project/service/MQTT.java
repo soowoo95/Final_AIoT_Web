@@ -53,7 +53,7 @@ public class MQTT extends Thread implements MqttCallback {
 	private static final String BLevelAnimal[] = { "fox", "raccoon","hawk" };
 	private static final String CLevelAnimal[] = { "deer", "crow", "rabbit" };
 	private static final String DLevelAnimal[] = { "chicken","cow","duck","horse","pig", "sheep","cat","dog" };
-	
+	private static final String ZONE[] = { "A","B","C","D","E","F","H","I","J","K","M","N","P","S","T"};
 	private static final Map<String, String> CCTVZONE = new HashMap<String, String>() {
         {
             put("1cctv","A");
@@ -62,7 +62,13 @@ public class MQTT extends Thread implements MqttCallback {
             put("4cctv","P");
         }
     };
-
+    private static final Map<String, String> JETRACERZONE = new HashMap<String, String>() {
+        {
+            put("1jetracer","A");
+            put("2jetracer","A");
+            put("3jetracer","A");
+        }
+    };
 	@Autowired
 	private AnimalDao animalDao;
 
@@ -91,13 +97,14 @@ public class MQTT extends Thread implements MqttCallback {
 			String ip = local.getHostAddress();
 
 			if (datenow - datearray[0] > 1000) {
-				publish(ip, 0, "/res/1jet");
+				publish(ip, 0, "/res/1jetracer");
 			}
 			if (datenow - datearray[1] > 1000) {
-				publish(ip, 0, "/res/2jet");
+				publish(ip, 0, "/res/2jetracer");
 			}
 			if (datenow - datearray[2] > 1000) {
-				publish(ip, 0, "/res/3jet");
+				LOGGER.info("3번에게보낸다.");
+				publish(ip, 0, "/res/3jetracer");
 			}
 			if (datenow - datearray[3] > 1000) {
 				publish(ip, 0, "/res/1cctv");
@@ -232,6 +239,7 @@ public class MQTT extends Thread implements MqttCallback {
 			publish(ip, 0, "/res/2jetracer");
 		}
 		if (topic.equals("/req/3jetracer")) {
+			LOGGER.info("3번에게왔기때문에답장을보낸다.");
 			datearray[2] = System.currentTimeMillis();
 			publish(ip, 0, "/res/3jetracer");
 		}
@@ -275,7 +283,7 @@ public class MQTT extends Thread implements MqttCallback {
 		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
 		String savedFileName = "savedAt_" + dfinder + StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;
-		String DLevel = "";
+		String dLevel = "";
 		
 		// 탐지된 객체 (동물/표지판/구간이름) 배열을 가져온다.
 		ArrayList<String> clss = (ArrayList<String>) map.get("Class");
@@ -283,31 +291,39 @@ public class MQTT extends Thread implements MqttCallback {
 		
 		// 탐지된 것이 있을 때 !!!
 		if (clss.size() != 0) {
-			
+			if(dfinder.contains("jetracer")) {
+				for(int i=0;i<clss.size();i++) {
+					int tempi=Arrays.asList(ZONE).indexOf(clss.get(i));
+					if(tempi!=-1) {
+						JETRACERZONE.put(dfinder, Arrays.asList(ZONE).get(tempi));
+					break;
+					}
+				}
+			}
 			// 상위 등급의 동물이 탐지됐을 때는 상위 등급이 저장되도록 해야하암
 			for(int i=0;i<clss.size();i++) {
 				if (Arrays.asList(DLevelAnimal).contains(clss.get(i))) {
-					if(!DLevel.equals("C") || !DLevel.equals("B")) {
-						DLevel = "D";
+					if(!dLevel.equals("C") || !dLevel.equals("B")) {
+						dLevel = "D";
 					}
 				}
 				if (Arrays.asList(CLevelAnimal).contains(clss.get(i))) {
-					if(!DLevel.equals("B")) {
-						DLevel = "C";
+					if(!dLevel.equals("B")) {
+						dLevel = "C";
 					}
 				}
 				else if (Arrays.asList(BLevelAnimal).contains(clss.get(i))) {
-					DLevel = "B";
+					dLevel = "B";
 				}
 				else if (Arrays.asList(ALevelAnimal).contains(clss.get(i))) {
-					DLevel = "A";
+					dLevel = "A";
 					break;
 				}
 			}
 			
-			if(DLevel=="") {
-				LOGGER.info("아무 동물이 탐지되지 않았습니다.");
-			} else {
+			if(dLevel=="") {
+				//LOGGER.info("아무 동물이 탐지되지 않았습니다.");
+			}else {
 				// 사진을 저장하자
 				encoder(video, filepath);
 			
@@ -323,13 +339,20 @@ public class MQTT extends Thread implements MqttCallback {
 				
 				animal.setDname(listString);
 				animal.setDnum(clss.size());
-				animal.setDlevel(DLevel);
+				animal.setDlevel(dLevel);
 				animal.setDfinder(dfinder);
+				
+			if(dfinder.contains("cctv"))
+			{
 				animal.setDzone(CCTVZONE.get(dfinder));
+			}
+			else{
+				
+				animal.setDzone(JETRACERZONE.get(dfinder));
+			}
 				animal.setDimagesname(savedFileName);
 				animal.setDlocation(filepath);
 				animal.setDtime(date);
-				
 				animalDao.insert(animal);
 			}
 		}
