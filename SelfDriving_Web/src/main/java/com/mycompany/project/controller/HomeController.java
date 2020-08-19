@@ -16,7 +16,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.tomcat.jni.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class HomeController {
 	//MQTT 연결 및 스레드 실행
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.105:1883";
+		String MqttServer1= "tcp://192.168.3.184:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";
