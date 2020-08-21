@@ -43,7 +43,35 @@
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
 	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
 	</head>
-	
+	<style>
+	div#select_box {
+  position: relative;
+  width: 200px;
+  height: 32px;
+  background: url(http://cfile1.uf.tistory.com/image/27423E43565F8EF627B215) 0 center no-repeat;
+  /* 화살표 이미지 */
+}
+
+div#select_box label {
+  position: absolute;
+  font-size: 14px;
+  color: #fff;
+  top: 7px;
+  left: 12px;
+  letter-spacing: 1px;
+}
+
+div#select_box select#color {
+  width: 100%;
+  height: 32px;
+  min-height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  /* IE 8 */
+}
+	</style>
 	<body onload="chart();chart2();chart3()">
 	
 	<header class="header">   
@@ -64,7 +92,7 @@
     </header>
     
     <div class="d-flex align-items-stretch" style="height: 875px;">
-      <nav id="sidebar" style="height: 1030px;">
+      <nav id="sidebar" style="height: 920px;">
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
           <div class="title">
@@ -81,9 +109,9 @@
 	      	  <li class="active"><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석  </a></li>
         </ul>
       </nav>    
-	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; " >
+	      <div class="page-content" style="top: 0px; height: 850px;margin-top:-50px; padding-bottom: 0px; " >
 
-			<div style = "width:97%;  height:300px;">
+			<div style = "width:97%;  height:300px; margin-top: 100px">
 			<div id="container"style="margin-top: 50px">
 	      	<select id="term1" style="margin-left: 100px">
 		    	<option value="hour">시별</option>
@@ -92,7 +120,7 @@
 		    	<option value="year">연도별</option>
 			</select>
 			</div>
-	      	<div id="containerc" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;">
+	      	<div id="containerc" class="chart_container" style="width:100%; float:left; height:250px; padding-bottom: 40px; padding-left: 100px;">
 	      	DB에 연결하지 못했습니다.</div>
 	      	<div id="container">
 	      	<select id="term2" style="margin-left: 100px">
@@ -102,7 +130,7 @@
 		    	<option value="oneyear">최근일년</option>
 				</select>
 			</div>
-	      	<div id="container2" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;">
+	      	<div id="container2" class="chart_container" style="width:100%; float:left; height:250px; padding-bottom: 40px; padding-left: 100px;">
 	      	DB에 연결하지 못했습니다.</div>
 	      	<div id="container">
 	      	<select id="term3" style="margin-left: 100px">
@@ -112,7 +140,7 @@
 		    	<option value="oneyear">최근일년</option>
 			</select>
 		  	</div>
-	      	<div id="container3" class="chart_container" style="width:100%; float:left; height:280px; padding-top: 40px; padding-left: 100px;">
+	      	<div id="container3" class="chart_container" style="width:100%; float:left; height:250px; padding-bottom: 40px; padding-left: 100px;">
 	      	DB에 연결하지 못했습니다.</div>
 	      	</div>
 	      	</div>

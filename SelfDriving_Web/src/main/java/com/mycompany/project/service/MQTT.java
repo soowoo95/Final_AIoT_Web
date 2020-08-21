@@ -103,7 +103,7 @@ public class MQTT extends Thread implements MqttCallback {
 				publish(ip, 0, "/res/2jetracer");
 			}
 			if (datenow - datearray[2] > 1000) {
-				LOGGER.info("3번에게보낸다.");
+				//LOGGER.info("3번에게보낸다.");
 				publish(ip, 0, "/res/3jetracer");
 			}
 			if (datenow - datearray[3] > 1000) {

@@ -49,7 +49,7 @@ public class HomeController {
 	//MQTT 연결 및 스레드 실행
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.105:1883";
+		String MqttServer1= "tcp://192.168.3.184:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";
@@ -84,7 +84,6 @@ public class HomeController {
 	@RequestMapping("/jetracer.do")
 	public String jetbot(){
 		LOGGER.info("실행");
-		//return "home/jetracer";
 		return "home/jetson1";
 	}
 	//history.jsp에서 이미지를 보여준다.
@@ -115,6 +114,7 @@ public class HomeController {
 		return "home/status";
 	}
 	
+	//
 	@ResponseBody
 	@RequestMapping("/dcompleteUpdate.do")
 	public void update(@RequestParam Map<String,Object> data){
@@ -256,6 +256,4 @@ public class HomeController {
 		LOGGER.info("실행");						
 		return "home/jetson3";
 	}	
-
-
 }

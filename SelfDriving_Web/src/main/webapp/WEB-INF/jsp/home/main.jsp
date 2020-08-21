@@ -45,7 +45,7 @@
 	var subList=["1jetracer", "2jetracer","3jetracer","1cctv","2cctv","3cctv","4cctv"];
 	
 	$(function(){
-		ipid = new Date().getTime().toString()
+		ipid = new Date().getTime().toString();
 		client = new Paho.MQTT.Client(location.hostname, 61614, ipid);
 		client.onMessageArrived = onMessageArrived;
 		client.connect({onSuccess:onConnect});
@@ -86,7 +86,9 @@
 		message = new Paho.MQTT.Message(ipid);
 		message.destinationName = "/res/"+subList[index];
 		client.send(message);
+
 	}
+	
 	function onMessageArrived(message) {
 		if(message.destinationName =="/mirror") {
 			const json = message.payloadString;
@@ -266,17 +268,17 @@
                           <td></td>
                         </tr>
                         <tr>
-                      	  <td></td>
-                      	  <td></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                      	  <td></td>
+                      	  <td>추후 작성 예정</td>
                       	  <td></td>
                           <td></td>
                         </tr>
                         <tr>
+                      	  <td>추후 작성 예정</td>
                       	  <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                      	  <td>추후 작성 예정</td>
                       	  <td></td>
                           <td></td>
                         </tr>
@@ -300,7 +302,7 @@
 			      <img src="${pageContext.request.contextPath}/resource/img/farm.jpg">
 			    </div>
 			    <div class="carousel-item">
-			      <img src="${pageContext.request.contextPath}/resource/img/farm2.jpg">
+			      <img src="${pageContext.request.contextPath}/resource/img/cctv.jpg">
 			    </div>
 			    <div class="carousel-item">
 			      <img src="${pageContext.request.contextPath}/resource/img/jet1.jpg">
@@ -333,37 +335,37 @@
                       	<tr style="height: 45px">
                       	  <td>Jet-Racer #1</td>
                       	  <td id="1jet">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                        <tr style="height: 45px;">
                       	  <td>Jet-Racer #2</td>
                       	  <td id="2jet">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>Jet-Racer #3</td>
                       	  <td id="3jet">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #1</td>
                       	  <td id="1cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #2</td>
                       	  <td id="2cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #3</td>
                       	  <td id="3cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #4</td>
                       	  <td id="4cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>디디디디디디디디디디디디</td>
                         </tr>
                     </tbody>
                    </table>
