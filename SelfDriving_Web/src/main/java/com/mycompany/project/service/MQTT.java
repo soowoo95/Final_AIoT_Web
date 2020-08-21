@@ -31,7 +31,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.project.dao.AnimalDao;
+import com.mycompany.project.dao.SignDao;
 import com.mycompany.project.model.Animal;
+import com.mycompany.project.model.Sign;
 import com.mysql.fabric.xmlrpc.base.Array;
 
 @Service
@@ -53,6 +55,7 @@ public class MQTT extends Thread implements MqttCallback {
 	private static final String BLevelAnimal[] = { "fox", "raccoon","hawk" };
 	private static final String CLevelAnimal[] = { "deer", "crow", "rabbit" };
 	private static final String DLevelAnimal[] = { "chicken","cow","duck","horse","pig", "sheep","cat","dog" };
+	private static final String SIGN[] = { "red", "green", "yellow", "crosswalk", "schoolzone", "curve", "stop", "60","100", "person", "car", "cone", "bump", "road","A","B","C","D","E","F","H","I","J","K","M","N","P","S","T"};
 	private static final String ZONE[] = { "A","B","C","D","E","F","H","I","J","K","M","N","P","S","T"};
 	private static final Map<String, String> CCTVZONE = new HashMap<String, String>() {
         {
@@ -64,13 +67,15 @@ public class MQTT extends Thread implements MqttCallback {
     };
     private static final Map<String, String> JETRACERZONE = new HashMap<String, String>() {
         {
-            put("1jetracer","A");
-            put("2jetracer","A");
-            put("3jetracer","A");
+            put("1jetracer","X");
+            put("2jetracer","X");
+            put("3jetracer","X");
         }
     };
 	@Autowired
 	private AnimalDao animalDao;
+	@Autowired
+	private SignDao signDao;
 
 	public void chogihwa(String broker, String client_id, String username, String passwd) {
 		LOGGER.info("초기화");
@@ -103,7 +108,7 @@ public class MQTT extends Thread implements MqttCallback {
 				publish(ip, 0, "/res/2jetracer");
 			}
 			if (datenow - datearray[2] > 1000) {
-				LOGGER.info("3번에게보낸다.");
+				//LOGGER.info("3번에게보낸다.");
 				publish(ip, 0, "/res/3jetracer");
 			}
 			if (datenow - datearray[3] > 1000) {
@@ -268,95 +273,129 @@ public class MQTT extends Thread implements MqttCallback {
 		map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
 		});
 
-		// 찾은 객체 이름를 저장온다 경로에 넣으려면 /는 없어져야겠지
-		String dfinder = topic;
-		dfinder = dfinder.replace("/", "");
-		dfinder = dfinder.replace("req", "");
+		// 찾은 애  이름을 / 떼고 저장 
+		String detector = topic;
+		detector = detector.replace("/", "");
+		detector = detector.replace("req", "");
 
-		// 비디오 BASE64형식을 가져온다
+		// 비디오 BASE64형식을 가져오기
 		String video = (String) map.get("Cam");
 
-		// 저장한 시각을 가져온다
+		// 저장한 시각을 가져오기
 		Date date = new Date();
 		String StringDate = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss-S").format(date);
 		
+		//로컬에 저장하기 위한 부분
 		String saveDir = "C:/MyWorkspace/final_project/savedImages/";
-		String savedFileName = "savedAt_" + dfinder + StringDate + ".jpg";
+		String savedFileName = "savedAt_" + detector + StringDate + ".jpg";
 		String filepath = saveDir + savedFileName;
+		//동물 탐지 시 유해등급 매길 것임
 		String dLevel = "";
 		
-		// 탐지된 객체 (동물/표지판/구간이름) 배열을 가져온다.
+		// 탐지된 객체 (동물/표지판/구간이름) array list로 변환한다.
 		ArrayList<String> clss = (ArrayList<String>) map.get("Class");
+		// array list 내용을 문자열로 담기 위한 변수 선언
 		String listString = "";
 		
-		// 탐지된 것이 있을 때 !!!
+		// 탐지된 것이 있을 때 !
 		if (clss.size() != 0) {
-			if(dfinder.contains("jetracer")) {
+			//먼저 로컬에 사진을 저장해야지~~~
+			encoder(video, filepath);
+			
+			//jetracer가 탐지할 때 탐지 구간 업데이트!
+			if(detector.contains("jetracer")) {
 				for(int i=0;i<clss.size();i++) {
 					int tempi=Arrays.asList(ZONE).indexOf(clss.get(i));
 					if(tempi!=-1) {
-						JETRACERZONE.put(dfinder, Arrays.asList(ZONE).get(tempi));
-					break;
+						JETRACERZONE.put(detector, Arrays.asList(ZONE).get(tempi));
+						break;
 					}
 				}
 			}
-			// 상위 등급의 동물이 탐지됐을 때는 상위 등급이 저장되도록 해야하암
+			
+			boolean animalDetected = false;
+			boolean signDetected = false;
+			
+			// 상위 등급의 동물이 탐지됐을 때는 상위 등급이 저장되도록 !
 			for(int i=0;i<clss.size();i++) {
 				if (Arrays.asList(DLevelAnimal).contains(clss.get(i))) {
-					if(!dLevel.equals("C") || !dLevel.equals("B")) {
+					animalDetected = true;
+					if(!dLevel.equals("C") || !dLevel.equals("B") || !dLevel.equals("A")) {
 						dLevel = "D";
 					}
 				}
 				if (Arrays.asList(CLevelAnimal).contains(clss.get(i))) {
-					if(!dLevel.equals("B")) {
+					animalDetected = true;
+					if(!dLevel.equals("B") || !dLevel.equals("A")) {
 						dLevel = "C";
 					}
 				}
 				else if (Arrays.asList(BLevelAnimal).contains(clss.get(i))) {
-					dLevel = "B";
+					animalDetected = true;
+					if(!dLevel.equals("A")) {
+						dLevel = "B";
+					}
 				}
 				else if (Arrays.asList(ALevelAnimal).contains(clss.get(i))) {
+					animalDetected = true;
 					dLevel = "A";
-					break;
 				}
-			}
+				else if(Arrays.asList(SIGN).contains(clss.get(i))) {
+					signDetected = true;
+				}
+			} 
 			
-			if(dLevel=="") {
-				//LOGGER.info("아무 동물이 탐지되지 않았습니다.");
-			}else {
-				// 사진을 저장하자
-				encoder(video, filepath);
-			
+			// 저장하는 곳!
+			if(animalDetected){
+				//탐지된 객체들 ,로 구분해서 나열하기
 				for (String s : clss) {
-					// 객체 배열을 뽑아오기.
-					listString += "," + s;
+					if(!Arrays.asList(SIGN).contains(s)) {
+						listString += "," + s;
+					}
 				}
-				
 				listString = listString.substring(1);
-				
+
 				// 객체를 생성하고 set하고 Dao로 DB에 넘겨서 저장한다.
 				Animal animal = new Animal();
-				
 				animal.setDname(listString);
 				animal.setDnum(clss.size());
 				animal.setDlevel(dLevel);
-				animal.setDfinder(dfinder);
+				animal.setDfinder(detector);
 				
-			if(dfinder.contains("cctv"))
-			{
-				animal.setDzone(CCTVZONE.get(dfinder));
-			}
-			else{
-				
-				animal.setDzone(JETRACERZONE.get(dfinder));
-			}
+				if(detector.contains("cctv")){
+					animal.setDzone(CCTVZONE.get(detector));
+				}
+				else{
+					animal.setDzone(JETRACERZONE.get(detector));
+				}
 				animal.setDimagesname(savedFileName);
 				animal.setDlocation(filepath);
 				animal.setDtime(date);
 				animalDao.insert(animal);
 			}
+				
+			if(signDetected){
+				//탐지된 객체들 ,로 구분해서 나열하기
+				for (String s : clss) {
+					if(Arrays.asList(SIGN).contains(s)) {
+						listString += "," + s;
+					}
+				}
+				listString = listString.substring(1);
+				
+				Sign sign = new Sign();
+				sign.setSname(listString);
+				sign.setSnum(clss.size());
+				sign.setSfinder(detector);
+				sign.setSzone(JETRACERZONE.get(detector));
+				sign.setSimagesname(savedFileName);
+				sign.setSlocation(filepath);
+				sign.setStime(date);
+				signDao.insert(sign);
+			}
 		}
 	}
+
 
 	@Override
 	public void connectionLost(Throwable cause) {

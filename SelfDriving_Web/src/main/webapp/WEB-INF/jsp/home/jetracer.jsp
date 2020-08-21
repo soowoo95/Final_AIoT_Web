@@ -51,8 +51,8 @@
 			
 			function onConnect() {
 				console.log("mqtt broker connected")
-				client.subscribe("/1jetracer");
-				client.subscribe("/2jetracer");
+				client.subscribe("/req/1jetracer");
+				client.subscribe("/req/2jetracer");
 				client.subscribe("/req/3jetracer");
 				client.subscribe("/mirror");
 			}
@@ -68,31 +68,31 @@
 				lastSendtimearr.forEach(function(element, index, array){
 					interval=nowtime-element
 					if(interval>750){
-						console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 						response(index);
 					}
 				});
 			}
-			/*  function response(index){
-					
-					message = new Paho.MQTT.Message(ipid);
-					message.destinationName = "/res/"+subList[index];
-					message.qos = 0;
-					//client.send(message);
-			} */
-			 function response(index){
+		  	 function response(index){
 					//console.log(subList[index]+"에게 답장을 보내쥬");
 					message = new Paho.MQTT.Message(ipid);
 					message.destinationName = "/res/"+subList[index];
-					console.log(ipid);
-					console.log("/res/"+subList[index]);
+					message.qos = 0;
 					client.send(message);
-				}
+		  	 }
 			function onMessageArrived(message) {
 				if(message.destinationName =="/mirror") {
 					const json = message.payloadString;
  					const obj = JSON.parse(json);
 					$("#motionView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+					
+					var manager = null;
+					
+			 		if(obj.admin != 'unlabeled'){
+			 			console.log(obj.admin);
+			 			manager = obj.admin;
+			 			$("#admin1").attr("value", "접속 중인 관리자 " + manager);
+			 		}
 					
 					handMotion = obj.hands;
 					console.log(handMotion);
@@ -134,7 +134,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////		jetracer #1 	/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- 				if(message.destinationName =="/1jetracer") {
+ 				if(message.destinationName =="/req/1jetracer") {
  					response(0);
 					lastSendtimearr[0] = Date.now();
  					const json = message.payloadString;
@@ -201,7 +201,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////		jetracer #2		/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				if(message.destinationName =="/2jetracer") {
+				if(message.destinationName =="/req/2jetracer") {
+					response(1);
+					lastSendtimearr[1] = Date.now();
+					
 					const json = message.payloadString;
  					const obj = JSON.parse(json);
 					$("#jetView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
@@ -212,7 +215,7 @@
 			      	bat2 = parseInt(bat2);
 			      	
 			      	servo2 = obj.servo;
-			      	console.log("servo:" + servo2);
+			      	//console.log("servo:" + servo2);
 			      	
 			      	if (bat2 >= 100){
 			      		bat2 == 100;
@@ -282,11 +285,12 @@
 				if(message.destinationName =="/req/3jetracer") {
 					response(2);
 					lastSendtimearr[2] = Date.now();
-					console.log("메세지가 왔습니다.")
+					//console.log("메세지가 왔습니다.")
+					
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#jetView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				
+/* 				
 					console.log("1:뱉"+obj.battery);
 					console.log("2:섭"+obj.servo);
 					console.log("3:슾"+obj.speed);
@@ -294,7 +298,7 @@
 					console.log("5:밗"+obj.boxes);
 					console.log("6:렢"+obj.line_left);
 					console.log("7:뢑"+obj.line_right);
-
+ */
  					bat3 = obj.battery;
  					bat3 = parseInt(bat3);
 
@@ -352,7 +356,7 @@
 			}
  			
 			/////////////////////////////////////////////////		매뉴얼 컨트롤 모드 변경		///////////////////////////////////////////////////////////////////////						
-			function manual(value, key1, key2, key3){
+			function manual(value){
 				console.log(value);
 				
 				if (value == 'On'){
@@ -369,18 +373,20 @@
 
 					$("#jet-racer1").keydown(function(event) {
 						if (event.keyCode == '38') {
-						  	console.log("달리자")
+						  	console.log("달리자1");
 		 				  	message = new Paho.MQTT.Message("speed:"+ 40);
 							message.destinationName = "/1manual/go";
 							message.qos = 0;
 							client.send(message);
+							console.log("달리자1 발행 함!!!");
 						}
 						if (event.keyCode == '40') { 		
-						    console.log("멈추거라")
+						    console.log("멈추거라1");
 		 				  	message = new Paho.MQTT.Message("speed:" + 0);
 							message.destinationName = "/1manual/stop";
 							message.qos = 0;
 							client.send(message);
+							console.log("멈추거라1 발행 함!!!");
 						}
 						if (event.keyCode == '37'){
 						  	console.log("toL1");
@@ -439,6 +445,7 @@
 							message.qos = 0;
 							client.send(message);
 							console.log(message);
+							console.log("달리자2 발행함");
 						}
 						if (event.keyCode == '40'){ 	
 							console.log("멈추자2");
@@ -446,6 +453,7 @@
 							message.destinationName = "/2manual/stop";
 							message.qos = 0;
 							client.send(message);
+							console.log("멈추자2 발행함");
 						}
 						if (event.keyCode == '37'){
 						  	console.log("toL2");
@@ -498,11 +506,12 @@
 					
 					$("#jet-racer3").keydown(function(event) {
 						if (event.keyCode == '38') {
-						  	console.log("달리자3")
+						  	console.log("달리자3");
 		 				  	message = new Paho.MQTT.Message("speed:"+ 40);
 							message.destinationName = "/3manual/go";
 							message.qos = 0;
 							client.send(message);
+							console.log("달리자3 발행함");
 						}
 					
 						if (event.keyCode == '40') { 		
@@ -511,6 +520,7 @@
 							message.destinationName = "/3manual/stop";
 							message.qos = 0;
 							client.send(message);
+							console.log("멈추거라3 발행함");
 						}
 						if (event.keyCode == '37'){
 						  	console.log("toL3");

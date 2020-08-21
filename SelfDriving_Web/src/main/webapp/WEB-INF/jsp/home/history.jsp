@@ -86,7 +86,7 @@
 			
 			function viewImage2(imgDno){
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
-				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
+				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView2.do?sno="+ imgDno)
 			}
 		</script>
 	</head>
@@ -218,36 +218,36 @@
 	                      </thead>
 	                      
 	                      <tbody id="dataframe2">
-		                      <c:forEach var="animal" items="${animal}">
+							<c:forEach var="sign" items="${sign}">
 		                      	<tr>
-		                          <td scope="row">${animal.dno}</td>
-		                          <td onclick="viewImage2(${animal.dno})" style="color: #864DD9; font-weight: bold;">${animal.dname}</td>
-		                          <td>${animal.dnum}</td>
-		                          <td>${animal.dfinder}</td>
-		                          <td>${animal.dzone}</td>
-		                          <td><fmt:formatDate value="${animal.dtime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
+		                          <td scope="row">${sign.sno}</td>
+		                          <td onclick="viewImage2(${sign.sno})" style="color: #864DD9; font-weight: bold;">${sign.sname}</td>
+		                          <td>${sign.snum}</td>
+		                          <td>${sign.sfinder}</td>
+		                          <td>${sign.szone}</td>
+		                          <td><fmt:formatDate value="${sign.stime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>
 		                        </tr>
 	                      	  </c:forEach>
 	                      </tbody>
-	                      <tr>
+	                       <tr>
 							<td colspan= "7" style="text-align:center;">
-								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=1"> 처음 </a>
-								<c:if test="${pager.groupNo > 1 }">
-									<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.startPageNo - pager.pagesPerGroup}"> 이전 </a>
+								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageSNo=1"> 처음 </a>
+								<c:if test="${signPager.groupNo > 1 }">
+									<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageSNo=${signPager.startPageNo - signPager.pagesPerGroup}"> 이전 </a>
 								</c:if>
-								<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
-									<c:if test="${pager.pageNo == i}">
-										<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}" style="background-color:#864DD9; border-color: #864DD9; color: white ">${i}</a>
+								<c:forEach var="i" begin="${signPager.startPageNo}" end="${signPager.endPageNo}">
+									<c:if test="${signPager.pageNo == i}">
+										<a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageSNo=${i}" style="background-color:#864DD9; border-color: #864DD9; color: white ">${i}</a>
 									</c:if>
 
-									<c:if test="${pager.pageNo != i}">
-										<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${i}">${i}</a>
+									<c:if test="${signPager.pageNo != i}">
+										<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageSNo=${i}">${i}</a>
 									</c:if>
 								</c:forEach>
-								<c:if test="${pager.groupNo < pager.totalGroupNo }">
-									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.endPageNo + 1 }">다음</a> 
+								<c:if test="${signPager.groupNo < signPager.totalGroupNo }">
+									<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageSNo=${signPager.endPageNo + 1 }">다음</a> 
 								</c:if>
-								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageNo=${pager.totalPageNo}"> 맨끝 </a>
+								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/home/history.do?pageSNo=${signPager.totalPageNo}"> 맨끝 </a>
 							</td>
 						</tr>
 	                   </table>

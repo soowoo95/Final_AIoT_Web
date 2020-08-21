@@ -7,5 +7,6 @@
 				<typeAlias alias="dactnoperTime" type="com.mycompany.project.model.DactnoperTime"/>
 				<typeAlias alias="dactnoperZone" type="com.mycompany.project.model.DactnoperZone"/>
 				<typeAlias alias="dlevelCount" type="com.mycompany.project.model.DlevelCount"/>
+				<typeAlias alias="sign" type="com.mycompany.project.model.Sign"/>
 		</typeAliases>
 </configuration>

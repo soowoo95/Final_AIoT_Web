@@ -30,8 +30,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mycompany.project.service.MQTT;
+import com.mycompany.project.service.SignService;
 import com.mycompany.project.model.Animal;
 import com.mycompany.project.model.Pager;
+import com.mycompany.project.model.Sign;
+import com.mycompany.project.model.SignPager;
 import com.mycompany.project.service.AnimalService;
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,7 +45,8 @@ public class HomeController {
 	
 	@Autowired
 	private AnimalService animalService;
-	
+	@Autowired
+	private SignService signService;
 	@Autowired
 	MQTT ReadFromOtherMQTT;
 	
@@ -105,6 +109,25 @@ public class HomeController {
 		os.close();
 		is.close();
 	}
+	//history.jsp에서 이미지를 보여준다.
+	@RequestMapping("/imageView2.do")
+	@ResponseBody
+	public void imageView2(@RequestParam int sno,
+						  HttpServletResponse response) throws Exception {
+
+		Sign sign = new Sign();
+		sign = signService.getSign(sno);
+		//LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+		
+		String imgLoc = sign.getSlocation();
+		LOGGER.info(imgLoc);
+		
+		InputStream is = new FileInputStream(imgLoc);
+		OutputStream os = response.getOutputStream();
+		FileCopyUtils.copy(is, os);
+		os.close();
+		is.close();
+	}
 	//status.jsp에서 리스트를 갖고온다. 	
 	@RequestMapping("/status.do")
 	public String status(Model model){
@@ -155,16 +178,25 @@ public class HomeController {
 
 	//페이지처리
 	@RequestMapping("/history.do")
-	public String history(Model model, @RequestParam(defaultValue="1")int pageNo, 
-						@RequestParam(defaultValue="7") int rowsPerPage,
-						HttpSession httpSession) {
+	public String history(Model model, 
+						  @RequestParam(defaultValue="1")int pageNo, 
+						  @RequestParam(defaultValue="1")int pageSNo,
+						  @RequestParam(defaultValue="7") int rowsPerPage,
+						  HttpSession httpSession) {
+		
 		LOGGER.info("실행");
 
 		Pager pager = new Pager(rowsPerPage, 10, animalService.getTotalListNo(), pageNo);
 		model.addAttribute("pager", pager);
 		httpSession.setAttribute("pager", pager);
+		
+		SignPager signPager = new SignPager(rowsPerPage, 10, signService.getTotalListNo(), pageSNo);
+		model.addAttribute("signPager", signPager);
+		httpSession.setAttribute("signPager", signPager);
 
 		model.addAttribute("animal", animalService.getListByPage(pageNo,rowsPerPage));
+		model.addAttribute("sign", signService.getListByPage(pageSNo, rowsPerPage));
+		
 		return "home/history";
 	}
 	

@@ -1,4 +1,4 @@
-﻿﻿<%@ page contentType="text/html; charset=UTF-8"%>
+﻿?<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -54,8 +54,39 @@
 	function onConnect() {
 		console.log("mqtt broker connected");
 		client.subscribe("/mirror");
+		
+		client.subscribe("/req/1jetracer");
+		client.subscribe("/req/2jetracer");
+		client.subscribe("/req/3jetracer");
+		
+		client.subscribe("/req/1cctv");
+		client.subscribe("/req/2cctv");
+		client.subscribe("/req/3cctv");
+		client.subscribe("/req/4cctv");
 	}
-	
+	$(document).ready(function() {
+	    setInterval(getinterval, 750);
+	});  
+	 
+	 var lastSendtime=Date.now();
+	 
+	 function getinterval(){
+		nowtime= Date.now();
+		lastSendtimearr.forEach(function(element, index, array){
+			interval=nowtime-element
+			if(interval>750){
+				//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+				response(index);
+			}
+		});
+	}
+	 
+	function response(index){
+		//console.log(subList[index]+"에게 답장을 보내쥬");
+		message = new Paho.MQTT.Message(ipid);
+		message.destinationName = "/res/"+subList[index];
+		client.send(message);
+	}
 	function onMessageArrived(message) {
 		if(message.destinationName =="/mirror") {
 			const json = message.payloadString;
@@ -199,16 +230,16 @@
             	<input value="A" readonly="readonly" style="color: red; font-size:100px ; font-weight: bolder; border-style: double; background-color: transparent; border-color: transparent; text-align: center; width: 150px; height:126px; margin-left: 25px; margin-top: 25px">
             	<input value="B" readonly="readonly" style="color: orange; font-size:100px ; font-weight: bolder; border-style: double; background-color: transparent; border-color: transparent; text-align: center; width: 150px; height:126px; margin-top: 25px">
             	<input value="C" readonly="readonly" style="color: yellow; font-size:100px ; font-weight: bolder; border-style: double; background-color: transparent; border-color: transparent; text-align: center; width: 150px; height:126px; margin-top: 25px">
-	        	<input id="Alev" name="tempA" value="10 건" readonly="readonly" style="color:white; background-color: transparent; border-color: transparent; font-size: x-large; width: 150px; text-align: center; margin-left: 25px" >
-	        	<input id="Blev" name="tempB" value="20 건" readonly="readonly" style="color:white; background-color: transparent; border-color: transparent; font-size: x-large; width: 150px; text-align: center; " >
-	        	<input id="Clev" name="tempC" value="30 건" readonly="readonly" style="color:white; background-color: transparent; border-color: transparent; font-size: x-large; width: 150px; text-align: center; " >
+	        	<input id="Alev" name="tempA" value="- 건" readonly="readonly" style="color:white; background-color: transparent; border-color: transparent; font-size: x-large; width: 150px; text-align: center; margin-left: 25px" >
+	        	<input id="Blev" name="tempB" value="- 건" readonly="readonly" style="color:white; background-color: transparent; border-color: transparent; font-size: x-large; width: 150px; text-align: center; " >
+	        	<input id="Clev" name="tempC" value="- 건" readonly="readonly" style="color:white; background-color: transparent; border-color: transparent; font-size: x-large; width: 150px; text-align: center; " >
               </div>
             
               <div class="container" style="width: 300px; position: absolute; left: 506px; top: 240px; height: 197px; padding:0px; background-color: #2d3035">            
                	<div style="width: 300px; height: 197px; background-color: transparent">
                		<input value="최근 1시간 기준 유해 등급" readonly="readonly" style="color: #F5DEB3; font-size:20px ; font-weight: bold;  background-color: transparent; border-color: transparent; text-align: center; width: 290px ;position: absolute;">
                		<img id="faceimg" src= "${pageContext.request.contextPath}/resource/img/face_good.png" style="width: 120px; margin-top: 46px; margin-left: 30px;  "/>
-               		<p id="notice" style="font-size:xx-large; font-weight: bold; text-align: center; position: absolute; left: 160px; top:110px">데이터베이스에 연결하지 못했습니다.</p>
+               		<p id="notice" style="font-size:xx-large; font-weight: bold; text-align: center; position: absolute; left: 130px; top:110px; width: 170px">DB 연결X</p>
                		<p id="daynotice" style="font-size:medium ; margin: 0px; text-align: center; position: absolute; left: 30px; top: 165px; color: white"></p>
                	</div>
               </div>
@@ -230,24 +261,24 @@
                      </thead>
                      <tbody style="font-size:medium;">
                       	<tr>
-                      	  <td>여기에 뭐쓰지???...</td>
-                      	  <td>모하게</td>
-                          <td>디디디디디디디디디디디디</td>
+                      	  <td>추후 작성 예정</td>
+                      	  <td></td>
+                          <td></td>
                         </tr>
                         <tr>
-                      	  <td>???</td>
-                      	  <td>모하게</td>
-                          <td>디디디디디디디디디디디디</td>
+                      	  <td></td>
+                      	  <td></td>
+                          <td></td>
                         </tr>
                         <tr>
-                      	  <td>???</td>
-                      	  <td>모하게</td>
-                          <td>디디디디디디디디디디디디</td>
+                      	  <td></td>
+                      	  <td></td>
+                          <td></td>
                         </tr>
                         <tr>
-                      	  <td>???</td>
-                      	  <td>모하게</td>
-                          <td>디디디디디디디디디디디디</td>
+                      	  <td></td>
+                      	  <td></td>
+                          <td></td>
                         </tr>
                     </tbody>
                    </table>
@@ -302,37 +333,37 @@
                       	<tr style="height: 45px">
                       	  <td>Jet-Racer #1</td>
                       	  <td id="1jet">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                        <tr style="height: 45px;">
                       	  <td>Jet-Racer #2</td>
                       	  <td id="2jet">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>Jet-Racer #3</td>
                       	  <td id="3jet">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #1</td>
                       	  <td id="1cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #2</td>
                       	  <td id="2cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #3</td>
                       	  <td id="3cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #4</td>
                       	  <td id="4cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td></td>
                         </tr>
                     </tbody>
                    </table>
