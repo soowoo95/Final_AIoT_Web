@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="sign">
+			<insert id="insert" parameterType="sign" useGeneratedKeys="true" keyProperty="sno">
+					call ifsactno(#{sname},#{snum},#{sfinder},#{szone},#{simagesname},#{slocation},#{stime});
+			</insert>
+
+			<!-- 로컬 경로에 저장되어있는 그림 미리보기 -->
+			<select id="selectBySno" parameterType="int" resultType ="sign">
+					select sno, sname, snum, sfinder,szone, stime, simagesname, slocation
+					from sign
+					where sno = #{sno}
+			</select>
+			
+			<!-- history 뷰 페이지 테이블 구성 관련 -->
+			<select id="count" resultType="int">
+				select max(sactno) from sign
+			</select>
+			
+			<!-- history 뷰 페이지 테이블 구성 관련 -->
+			<!-- group by는 사건번호로 묶는 코드-->
+			<select id="selectByPage" resultType="sign">
+				select sno, sname, simagesname, slocation, stime, szone, snum, sfinder, sactno
+				from sign
+                group by sactno
+				order by sno desc
+				limit #{startIndex}, #{rowsPerPage}
+			</select>
+	</mapper>
