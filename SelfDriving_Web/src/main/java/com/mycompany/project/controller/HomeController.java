@@ -84,7 +84,7 @@ public class HomeController {
 	@RequestMapping("/jetracer.do")
 	public String jetbot(){
 		LOGGER.info("실행");
-		return "home/jetracer";
+		return "home/jetson1";
 	}
 	//history.jsp에서 이미지를 보여준다.
 	@RequestMapping("/imageView.do")
@@ -240,4 +240,20 @@ public class HomeController {
 		dlevelCount = animalService.levelCount();
 		return dlevelCount;
 	}
+	@RequestMapping("/jetson1.do")
+	public String jetson1() {
+		LOGGER.info("실행");						
+		return "home/jetson1";
+	}
+	@RequestMapping("/jetson2.do")
+	public String jetson2() {
+		LOGGER.info("실행");						
+		return "home/jetson2";
+	}	
+	
+	@RequestMapping("/jetson3.do")
+	public String jetson3() {
+		LOGGER.info("실행");						
+		return "home/jetson3";
+	}	
 }

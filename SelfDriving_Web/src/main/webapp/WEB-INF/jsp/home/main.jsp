@@ -269,7 +269,7 @@
 			      <img src="${pageContext.request.contextPath}/resource/img/farm.jpg">
 			    </div>
 			    <div class="carousel-item">
-			      <img src="${pageContext.request.contextPath}/resource/img/farm2.jpg">
+			      <img src="${pageContext.request.contextPath}/resource/img/cctv.jpg">
 			    </div>
 			    <div class="carousel-item">
 			      <img src="${pageContext.request.contextPath}/resource/img/jet1.jpg">

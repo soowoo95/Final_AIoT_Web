@@ -86,7 +86,7 @@
 					message.destinationName = "/res/"+subList[index];
 					console.log(ipid);
 					console.log("/res/"+subList[index]);
-					//client.send(message);
+					client.send(message);
 				}
 			function onMessageArrived(message) {
 				if(message.destinationName =="/mirror") {
