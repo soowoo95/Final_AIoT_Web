@@ -34,7 +34,7 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jetson2.css">
 
 </head>
-<body id="jet-racer2">
+<body>
 <header class="header">   
       <nav class="navbar navbar-expand-lg" style="height: 50px">
         <div class="container-fluid d-flex align-items-center justify-content-between">
@@ -165,7 +165,7 @@
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Detected Motion</strong>
 		                    </div>
-		                    <div id="motionName2" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    <div id="motionName1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
 		                    	---
 		                    </div>
 		                 </div>
@@ -175,7 +175,7 @@
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Target Action</strong>
 		                    </div>
-		                    <div id="targetSpeed2" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    <div id="targetSpeed1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
 		                    	Speed : ---
 		                    </div>
 		                 </div>
@@ -187,12 +187,12 @@
 				<input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 820px; left: 1260px; height: 30px">
 		        <div id=batteryMode style="background-color: #864DD9; width:320px; color: white; font-weight: bold;justify-content: center; position: absolute; left: 1260px; top:820px">
            			<div style="width:320px">
-             			<input id="modeOn2" onclick="manual2('On')" value="Manual Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: dimgray; text-align: center; color: white; font-weight: bold;justify-content: center;">
-             			<input id="modeOff2" onclick="manual2('Off')" value="Auto Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold;justify-content: center;margin-left:35px ">
+             			<input id="modeOn" onclick="manual('On')" value="Manual Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: dimgray; text-align: center; color: white; font-weight: bold;justify-content: center;">
+             			<input id="modeOff" onclick="manual('Off')" value="Auto Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold;justify-content: center;margin-left:35px ">
              		</div>
            		</div>
 				
-				<div id="manual_control2" style="display:none ; width: 380px; height: 200px; position: absolute; top: 840px;">
+				<div id="manual_control" style="display:none ; width: 380px; height: 200px; position: absolute; top: 840px;">
 					<div style="margin-left: 1170px; width: 320px; height:200px; position: absolute" align="center">
 						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none;"></br>
 						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style=" margin-bottom:5px ;border-color:#ADFF2F; border-width: medium; font-weight: bold;">↑</a><br/>
@@ -225,11 +225,77 @@
 
 <div id="backgroundbox"class="backgroundbox"></div>
 <div class="backgroundbox2"></div>
+
 </div>
 </div>
 <!-- ------------------------------------------------------------------------------------------------------------- -->
 <!-- Jarvis Canvas Script -->
 <script>
+function manual(value){
+	console.log(value);
+	
+	if (value == 'On'){
+		console.log("메뉴얼 1 실행");
+		console.log(value);
+		
+		document.getElementById('modeOn').style.backgroundColor = '#ADFF2F';
+		document.getElementById('modeOn').style.color = 'black';
+		document.getElementById('modeOff').style.backgroundColor = 'dimgray';
+		document.getElementById('modeOff').style.color = 'white';
+		document.getElementById('manual_control').style.display = 'block';
+		
+		alert("Converting to Manual Driving Mode-1");
+
+		$("#jet-racer1").keydown(function(event) {
+			if (event.keyCode == '38') {
+			  	console.log("달리자")
+				message = new Paho.MQTT.Message("speed:"+ 40);
+				message.destinationName = "/1manual/go";
+				message.qos = 0;
+				client.send(message);
+			}
+			if (event.keyCode == '40') { 		
+			    console.log("멈추거라")
+				  	message = new Paho.MQTT.Message("speed:" + 0);
+				message.destinationName = "/1manual/stop";
+				message.qos = 0;
+				client.send(message);
+			}
+			if (event.keyCode == '37'){
+			  	console.log("toL1");
+				  	message = new Paho.MQTT.Message("lineChangeToL");
+				message.destinationName = "/1manual/toL";
+				message.qos = 0;
+				client.send(message);
+				console.log(message);
+			}
+			if (event.keyCode == '39'){ 	
+				console.log("toR1");
+				  	message = new Paho.MQTT.Message("lineChangeToR");
+				message.destinationName = "/1manual/toR";
+				message.qos = 0;
+				client.send(message);
+			}
+		});
+	}
+	
+	else if (value == 'Off'){
+		console.log("메뉴얼 1 종료");
+		console.log(value);
+		
+		document.getElementById('modeOn').style.backgroundColor = 'dimgray';
+		document.getElementById('modeOn').style.color = 'white';
+		document.getElementById('modeOff').style.backgroundColor = '#ADFF2F';
+		document.getElementById('modeOff').style.color = 'black';
+		document.getElementById('manual_control').style.display = 'none';
+		alert("Converting to Auto Driving Mode-1");
+		
+		message = new Paho.MQTT.Message(value);
+		message.destinationName = "/1manual/mode";
+		message.qos = 0;
+		client.send(message);
+	}
+}
 
 function manual2(value){
 	console.log("메뉴얼 2 실행해보자");
@@ -247,7 +313,7 @@ function manual2(value){
 		$("#jet-racer2").keydown(function(event) {
 			if (event.keyCode == '38'){
 			  	console.log("달리자2");
-				message = new Paho.MQTT.Message("speed");
+				  	message = new Paho.MQTT.Message("speed");
 				message.destinationName = "/2manual/go";
 				message.qos = 0;
 				client.send(message);
@@ -296,7 +362,70 @@ function manual2(value){
 	}
 };
 
+function manual3(value){
+	console.log("메뉴얼 3 실행해보자");
+	console.log(value);
+	
+	if (value == 'On'){
+		document.getElementById('modeOn3').style.backgroundColor = '#ADFF2F';
+		document.getElementById('modeOn3').style.color = 'black';
+		document.getElementById('modeOff3').style.backgroundColor = 'dimgray';
+		document.getElementById('modeOff3').style.color = 'white';
+		document.getElementById('manual_control3').style.display = 'block';
 
+		alert("Converting to Manual Driving Mode");
+		
+		$("#jet-racer3").keydown(function(event) {
+			if (event.keyCode == '38') {
+			  	console.log("달리자3")
+				  	message = new Paho.MQTT.Message("speed:"+ 40);
+				message.destinationName = "/3manual/go";
+				message.qos = 0;
+				client.send(message);
+			}
+		
+			if (event.keyCode == '40') { 		
+			    console.log("멈추거라3")
+				  	message = new Paho.MQTT.Message("speed:" + 0);
+				message.destinationName = "/3manual/stop";
+				message.qos = 0;
+				client.send(message);
+			}
+			if (event.keyCode == '37'){
+			  	console.log("toL3");
+				  	message = new Paho.MQTT.Message("lineChangeToL");
+				message.destinationName = "/3manual/toL";
+				message.qos = 0;
+				client.send(message);
+				console.log(message);
+			}
+			if (event.keyCode == '39'){ 	
+				console.log("toR3");
+				  	message = new Paho.MQTT.Message("lineChangeToR");
+				message.destinationName = "/3manual/toR";
+				message.qos = 0;
+				client.send(message);
+			}
+		});
+	}
+	
+	else if (value == 'Off'){
+		console.log("메뉴얼 3 종료");
+		console.log(value);
+		
+		document.getElementById('modeOn3').style.backgroundColor = 'dimgray';
+		document.getElementById('modeOn3').style.color = 'white';
+		document.getElementById('modeOff3').style.backgroundColor = '#ADFF2F';
+		document.getElementById('modeOff3').style.color = 'black';
+		document.getElementById('manual_control3').style.display = 'none';
+		alert("Converting to Auto Driving Mode");
+
+		message = new Paho.MQTT.Message(value);
+		message.destinationName = "/3manual/mode";
+		message.qos = 0;
+		client.send(message);
+	}
+}
 </script>
 
 
@@ -366,28 +495,28 @@ function onMessageArrived(message) {
 		console.log(handMotion);
 		
 		if(handMotion=='rock'){
-			$("#motionName2").text('STOP');
-			$("#targetSpeed2").text("Speed : 0");
+			$("#motionName1").text('STOP');
+			$("#targetSpeed1").text("Speed : 0");
 			
 			message = new Paho.MQTT.Message("speed:"+ 0);
-			message.destinationName = "/2motion/stop";
+			message.destinationName = "/1motion/stop";
 			message.qos = 0;
 			client.send(message);
 		}
 		
 		else if(handMotion=='5fingers'){
-			$("#motionName2").text('GO');
-			$("#targetSpeed2").text("Speed : 60");
+			$("#motionName1").text('GO');
+			$("#targetSpeed1").text("Speed : 60");
 			
 			message = new Paho.MQTT.Message("speed:"+ 60);
-			message.destinationName = "/2motion/go";
+			message.destinationName = "/1motion/go";
 			message.qos = 0;
 			client.send(message);
 		}
 		
 		else if(handMotion=='unlabeled'){
-			$("#motionName2").text('---');
-			$("#targetSpeed2").text("Speed : ---");
+			$("#motionName1").text('---');
+			$("#targetSpeed1").text("Speed : ---");
 		}
 
 		if(obj.direction=="left"){
@@ -401,7 +530,8 @@ function onMessageArrived(message) {
 	}
 	////////////////////////////////////////////////////////racer//////////////////////////////////////
 	  if (message.destinationName == "/req/2jetracer") {
-		  	
+		  	response(1);
+			lastSendtimearr[1] = Date.now();
 			//console.log(message.payloadString);
 			const json = message.payloadString;
 			const obj = JSON.parse(json);
@@ -671,8 +801,7 @@ function onMessageArrived(message) {
 					//map 추가2 end
 				}// for문 
 				
-				response(1);
-				lastSendtimearr[1] = Date.now();
+				
 	  }//jetracer 읽을때
 	/* 
 	  if (message.destinationName == "/speed") {		 
