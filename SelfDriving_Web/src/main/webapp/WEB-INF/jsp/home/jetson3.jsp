@@ -34,7 +34,7 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jetson2.css">
 
 </head>
-<body>
+<body id="jet-racer3">
 <header class="header">   
       <nav class="navbar navbar-expand-lg" style="height: 50px">
         <div class="container-fluid d-flex align-items-center justify-content-between">
@@ -165,7 +165,7 @@
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Detected Motion</strong>
 		                    </div>
-		                    <div id="motionName1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    <div id="motionName3" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
 		                    	---
 		                    </div>
 		                 </div>
@@ -175,7 +175,7 @@
 		                    <div class="title" style="justify-content: center; margin: 15px">
 		                      <div class="icon"><i class="icon-info"></i></div><strong style="color: white">Target Action</strong>
 		                    </div>
-		                    <div id="targetSpeed1" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
+		                    <div id="targetSpeed3" style="color: #864DD9; font-size: x-large;  font-weight:bold; ; margin-right: 15px; margin-bottom: 15px">
 		                    	Speed : ---
 		                    </div>
 		                 </div>
@@ -184,7 +184,25 @@
 		            </div>
 		          </div>
 		        </section>
-
+<input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 820px; left: 1260px; height: 30px">
+		        <div id=batteryMode style="background-color: #864DD9; width:320px; color: white; font-weight: bold;justify-content: center; position: absolute; left: 1260px; top:820px">
+           			<div style="width:320px">
+             			<input id="modeOn3" onclick="manual3('On')" value="Manual Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: dimgray; text-align: center; color: white; font-weight: bold;justify-content: center;">
+             			<input id="modeOff3" onclick="manual3('Off')" value="Auto Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold;justify-content: center;margin-left:35px ">
+             		</div>
+           		</div>
+				
+				<div id="manual_control3" style="display:none ; width: 380px; height: 200px; position: absolute; top: 840px;">
+					<div style="margin-left: 1170px; width: 320px; height:200px; position: absolute" align="center">
+						<input value="Motor Ctrl" style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none;"></br>
+						<a class="btn btn-outline-warning btn-lg" id="up" onmousedown="tire_button_down('up')" onmouseup="tire_button_up('up')" onclick="click_up()"style=" margin-bottom:5px ;border-color:#ADFF2F; border-width: medium; font-weight: bold;">↑</a><br/>
+						<a class="btn btn-outline-warning btn-lg" id="left" onmousedown="tire_button_down('left')" onmouseup="tire_button_up('left')" onclick="click_left()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">←</a>
+						<a class="btn btn-outline-warning btn-lg" id="down" onmousedown="tire_button_down('down')" onmouseup="tire_button_up('down')" onclick="click_down()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">□</a>
+						<a class="btn btn-outline-warning btn-lg" id="right" onmousedown="tire_button_down('right')" onmouseup="tire_button_up('right')" onclick="click_right()" style="border-color:#ADFF2F; border-width: medium; font-weight: bold;">→</a></br>
+ 						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">L Line</a>
+						<a class="btn btn-outline-warning btn-sm manual-line" onclick="manual('W')" style="color: black">R Line</a>
+					</div>
+					</div>
 
 
 
@@ -215,53 +233,70 @@
 </div>
 <!-- ------------------------------------------------------------------------------------------------------------- -->
 <!-- Jarvis Canvas Script -->
-<script>
-$(".Jetson1").click(function(){
-	location.href="${pageContext.request.contextPath}/CarView2/fixlayout.do";
-});
-$(".Jetson3").click(function(){
-	location.href="${pageContext.request.contextPath}/CarView2/jetson3.do";
-});
+<script>function manual3(value){
+	console.log("메뉴얼 3 실행해보자");
+	console.log(value);
+	
+	if (value == 'On'){
+		document.getElementById('modeOn3').style.backgroundColor = '#ADFF2F';
+		document.getElementById('modeOn3').style.color = 'black';
+		document.getElementById('modeOff3').style.backgroundColor = 'dimgray';
+		document.getElementById('modeOff3').style.color = 'white';
+		document.getElementById('manual_control3').style.display = 'block';
 
-$("#box_modal1").hide();
-$("#box_modal2").hide();
-$("#box_modal3").hide();
-$("#box_modal4").hide();
-
-$(".Main").click(function(){
-	$("#box_modal1").slideToggle(800);
-	$("#box_modal2").hide();
-	$("#box_modal3").hide();
-	$("#box_modal4").hide();
-})
-$(".CCTV").click(function(){
-	$("#box_modal2").slideToggle(800);
-	$("#box_modal1").hide();
-	$("#box_modal3").hide();
-	$("#box_modal4").hide();
-})
-$(".Computer").click(function(){
-	$("#box_modal3").slideToggle(800);
-	$("#box_modal1").hide();
-	$("#box_modal2").hide();
-	$("#box_modal4").hide();
-})
-$(".Control").click(function(){
-	$("#box_modal4").slideToggle(800);
-	$("#box_modal1").hide();
-	$("#box_modal2").hide();
-	$("#box_modal3").hide();
-})
-/* 모달창 esc로 제거 */
-document.addEventListener('keydown', function(event) {
-	if (event.keyCode === 27) {
-		$("#box_modal1").slideUp(800);
-		$("#box_modal2").slideUp(800);
-		$("#box_modal3").slideUp(800);
-		$("#box_modal4").slideUp(800);
+		alert("Converting to Manual Driving Mode");
+		
+		$("#jet-racer3").keydown(function(event) {
+			if (event.keyCode == '38') {
+			  	console.log("달리자3")
+				  	message = new Paho.MQTT.Message("speed:"+ 40);
+				message.destinationName = "/3manual/go";
+				message.qos = 0;
+				client.send(message);
+			}
+		
+			if (event.keyCode == '40') { 		
+			    console.log("멈추거라3")
+				  	message = new Paho.MQTT.Message("speed:" + 0);
+				message.destinationName = "/3manual/stop";
+				message.qos = 0;
+				client.send(message);
+			}
+			if (event.keyCode == '37'){
+			  	console.log("toL3");
+				  	message = new Paho.MQTT.Message("lineChangeToL");
+				message.destinationName = "/3manual/toL";
+				message.qos = 0;
+				client.send(message);
+				console.log(message);
+			}
+			if (event.keyCode == '39'){ 	
+				console.log("toR3");
+				  	message = new Paho.MQTT.Message("lineChangeToR");
+				message.destinationName = "/3manual/toR";
+				message.qos = 0;
+				client.send(message);
+			}
+		});
 	}
-}, true);
+	
+	else if (value == 'Off'){
+		console.log("메뉴얼 3 종료");
+		console.log(value);
+		
+		document.getElementById('modeOn3').style.backgroundColor = 'dimgray';
+		document.getElementById('modeOn3').style.color = 'white';
+		document.getElementById('modeOff3').style.backgroundColor = '#ADFF2F';
+		document.getElementById('modeOff3').style.color = 'black';
+		document.getElementById('manual_control3').style.display = 'none';
+		alert("Converting to Auto Driving Mode");
 
+		message = new Paho.MQTT.Message(value);
+		message.destinationName = "/3manual/mode";
+		message.qos = 0;
+		client.send(message);
+	}
+}
 </script>
 
 
@@ -331,8 +366,8 @@ function onMessageArrived(message) {
 		console.log(handMotion);
 		
 		if(handMotion=='rock'){
-			$("#motionName1").text('STOP');
-			$("#targetSpeed1").text("Speed : 0");
+			$("#motionName3").text('STOP');
+			$("#targetSpeed3").text("Speed : 0");
 			
 			message = new Paho.MQTT.Message("speed:"+ 0);
 			message.destinationName = "/1motion/stop";
@@ -341,8 +376,8 @@ function onMessageArrived(message) {
 		}
 		
 		else if(handMotion=='5fingers'){
-			$("#motionName1").text('GO');
-			$("#targetSpeed1").text("Speed : 60");
+			$("#motionName3").text('GO');
+			$("#targetSpeed3").text("Speed : 60");
 			
 			message = new Paho.MQTT.Message("speed:"+ 60);
 			message.destinationName = "/1motion/go";
@@ -351,8 +386,8 @@ function onMessageArrived(message) {
 		}
 		
 		else if(handMotion=='unlabeled'){
-			$("#motionName1").text('---');
-			$("#targetSpeed1").text("Speed : ---");
+			$("#motionName3").text('---');
+			$("#targetSpeed3").text("Speed : ---");
 		}
 
 		if(obj.direction=="left"){
