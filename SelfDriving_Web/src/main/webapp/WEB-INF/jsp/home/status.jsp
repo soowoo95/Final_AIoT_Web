@@ -48,296 +48,282 @@
 		let ipid;
 		var lastSendtimearr = [Date.now(), Date.now(), Date.now(),Date.now(),Date.now(),Date.now(),Date.now()];
 		var subList=["1jetracer", "2jetracer","3jetracer","1cctv","2cctv","3cctv","4cctv"];
-		var ALev = ["bear","leopard","wildboar", "wolf"];
-		var BLev = ["fox", "raccoon","hawk"];
-		var CLev = ["deer", "crow", "rabbit"];
-		var DLev = ["chicken","cow","duck","horse","pig", "sheep","cat","dog"];
 		
-		
-		$(function(){
-			ipid = new Date().getTime().toString()
-			client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
-			client.onMessageArrived = onMessageArrived;
-			client.connect({onSuccess:onConnect});
-		});
-			
-		function onConnect() {
-			console.log("mqtt broker connected")
-
-			client.subscribe("/mirror");
-			client.subscribe("/req/1cctv");
-			client.subscribe("/req/2cctv");
-			client.subscribe("/req/3cctv");
-			client.subscribe("/req/4cctv");
-			client.subscribe("/req/1jetracer");
-			client.subscribe("/req/2jetracer");
-			client.subscribe("/req/3jetracer");
-			
-			RowClick();
-		}
-			
-		$(document).ready(function() {
-		    setInterval(getinterval, 750);
-		});  
-			 
-		var lastSendtime=Date.now();
-		 
-		function getinterval(){
-			nowtime= Date.now();
-			lastSendtimearr.forEach(function(element, index, array){
-				interval=nowtime-element
-				if(interval>750){
-					//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
-					response(index);
-				}
+			$(function(){
+				ipid = new Date().getTime().toString()
+				client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
+				client.onMessageArrived = onMessageArrived;
+				client.connect({onSuccess:onConnect});
 			});
-		}
+			
+			function onConnect() {
+				console.log("mqtt broker connected")
 
-		function animalTable(){
-			var currentLocation = window.location;
-			$("#animalTable").load(currentLocation + ' #animalTable');
-			console.log("table reloaded~~~!!!");
-		}
-		
-		function RowClick(){
-			console.log("Table Row Clicliclicked");
-		    document.querySelector("#animalName").click();
-		}
-		
-		var row_td = null;
-		var row_dno = 0;
-		
-		function sendJet(data) {
-			console.log("gonna publish~~~");
-			row_td = data.getElementsByTagName("td");
-			
-			var orderData = {
-				name : row_td[1].innerHTML,
-				zone : row_td[2].innerHTML,
-				num  : row_td[4].innerHTML
-			};
-			
-			//var jsonData = JSON.stringify(orderData.zone); 
-			//console.log(jsonData);
-			
-			row_dno = orderData.num;
-			//console.log("출동 사건 번호: " + row_dno);
-			//console.log("ZONE: " + row_td[2].innerHTML);
-			
-			message = new Paho.MQTT.Message("A");
-			console.log(message);
-			message.destinationName = "/3manual/lable";
-			client.send(message);
-			console.log("order published");
-			
-			$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete.png");
-			$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin2.png");
-			$("#finishText").css('color', 'dimgray');
-			$("#beginText").css('color', 'white');
-			$("#beginText").attr("value", orderData.zone + " 구역 출동 중");		
-			
-			$("#numShow").attr("value", "사건 번호 " +  orderData.num + " 대응 중");
-			$("#numShow").css('color', 'white');
-			$("#zoneShow").attr("value", orderData.zone + " 구역에서");
-			$("#zoneShow").css('color', 'white');
-			$("#animalShow").attr("value", orderData.name + " 탐지 됨");
-			$("#animalShow").css('color', 'white');
-			
-			//캔버스 맵에 "구역" 깃발 색 바꾸기
-			if (orderData.zone == "A"){
-				cctv1DetectingFlag = true;
-				cctv2DetectingFlag = false;
-				cctv3DetectingFlag = false;
-				cctv4DetectingFlag = false;
-			}
-			else if (orderData.zone == "E"){
-				cctv1DetectingFlag = false;
-				cctv2DetectingFlag = true;
-				cctv3DetectingFlag = false;
-				cctv4DetectingFlag = false;
-			}
-			else if (orderData.zone == "K"){
-				cctv1DetectingFlag = false;
-				cctv2DetectingFlag = false;
-				cctv3DetectingFlag = true;
-				cctv4DetectingFlag = false;
-			}
-			else if (orderData.zone == "P"){
-				cctv1DetectingFlag = false;
-				cctv2DetectingFlag = false;
-				cctv3DetectingFlag = false;
-				cctv4DetectingFlag = true;
-			}
-		
- 			setTimeout(function() {
-				$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
-				$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
-				$("#beginText").css('color', 'dimgray');
-				$("#startText").css('color', 'white');
+				client.subscribe("/mirror");
+				client.subscribe("/req/1cctv");
+				client.subscribe("/req/2cctv");
+				client.subscribe("/req/3cctv");
+				client.subscribe("/req/4cctv");
+				client.subscribe("/req/1jetracer");
+				client.subscribe("/req/2jetracer");
+				client.subscribe("/req/3jetracer");
 				
-				console.log("처리 중 실행");
-			}, 3000); 
-			 
- 			setTimeout(function() {
-				$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
-				$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
-				$("#startText").css('color', 'dimgray');
-				$("#finishText").css('color', 'white');
-				
-				$("#numShow").attr("value", " --- ");
-				$("#numShow").css('color', 'dimgray');
-				$("#zoneShow").attr("value", " --- ");
-				$("#zoneShow").css('color', 'dimgray');
-				$("#animalShow").attr("value"," --- ");
-				$("#animalShow").css('color', 'dimgray');
-			
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					data : {"dno" : row_dno},
-					url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
-					async : false,
-					success : 
-						animalTable()
-				});
-				console.log("처리 완료");
-				
-				//캔버스 맵에서 "구역" 깃발 색 원래대로 돌리기
-				cctv1DetectingFlag = false;
-				cctv2DetectingFlag = false;
-				cctv3DetectingFlag = false;
-				cctv4DetectingFlag = false;
-				
-			}, 6000);
-		
-			setTimeout(function() {
 				RowClick();
-			}, 9000);
-		
-		}
-
-		function response(index){
-			//console.log(subList[index]+"에게 답장을 보내쥬");
-			message = new Paho.MQTT.Message(ipid);
-			message.destinationName = "/res/"+subList[index];
-			client.send(message);
-		}
-			
-		function onMessageArrived(message) {
-			if(message.destinationName == "/order/ing"){
-				$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
-				$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
-				$("#beginText").css('color', 'dimgray');
-				$("#startText").css('color', 'white');
-				
-				console.log("처리 중 실행");
 			}
-				
-			if(message.destinationName == "/order/completed"){
-				$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
-				$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
-				$("#startText").css('color', 'dimgray');
-				$("#finishText").css('color', 'white');
-				
-				$("#numShow").attr("value", " --- ");
-				$("#numShow").css('color', 'dimgray');
-				$("#zoneShow").attr("value", " --- ");
-				$("#zoneShow").css('color', 'dimgray');
-				$("#animalShow").attr("value"," --- ");
-				$("#animalShow").css('color', 'dimgray');
 			
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					data : {"dno" : row_dno},
-					url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
-					async : false,
-					success : 
-						animalTable()
+			$(document).ready(function() {
+			    setInterval(getinterval, 750);
+			});  
+			 
+			 var lastSendtime=Date.now();
+			 
+			 function getinterval(){
+				nowtime= Date.now();
+				lastSendtimearr.forEach(function(element, index, array){
+					interval=nowtime-element
+					if(interval>750){
+						//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
+						response(index);
+					}
 				});
-				console.log("처리 완료");
+			}
+
+			function animalTable(){
+				var currentLocation = window.location;
+				$("#animalTable").load(currentLocation + ' #animalTable');
+				console.log("table reloaded~~~!!!");
+			}
+			
+			function RowClick(){
+				console.log("Table Row Clicliclicked");
+			    document.querySelector("#animalName").click();
+			}
+			
+			var row_td = null;
+			var row_dno = 0;
+			
+			function sendJet(data) {
+				console.log("gonna publish~~~");
+				row_td = data.getElementsByTagName("td");
 				
-				//캔버스 맵에서 "구역" 깃발 색 원래대로 돌리기
-				cctv1DetectingFlag = false;
-				cctv2DetectingFlag = false;
-				cctv3DetectingFlag = false;
-				cctv4DetectingFlag = false;
+				var orderData = {
+					name : row_td[1].innerHTML,
+					zone : row_td[2].innerHTML,
+					num  : row_td[4].innerHTML
+				};
+
+				var jsonData = JSON.stringify(orderData); 
+				console.log(jsonData);
+				
+				row_dno = orderData.num;
+				console.log("출동 사건 번호: " + row_dno);
+				
+				message = new Paho.MQTT.Message(jsonData);
+				message.destinationName = "/order/pub";
+				client.send(message);
+				console.log("order published");
+				
+				$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete.png");
+				$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin2.png");
+				$("#finishText").css('color', 'dimgray');
+				$("#beginText").css('color', 'white');
+				$("#beginText").attr("value", orderData.zone + " 구역 출동 중");		
+				
+				$("#numShow").attr("value", "사건 번호 " +  orderData.num + " 대응 중");
+				$("#numShow").css('color', 'white');
+				$("#zoneShow").attr("value", orderData.zone + " 구역에서");
+				$("#zoneShow").css('color', 'white');
+				$("#animalShow").attr("value", orderData.name + " 탐지 됨");
+				$("#animalShow").css('color', 'white');
+				
+				//캔버스 맵에 "구역" 깃발 색 바꾸기
+				if (orderData.zone == "A"){
+					cctv1DetectingFlag = true;
+					cctv2DetectingFlag = false;
+					cctv3DetectingFlag = false;
+					cctv4DetectingFlag = false;
+				}
+				else if (orderData.zone == "E"){
+					cctv1DetectingFlag = false;
+					cctv2DetectingFlag = true;
+					cctv3DetectingFlag = false;
+					cctv4DetectingFlag = false;
+				}
+				else if (orderData.zone == "K"){
+					cctv1DetectingFlag = false;
+					cctv2DetectingFlag = false;
+					cctv3DetectingFlag = true;
+					cctv4DetectingFlag = false;
+				}
+				else if (orderData.zone == "P"){
+					cctv1DetectingFlag = false;
+					cctv2DetectingFlag = false;
+					cctv3DetectingFlag = false;
+					cctv4DetectingFlag = true;
+				}
+			
+				setTimeout(function() {
+					$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
+					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
+					$("#beginText").css('color', 'dimgray');
+					$("#startText").css('color', 'white');
+					
+					console.log("처리 중 실행");
+				}, 3000);
 				
 				setTimeout(function() {
+					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
+					$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
+					$("#startText").css('color', 'dimgray');
+					$("#finishText").css('color', 'white');
+					
+					$("#numShow").attr("value", " --- ");
+					$("#numShow").css('color', 'dimgray');
+					$("#zoneShow").attr("value", " --- ");
+					$("#zoneShow").css('color', 'dimgray');
+					$("#animalShow").attr("value"," --- ");
+					$("#animalShow").css('color', 'dimgray');
+				
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						data : {"dno" : row_dno},
+						url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
+						async : false,
+						success : 
+							animalTable()
+					});
+					console.log("처리 완료");
+					
+					//캔버스 맵에서 "구역" 깃발 색 원래대로 돌리기
+					cctv1DetectingFlag = false;
+					cctv2DetectingFlag = false;
+					cctv3DetectingFlag = false;
+					cctv4DetectingFlag = false;
+					
+				}, 6000);
+			
+				setTimeout(function() {
 					RowClick();
-				}, 3000);
+				}, 9000);
+			
 			}
 
-			if(message.destinationName =="/mirror") {
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
+			function response(index){
+				//console.log(subList[index]+"에게 답장을 보내쥬");
+				message = new Paho.MQTT.Message(ipid);
+				message.destinationName = "/res/"+subList[index];
+				client.send(message);
+			}
 			
-				if(obj.direction=="left"){
-					location.href="history.do";
-				} else if (obj.direction=="right"){
-					location.href="analysis.do";
+			function onMessageArrived(message) {
+
+				if(message.destinationName == "/order/ing"){
+					/* 
+					//출동 중 사인 내리고 처리 중 사인 올리기
+					$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
+					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
+					$("#beginText").css('color', 'dimgray');
+					$("#startText").css('color', 'white');
+					 */
 				}
-			}
+				
+				if(message.destinationName == "/order/completed"){
+				/* 	
+					console.log("order completed");
+					//처리 중 사인 내리고 처리 완료 사인 올리기 + 텍스트 스타일 바꾸기
+					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
+					$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
+					$("#startText").css('color', 'dimgray');
+					$("#finishText").css('color', 'white');
+					
+					$("#numShow").attr("value", " --- ");
+					$("#numShow").css('color', 'dimgray');
+					$("#zonehow").attr("value", " --- ");
+					$("#zonehow").css('color', 'dimgray');
+					$("#animalShow").attr("value"," --- ");
+					$("#animalShow").css('color', 'dimgray');
 
-			if(message.destinationName =="/req/1jetracer") {
-				//jetracer1connectedflag= true;
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						data : {"dno" : row_dno},
+						url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
+						success : 
+							console.log("업데이트 성공!!!")
+					});
+					animalTable();
+					RowClick();
+					 */
+				}
+
+				if(message.destinationName =="/mirror") {
+					const json = message.payloadString;
+ 					const obj = JSON.parse(json);
 				
-				response(0);
-				lastSendtimearr[0] = Date.now();
-				
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
-				$("#jrView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
-/* 					
-				if (obj.Class.length != 0){
-					$("#j1Obj").attr("value", obj.Class);
-					document.getElementById('j1Obj').style.color = '#DB6574';
-					document.getElementById('j1Obj').style.fontWeight = 'bold';
-					$("#j1Lev").attr("value", "등급이 몰까");
-					document.getElementById('j1Lev').style.color = '#DB6574';
-					document.getElementById('j1Lev').style.fontWeight = 'bold';
-					$("#j1Loc").attr("value", "Jet 1 촬영 구간");
-					document.getElementById('j1Loc').style.color = '#DB6574';
-					document.getElementById('j1Loc').style.fontWeight = 'bold';
-			
-					if (obj["witness"].replace("/","") == "1jetracer"){
-						document.getElementById('jrView1').style.border = '8px solid red';
+					if(obj.direction=="left"){
+						location.href="history.do";
+					} else if (obj.direction=="right"){
+						location.href="analysis.do";
 					}
 				}
 
-				if (obj.Class.length == 0){
-					
-					$("#j1Obj").attr("value","*****  탐지대상 없음  *****");
-					document.getElementById('j1Obj').style.color = 'white';
-					$("#j1Lev").attr("value","*****  해당사항 없음  *****");
-					document.getElementById('j1Lev').style.color = 'white';
-					$("#j1Loc").attr("value","*****  해당사항 없음  *****");
-					document.getElementById('j1Loc').style.color = 'white';
-					document.getElementById('jrView1').style.border = 'inactiveborder';
-				}
-				 */
-			}
+				if(message.destinationName =="/req/1jetracer") {
+					jetracer1connectedflag= true;
+					response(0);
+					lastSendtimearr[0] = Date.now();
+ 					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					$("#jrView1").attr("src", "data:image/jpg;base64,"+ message.payloadString);
+/* 					
+					if (obj.Class.length != 0){
+						$("#j1Obj").attr("value", obj.Class);
+						document.getElementById('j1Obj').style.color = '#DB6574';
+						document.getElementById('j1Obj').style.fontWeight = 'bold';
+						$("#j1Lev").attr("value", "등급이 몰까");
+						document.getElementById('j1Lev').style.color = '#DB6574';
+						document.getElementById('j1Lev').style.fontWeight = 'bold';
+						$("#j1Loc").attr("value", "Jet 1 촬영 구간");
+						document.getElementById('j1Loc').style.color = '#DB6574';
+						document.getElementById('j1Loc').style.fontWeight = 'bold';
 				
-			if(message.destinationName =="/req/2jetracer") {
-				//jetracer2connectedflag= true;
-				console.log("메세지가 왔어요.");
-				
-				response(1);
-				lastSendtimearr[1] = Date.now();
-				
-					const json = message.payloadString;
-				const obj = JSON.parse(json);
-				$("#jrView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+						if (obj["witness"].replace("/","") == "1jetracer"){
+							document.getElementById('jrView1').style.border = '8px solid red';
+						}
+					}
 
-/* 					console.log("2jet:뱉"+obj.battery);
+					if (obj.Class.length == 0){
+						
+						$("#j1Obj").attr("value","*****  탐지대상 없음  *****");
+						document.getElementById('j1Obj').style.color = 'white';
+						$("#j1Lev").attr("value","*****  해당사항 없음  *****");
+						document.getElementById('j1Lev').style.color = 'white';
+						$("#j1Loc").attr("value","*****  해당사항 없음  *****");
+						document.getElementById('j1Loc').style.color = 'white';
+						document.getElementById('jrView1').style.border = 'inactiveborder';
+					}
+					 */
+				}
+				
+				if(message.destinationName =="/2jetracer") {
+					jetracer2connectedflag= true;
+					
+					console.log("메세지가 왔어요.")
+					response(1);
+					lastSendtimearr[1] = Date.now();
+ 					const json = message.payloadString;
+					const obj = JSON.parse(json);
+					$("#jrView2").attr("src", "data:image/jpg;base64,"+ obj.Cam);
+
+					console.log("2jet:뱉"+obj.battery);
 					console.log("2jet:섭"+obj.servo);
 					console.log("2jet:슾"+obj.speed);
 					console.log("2jet:랍"+obj.Class);
 					console.log("2jet:밗"+obj.boxes);
 					console.log("2jet:렢"+obj.line_left);
 					console.log("2jet:뢑"+obj.line_right);
-					 */
-/* 					 carposition = car2;
+					
+					 carposition = car2;
 					 if(obj.Class.includes("A")&&nowzone["1jetracer"]!="A"){
 							carposition.x= 450;
 				        	carposition.y= 94;
@@ -398,7 +384,7 @@
 				        	carposition.angle= Math.PI/2;
 				        	nowzone["1jetracer"]="K";
 				        }
-						if(obj.Class.includes("M")&&nowzone["1jetracer"]!="M"){
+					if(obj.Class.includes("M")&&nowzone["1jetracer"]!="M"){
 				        	carposition.x= 156;
 				        	carposition.y= 450;
 				        	carposition.angle= Math.PI/2;
@@ -427,7 +413,7 @@
 				        	carposition.y= 199;
 				        	carposition.angle= 0;
 				        	nowzone["1jetracer"]="T";
-				        }  */
+				        } 
 /* 					
 					if (obj.Class.length != 0){
 						$("#j2Obj").attr("value", obj.Class);
@@ -456,66 +442,14 @@
 						document.getElementById('jrView2').style.border = 'inactiveborder';
 					}
 					 */
-			}
-				
-			if(message.destinationName =="/req/3jetracer") {
-				response(2);
-				lastSendtimearr[2] = Date.now();
-				
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
-				obj["witness"]= message.destinationName;
-				
-				$("#jrView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				
-				if(obj.road != null){
-					$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
-					$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
-					$("#beginText").css('color', 'dimgray');
-					$("#startText").css('color', 'white');
-					
-					console.log("처리 중 실행");
-					
-					setTimeout(function() {
-						$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
-						$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
-						$("#startText").css('color', 'dimgray');
-						$("#finishText").css('color', 'white');
-						
-						$("#numShow").attr("value", " --- ");
-						$("#numShow").css('color', 'dimgray');
-						$("#zoneShow").attr("value", " --- ");
-						$("#zoneShow").css('color', 'dimgray');
-						$("#animalShow").attr("value"," --- ");
-						$("#animalShow").css('color', 'dimgray');
-					
-						$.ajax({
-							type : 'post',
-							dataType : 'json',
-							data : {"dno" : row_dno},
-							url: "${pageContext.request.contextPath}/home/dcompleteUpdate.do",
-							async : false,
-							success : 
-								animalTable()
-						});
-						console.log("처리 완료");
-						
-						//캔버스 맵에서 "구역" 깃발 색 원래대로 돌리기
-						cctv1DetectingFlag = false;
-						cctv2DetectingFlag = false;
-						cctv3DetectingFlag = false;
-						cctv4DetectingFlag = false;
-					}, 3000);
-					
-					
-					setTimeout(function() {
-						RowClick();
-					}, 6000);
-					
-					
 				}
 				
-				
+				if(message.destinationName =="/req/3jetracer") {
+ 					//const json = message.payloadString;
+					//const obj = JSON.parse(json);
+					//obj["witness"]= message.destinationName;
+					
+					$("#jrView3").attr("src", "data:image/jpg;base64,"+ message.payloadString);
 /* 					
 					if (obj.Class.length != 0){
 						$("#j2Obj").attr("value", obj.Class);
@@ -544,44 +478,38 @@
 						document.getElementById('jrView2').style.border = 'inactiveborder';
 					}
 					 */
-			}
+				}
 				
-				if(message.destinationName =="/req/1cctv") {
-					response(3);
+ 				if(message.destinationName =="/req/1cctv") {
+ 					response(3);
 					lastSendtimearr[3] = Date.now();
-					
-					const json = message.payloadString;
+ 					
+ 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					obj["witness"]= message.destinationName;
-				
+					
 					$("#cameraView1").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				
+					
 					if (obj.Class.length != 0){
 						
 						$("#c1Obj").attr("value", obj.Class);
 						document.getElementById('c1Obj').style.color = '#ADFF2F';
 						document.getElementById('c1Col1').style.color = '#ADFF2F';
 						document.getElementById('c1Obj').style.fontWeight = 'bold';
-						
-						if(ALev.includes(obj.Class[0])){
-							$("#c1Lev").attr("value", "A 등급");
-						} else if (BLev.includes(obj.Class[0])){
-							$("#c1Lev").attr("value", "B 등급");
-						} else if (CLev.includes(obj.Class[0])){
-							$("#c1Lev").attr("value", "C 등급");
-						} else if (DLev.includes(obj.Class[0])){
-							$("#c1Lev").attr("value", "D 등급");
-						}
+						$("#c1Lev").attr("value", "등급이 몰까");
 						document.getElementById('c1Lev').style.color = '#ADFF2F';
 						document.getElementById('c1Lev').style.fontWeight = 'bold';
 						$("#c1Loc").attr("value", "1번 CCTV 촬영 구간");
 						document.getElementById('c1Loc').style.color = '#ADFF2F';
 						document.getElementById('c1Loc').style.fontWeight = 'bold';
-						document.getElementById('cameraView1').style.border = '8px solid red';
-
+				
+						if (obj["witness"].replace("/","") == "req1cctv"){
+							document.getElementById('cameraView1').style.border = '8px solid red';
+						}
 					}
 
 					if (obj.Class.length == 0){
+						
 						$("#c1Obj").attr("value","*****  탐지대상 없음  *****");
 						document.getElementById('c1Col1').style.color = 'white';
 						document.getElementById('c1Obj').style.color = 'white';
@@ -609,17 +537,7 @@
 						document.getElementById('c2Col1').style.color = '#ADFF2F';
 						document.getElementById('c2Obj').style.color = '#ADFF2F';
 						document.getElementById('c2Obj').style.fontWeight = 'bold';
-
-						if(ALev.includes(obj.Class[0])){
-							$("#c2Lev").attr("value", "A 등급");
-						} else if (BLev.includes(obj.Class[0])){
-							$("#c2Lev").attr("value", "B 등급");
-						} else if (CLev.includes(obj.Class[0])){
-							$("#c2Lev").attr("value", "C 등급");
-						} else if (DLev.includes(obj.Class[0])){
-							$("#c2Lev").attr("value", "D 등급");
-						}
-						
+						$("#c2Lev").attr("value", "등급이 몰까");
 						document.getElementById('c2Lev').style.color = '#ADFF2F';
 						document.getElementById('c2Lev').style.fontWeight = 'bold';
 						$("#c2Loc").attr("value", "2번 CCTV 촬영 구간");
@@ -655,17 +573,7 @@
 						document.getElementById('c3Col1').style.color = '#ADFF2F';
 						document.getElementById('c3Obj').style.color = '#ADFF2F';
 						document.getElementById('c3Obj').style.fontWeight = 'bold';
-						
-						if(ALev.includes(obj.Class[0])){
-							$("#c3Lev").attr("value", "A 등급");
-						} else if (BLev.includes(obj.Class[0])){
-							$("#c3Lev").attr("value", "B 등급");
-						} else if (CLev.includes(obj.Class[0])){
-							$("#c3Lev").attr("value", "C 등급");
-						} else if (DLev.includes(obj.Class[0])){
-							$("#c3Lev").attr("value", "D 등급");
-						}
-						
+						$("#c3Lev").attr("value", "등급이 몰까");
 						document.getElementById('c3Lev').style.color = '#ADFF2F';
 						document.getElementById('c3Lev').style.fontWeight = 'bold';
 						$("#c3Loc").attr("value", "3번 CCTV 촬영 구간");
@@ -701,23 +609,10 @@
 						document.getElementById('c4Col1').style.color = '#ADFF2F';
 						document.getElementById('c4Obj').style.color = '#ADFF2F';
 						document.getElementById('c4Obj').style.fontWeight = 'bold';
-						
-						//console.log(obj.Class[0]);
-						//console.log(DLev.includes(obj.Class[0]));
-						
-						if(ALev.includes(obj.Class[0])){
-							$("#c4Lev").attr("value", "A 등급");
-						} else if (BLev.includes(obj.Class[0])){
-							$("#c4Lev").attr("value", "B 등급");
-						} else if (CLev.includes(obj.Class[0])){
-							$("#c4Lev").attr("value", "C 등급");
-						} else if (DLev.includes(obj.Class[0])){
-							$("#c4Lev").attr("value", "D 등급");
-						}
-						
+						$("#c4Lev").attr("value", "등급이 몰까");
 						document.getElementById('c4Lev').style.color = '#ADFF2F';
 						document.getElementById('c4Lev').style.fontWeight = 'bold';
-						$("#c4Loc").attr("value", "P 구역");
+						$("#c4Loc").attr("value", "4번 CCTV 촬영 구간");
 						document.getElementById('c4Loc').style.color = '#ADFF2F';
 						document.getElementById('c4Loc').style.fontWeight = 'bold';
 						document.getElementById('cameraView4').style.border = '8px solid red';
@@ -740,6 +635,153 @@
 				}
 			}
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			var flagarr=[];
 	        function startGame() {
 	            car1 = new component(15, 20, "red", 50, 350, Math.PI); // component 생성
@@ -761,7 +803,6 @@
 	            flagP = new component(15, 20, "P", 450, 310, Math.PI / 2);
 	            flagS = new component(15, 20, "S", 450, 205, Math.PI / 2);
 	            flagT = new component(15, 20, "T", 450, 100, Math.PI / 2);
-	            
 	            flagarr=[flagA,flagB,flagC,flagD,flagE,flagF,flagH,flagI,flagJ,flagK,flagM,flagN,flagP,flagS,flagT]
 	            myGameArea.start(); 
 	        }
@@ -1071,19 +1112,18 @@
 	            
 	            // component 위치 조정
 	            // 움직임 통제, 방향 통제 flag를 만족하면 위치 조정
-	            //console.log(car1.crashWitharr(flagarr));
-				/* if (car1.crashWitharr(flagarr)) {
-				car1.fixPosition2();
+	            console.log(car1.crashWitharr(flagarr));
+				  if (car2.crashWitharr(flagarr)) {
 	            } else {
-				car1.fixPosition2();
-	            } */
+				car2.fixPosition2();
+	            }
 	            car1.fixPosition2();
-	            car2.fixPosition2();
+	            //car2.fixPosition2();
 	            car3.fixPosition2();
 	                
-	            car1.update(); // component 그리기
-	            car2.update();
-	            car3.update();
+	            if(jetracer1connectedflag){car1.update();} // component 그리기
+	            if(jetracer2connectedflag){car2.update();}
+	            if(jetracer3connectedflag){car3.update();}
 	            
 	            if (cctv1DetectingFlag){
 	            	flagA.update3();
@@ -1111,6 +1151,7 @@
 	            } else if (!cctv3DetectingFlag){
 	            	flagK.update2();
 	            }
+
 	            flagM.update2();
 	            flagN.update2();
 	            
@@ -1226,7 +1267,21 @@
 	     <div class="page-content" style="top: -50px;height: 1080px; padding-bottom: 0px; ">
 	     	
 	     	<div style="margin-bottom: 10px; margin-top: 60px; color: white; font-weight: bold; font-size: xx-large; height: 50px; width: 1623px; text-align: center;">실시간 유해동물 탐지 및 대응 현황</div>
-	     	
+		     
+		     <section style="padding-right: 0px">
+	          <div class="container-fluid">
+	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 0px; width: 520px; height: 468px; top: 130px">
+	         	  <input value="JetRacer 탐지 현황" readonly="readonly" style="background-color: #ADFF2F;; color: black; font-weight: 500; font-size:20px; border-color: transparent; font-weight: bold; width: 520px; text-align: center; margin-left: -15px"/>
+				  <div class="row row-cols-2">
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView1 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView2 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img id=jrView3 style="width: 260px; height: 220px; padding-left: 0px; padding-right: 0px"/></div>
+				    <div class="col" style="padding-left: 0px; padding-right: 0px; width: 260px; height: 220px"><img src="${pageContext.request.contextPath}/resource/img/jetracer.jpg" style="width: 260px; height: 220px; opacity: 0.5; margin-left: 0px; margin-right: 0px"/></div>
+				  </div>
+				</div>
+	          </div>
+	        </section>
+	        
 	        <section style="padding-right: 0px">
 	          <div class="container-fluid">
 	         	<div class="container" style="position:absolute; margin-right: 0px; margin-left: 520px; width: 520px; height: 468px; top: 130px">
@@ -1297,25 +1352,43 @@
                </div>
        		</div>
        		
-	       	<input value="유해동물 탐지 현황" readonly="readonly" style="background-color: #ADFF2F; ; color: black; margin-left:30px ;font-weight: 500; font-size:20px; border-color: transparent; font-weight: bold;position: absolute; margin-top:500px; height: 36px; padding: 0px; text-align: center; width: 900px"/>
+	       	<input value="유해동물 탐지 현황" readonly="readonly" style="background-color: #ADFF2F; ; color: black; margin-left:30px ;font-weight: 500; font-size:20px; border-color: transparent; font-weight: bold;position: absolute; margin-top:500px; height: 36px; padding: 0px; text-align: center; width: 1043px"/>
 	       	
 	       	<div style="border-color: transparent; margin-top: 545px; width: 1070px; padding-left: 5px">
-		       <div class="container" style="background-color: #22252a;  margin-left: 25px; border-color: #ADFF2F; border-style:solid; border-width:medium; width: 900px ">         
+		       <div class="container" style="background-color: #22252a;  margin-left: 25px; border-color: #ADFF2F; border-style:solid; border-width:medium; width: 1043px ">         
 				  <table class="table hover" style="margin-bottom: 0px; margin-left: 0px">
 				    <thead style="font-size: medium;">
 				      <tr>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F; width: 100px">탐지 주체</th>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F; width: 100px">유해동물 이름</th>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F; width: 100px">유해동물 등급</th>
-				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F; width: 100px">탐지 구역</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F;">탐지 주체</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F;">유해동물 이름</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F;">유해동물 등급</th>
+				        <th style="color: white; text-align: center; font-weight: bold; color: #ADFF2F;">탐지 구역</th>
 				      </tr>
 				    </thead>
 				    <tbody style="color: white; font-size:small;">
+				      <tr id="jet1">
+				        <td id="j1Col1" style="text-align: center; ">JetRacer 1</td>
+				        <td><input id="j1Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j1Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j1Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				      </tr> 
+				      <tr id="jet2">
+				        <td id="j2Col1" style="text-align: center; ">JetRacer 2</td>
+				        <td><input id="j2Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j2Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j2Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				      </tr>
+				      <tr id="jet3">
+				        <td id="j3Col1" style="text-align: center; ">JetRacer 3</td>
+				        <td><input id="j3Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j3Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="j3Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				      </tr>
 				      <tr id="cctv1">
 				        <td id="c1Col1" style="text-align: center; ">CCTV 1</td>
-				        <td><input id="c1Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly" width="200px"></td>
-				        <td><input id="c1Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly" width="200px"></td>
-				        <td><input id="c1Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly" width="200px"></td>
+				        <td><input id="c1Obj" value="*****  탐지대상 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c1Lev" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
+				        <td><input id="c1Loc" value="*****  해당사항 없음  *****" class="detectContent" readonly="readonly"></td>
 				      </tr>
 				      <tr id="cctv2">
 				        <td id="c2Col1" style="text-align: center; ">CCTV 2</td>
