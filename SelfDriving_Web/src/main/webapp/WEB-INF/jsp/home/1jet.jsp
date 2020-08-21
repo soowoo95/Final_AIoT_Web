@@ -28,8 +28,25 @@
 		<link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
 	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
-	</head>
+		
+		<script>
+		$(function(){
+			ipid = new Date().getTime().toString();
+			client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
+			client.onMessageArrived = onMessageArrived;
+			client.connect({onSuccess:onConnect});
+		});
+		
+		function onConnect() {
+			console.log("mqtt broker connected")
+			client.subscribe("/req/1jetracer");
+			client.subscribe("/req/2jetracer");
+			client.subscribe("/req/3jetracer");
+			client.subscribe("/mirror");
+		}
+		</script>
 	
+	</head>
 	<body>
 		  		<div style="background-color: dimgray; height: 900px; width: 1200px; position: absolute; margin-left:22px; margin-top: 22px; text-align: center; font-weight: bolder; font-size: 300px;">여기에 HUD</div>
   				
@@ -59,6 +76,8 @@
 				
   				<input value="Motion Detection" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;  font-weight: bold;justify-content: center;width: 320px; position: absolute; top: 325px; left: 1260px; height: 30px;">
   				<img id=motionView style="width: 320px; height: 280px; position: absolute; top: 355px; left: 1260px"/>
+				
+				<input id="admin1" value="접속 중인 관리자" readonly="readonly" style="font-weight: bold; color: white; background-color: transparent; border-color: transparent; position: absolute; top: 600px; left: 1260px; width:320px; font-size: 20px;" >
 				
 				<section class="no-padding-top no-padding-bottom" style="top:640px; left: 1260px; position: absolute;padding: 0px">
 		          <div class="container-fluid">
