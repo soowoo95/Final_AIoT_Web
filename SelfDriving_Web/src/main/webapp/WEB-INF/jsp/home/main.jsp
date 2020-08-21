@@ -254,31 +254,32 @@
                    <table class="table table-sm" style="color: white; margin-top: 10px">
                      <thead>
                        <tr style="border-bottom: medium; border-style: double; border-color: white; border-left: none; border-right: none ; border-top: none;">
-                         <th style="width: 150px">교통 사인 종류</th>
-                         <th style="width: 200px">탐지 내용</th> 
-                         <th style="width: 460px">타겟 주행 모드</th> 
+                         <th style="width: 300px">교통 사인 종류</th>
+                         <th style="width: 300px">탐지 내용</th> 
+                         <th style="width: 260px">타겟 주행 모드</th> 
                        </tr>
                      </thead>
                      <tbody style="font-size:medium;">
-                      	<tr>
-                      	  <td>추후 작성 예정</td>
-                      	  <td></td>
-                          <td></td>
+                      	<tr style="padding:20px">
+                      	  <td>위치안내 표지판</td>
+                      	  <td>A,B,C,D,...,S,T</td>
+                          <td>탐지 로봇의 위치 갱신</td>
                         </tr>
                         <tr>
-                      	  <td></td>
-                      	  <td></td>
-                          <td></td>
+                      	  <td>교통규제표지판</td>
+                      	  <td>정지, 60, 100</td>
+                          <td>차량 속도의 제어</td>
                         </tr>
                         <tr>
-                      	  <td></td>
-                      	  <td></td>
-                          <td></td>
+                      	  <td>교통지시표지판</td>
+                      	  <td>어린이보호구역, 커브</td>
+                          <td>차량 속도, 특정 행동 수행</td>
                         </tr>
                         <tr>
-                      	  <td></td>
-                      	  <td></td>
-                          <td></td>
+                        <td>도로 노면 표시</td>
+                      	  <td>차선, 중앙선, 횡단보도,과속방지턱</td>
+                          <td>차량 주행가능 여부 파악</td>
+                      	  
                         </tr>
                     </tbody>
                    </table>
@@ -333,37 +334,37 @@
                       	<tr style="height: 45px">
                       	  <td>Jet-Racer #1</td>
                       	  <td id="1jet">DISCONNECTED</td>
-                          <td></td>
+                          <td>죽는 날까지 하늘을 우러러</td>
                         </tr>
                        <tr style="height: 45px;">
                       	  <td>Jet-Racer #2</td>
                       	  <td id="2jet">DISCONNECTED</td>
-                          <td></td>
+                          <td>한 점 부끄럼이 없기를</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>Jet-Racer #3</td>
                       	  <td id="3jet">DISCONNECTED</td>
-                          <td></td>
+                          <td>잎새에 이는 바람에도 나는 괴로와했다.</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #1</td>
                       	  <td id="1cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>별을 노래하는 마음으로</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #2</td>
                       	  <td id="2cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>모든 죽어가는 것을 사랑해야지</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #3</td>
                       	  <td id="3cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>그리고 나에게 주어진 길을 걸어가야겠다.</td>
                         </tr>
                         <tr style="height: 45px;">
                       	  <td>CCTV #4</td>
                       	  <td id="4cctv">DISCONNECTED</td>
-                          <td></td>
+                          <td>오늘 밤에도 별이 바람에 스치운다.</td>
                         </tr>
                     </tbody>
                    </table>

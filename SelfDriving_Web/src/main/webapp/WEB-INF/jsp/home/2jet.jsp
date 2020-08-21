@@ -30,7 +30,22 @@
 	    <link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/yunjis.css">
 
+		<script>
+		$(function(){
+			ipid = new Date().getTime().toString();
+			client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
+			client.onMessageArrived = onMessageArrived;
+			client.connect({onSuccess:onConnect});
+		});
 		
+		function onConnect() {
+			console.log("mqtt broker connected")
+			client.subscribe("/req/1jetracer");
+			client.subscribe("/req/2jetracer");
+			client.subscribe("/req/3jetracer");
+			client.subscribe("/mirror");
+		}
+		</script>
 	</head>
 	
 	<body>
