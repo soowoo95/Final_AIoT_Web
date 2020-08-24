@@ -58,7 +58,7 @@
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
           <div class="title">
-            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+            <h1 class="h5" style="color: lightgray">AIoT</h1>
             <p style="color: lightgray">관리자</p>
           </div>
         </div>

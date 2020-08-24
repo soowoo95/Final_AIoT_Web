@@ -58,7 +58,7 @@
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
           <div class="title">
-            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+            <h1 class="h5" style="color: lightgray">AIoT</h1>
             <p style="color: lightgray">관리자</p>
           </div>
         </div>
@@ -184,7 +184,9 @@
 		            </div>
 		          </div>
 		        </section>
-<input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 820px; left: 1260px; height: 30px">
+		        
+				<input value="Driving Mode" readonly="readonly" style="border-color: transparent ; background-color: #864DD9 ; text-align: center; color: white;font-weight: bold;justify-content: center; width: 320px; position: absolute; top: 820px; left: 1260px; height: 30px">
+		        
 		        <div id=batteryMode style="background-color: #864DD9; width:320px; color: white; font-weight: bold;justify-content: center; position: absolute; left: 1260px; top:820px">
            			<div style="width:320px">
              			<input id="modeOn3" onclick="manual3('On')" value="Manual Driving" readonly="readonly" style="border-color: transparent; width: 140px; background-color: dimgray; text-align: center; color: white; font-weight: bold;justify-content: center;">
@@ -331,7 +333,7 @@ function onConnect() {
    client.subscribe("/req/3jetracer");
    client.subscribe("/mirror");
 }
-
+/* 
 $(document).ready(function() {
     setInterval(getinterval, 750);
 });  
@@ -353,13 +355,13 @@ $(document).ready(function() {
 		message = new Paho.MQTT.Message(ipid);
 		message.destinationName = "/res/"+subList[index];
 		client.send(message);
-	}
+	} */
 //MQTT onMessageArrived
 function onMessageArrived(message) {
 /////////////////////////////////////////////////////mirror//////////////////////////////////////
 	if(message.destinationName =="/mirror") {
 		const json = message.payloadString;
-			const obj = JSON.parse(json);
+		const obj = JSON.parse(json);
 		$("#motionView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
 		
 		handMotion = obj.hands;
@@ -370,7 +372,7 @@ function onMessageArrived(message) {
 			$("#targetSpeed3").text("Speed : 0");
 			
 			message = new Paho.MQTT.Message("speed:"+ 0);
-			message.destinationName = "/1motion/stop";
+			message.destinationName = "/3manual/stop";
 			message.qos = 0;
 			client.send(message);
 		}
@@ -380,7 +382,7 @@ function onMessageArrived(message) {
 			$("#targetSpeed3").text("Speed : 60");
 			
 			message = new Paho.MQTT.Message("speed:"+ 60);
-			message.destinationName = "/1motion/go";
+			message.destinationName = "/3manual/go";
 			message.qos = 0;
 			client.send(message);
 		}
@@ -401,20 +403,20 @@ function onMessageArrived(message) {
 	}
 	////////////////////////////////////////////////////////racer//////////////////////////////////////
 	  if (message.destinationName == "/req/3jetracer") {
-		  	response(2);
-			lastSendtimearr[2] = Date.now();
+		  	//response(2);
+			//lastSendtimearr[2] = Date.now();
 			//console.log(message.payloadString);
 			const json = message.payloadString;
 			const obj = JSON.parse(json);
 			image.src= "data:image/jpg;base64,"+ obj.Cam;
 
-			console.log("3jet:뱉"+obj.battery);
+/* 			console.log("3jet:뱉"+obj.battery);
 			console.log("3jet:섭"+obj.servo);
 			console.log("3jet:슾"+obj.speed);
 			console.log("3jet:랍"+obj.Class);
 			console.log("3jet:밗"+obj.boxes);
 			console.log("3jet:렢"+obj.line_left);
-			console.log("3jet:뢑"+obj.line_right);
+			console.log("3jet:뢑"+obj.line_right); */
 			 var speed=obj.speed;
 			 realspeed = speed;
 	          realspeed = realspeed.toFixed(0); //소수점 제거
@@ -471,7 +473,7 @@ function onMessageArrived(message) {
 			 //객체	
 		     	
 		        var messageKey = obj.Class.length;
-				console.log(messageKey);
+				//console.log(messageKey);
 		        if (messageKey == 0){
 		        	$("#total").children().remove(".hoverbox");
 		        }
@@ -504,16 +506,16 @@ function onMessageArrived(message) {
 						hoverchild.setAttribute("id", "hoverbox" + i);
 						$("#total").append(hoverchild);
 					}
-					console.log("박스를 그린다.");
+					//console.log("박스를 그린다.");
 					var Num = obj.boxes[i];
 					var x1 = obj.boxes[i][0];
 					var y1 = obj.boxes[i][1];
 					var x2 = obj.boxes[i][2];
 					var y2 = obj.boxes[i][3];
-					console.log("하이영"+x1+","+y1+","+x2+","+y2);
+					//console.log("하이영"+x1+","+y1+","+x2+","+y2);
 					
 					var name = obj.Class[i];											
-					console.log("하이영2:"+name);
+					//console.log("하이영2:"+name);
 					if(name.length != 0){								
 						$("#textboxline").remove();
 						var textboxlinechild = textboxlineone.cloneNode(true);
@@ -559,7 +561,7 @@ function onMessageArrived(message) {
 									document.getElementById("textboximg").src="${pageContext.request.contextPath}/resource/img/도로사진/t.jpg";
 								}
 							}else if(name.length > 1){				
-								console.log("객체 감지");
+								//console.log("객체 감지");
 								$("#textboxline").text("Object Detection : " + "[" + name + "]");
 								$("#textboxline").css("color","#FE2E2E");
 								$("#textboximg").css("box-shadow","0 0 10px #FF3535, 0 0 10px #FF3535");

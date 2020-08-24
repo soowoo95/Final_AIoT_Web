@@ -48,7 +48,7 @@
 					location.href="status.do";
 				}
 			}
-}
+		}
 			$(document).ready(function() {
 			    setInterval(renew, 10000);
 			});
@@ -56,28 +56,6 @@
 			function renew(){
 				location.reload();
 			}
-			  /* $.ajax({
-			   type: "POST",
-			   url: "${pageContext.request.contextPath}/home/getAnimalList.do",
-			   success: 
-				   function(animallist){
-				   $('#dataframe').empty();
-				   
-		   			animallist.forEach(function (item, index, array) {
-		    	    var rowItem = "<tr>"
-		    	    rowItem += "<td>"+item['dno']+"</td>"
-		    	    rowItem += "<td onclick="+ "\"" + "viewImage(" + item['dno'] + ")" + "\"" + "style=" + "\"" + "color: #DB6574; font-weight: 500" + "\">" + item['dname']+"</td>"
-		    	    rowItem += "<td>"+item['dnum']+"</td>"
-		    	    rowItem += "<td>"+item['dfinder']+"</td>"
-		    	    rowItem += "<td>"+item['dfinder']+"</td>"
-		    	    rowItem += "<td>"+moment(item['dtime']).format("YYYY-MM-DD HH:mm:ss")+"</td>"		    	    
-					rowItem += "</tr>"
-					
-		    	    $('#append_table').append(rowItem);
-			    });
-			   }
-			 });
-			} */
 
 			function viewImage(imgDno){
 				console.log("출력하고 싶은 이미지 번호:",imgDno);
@@ -114,7 +92,7 @@
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
-	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+	            <h1 class="h5" style="color: lightgray">AIoT</h1>
 	            <p style="color: lightgray">관리자</p>
 	          </div>
 	        </div>
@@ -209,8 +187,8 @@
 	                      <thead style="border-style:double ; border-left: hidden; border-right: hidden; border-top: hidden; border-color: white">
 	                        <tr>
 	                          <th>사건 번호</th>
-	                          <th>주행 사인 종류</th>
-	                          <th>탐지 수</th>
+	                          <th>주행 사인 명</th>
+	                          <!-- <th>탐지 수</th> -->
 	                          <th>탐지 주체</th>
 	                          <th>탐지 구역</th>
 	                          <th>탐지 시각</th>
@@ -222,7 +200,7 @@
 		                      	<tr>
 		                          <td scope="row">${sign.sno}</td>
 		                          <td onclick="viewImage2(${sign.sno})" style="color: #864DD9; font-weight: bold;">${sign.sname}</td>
-		                          <td>${sign.snum}</td>
+		                          <%-- <td>${sign.snum}</td> --%>
 		                          <td>${sign.sfinder}</td>
 		                          <td>${sign.szone}</td>
 		                          <td><fmt:formatDate value="${sign.stime}" pattern="YYYY-MM-dd HH:mm:ss"/></td>

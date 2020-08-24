@@ -101,20 +101,22 @@
 						$("#motionName1").text('STOP');
 						$("#targetSpeed1").text("Speed : 0");
 						
-						message = new Paho.MQTT.Message("speed:"+ 0);
-						message.destinationName = "/1motion/stop";
+						message = new Paho.MQTT.Message("stop");
+						message.destinationName = "/3manual/stop";
 						message.qos = 0;
 						client.send(message);
+						console.log("3jetracer 멈추게 하기");
 					}
 					
 					else if(handMotion=='5fingers'){
 						$("#motionName1").text('GO');
 						$("#targetSpeed1").text("Speed : 60");
 						
-						message = new Paho.MQTT.Message("speed:"+ 60);
-						message.destinationName = "/1motion/go";
+						message = new Paho.MQTT.Message("go");
+						message.destinationName = "/3manual/go";
 						message.qos = 0;
 						client.send(message);
+						console.log("3jetracer 가게 하기");
 					}
 					
 					else if(handMotion=='unlabeled'){
@@ -212,7 +214,7 @@
 			      	bat2 = parseInt(bat2);
 			      	
 			      	servo2 = obj.servo;
-			      	console.log("servo:" + servo2);
+			      	//console.log("servo:" + servo2);
 			      	
 			      	if (bat2 >= 100){
 			      		bat2 == 100;
@@ -286,7 +288,7 @@
 					const json = message.payloadString;
 					const obj = JSON.parse(json);
 					$("#jetView3").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				
+/* 				
 					console.log("1:뱉"+obj.battery);
 					console.log("2:섭"+obj.servo);
 					console.log("3:슾"+obj.speed);
@@ -294,7 +296,7 @@
 					console.log("5:밗"+obj.boxes);
 					console.log("6:렢"+obj.line_left);
 					console.log("7:뢑"+obj.line_right);
-
+ */
  					bat3 = obj.battery;
  					bat3 = parseInt(bat3);
 
@@ -573,7 +575,7 @@
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center"><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
-	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+	            <h1 class="h5" style="color: lightgray">AIoT</h1>
 	            <p style="color: lightgray">관리자</p>
 	          </div>
 	        </div>

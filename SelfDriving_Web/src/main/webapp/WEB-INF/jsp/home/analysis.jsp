@@ -45,32 +45,31 @@
 	</head>
 	<style>
 	div#select_box {
-  position: relative;
-  width: 200px;
-  height: 32px;
-  background: url(http://cfile1.uf.tistory.com/image/27423E43565F8EF627B215) 0 center no-repeat;
-  /* 화살표 이미지 */
-}
+	  position: relative;
+	  width: 200px;
+	  height: 32px;
+	  background: url(http://cfile1.uf.tistory.com/image/27423E43565F8EF627B215) 0 center no-repeat;
+	  /* 화살표 이미지 */
+	}
 
-div#select_box label {
-  position: absolute;
-  font-size: 14px;
-  color: #fff;
-  top: 7px;
-  left: 12px;
-  letter-spacing: 1px;
-}
+	div#select_box label {
+	  position: absolute;
+	  font-size: 14px;
+	  color: #fff;
+	  top: 7px;
+	  left: 12px;
+	  letter-spacing: 1px;
+	}
 
-div#select_box select#color {
-  width: 100%;
-  height: 32px;
-  min-height: 32px;
-  line-height: 32px;
-  padding: 0 10px;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  /* IE 8 */
-}
+	div#select_box select#color {
+	  width: 100%;
+	  height: 32px;
+	  min-height: 32px;
+	  line-height: 32px;
+	  padding: 0 10px;
+	  opacity: 0;
+	  filter: alpha(opacity=0);
+	}
 	</style>
 	<body onload="chart();chart2();chart3()">
 	
@@ -92,11 +91,11 @@ div#select_box select#color {
     </header>
     
     <div class="d-flex align-items-stretch" style="height: 875px;">
-      <nav id="sidebar" style="height: 920px;">
+      <nav id="sidebar" style="height: 1030px;">
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
           <div class="title">
-            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+            <h1 class="h5" style="color: lightgray">AIoT</h1>
             <p style="color: lightgray">관리자</p>
           </div>
         </div>
@@ -109,7 +108,7 @@ div#select_box select#color {
 	      	  <li class="active"><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석  </a></li>
         </ul>
       </nav>    
-	      <div class="page-content" style="top: 0px; height: 850px;margin-top:-50px; padding-bottom: 0px; " >
+	      <div class="page-content" style="top: 0px; height: 1080px; margin-top:-50px; padding-bottom: 0px; " >
 
 			<div style = "width:97%;  height:300px; margin-top: 100px">
 			<div id="container"style="margin-top: 50px">
@@ -180,7 +179,7 @@ div#select_box select#color {
 						alert("최하단페이지입니다.");
 					}
 				}
-}
+			}
 	      $('#term1').change(function(){
 	    	  $.ajax({
 	    		type: "POST",
@@ -305,7 +304,7 @@ div#select_box select#color {
 	    	    },
 
 	    	    subtitle: {
-	    	        text: '가슴이 웅장해진다...'
+	    	        text: '등급 구별 없는 모든 유해동물 탐지 수'
 	    	    },
 
 	    	    xAxis: {

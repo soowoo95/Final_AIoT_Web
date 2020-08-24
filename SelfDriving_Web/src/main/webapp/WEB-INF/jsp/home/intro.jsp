@@ -25,17 +25,17 @@
         <div class="row text-center">
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="heading-count">
-              <h2 style="margin-top: 100px; background-color: dimgray; opacity: 0.8; height: 100px; justify-content: center; text-align: center; padding-top: 30px; font-size: 50px">HI HI HI BYE BYE BYE</h2>
+              <h2 style="margin-top: 100px; background-color: dimgray; opacity: 0.8; height: 100px; justify-content: center; text-align: center; padding-top: 30px; font-size: 50px">Smart Farm Protection</h2>
             </div>
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12">
             <p style="font-size:large">
-           	 HI HI HI will allow you to join smart-farming life by protecting your farm 24hours from wild animals<br>
+           	 Our system will allow you to join smart-farming life by protecting your farm 24hours from wild animals<br>
              Please Join Us!
             </p>
             <div class="button-group">
-              <a href="${pageContext.request.contextPath}/home/main.do" class="btn btn-common" style="margin-top: 50px; background-color: #ADFF2F; color: black; font-weight: bold; ">Admin Page</a>
-              <a href="${pageContext.request.contextPath}/home/main.do" class="btn btn-border" style="margin-top: 50px; background-color: #864DD9; color: white; font-weight: bold; border-color: #864DD9">About us</a>
+<%--               <a href="${pageContext.request.contextPath}/home/main.do" class="btn btn-common" style="margin-top: 50px; background-color: #ADFF2F; color: black; font-weight: bold; ">Admin Page</a> --%>
+              <a href="${pageContext.request.contextPath}/home/main.do" class="btn btn-border" style="margin-top: 50px; background-color: #864DD9; color: white; font-weight: bold; border-color: #864DD9">Admin Page</a>
             </div>
           </div>
         </div>

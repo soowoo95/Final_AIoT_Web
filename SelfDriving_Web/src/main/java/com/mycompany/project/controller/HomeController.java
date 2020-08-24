@@ -53,7 +53,7 @@ public class HomeController {
 	//MQTT 연결 및 스레드 실행
 	@PostConstruct
 	public void mqttConnect() {
-		String MqttServer1= "tcp://192.168.3.184:1883";
+		String MqttServer1= "tcp://192.168.3.105:1883";
 		String client_id = "hostname";
 		String username = "hostname";	
 		String passwd = "12345";

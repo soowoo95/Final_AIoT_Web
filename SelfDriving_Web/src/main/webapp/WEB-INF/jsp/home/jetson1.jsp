@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Jetson</title>
+<title>Jetson #1</title>
 	<link rel=icon href="${pageContext.request.contextPath}/resource/img/jetracer.png">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/bootstrap/css/bootstrap.min.css">
    <script src="${pageContext.request.contextPath}/resource/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
@@ -14,25 +14,23 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
 	<link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/css/style.default.css" id="theme-stylesheet">
 	
-		
 	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-   <script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
-   <script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
-   <script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script>
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
-   <script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
-   <!-- MQTT -->   
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  	<script src="${pageContext.request.contextPath}/resource/popper/popper.min.js"></script>
+   	<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
+   	<script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script>
+   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
+   	<script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
+   	<!-- MQTT -->   
+   	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    
-   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
-   <!-- 탐지 css -->   
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jetson2.css">
-
+   	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
+	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
+	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
+	<script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+   	<!-- 탐지 css -->   
+   	<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jetson2.css">
 </head>
 <body id="jet-racer">
 <header class="header">   
@@ -58,7 +56,7 @@
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
           <div class="title">
-            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+            <h1 class="h5" style="color: lightgray">AIoT</h1>
             <p style="color: lightgray">관리자</p>
           </div>
         </div>
@@ -72,8 +70,6 @@
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>탐지 히스토리 조회 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>실시간 탐지 | 대응 현황</a></li>
 	      	  <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석  </a></li>
-	      	  
-	      	  
         </ul>
       </nav>    
 	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; " >
@@ -87,8 +83,10 @@
        <img   class="hud05" src="${pageContext.request.contextPath}/resource/img/hud3/hover05.png">              
     </div>
 </div>
+
 <!-- canvas 드로잉 판 -->
 <div id = "total">
+
   <!-- 카메라 캔버스 -->
    <canvas id="cameraLayer"></canvas>
    
@@ -130,13 +128,7 @@
   <span class="menuitem entypo-chart-pie">
     <p id="proc" class="caption">Battery: --%</p>
   </span>
-  
-  
-
-  
-   
 </div>
-
 
 <!-- Right Menu -->
 <article>
@@ -371,7 +363,7 @@ function onMessageArrived(message) {
 			$("#targetSpeed1").text("Speed : 0");
 			
 			message = new Paho.MQTT.Message("speed:"+ 0);
-			message.destinationName = "/1motion/stop";
+			message.destinationName = "/1manual/stop";
 			message.qos = 0;
 			client.send(message);
 		}
@@ -381,7 +373,7 @@ function onMessageArrived(message) {
 			$("#targetSpeed1").text("Speed : 60");
 			
 			message = new Paho.MQTT.Message("speed:"+ 60);
-			message.destinationName = "/1motion/go";
+			message.destinationName = "/1manual/go";
 			message.qos = 0;
 			client.send(message);
 		}

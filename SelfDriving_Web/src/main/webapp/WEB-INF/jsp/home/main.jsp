@@ -64,6 +64,7 @@
 		client.subscribe("/req/3cctv");
 		client.subscribe("/req/4cctv");
 	}
+	
 	$(document).ready(function() {
 	    setInterval(getinterval, 750);
 	});  
@@ -86,7 +87,6 @@
 		message = new Paho.MQTT.Message(ipid);
 		message.destinationName = "/res/"+subList[index];
 		client.send(message);
-
 	}
 	
 	function onMessageArrived(message) {
@@ -101,46 +101,68 @@
 			}
 		}
 		if(message.destinationName =="/req/1jetracer") {
+			console.log("1cctv연결됨!")
 			response(0);
 			lastSendtimearr[0] = Date.now();
-			$("#1jetracer").text("CONNECTED");
-			$("#1jetracer").css("color", "#ADFF2F");
+			$("#1jet").text("CONNECTED");
+			$("#1jet").css("color", "#ADFF2F");
+			$("#1jzone").text("주행 중");
+			$("#1jzone").css("color", "#ADFF2F");
+			$("#1jName").css("color", "#ADFF2F");
 		}
 		if(message.destinationName =="/req/2jetracer") {
 			response(1);
 			lastSendtimearr[1] = Date.now();
-			$("#2jetracer").text("CONNECTED");
-			$("#2jetracer").css("color", "#ADFF2F");
+			$("#2jet").text("CONNECTED");
+			$("#2jet").css("color", "#ADFF2F");
+			$("#2jzone").text("주행 중");
+			$("#2jzone").css("color", "#ADFF2F");
+			$("#2jName").css("color", "#ADFF2F");
 		}
 		if(message.destinationName =="/req/3jetracer") {
 			response(2);
 			lastSendtimearr[2] = Date.now();
-			$("#3jetracer").text("CONNECTED");
-			$("#3jetracer").css("color", "#ADFF2F");
+			$("#3jet").text("CONNECTED");
+			$("#3jet").css("color", "#ADFF2F");
+			$("#3jzone").text("주행 중");
+			$("#3jzone").css("color", "#ADFF2F");
+			$("#3jName").css("color", "#ADFF2F");
 		}
 		if(message.destinationName =="/req/1cctv") {
 			response(3);
 			lastSendtimearr[3] = Date.now();
 			$("#1cctv").text("CONNECTED");
 			$("#1cctv").css("color", "#ADFF2F");
+			$("#1zone").text("A 구역");
+			$("#1zone").css("color", "#ADFF2F");
+			$("#1cName").css("color", "#ADFF2F");
 		}
 		if(message.destinationName =="/req/2cctv") {
 			response(4);
 			lastSendtimearr[4] = Date.now();
 			$("#2cctv").text("CONNECTED");
 			$("#2cctv").css("color", "#ADFF2F");
+			$("#2zone").text("E 구역");
+			$("#2zone").css("color", "#ADFF2F");
+			$("#2cName").css("color", "#ADFF2F");
 		}
 		if(message.destinationName =="/req/3cctv") {
 			response(5);
 			lastSendtimearr[5] = Date.now();
 			$("#3cctv").text("CONNECTED");
 			$("#3cctv").css("color", "#ADFF2F");
+			$("#3zone").text("K 구역");
+			$("#3zone").css("color", "#ADFF2F");
+			$("#3cName").css("color", "#ADFF2F");
 		}
 		if(message.destinationName =="/req/4cctv") {
 			response(6);
 			lastSendtimearr[6] = Date.now();
 			$("#4cctv").text("CONNECTED");
 			$("#4cctv").css("color", "#ADFF2F");
+			$("#4zone").text("P 구역");
+			$("#4zone").css("color", "#ADFF2F");
+			$("#4cName").css("color", "#ADFF2F");
 		}
 	}
 
@@ -168,7 +190,7 @@
 	        <div class="sidebar-header d-flex align-items-center">
 	          <div class="avatar" style="width: 100px; height: 100px; align-itself: center; "><img id="adminFace" src="${pageContext.request.contextPath}/resource/img/milk.jpg" class="img-fluid rounded-circle"></div>
 	          <div class="title">
-	            <h1 class="h5" style="color: lightgray">AIoT Project</h1>
+	            <h1 class="h5" style="color: lightgray">AIoT</h1>
 	            <p style="color: lightgray">관리자</p>
 	          </div>
 	        </div>
@@ -187,7 +209,7 @@
 	       	<div style="margin-bottom: 10px; margin-top: 80px; color:white; font-weight: bold; font-size: xx-large; height: 50px; width: 1623px; text-align: center">지능형 농가 유해동물 탐지 및 대응 시스템</div>
 	       	
 	       	<div style="width: 810px; position: absolute; left: 50px; top: 150px; height: 436px">
-				<input value="유해동물 탐지 기준 및 상태 요약" readonly="readonly" style="color:#FFFFE0 ; background-color: transparent ;border-color: #ADFF2F; border-style:solid;border-left:none; border-right:none; border-top:none ;border-width:medium; font-weight: 500; font-size:20px; font-weight: bold; width: 810px; text-align: center; margin-left: -3px; height: 36px; margin-top: -3px"/>
+				<input value="유해동물 탐지 기준 및 상태 요약" readonly="readonly" style="color:#FFFFE0 ; background-color: transparent ;border-color: #ADFF2F; border-style:solid;border-left:none; border-right:none; border-top:none ;border-width:medium; font-weight: 500; font-size:20px; font-weight: bold; width: 810px; text-align: center; margin-left: -3px; height: 36px; margin-top: -3px; padding-bottom: 10px"/>
 				
 				<div class="container" style="width: 810px;height: 190px ;position: absolute; left: -3px; background-color: #2d3035 ; top:40px; padding: 0px">
 		         <div class="table-responsive">
@@ -214,7 +236,7 @@
                         <tr>
                       	  <td style="color: yellow; font-weight :bold;font-size: large; ">C</td>
                           <td>농작물 피해가 예상되는 경우</td>
-                          <td>사슴, 까마귀, 토끼 </td>
+                          <td>사슴, 까치, 토끼 </td>
                         </tr>
                         <tr>
                       	  <td style="color: #9ACD32; font-weight :bold;font-size: large; ">D</td>
@@ -248,7 +270,7 @@
 			</div>
 			
 			<div style="width: 810px; position: absolute; left: 50px; top: 630px; height: 401px">
-				<input value="자율주행 모드 처리 기준" readonly="readonly" style="color:#FFFFE0 ;background-color: transparent; border-color: #ADFF2F; border-style:solid;border-left:none; border-right:none; border-top:none ;border-width:medium; font-weight: 500; font-size:20px; font-weight: bold; width: 810px; text-align: center; margin-left: -3px; height: 36px; margin-top: -3px"/>
+				<input value="자율주행 모드 처리 기준" readonly="readonly" style="color:#FFFFE0 ;background-color: transparent; border-color: #ADFF2F; border-style:solid;border-left:none; border-right:none; border-top:none ;border-width:medium; font-weight: 500; font-size:20px; font-weight: bold; width: 810px; text-align: center; margin-left: -3px; height: 36px; margin-top: -3px; padding-bottom: 10px"/>
 
 		        <div class="container" style="width: 810px; height: 365px; ;position: absolute; left: -3px; background-color: #2d3035 ; top:36px; padding: 0px; ">
 		         <div class="table-responsive">
@@ -256,31 +278,31 @@
                    <table class="table table-sm" style="color: white; margin-top: 10px">
                      <thead>
                        <tr style="border-bottom: medium; border-style: double; border-color: white; border-left: none; border-right: none ; border-top: none;">
-                         <th style="width: 150px">교통 사인 종류</th>
-                         <th style="width: 200px">탐지 내용</th> 
-                         <th style="width: 460px">타겟 주행 모드</th> 
+                         <th style="width: 200px; height: 30px; padding-bottom: 10px">교통 사인 종류</th>
+                         <th style="width: 380px; height: 30px; padding-bottom: 10px">탐지 내용</th> 
+                         <th style="width: 220px; height: 30px; padding-bottom: 10px">타겟 주행 모드</th> 
                        </tr>
                      </thead>
                      <tbody style="font-size:medium;">
                       	<tr>
-                      	                        	  <td>위치안내 표지판</td>
-                      	  <td>A,B,C,D,...,S,T</td>
-                          <td>탐지 로봇의 위치 갱신</td>
+                      	  <td style="height: 45px">위치 안내 표지판</td>
+                      	  <td style="height: 45px">A,B,C,D,...,S,T</td>
+                          <td style="height: 45px">탐지 로봇의 위치 갱신</td>
                         </tr>
                         <tr>
-                      	  <td>교통규제표지판</td>
-                      	  <td>정지, 60, 100</td>
-                          <td>차량 속도의 제어</td>
+                      	  <td style="height: 45px">교통 규제 표지판</td>
+                      	  <td style="height: 45px">정지, 60, 100</td>
+                          <td style="height: 45px">차량 속도의 제어</td>
                         </tr>
                         <tr>
-                      	  <td>교통지시표지판</td>
-                      	  <td>어린이보호구역, 커브</td>
-                          <td>차량 속도, 특정 행동 수행</td>
+                      	  <td style="height: 45px">교통 지시 표지판</td>
+                      	  <td style="height: 45px">어린이보호구역, 커브</td>
+                          <td style="height: 45px">차량 속도, 특정 행동 수행</td>
                         </tr>
                         <tr>
-                        <td>도로 노면 표시</td>
-                      	  <td>차선, 중앙선, 횡단보도,과속방지턱</td>
-                          <td>차량 주행가능 여부 파악</td>
+                          <td style="height: 45px">도로 노면 표시</td>
+                      	  <td style="height: 45px">차선, 중앙선, 횡단보도, 과속방지턱</td>
+                          <td style="height: 45px">차량 주행가능 여부 파악</td>
                         </tr>
                     </tbody>
                    </table>
@@ -290,7 +312,7 @@
 			</div>
 
 			<div id="demo" class="carousel slide" data-ride="carousel" style="width:700px; position: absolute; left: 890px; top: 150px">
-			  <input value="탐지봇 제원" readonly="readonly" style="background-color: transparent ; color: #FFFFE0 ; font-weight: 500; font-size:20px;border-color: #ADFF2F; border-width:medium; border-style:solid; border-left:none; border-right:none; border-top:none; font-weight: bold; width: 700px; text-align: center; margin-top: -3px"/>
+			  <input value="탐지봇 제원" readonly="readonly" style="background-color: transparent ; color: #FFFFE0 ; font-weight: 500; font-size:20px;border-color: #ADFF2F; border-width:medium; border-style:solid; border-left:none; border-right:none; border-top:none; font-weight: bold; width: 700px; text-align: center; margin-top: -3px; padding-bottom: 3px"/>
 			  <ul class="carousel-indicators">
 			    <li data-target="#demo" data-slide-to="0" class="active"></li>
 			    <li data-target="#demo" data-slide-to="1"></li>
@@ -318,7 +340,7 @@
 			</div>
 			
 			<div style="width: 700px; position: absolute; left: 890px; top: 630px">
-				<input value="탐지봇 및 CCTV 연결 상태" readonly="readonly" style="background-color: transparent ; color: #FFFFE0; font-weight: 500; font-size:20px; font-weight: bold; width: 700px; text-align: center;border-color: #ADFF2F; border-width:medium; border-style:solid; border-left:none; border-right:none; border-top:none;"/>
+				<input value="탐지봇 및 CCTV 연결 상태" readonly="readonly" style="background-color: transparent ; color: #FFFFE0; font-weight: 500; font-size:20px; font-weight: bold; width: 700px; text-align: center;border-color: #ADFF2F; border-width:medium; border-style:solid; border-left:none; border-right:none; border-top:none; "/>
 				
 				<div class="container" style="width: 700px; height: 365px; ;position: absolute; left:0px; background-color: #2d3035 ; top:36px; padding: 0px; ">
 		         <div class="table-responsive">
@@ -326,46 +348,46 @@
                    <table class="table table-sm" style="color: white; margin-top: 10px;">
                      <thead>
                        <tr style="border-bottom: medium; border-style: double; border-color: white; border-left: none; border-right: none ; border-top: none;">
-                         <th style="width: 150px">연결 대상</th>
-                         <th style="width: 200px">연결 상태</th> 
-                         <th style="width: 450px">특이 사항</th> 
+                         <th style="width: 150px; padding-bottom: 10px; height: 40px">연결 대상</th>
+                         <th style="width: 200px; padding-bottom: 10px">연결 상태</th> 
+                         <th style="width: 450px; padding-bottom: 10px">주행/촬영 여부 및 구간 정보</th> 
                        </tr>
                      </thead>
                      <tbody style="font-size: medium;">
                       	<tr style="height: 45px">
-                      	  <td>Jet-Racer #1</td>
+                      	  <td id="1jName">Jet-Racer #1</td>
                       	  <td id="1jet">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="1jzone">주행 중 아님</td>
                         </tr>
                        <tr style="height: 45px;">
-                      	  <td>Jet-Racer #2</td>
+                      	  <td id="2jName">Jet-Racer #2</td>
                       	  <td id="2jet">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="2jzone">주행 중 아님</td>
                         </tr>
                         <tr style="height: 45px;">
-                      	  <td>Jet-Racer #3</td>
+                      	  <td id="3jName">Jet-Racer #3</td>
                       	  <td id="3jet">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="3jzone">주행 중 아님</td>
                         </tr>
                         <tr style="height: 45px;">
-                      	  <td>CCTV #1</td>
+                      	  <td id="1cName">CCTV #1</td>
                       	  <td id="1cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="1zone">촬영 중 아님</td>
                         </tr>
                         <tr style="height: 45px;">
-                      	  <td>CCTV #2</td>
+                      	  <td id="2cName">CCTV #2</td>
                       	  <td id="2cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="2zone">촬영 중 아님</td>
                         </tr>
                         <tr style="height: 45px;">
-                      	  <td>CCTV #3</td>
+                      	  <td id="3cName">CCTV #3</td>
                       	  <td id="3cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="3zone">촬영 중 아님</td>
                         </tr>
                         <tr style="height: 45px;">
-                      	  <td>CCTV #4</td>
+                      	  <td id="4cName">CCTV #4</td>
                       	  <td id="4cctv">DISCONNECTED</td>
-                          <td>디디디디디디디디디디디디</td>
+                          <td id="4zone">촬영 중 아님</td>
                         </tr>
                     </tbody>
                    </table>
