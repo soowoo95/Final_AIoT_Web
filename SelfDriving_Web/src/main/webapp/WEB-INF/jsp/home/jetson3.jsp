@@ -197,7 +197,7 @@
 										</div>
 										<strong style="color: white">Detected Motion</strong>
 									</div>
-									<div id="motionName2"style="color: #864DD9; font-size: x-large; font-weight: bold;; margin-right: 15px; margin-bottom: 15px">
+									<div id="motionName3"style="color: #864DD9; font-size: x-large; font-weight: bold;; margin-right: 15px; margin-bottom: 15px">
 										---</div>
 								</div>
 							</div>
@@ -351,7 +351,7 @@
 
 		//MQTT onConnect
 		function onConnect() {
-			client.subscribe("/req/2jetracer");
+			client.subscribe("/req/3jetracer");
 			client.subscribe("/mirror");
 		}
 
