@@ -385,15 +385,16 @@
 						
 						var json = message.payloadString;
 						var obj = JSON.parse(json);
+						
 						if(obj.road == "road"){
-							console.log("처리 중이라는 연락 받음");
+							console.log(obj.road + "가 들어옴");
 							$("#beginSign").attr("src", "${pageContext.request.contextPath}/resource/img/begin.png");
 							$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived2.png");
 							$("#beginText").css('color', 'dimgray');
 							$("#startText").css('color', 'white');
 						}
 						if(obj.success == "ok"){
-							console.log("완료했다는 연락 받음");
+							console.log(obj.success + "가 들어옴");
 							$("#startSign").attr("src", "${pageContext.request.contextPath}/resource/img/arrived.png");
 							$("#finishSign").attr("src", "${pageContext.request.contextPath}/resource/img/complete2.png");
 							$("#startText").css('color', 'dimgray');
@@ -427,7 +428,7 @@
 								message.destinationName = "/3manual/perfect";
 								client.send(message);
 								console.log("perfeccccctttttt");
-							}, 3000);
+							}, 1000);
 							
 							setTimeout(function(){
 								RowClick();

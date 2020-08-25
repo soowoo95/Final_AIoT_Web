@@ -260,13 +260,13 @@
 		</div>
 	</div>
 	<script>
-		$(function(){
+/* 		$(function(){
 			setInterval(renew, 3000);
 		});
 		
 		function renew(){
 			location.reload();
-		}
+		} */
 		function manual1(value) {
 			//console.log("메뉴얼 1 실행해보자");
 			//console.log(value);

@@ -260,14 +260,14 @@
 		</div>
 	</div>
 	<script>
-		$(function(){
+/* 		$(function(){
 			setInterval(renew, 3000);
 		});
 		
 		function renew(){
 			location.reload();
 		}
-		
+		 */
 		function manual2(value) {
 /* 			console.log("메뉴얼 2 실행해보자");
 			console.log(value); */
@@ -435,7 +435,8 @@
 			}
 			////////////////////////////////////////////////////////racer//////////////////////////////////////
 			if (message.destinationName == "/req/2jetracer") {
-
+				response(1);
+				lastSendtimearr[1] = Date.now();
 				//console.log(message.payloadString);
 				var json = message.payloadString;
 				var obj = JSON.parse(json);
@@ -702,8 +703,7 @@
 					//map 추가2 end
 				}// for문 
 
-				response(1);
-				lastSendtimearr[1] = Date.now();
+				
 			}
 		}
 

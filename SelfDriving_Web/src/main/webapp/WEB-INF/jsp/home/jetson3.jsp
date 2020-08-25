@@ -127,11 +127,8 @@
 				<!-- 탐지 css 설명 캔버스 -->
 				<div class="catchlist" id="catchlist"></div>
 			</div>
-
 			<!-- ------------------------------------------------------------------------------------------------------------- -->
-
 			<!-- Left Menu -->
-
 			<div id="leftmenu">
 				<div id="date_time">
 					<div id="date" class="semi_arc e4">
@@ -141,15 +138,12 @@
 						<div style="font-size: 40px; margin-top: 15px;" id="monthbox">04</div>
 						<div style="margin-top: -80px; font-size: 25px;" id="monthboxEK">January</div>
 					</div>
-
-
 					<div id="time" class="arc e1">
 						<div style="margin-top: 40px; font-size: 23px; margin-left: 3px;"
 							id="nowtime">23:41</div>
 						<div style="margin-top: 20px; font-size: 17px;" id="nowday">Tuesday</div>
 					</div>
 				</div>
-
 
 				<span class="menuitem entypo-gauge">
 					<p id="cpu" class="caption">Speed: --km/h</p>
@@ -256,14 +250,14 @@
 		</div>
 	</div>
 	<script>
-		$(function(){
+/* 		$(function(){
 			setInterval(renew, 3000);
 		});
 		
 		function renew(){
 			location.reload();
 		}
-		
+		 */
 		function manual3(value) {
 			//console.log("메뉴얼 1 실행해보자");
 			//console.log(value);
@@ -342,7 +336,7 @@
 		//--------------------------------------------------------------------------------------------
 		//MQTT new client
 		let ipid;
-		var lastSendtimearr = [ Date.now(), Date.now(), Date.now(), Date.now() ];
+		var lastSendtimearr = [ Date.now(), Date.now(), Date.now(), Date.now()];
 		var subList = [ "1jetracer", "2jetracer", "3jetracer" , "mirror"];
 		
 		$(function() {
@@ -384,7 +378,7 @@
 			if (message.destinationName == "/mirror") {
 				response(3);
 				lastSendtimearr[3] = Date.now();
-				console.log("sent response");
+				//console.log("sent response");
 				
 				var json = message.payloadString;
 				var obj = JSON.parse(json);
@@ -394,6 +388,8 @@
 				//console.log(handMotion);
 
 				if (handMotion == 'rock') {
+					console.log("rock 찍힘");
+					
 					$("#motionName3").text('STOP');
 					$("#targetSpeed3").text("Speed : 0");
 
@@ -401,9 +397,12 @@
 					message.destinationName = "/3manual/stop";
 					message.qos = 0;
 					client.send(message);
+					console.log("정지 order");
 				}
 
 				else if (handMotion == '5fingers') {
+					console.log("5fingers 찍힘");
+					
 					$("#motionName3").text('GO');
 					$("#targetSpeed3").text("Speed : 60");
 
@@ -411,6 +410,7 @@
 					message.destinationName = "/3manual/go";
 					message.qos = 0;
 					client.send(message);
+					console.log("주행 order");
 				}
 
 				else if (handMotion == 'unlabeled') {
@@ -424,15 +424,14 @@
 				else if (obj.direction == "right") {
 					location.href = "history.do";
 				}
-
 			}
 			////////////////////////////////////////////////////////racer//////////////////////////////////////
 			if (message.destinationName == "/req/3jetracer") {
-
 				////console.log(message.payloadString);
 				var json = message.payloadString;
 				var obj = JSON.parse(json);
 				image.src = "data:image/jpg;base64," + obj.Cam;
+				
 				var speed = obj.speed;
 				realspeed = speed;
 				realspeed = realspeed.toFixed(0); //소수점 제거
@@ -475,7 +474,6 @@
 					arrowctx.shadowOffsetY = 0;
 					arrowctx.shadowBlur = 20;
 					arrowctx.shadowColor = "#FF3535";
-
 					arrowctx.stroke();
 				}
 				setInterval(arrowmap, 20)
@@ -484,7 +482,6 @@
 				$("#proc").text("Battery: " + Math.round(obj.battery / 10) * 10 + "%");
 
 				//객체	
-
 				var messageKey = obj.Class.length;
 				//console.log(messageKey);
 				if (messageKey == 0) {
@@ -574,6 +571,7 @@
 								} else if (name == "T") {
 									document.getElementById("textboximg").src = "${pageContext.request.contextPath}/resource/img/도로사진/t.jpg";
 								}
+								
 							} else if (name.length > 1) {
 								//console.log("객체 감지");
 								$("#textboxline").text("Object Detection : " + "[" + name+ "]");
@@ -613,7 +611,6 @@
 						}
 						var changenum = name;
 					}
-
 					x1 = parseInt(Number(x1) * 4);
 					y1 = parseInt(Number(y1) * 3);
 					x2 = parseInt(Number(x2) * 4);
@@ -630,6 +627,7 @@
 					var location = name;
 					var x;
 					var y;
+					
 					if (location == "A") {
 						x = carLocation.A[0];
 						y = carLocation.A[1];
@@ -678,10 +676,10 @@
 					}
 					mapArea.setCarLocation(x, y);
 					mapArea.drawCar();
-
+					
 					imgMap.src = canvasMap.toDataURL();
 					imgCar.src = canvasCar.toDataURL();
-
+					
 					carLocX = mapArea.getCarLocX();
 					carLocY = mapArea.getCarLocY();
 					//map 추가2 end
@@ -690,7 +688,6 @@
 				lastSendtimearr[2] = Date.now();
 			}
 		}
-
 		var canvas1stfloor;
 		var ctx;
 
@@ -709,7 +706,6 @@
 		};
 		image.src = "";
 		// -------------------------------------------------------------------------------------------------------------
-		/* Note Matrics Script */
 		function WordShuffler(holder, opt) {
 			var that = this;
 			var time = 0;

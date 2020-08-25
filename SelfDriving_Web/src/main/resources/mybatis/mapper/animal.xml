@@ -70,7 +70,7 @@
 			</select>
 			
 			<update id="updateDcompleteByDno">
-				update animal 
+				update animal
 				set dcomplete=1
 				where dactno IN (select dactno from (select dactno from animal where dno = #{dno}) a);		
 			</update>
