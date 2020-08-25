@@ -49,7 +49,6 @@
 	  width: 200px;
 	  height: 32px;
 	  background: url(http://cfile1.uf.tistory.com/image/27423E43565F8EF627B215) 0 center no-repeat;
-	  /* 화살표 이미지 */
 	}
 
 	div#select_box label {
@@ -73,7 +72,7 @@
 	</style>
 	<body onload="chart();chart2();chart3()">
 	
-	<header class="header">   
+	<header class="header">
       <nav class="navbar navbar-expand-lg" style="height: 50px">
         <div class="container-fluid d-flex align-items-center justify-content-between">
           <div class="navbar-header">
@@ -102,13 +101,14 @@
         <span class="heading" style="color: #DB6574">CATEGORIES</span>
         <ul class="list-unstyled">
           <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>메인 페이지</a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황 </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetson1.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>탐지 히스토리 조회 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>실시간 탐지 | 대응 현황</a></li>
 	      	  <li class="active"><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석  </a></li>
         </ul>
       </nav>    
-	      <div class="page-content" style="top: 0px; height: 1080px; margin-top:-50px; padding-bottom: 0px; " >
+	  
+	  <div class="page-content" style="top: 0px; height: 1080px; margin-top:-50px; padding-bottom: 0px; " >
 
 			<div style = "width:97%;  height:300px; margin-top: 100px">
 			<div id="container"style="margin-top: 50px">

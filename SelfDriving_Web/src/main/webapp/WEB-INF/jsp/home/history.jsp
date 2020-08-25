@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html>
-  <head> 
+<head> 
 	    <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>AIOT FINAL PROJECT | TEAM 2</title>
@@ -27,50 +27,47 @@
 		<script src="${pageContext.request.contextPath}/resource/js/moment.min.js"></script>
 
 		<script>
-		$(function(){
-			client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
-			client.onMessageArrived = onMessageArrived;
-			client.connect({onSuccess:onConnect});
-		});
-		
-		function onConnect() {
-			console.log("mqtt broker connected")
-			client.subscribe("/mirror");
-		}
-		function onMessageArrived(message) {
-			if(message.destinationName =="/mirror") {
-				const json = message.payloadString;
-					const obj = JSON.parse(json);
-				//$("#mirrorView").attr("src", "data:image/jpg;base64,"+ obj.Cam);
-				if(obj.direction=="left"){
-					location.href="jetracer.do";
-				}else if (obj.direction=="right"){
-					location.href="status.do";
-				}
-			}
-		}
-			$(document).ready(function() {
-			    setInterval(renew, 10000);
+			$(function(){
+				client = new Paho.MQTT.Client(location.hostname, 61614, new Date().getTime().toString());
+				client.onMessageArrived = onMessageArrived;
+				client.connect({onSuccess:onConnect});
+				setInterval(renew, 10000);
 			});
 			
+			function onConnect() {
+				console.log("mqtt broker connected");
+				client.subscribe("/mirror");
+			}
+			function onMessageArrived(message) {
+				if(message.destinationName =="/mirror") {
+					var json = message.payloadString;
+					var obj = JSON.parse(json);
+	
+					if(obj.direction=="left"){
+						location.href="jetracer.do";
+					} else if (obj.direction=="right"){
+						location.href="status.do";
+					}
+				}
+			}
+				
 			function renew(){
 				location.reload();
 			}
-
+	
 			function viewImage(imgDno){
-				console.log("출력하고 싶은 이미지 번호:",imgDno);
+				//console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow").attr("src", "${pageContext.request.contextPath}/home/imageView.do?dno="+ imgDno)
- 			}
+				}
 			
 			function viewImage2(imgDno){
-				console.log("출력하고 싶은 이미지 번호:",imgDno);
+				//console.log("출력하고 싶은 이미지 번호:",imgDno);
 				$("#imgShow2").attr("src", "${pageContext.request.contextPath}/home/imageView2.do?sno="+ imgDno)
 			}
 		</script>
-	</head>
-	
-	<body>
-		<header class="header">   
+</head>
+<body>
+		<header class="header">
 	      <nav class="navbar navbar-expand-lg" style="height: 50px">
 	        <div class="container-fluid d-flex align-items-center justify-content-between">
 	          <div class="navbar-header">
@@ -99,7 +96,7 @@
 	        <span class="heading" style="color:#DB6574">CATEGORIES</span>
 	        <ul class="list-unstyled">
 	          <li><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>메인 페이지 </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황 </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetson1.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황 </a></li>
 	          <li class="active"><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>탐지 히스토리 조회 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>실시간 탐지 | 대응 현황</a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석 </a></li>
@@ -109,10 +106,10 @@
 	      <div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px; ">
 	        <section class="no-padding-top" style="padding: 0px">
 	          <div class="container-fluid">
-
-	            <div class="tab-content" id="pills-tabContent" style="height: 974px; margin-left: 25px; margin-right: 25px;  margin-top: 80px ;color: dimgray; border-style:solid; border-width:medium;">
+	           <div class="tab-content" id="pills-tabContent" style="height: 974px; margin-left: 25px; margin-right: 25px;  margin-top: 80px ;color: dimgray; border-style:solid; border-width:medium;">
 	            <div class="row">
-	             <input style="background-color: #ADFF2F; font-size: xx-large;font-weight: bolder; text-align: center; color: black; margin-left: 45px; margin-top:30px;border-color:#ADFF2F ; border-style:solid; border-width:medium;width: 1485px; height: 45px" readonly="readonly" value="유해 동물 탐지 히스토리 조회 및 탐지 이미지 확인">
+	            <input style="background-color: #ADFF2F; font-size: xx-large;font-weight: bolder; text-align: center; color: black; margin-left: 45px; margin-top:30px;border-color:#ADFF2F ; border-style:solid; border-width:medium;width: 1485px; height: 45px" readonly="readonly" value="유해 동물 탐지 히스토리 조회 및 탐지 이미지 확인">
+	              
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 870px; margin-top: 0px; margin-bottom: 0px; height: 400px; margin-left: 30px" > 
 	                  <div class="title" style="color: white"><strong>유해 동물 탐지 | 히스토리</strong></div>
@@ -178,7 +175,8 @@
 	                </div>
 	              </div>
 
- 				<input style="background-color: #864DD9; font-size: xx-large; font-weight: bolder; text-align: center; color: white; margin-left: 45px; border-color: transparent; width: 1485px; height: 50px" readonly="readonly" value="주행 사인 탐지 히스토리 조회 및 탐지 이미지 확인">
+ 				  <input style="background-color: #864DD9; font-size: xx-large; font-weight: bolder; text-align: center; color: white; margin-left: 45px; border-color: transparent; width: 1485px; height: 50px" readonly="readonly" value="주행 사인 탐지 히스토리 조회 및 탐지 이미지 확인">
+	              
 	              <div class="col-lg-6">
 	                <div class="block" style="width: 870px; margin-top: 0px; margin-bottom: 10px; height: 400px; margin-left: 30px">
 	                  <div class="title" style="color: white"><strong>주행 사인 탐지 | 히스토리</strong></div>

@@ -69,37 +69,20 @@ public class HomeController {
 		ReadFromOtherMQTT.start();
 	}
 	
-	@RequestMapping("/landing.do")
-	public String landing(){
-		LOGGER.info("실행");
-		return "home/landing";
-	}
-	
 	@RequestMapping("/main.do")
 	public String main(){
 		return "home/main";
 	}
 	
-	@RequestMapping("/hud.do")
-	public String hud(){
-		return "home/hud";
-	}
-	
-	@RequestMapping("/jetracer.do")
-	public String jetbot(){
-		LOGGER.info("실행");
-		return "home/jetson1";
-	}
 	//history.jsp에서 이미지를 보여준다.
 	@RequestMapping("/imageView.do")
 	@ResponseBody
 	public void imageView(@RequestParam int dno,
-						HttpServletResponse response) throws Exception {
+						  HttpServletResponse response) throws Exception {
 
 		Animal animal = new Animal();
 		animal = animalService.getAnimal(dno);
-		//LOGGER.info("이미지 뽑았다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
-		
+
 		String imgLoc = animal.getDlocation();
 		LOGGER.info(imgLoc);
 		
@@ -109,6 +92,7 @@ public class HomeController {
 		os.close();
 		is.close();
 	}
+	
 	//history.jsp에서 이미지를 보여준다.
 	@RequestMapping("/imageView2.do")
 	@ResponseBody
@@ -128,7 +112,7 @@ public class HomeController {
 		os.close();
 		is.close();
 	}
-	//status.jsp에서 리스트를 갖고온다. 	
+	//status.jsp에 넘겨줄 CCTV가 찍은 유해동물 리스트
 	@RequestMapping("/status.do")
 	public String status(Model model){
 		LOGGER.info("실행");
@@ -136,8 +120,7 @@ public class HomeController {
 		model.addAttribute("animal", list);
 		return "home/status";
 	}
-	
-	//
+
 	@ResponseBody
 	@RequestMapping("/dcompleteUpdate.do")
 	public void update(@RequestParam Map<String,Object> data){
@@ -154,29 +137,13 @@ public class HomeController {
 		LOGGER.info("실행");
 		return "home/analysis";
 	}
-	//페이지처리
+
 	@RequestMapping("/intro.do")
 	public String intro(){
 		LOGGER.info("실행");
 		return "home/intro";
 	}
-	
-	@RequestMapping("/1jet.do")
-	public String jet1(){
-		return "home/1jet";
-	}
-	
-	@RequestMapping("/2jet.do")
-	public String jet2(){
-		return "home/2jet";
-	}
-	
-	@RequestMapping("/3jet.do")
-	public String jet3(){
-		return "home/3jet";
-	}
 
-	//페이지처리
 	@RequestMapping("/history.do")
 	public String history(Model model, 
 						  @RequestParam(defaultValue="1")int pageNo, 
@@ -199,12 +166,7 @@ public class HomeController {
 		
 		return "home/history";
 	}
-	
-	@RequestMapping("/newfile.do")
-	public String newfile() {
-		LOGGER.info("실행");
-		return "home/NewFile";
-	}
+
 	@RequestMapping("/analysisMonth.do")
 	@ResponseBody
 	public List analysisMonth() {
@@ -272,6 +234,7 @@ public class HomeController {
 		dlevelCount = animalService.levelCount();
 		return dlevelCount;
 	}
+	
 	@RequestMapping("/jetson1.do")
 	public String jetson1() {
 		LOGGER.info("실행");						
@@ -282,7 +245,6 @@ public class HomeController {
 		LOGGER.info("실행");						
 		return "home/jetson2";
 	}	
-	
 	@RequestMapping("/jetson3.do")
 	public String jetson3() {
 		LOGGER.info("실행");						

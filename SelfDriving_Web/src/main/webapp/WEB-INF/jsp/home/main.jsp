@@ -39,132 +39,131 @@
 		  }
 		 </style>
 	</head>
+	
 	<script>
-	let ipid;
-	var lastSendtimearr = [Date.now(), Date.now(), Date.now(),Date.now(),Date.now(),Date.now(),Date.now()];
-	var subList=["1jetracer", "2jetracer","3jetracer","1cctv","2cctv","3cctv","4cctv"];
-	
-	$(function(){
-		ipid = new Date().getTime().toString();
-		client = new Paho.MQTT.Client(location.hostname, 61614, ipid);
-		client.onMessageArrived = onMessageArrived;
-		client.connect({onSuccess:onConnect});
-	});
-	
-	function onConnect() {
-		console.log("mqtt broker connected");
-		client.subscribe("/mirror");
+		let ipid;
+		var lastSendtimearr = [Date.now(), Date.now(), Date.now(),Date.now(),Date.now(),Date.now(),Date.now(), Date.now()];
+		var subList=["1jetracer", "2jetracer","3jetracer","1cctv","2cctv","3cctv","4cctv", "mirror"];
 		
-		client.subscribe("/req/1jetracer");
-		client.subscribe("/req/2jetracer");
-		client.subscribe("/req/3jetracer");
-		
-		client.subscribe("/req/1cctv");
-		client.subscribe("/req/2cctv");
-		client.subscribe("/req/3cctv");
-		client.subscribe("/req/4cctv");
-	}
-	
-	$(document).ready(function() {
-	    setInterval(getinterval, 750);
-	});  
-	 
-	 var lastSendtime=Date.now();
-	 
-	 function getinterval(){
-		nowtime= Date.now();
-		lastSendtimearr.forEach(function(element, index, array){
-			interval=nowtime-element
-			if(interval>750){
-				//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
-				response(index);
-			}
+		$(function(){
+			ipid = new Date().getTime().toString();
+			client = new Paho.MQTT.Client(location.hostname, 61614, ipid);
+			client.onMessageArrived = onMessageArrived;
+			client.connect({onSuccess:onConnect});
+			setInterval(getinterval, 750);
 		});
-	}
-	 
-	function response(index){
-		//console.log(subList[index]+"에게 답장을 보내쥬");
-		message = new Paho.MQTT.Message(ipid);
-		message.destinationName = "/res/"+subList[index];
-		client.send(message);
-	}
-	
-	function onMessageArrived(message) {
-		if(message.destinationName =="/mirror") {
-			const json = message.payloadString;
-			const obj = JSON.parse(json);
-			if(obj.direction=="left"){
-				alert("최상단 페이지입니다.")
+		
+		function onConnect() {
+			console.log("mqtt broker connected");
+			client.subscribe("/mirror");
+			
+			client.subscribe("/req/1jetracer");
+			client.subscribe("/req/2jetracer");
+			client.subscribe("/req/3jetracer");
+			
+			client.subscribe("/req/1cctv");
+			client.subscribe("/req/2cctv");
+			client.subscribe("/req/3cctv");
+			client.subscribe("/req/4cctv");
+		}
+		
+		 var lastSendtime=Date.now();
+		 function getinterval(){
+			nowtime= Date.now();
+			lastSendtimearr.forEach(function(element, index, array){
+				interval=nowtime-element
+				if(interval>750){
+					response(index);
+				}
+			});
+		}
+		 
+		function response(index){
+			message = new Paho.MQTT.Message(ipid);
+			message.destinationName = "/res/"+subList[index];
+			client.send(message);
+		}
+		
+		function onMessageArrived(message) {
+			if(message.destinationName =="/mirror") {
+				response(7);
+				lastSendtimearr[7] = Date.now();
+				
+				var json = message.payloadString;
+				var obj = JSON.parse(json);
+				
+				if(obj.direction=="left"){
+					alert("최상단 페이지입니다.")
+				}
+				else if (obj.direction=="right"){
+					location.href="jetracer.do";
+				}
 			}
-			else if (obj.direction=="right"){
-				location.href="jetracer.do";
+			if(message.destinationName =="/req/1jetracer") {
+				console.log("1cctv연결됨!")
+				response(0);
+				lastSendtimearr[0] = Date.now();
+				$("#1jet").text("CONNECTED");
+				$("#1jet").css("color", "#ADFF2F");
+				$("#1jzone").text("주행 중");
+				$("#1jzone").css("color", "#ADFF2F");
+				$("#1jName").css("color", "#ADFF2F");
+			}
+			if(message.destinationName =="/req/2jetracer") {
+				response(1);
+				lastSendtimearr[1] = Date.now();
+				$("#2jet").text("CONNECTED");
+				$("#2jet").css("color", "#ADFF2F");
+				$("#2jzone").text("주행 중");
+				$("#2jzone").css("color", "#ADFF2F");
+				$("#2jName").css("color", "#ADFF2F");
+			}
+			if(message.destinationName =="/req/3jetracer") {
+				response(2);
+				lastSendtimearr[2] = Date.now();
+				$("#3jet").text("CONNECTED");
+				$("#3jet").css("color", "#ADFF2F");
+				$("#3jzone").text("주행 중");
+				$("#3jzone").css("color", "#ADFF2F");
+				$("#3jName").css("color", "#ADFF2F");
+			}
+			if(message.destinationName =="/req/1cctv") {
+				response(3);
+				lastSendtimearr[3] = Date.now();
+				$("#1cctv").text("CONNECTED");
+				$("#1cctv").css("color", "#ADFF2F");
+				$("#1zone").text("A 구역");
+				$("#1zone").css("color", "#ADFF2F");
+				$("#1cName").css("color", "#ADFF2F");
+			}
+			if(message.destinationName =="/req/2cctv") {
+				response(4);
+				lastSendtimearr[4] = Date.now();
+				$("#2cctv").text("CONNECTED");
+				$("#2cctv").css("color", "#ADFF2F");
+				$("#2zone").text("E 구역");
+				$("#2zone").css("color", "#ADFF2F");
+				$("#2cName").css("color", "#ADFF2F");
+			}
+			if(message.destinationName =="/req/3cctv") {
+				response(5);
+				lastSendtimearr[5] = Date.now();
+				$("#3cctv").text("CONNECTED");
+				$("#3cctv").css("color", "#ADFF2F");
+				$("#3zone").text("K 구역");
+				$("#3zone").css("color", "#ADFF2F");
+				$("#3cName").css("color", "#ADFF2F");
+			}
+			if(message.destinationName =="/req/4cctv") {
+				response(6);
+				lastSendtimearr[6] = Date.now();
+				$("#4cctv").text("CONNECTED");
+				$("#4cctv").css("color", "#ADFF2F");
+				$("#4zone").text("P 구역");
+				$("#4zone").css("color", "#ADFF2F");
+				$("#4cName").css("color", "#ADFF2F");
 			}
 		}
-		if(message.destinationName =="/req/1jetracer") {
-			console.log("1cctv연결됨!")
-			response(0);
-			lastSendtimearr[0] = Date.now();
-			$("#1jet").text("CONNECTED");
-			$("#1jet").css("color", "#ADFF2F");
-			$("#1jzone").text("주행 중");
-			$("#1jzone").css("color", "#ADFF2F");
-			$("#1jName").css("color", "#ADFF2F");
-		}
-		if(message.destinationName =="/req/2jetracer") {
-			response(1);
-			lastSendtimearr[1] = Date.now();
-			$("#2jet").text("CONNECTED");
-			$("#2jet").css("color", "#ADFF2F");
-			$("#2jzone").text("주행 중");
-			$("#2jzone").css("color", "#ADFF2F");
-			$("#2jName").css("color", "#ADFF2F");
-		}
-		if(message.destinationName =="/req/3jetracer") {
-			response(2);
-			lastSendtimearr[2] = Date.now();
-			$("#3jet").text("CONNECTED");
-			$("#3jet").css("color", "#ADFF2F");
-			$("#3jzone").text("주행 중");
-			$("#3jzone").css("color", "#ADFF2F");
-			$("#3jName").css("color", "#ADFF2F");
-		}
-		if(message.destinationName =="/req/1cctv") {
-			response(3);
-			lastSendtimearr[3] = Date.now();
-			$("#1cctv").text("CONNECTED");
-			$("#1cctv").css("color", "#ADFF2F");
-			$("#1zone").text("A 구역");
-			$("#1zone").css("color", "#ADFF2F");
-			$("#1cName").css("color", "#ADFF2F");
-		}
-		if(message.destinationName =="/req/2cctv") {
-			response(4);
-			lastSendtimearr[4] = Date.now();
-			$("#2cctv").text("CONNECTED");
-			$("#2cctv").css("color", "#ADFF2F");
-			$("#2zone").text("E 구역");
-			$("#2zone").css("color", "#ADFF2F");
-			$("#2cName").css("color", "#ADFF2F");
-		}
-		if(message.destinationName =="/req/3cctv") {
-			response(5);
-			lastSendtimearr[5] = Date.now();
-			$("#3cctv").text("CONNECTED");
-			$("#3cctv").css("color", "#ADFF2F");
-			$("#3zone").text("K 구역");
-			$("#3zone").css("color", "#ADFF2F");
-			$("#3cName").css("color", "#ADFF2F");
-		}
-		if(message.destinationName =="/req/4cctv") {
-			response(6);
-			lastSendtimearr[6] = Date.now();
-			$("#4cctv").text("CONNECTED");
-			$("#4cctv").css("color", "#ADFF2F");
-			$("#4zone").text("P 구역");
-			$("#4zone").css("color", "#ADFF2F");
-			$("#4cName").css("color", "#ADFF2F");
-		}
-	}
 
 	</script>
 	<body>
@@ -197,7 +196,7 @@
 	        <span class="heading" style="color:#DB6574">CATEGORIES</span>
 	        <ul class="list-unstyled">
 	          <li class="active"><a href="${pageContext.request.contextPath}/home/main.do" style="color: lightgray"> <i class="icon-home"></i>메인 페이지 </a></li>
-	          <li><a href="${pageContext.request.contextPath}/home/jetracer.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황 </a></li>
+	          <li><a href="${pageContext.request.contextPath}/home/jetson1.do" style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/history.do" style="color: lightgray"> <i class="icon-grid"></i>탐지 히스토리 조회 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/status.do" style="color: lightgray"> <i class="icon-padnote"></i>실시간 탐지 | 대응 현황 </a></li>
 	          <li><a href="${pageContext.request.contextPath}/home/analysis.do" style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석 </a></li>
@@ -284,6 +283,16 @@
                        </tr>
                      </thead>
                      <tbody style="font-size:medium;">
+                     	<tr>
+                      	  <td style="height: 45px">스마트 미러 제어</td>
+                      	  <td style="height: 45px">ROCK (주먹 사인)</td>
+                          <td style="height: 45px">정지</td>
+                        </tr>
+                     	<tr>
+                      	  <td style="height: 45px">스마트 미러 제어</td>
+                      	  <td style="height: 45px">5-Fingers (손바닥 사인)</td>
+                          <td style="height: 45px">주행 시작</td>
+                        </tr>
                       	<tr>
                       	  <td style="height: 45px">위치 안내 표지판</td>
                       	  <td style="height: 45px">A,B,C,D,...,S,T</td>
@@ -394,11 +403,10 @@
                  </div>
                </div>
 	         </div>
-			
-			</div>
-			
-        </div>
-     	</div>
+		</div>
+        
+      </div>
+     </div>
      	
         <script>
         $.ajax({
@@ -442,23 +450,16 @@
    			url: "${pageContext.request.contextPath}/home/LevelCount.do",
    			success: 
    			function(levelCount){
-  				console.log(typeof(levelCount));
-   				console.log(levelCount);
-   				
    				console.log("A등급: " + levelCount[0].dlevelCount);
    				console.log("B등급: " + levelCount[1].dlevelCount);
    				console.log("C등급: " + levelCount[2].dlevelCount);
    				console.log("D등급: " + levelCount[3].dlevelCount);
-   				
-   				//number구만
-   				console.log(typeof(levelCount[0].dlevelCount));
 
    				var alev = $("input[name=tempA]").val(levelCount[0].dlevelCount +" 건");
    				var blev = $("input[name=tempB]").val(levelCount[1].dlevelCount +" 건");
    				var clev = $("input[name=tempC]").val(levelCount[2].dlevelCount +" 건");
    			}
    		});
-        
         </script>
 
 </body>

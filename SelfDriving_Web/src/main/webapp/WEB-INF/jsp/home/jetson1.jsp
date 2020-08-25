@@ -26,10 +26,11 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    
    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+   
    <!-- 탐지 css -->   
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jetson2.css">
 
@@ -84,7 +85,7 @@
 					style="color: lightgray"> <i class="icon-home"></i>메인 페이지
 				</a></li>
 				<li class="active"><a
-					href="${pageContext.request.contextPath}/home/jetracer.do"
+					href="${pageContext.request.contextPath}/home/jetson1.do"
 					style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황
 				</a></li>
 				<li class="active"><a
@@ -259,10 +260,16 @@
 		</div>
 	</div>
 	<script>
-
+		$(function(){
+			setInterval(renew, 3000);
+		});
+		
+		function renew(){
+			location.reload();
+		}
 		function manual1(value) {
-			console.log("메뉴얼 1 실행해보자");
-			console.log(value);
+			//console.log("메뉴얼 1 실행해보자");
+			//console.log(value);
 
 			if (value == 'On') {
 				document.getElementById('modeOn1').style.backgroundColor = '#ADFF2F';
@@ -275,7 +282,7 @@
 
 				$("#jet-racer2").keydown(function(event) {
 					if (event.keyCode == '38') {
-						console.log("달리자1");
+						//console.log("달리자1");
 						message = new Paho.MQTT.Message("speed");
 						message.destinationName = "/1manual/go";
 						message.qos = 0;
@@ -283,14 +290,14 @@
 						console.log(message);
 					}
 					if (event.keyCode == '40') {
-						console.log("멈추자1");
+						//console.log("멈추자1");
 						message = new Paho.MQTT.Message("speed");
 						message.destinationName = "/1manual/stop";
 						message.qos = 0;
 						client.send(message);
 					}
 					if (event.keyCode == '37') {
-						console.log("toL1");
+						//console.log("toL1");
 						message = new Paho.MQTT.Message("lineChangeToL");
 						message.destinationName = "/1manual/toL";
 						message.qos = 0;
@@ -298,7 +305,7 @@
 						console.log(message);
 					}
 					if (event.keyCode == '39') {
-						console.log("toR1");
+						//console.log("toR1");
 						message = new Paho.MQTT.Message("lineChangeToR");
 						message.destinationName = "/1manual/toR";
 						message.qos = 0;
@@ -308,8 +315,8 @@
 			}
 
 			else if (value == 'Off') {
-				console.log("메뉴얼 1 종료");
-				console.log(value);
+				//console.log("메뉴얼 1 종료");
+				//console.log(value);
 
 				document.getElementById('modeOn1').style.backgroundColor = 'dimgray';
 				document.getElementById('modeOn1').style.color = 'white';
@@ -338,11 +345,11 @@
 		//--------------------------------------------------------------------------------------------
 		//MQTT new client
 		let ipid;
-		var lastSendtimearr = [ Date.now(), Date.now(), Date.now() ];
-		var subList = [ "1jetracer", "2jetracer", "3jetracer" ];
+		var lastSendtimearr = [ Date.now(), Date.now(), Date.now(), Date.now() ];
+		var subList = [ "1jetracer", "2jetracer", "3jetracer", "mirror" ];
 		$(function() {
 			ipid = new Date().getTime().toString()
-			client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
+			client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
 			client.onMessageArrived = onMessageArrived;
 			client.connect({
 				onSuccess : onConnect
@@ -351,7 +358,7 @@
 
 		//MQTT onConnect
 		function onConnect() {
-			client.subscribe("/req/2jetracer");
+			client.subscribe("/req/1jetracer");
 			client.subscribe("/mirror");
 		}
 
@@ -381,6 +388,9 @@
 		function onMessageArrived(message) {
 			/////////////////////////////////////////////////////mirror//////////////////////////////////////
 			if (message.destinationName == "/mirror") {
+				response(3);
+				lastSendtimearr[3] = Date.now();
+				
 				const json = message.payloadString;
 				const obj = JSON.parse(json);
 				$("#motionView").attr("src", "data:image/jpg;base64," + obj.Cam);
@@ -424,7 +434,9 @@
 			}
 			////////////////////////////////////////////////////////racer//////////////////////////////////////
 			if (message.destinationName == "/req/1jetracer") {
-
+				response(0);
+				lastSendtimearr[0] = Date.now();
+				
 				//console.log(message.payloadString);
 				const json = message.payloadString;
 				const obj = JSON.parse(json);
@@ -1066,8 +1078,5 @@
 		}
 		setInterval(minimap, 20)
 	</script>
-	<!-- MQTT Jetson 조작 시 필요 js 소환 -->
-	<script
-		src="${pageContext.request.contextPath}/resource/script/restaurant_car_control.js"></script>
 </body>
 </html>

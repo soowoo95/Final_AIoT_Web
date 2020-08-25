@@ -84,7 +84,7 @@
 					style="color: lightgray"> <i class="icon-home"></i>메인 페이지
 				</a></li>
 				<li class="active"><a
-					href="${pageContext.request.contextPath}/home/jetracer.do"
+					href="${pageContext.request.contextPath}/home/jetson1.do"
 					style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇
 						현황
 				</a></li>
@@ -260,10 +260,17 @@
 		</div>
 	</div>
 	<script>
-
+		$(function(){
+			setInterval(renew, 3000);
+		});
+		
+		function renew(){
+			location.reload();
+		}
+		
 		function manual2(value) {
-			console.log("메뉴얼 2 실행해보자");
-			console.log(value);
+/* 			console.log("메뉴얼 2 실행해보자");
+			console.log(value); */
 
 			if (value == 'On') {
 				document.getElementById('modeOn2').style.backgroundColor = '#ADFF2F';
@@ -339,15 +346,14 @@
 		//--------------------------------------------------------------------------------------------
 		//MQTT new client
 		let ipid;
-		var lastSendtimearr = [ Date.now(), Date.now(), Date.now() ];
-		var subList = [ "1jetracer", "2jetracer", "3jetracer" ];
+		var lastSendtimearr = [ Date.now(), Date.now(), Date.now(), Date.now() ];
+		var subList = [ "1jetracer", "2jetracer", "3jetracer", "mirror" ];
+		
 		$(function() {
-			ipid = new Date().getTime().toString()
-			client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
+			ipid = new Date().getTime().toString();
+			client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
 			client.onMessageArrived = onMessageArrived;
-			client.connect({
-				onSuccess : onConnect
-			});
+			client.connect({onSuccess : onConnect});
 		});
 
 		//MQTT onConnect
@@ -382,8 +388,11 @@
 		function onMessageArrived(message) {
 			/////////////////////////////////////////////////////mirror//////////////////////////////////////
 			if (message.destinationName == "/mirror") {
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
+				response(3);
+				lastSendtimearr[3] = Date.now();
+				
+				var json = message.payloadString;
+				var obj = JSON.parse(json);
 				$("#motionView")
 						.attr("src", "data:image/jpg;base64," + obj.Cam);
 
@@ -428,8 +437,8 @@
 			if (message.destinationName == "/req/2jetracer") {
 
 				//console.log(message.payloadString);
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
+				var json = message.payloadString;
+				var obj = JSON.parse(json);
 				image.src = "data:image/jpg;base64," + obj.Cam;
 				var speed = obj.speed;
 				realspeed = speed;
@@ -1071,8 +1080,5 @@
 		}
 		setInterval(minimap, 20)
 	</script>
-	<!-- MQTT Jetson 조작 시 필요 js 소환 -->
-	<script
-		src="${pageContext.request.contextPath}/resource/script/restaurant_car_control.js"></script>
 </body>
 </html>

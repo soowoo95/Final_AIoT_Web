@@ -34,7 +34,6 @@
              Please Join Us!
             </p>
             <div class="button-group">
-<%--               <a href="${pageContext.request.contextPath}/home/main.do" class="btn btn-common" style="margin-top: 50px; background-color: #ADFF2F; color: black; font-weight: bold; ">Admin Page</a> --%>
               <a href="${pageContext.request.contextPath}/home/main.do" class="btn btn-border" style="margin-top: 50px; background-color: #864DD9; color: white; font-weight: bold; border-color: #864DD9">Admin Page</a>
             </div>
           </div>

@@ -21,24 +21,24 @@
    <script src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.min.js"></script>
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.css">
    <script src="${pageContext.request.contextPath}/resource/jquery-ui/jquery-ui.min.js"></script>
+   
    <!-- MQTT -->   
    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    
    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/popper.js/umd/popper.min.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
-	    <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery.cookie/jquery.cookie.js"> </script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/vendor/jquery-validation/jquery.validate.min.js"></script>
+   <script src="https://d19m59y37dris4.cloudfront.net/dark-admin/1-4-6/js/front.js"></script>
+   
    <!-- 탐지 css -->   
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jetson2.css">
-
 </head>
 <body id="jet-racer2">
 	<header class="header">
 		<nav class="navbar navbar-expand-lg" style="height: 50px">
-			<div
-				class="container-fluid d-flex align-items-center justify-content-between">
+			<div class="container-fluid d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
 					<a href="${pageContext.request.contextPath}/home/main.do"
 						class="navbar-brand">
@@ -64,8 +64,7 @@
 			</div>
 		</nav>
 	</header>
-	<div class="d-flex align-items-stretch" style="height: 875px;">
-
+	<div class="d-flex align-items-stretch" style="height: 875px">
 		<nav id="sidebar" style="height: 1030px;">
 			<div class="sidebar-header d-flex align-items-center">
 				<div class="avatar"
@@ -84,7 +83,7 @@
 					style="color: lightgray"> <i class="icon-home"></i>메인 페이지
 				</a></li>
 				<li class="active"><a
-					href="${pageContext.request.contextPath}/home/jetracer.do"
+					href="${pageContext.request.contextPath}/home/jetson1.do"
 					style="color: lightgray"> <i class="icon-writing-whiteboard"></i>탐지봇 현황
 				</a></li>
 				<li><a
@@ -108,13 +107,9 @@
 					href="${pageContext.request.contextPath}/home/analysis.do"
 					style="color: lightgray"> <i class="icon-chart"></i>탐지 결과 분석
 				</a></li>
-
-
 			</ul>
 		</nav>
-		<div class="page-content"
-			style="top: -50px; height: 1080px; padding-bottom: 0px;">
-
+		<div class="page-content" style="top: -50px; height: 1080px; padding-bottom: 0px;">
 			<div class="hoverbox location" id="hoverbox">
 				<div class="screen">
 					<img class="hud01"src="${pageContext.request.contextPath}/resource/img/hud3/hover01.png">
@@ -218,14 +213,16 @@
 					</div>
 				</div>
 			</section>
+			
+ 			
 			<input value="Driving Mode" readonly="readonly"style="border-color: transparent; background-color: #864DD9; text-align: center; color: white; font-weight: bold; justify-content: center; width: 320px; position: absolute; top: 820px; left: 1260px; height: 30px">
 			<div id="batteryMode" style="background-color: #864DD9; width: 320px; color: white; font-weight: bold; justify-content: center; position: absolute; left: 1260px; top: 820px">
-				<div style="width: 320px">
-					<input id="modeOn3" onclick="manual3('On')" value="Manual Driving"readonly="readonly"style="border-color: transparent; width: 140px; background-color: dimgray; text-align: center; color: white; font-weight: bold; justify-content: center;">
-					<input id="modeOff3" onclick="manual3('Off')" value="Auto Driving"readonly="readonly"style="border-color: transparent; width: 140px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold; justify-content: center; margin-left: 35px">
+				<div>
+					<input id="modeOn3" onclick="manual3('On')" value="Manual Driving"readonly="readonly"style="border-color: transparent; width: 160px; background-color: dimgray; text-align: center; color: white; font-weight: bold; justify-content: center;">
+					<input id="modeOff3" onclick="manual3('Off')" value="Auto Driving"readonly="readonly"style="border-color: transparent; width: 160px; background-color: #ADFF2F; text-align: center; color: black; font-weight: bold; justify-content: center;">
 				</div>
 			</div>
-
+ 
 			<div id="manual_control3"style="display: none; width: 380px; height: 200px; position: absolute; top: 840px;">
 				<div style="margin-left: 1170px; width: 320px; height: 200px; position: absolute" align="center">
 					<input value="Motor Ctrl"style="background-color: transparent; border-color: transparent; font-weight: bold; font-size: large; color: white; text-align: center; width: 160px; display: none;"></br>
@@ -259,10 +256,17 @@
 		</div>
 	</div>
 	<script>
-
+		$(function(){
+			setInterval(renew, 3000);
+		});
+		
+		function renew(){
+			location.reload();
+		}
+		
 		function manual3(value) {
-			console.log("메뉴얼 1 실행해보자");
-			console.log(value);
+			//console.log("메뉴얼 1 실행해보자");
+			//console.log(value);
 
 			if (value == 'On') {
 				document.getElementById('modeOn3').style.backgroundColor = '#ADFF2F';
@@ -275,30 +279,30 @@
 
 				$("#jet-racer2").keydown(function(event) {
 					if (event.keyCode == '38') {
-						console.log("달리자3");
+						//console.log("달리자3");
 						message = new Paho.MQTT.Message("speed");
 						message.destinationName = "/3manual/go";
 						message.qos = 0;
 						client.send(message);
-						console.log(message);
+						//console.log(message);
 					}
 					if (event.keyCode == '40') {
-						console.log("멈추자3");
+						//console.log("멈추자3");
 						message = new Paho.MQTT.Message("speed");
 						message.destinationName = "/3manual/stop";
 						message.qos = 0;
 						client.send(message);
 					}
 					if (event.keyCode == '37') {
-						console.log("toL3");
+						//console.log("toL3");
 						message = new Paho.MQTT.Message("lineChangeToL");
 						message.destinationName = "/3manual/toL";
 						message.qos = 0;
 						client.send(message);
-						console.log(message);
+						//console.log(message);
 					}
 					if (event.keyCode == '39') {
-						console.log("toR3");
+						//console.log("toR3");
 						message = new Paho.MQTT.Message("lineChangeToR");
 						message.destinationName = "/3manual/toR";
 						message.qos = 0;
@@ -308,8 +312,8 @@
 			}
 
 			else if (value == 'Off') {
-				console.log("메뉴얼 1 종료");
-				console.log(value);
+				//console.log("메뉴얼 1 종료");
+				//console.log(value);
 
 				document.getElementById('modeOn3').style.backgroundColor = 'dimgray';
 				document.getElementById('modeOn3').style.color = 'white';
@@ -338,15 +342,14 @@
 		//--------------------------------------------------------------------------------------------
 		//MQTT new client
 		let ipid;
-		var lastSendtimearr = [ Date.now(), Date.now(), Date.now() ];
-		var subList = [ "1jetracer", "2jetracer", "3jetracer" ];
+		var lastSendtimearr = [ Date.now(), Date.now(), Date.now(), Date.now() ];
+		var subList = [ "1jetracer", "2jetracer", "3jetracer" , "mirror"];
+		
 		$(function() {
-			ipid = new Date().getTime().toString()
-			client = new Paho.MQTT.Client("192.168.3.184", 61614, ipid);
+			ipid = new Date().getTime().toString();
+			client = new Paho.MQTT.Client("192.168.3.105", 61614, ipid);
 			client.onMessageArrived = onMessageArrived;
-			client.connect({
-				onSuccess : onConnect
-			});
+			client.connect({onSuccess : onConnect});
 		});
 
 		//MQTT onConnect
@@ -366,13 +369,11 @@
 			lastSendtimearr.forEach(function(element, index, array) {
 				interval = nowtime - element
 				if (interval > 750) {
-					//console.log("연결이 끊긴다음"+subList[index]+ "몇초가 흘렀는지를 보여주는 console.log의 시간:"+interval);
 					response(index);
 				}
 			});
 		}
 		function response(index) {
-			//console.log(subList[index]+"에게 답장을 보내쥬");
 			message = new Paho.MQTT.Message(ipid);
 			message.destinationName = "/res/" + subList[index];
 			client.send(message);
@@ -381,12 +382,16 @@
 		function onMessageArrived(message) {
 			/////////////////////////////////////////////////////mirror//////////////////////////////////////
 			if (message.destinationName == "/mirror") {
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
+				response(3);
+				lastSendtimearr[3] = Date.now();
+				console.log("sent response");
+				
+				var json = message.payloadString;
+				var obj = JSON.parse(json);
 				$("#motionView").attr("src", "data:image/jpg;base64," + obj.Cam);
 
 				handMotion = obj.hands;
-				console.log(handMotion);
+				//console.log(handMotion);
 
 				if (handMotion == 'rock') {
 					$("#motionName3").text('STOP');
@@ -424,9 +429,9 @@
 			////////////////////////////////////////////////////////racer//////////////////////////////////////
 			if (message.destinationName == "/req/3jetracer") {
 
-				//console.log(message.payloadString);
-				const json = message.payloadString;
-				const obj = JSON.parse(json);
+				////console.log(message.payloadString);
+				var json = message.payloadString;
+				var obj = JSON.parse(json);
 				image.src = "data:image/jpg;base64," + obj.Cam;
 				var speed = obj.speed;
 				realspeed = speed;
@@ -481,7 +486,7 @@
 				//객체	
 
 				var messageKey = obj.Class.length;
-				console.log(messageKey);
+				//console.log(messageKey);
 				if (messageKey == 0) {
 					$("#total").children().remove(".hoverbox");
 				}
@@ -490,7 +495,7 @@
 				var textboxlineone = document.getElementById("textboxline");
 
 				if (obj.Class.length == 0) {
-					console.log("----");
+					//console.log("----");
 					$("#textboxline").css("color", "#FE2E2E");
 					document.getElementById("textboximg").src = "${pageContext.request.contextPath}/resource/img/도로사진/admin2.png";
 					$("#textboximg").css("box-shadow",
@@ -515,16 +520,16 @@
 						hoverchild.setAttribute("id", "hoverbox" + i);
 						$("#total").append(hoverchild);
 					}
-					console.log("박스를 그린다.");
+					//console.log("박스를 그린다.");
 					var Num = obj.boxes[i];
 					var x1 = obj.boxes[i][0];
 					var y1 = obj.boxes[i][1];
 					var x2 = obj.boxes[i][2];
 					var y2 = obj.boxes[i][3];
-					console.log("하이영" + x1 + "," + y1 + "," + x2 + "," + y2);
+					//console.log("하이영" + x1 + "," + y1 + "," + x2 + "," + y2);
 
 					var name = obj.Class[i];
-					console.log("하이영2:" + name);
+					//console.log("하이영2:" + name);
 					if (name.length != 0) {
 						$("#textboxline").remove();
 						var textboxlinechild = textboxlineone.cloneNode(true);
@@ -533,7 +538,7 @@
 
 						if (changenum != name) {
 							if (name.length == 1) {
-								console.log("지점 감지");
+								//console.log("지점 감지");
 								$("#textboxline").text("Current Location : " + "[" + name+ "]");
 								$("#textboxline").css("color", "#FE2E2E");
 								$("#textboximg").css("box-shadow","0 0 10px #FF3535, 0 0 10px #FF3535");
@@ -570,7 +575,7 @@
 									document.getElementById("textboximg").src = "${pageContext.request.contextPath}/resource/img/도로사진/t.jpg";
 								}
 							} else if (name.length > 1) {
-								console.log("객체 감지");
+								//console.log("객체 감지");
 								$("#textboxline").text("Object Detection : " + "[" + name+ "]");
 								$("#textboxline").css("color", "#FE2E2E");
 								$("#textboximg").css("box-shadow","0 0 10px #FF3535, 0 0 10px #FF3535");
@@ -766,7 +771,7 @@
 				this.holder = holder;
 			}
 			if (!this.useCanvas && typeof this.holder == "undefined") {
-				console.warn('Holder must be defined in DOM Mode. Use Canvas or define Holder');
+				//console.warn('Holder must be defined in DOM Mode. Use Canvas or define Holder');
 			}
 			this.getRandCharacter = function(characterToReplace) {
 				if (characterToReplace == " ") {
@@ -1059,8 +1064,5 @@
 		}
 		setInterval(minimap, 20)
 	</script>
-	<!-- MQTT Jetson 조작 시 필요 js 소환 -->
-	<script
-		src="${pageContext.request.contextPath}/resource/script/restaurant_car_control.js"></script>
 </body>
 </html>

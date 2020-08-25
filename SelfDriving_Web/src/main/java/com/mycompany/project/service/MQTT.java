@@ -52,9 +52,9 @@ public class MQTT extends Thread implements MqttCallback {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTT.class);
 	
 	//위험 동물군들을 등급별로 4개의 배열로 정의를 해두자.
-	private static final String ALevelAnimal[] = { "bear","leopard","wildboar", "wolf" };
-	private static final String BLevelAnimal[] = { "fox", "raccoon","hawk" };
-	private static final String CLevelAnimal[] = { "deer", "crow", "rabbit" };
+	private static final String ALevelAnimal[] = { "bear", "leopard", "wildboar", "wolf" };
+	private static final String BLevelAnimal[] = { "fox", "raccoon", "hawk" };
+	private static final String CLevelAnimal[] = { "deer", "magpie", "rabbit" };
 	private static final String DLevelAnimal[] = { "chicken","cow","duck","horse","pig", "sheep","cat","dog" };
 	private static final String SIGN[] = { "red", "green", "yellow", "crosswalk", "schoolzone", "curve", "stop", "60","100", "person", "car", "cone", "bump", "road","A","B","C","D","E","F","H","I","J","K","M","N","P","S","T"};
 	private static final String ZONE[] = { "A","B","C","D","E","F","H","I","J","K","M","N","P","S","T"};
